@@ -1,0 +1,30 @@
+{% for text in affirmation_quotes %}
+<p> {{ text }}</p>
+{% endfor %}
+
+<h2>Tasks</h2>
+<table>
+    <tr>
+        <th>Tasks</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {% for task in tasks %}
+        <tr>
+            <td>{{ task.content }}</td>
+            <td>
+                <input type="radio" name="task_{{ task.id }}" value="completed" {% if task.completed %}checked{% endif %}>
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button class="dropdown-btn">&#8942;</button>
+                    <div class="dropdown-content">
+                        <a href="/delete/{{ task.id }}">Delete</a>
+                        <a href="/update/{{ task.id }}">Update</a>
+                        <a href="/attempted/{{ task.id }}">Attempted</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
