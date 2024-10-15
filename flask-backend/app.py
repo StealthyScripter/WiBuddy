@@ -17,7 +17,7 @@ def home():
     project_objects = [project for project in projects]
     affirmation_text = [text for text in affirmations]
     curr_progress = myprogress
-    # Pass both tasks and projects to the combined index.html page
+    
     return render_template('index.html', tasks=todo_objects, ongoing_projects=project_objects, affirmation_quotes=affirmation_text, myprogress=curr_progress)
 
 @app.route('/tasks')
