@@ -1,4 +1,4 @@
-{% for text in affirmation_quotes %}
+{% for text in affirmations %}
 <p> {{ text }}</p>
 {% endfor %}
 
@@ -9,15 +9,15 @@
         <th>Status</th>
         <th>Actions</th>
     </tr>
-    {% for task in tasks %}
+    {% for task in tasks if not task.completed %}
         <tr>
             <td>{{ task.content }}</td>
             <td>
-                <input type="radio" name="task_{{ task.id }}" value="completed" {% if task.completed %}checked{% endif %}>
+                <input type="radio" aria-label="Completed" name="task_{{ task.id }}" value="completed" {% if task.completed %}checked{% endif %}>
             </td>
             <td>
                 <div class="dropdown">
-                    <button class="dropdown-btn">&#8942;</button>
+                    <button class="dropdown-btn" aria-label="dropdown button">&#8942;</button>
                     <div class="dropdown-content">
                         <a href="/delete/{{ task.id }}">Delete</a>
                         <a href="/update/{{ task.id }}">Update</a>
