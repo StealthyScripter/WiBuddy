@@ -63,3 +63,17 @@ myprogress = [
     {"language": "AWS", "completed": 3, "total": 7},
     {"language": "Azure", "completed": 2, "total": 6}
 ]
+
+
+
+# @app.route('/')
+# def home():
+#     year,month=2024,10
+#     todo_objects = [Todo(task) for task in tasks]
+#     affirmation_text = affirmations
+#     curr_progress = myprogress
+#     all_tasks = tasks
+#     projects = ongoing_projects
+
+#     cal_html = create_monthly_calendar_with_tasks(year, month, all_tasks)
+
