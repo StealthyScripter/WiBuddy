@@ -10,7 +10,11 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     completed = db.Column(db.Boolean, default=False)
-    date = db.Column(db.String,default='10-23-2024')
+    date_created = db.Column(db.String,default='10-23-2024')
+    priority = db.Column(db.String,default=1) #Higher valaues higher priorirty
+    deadline=db.Column(db.String)
+    duration=db.Column(db.Integer,default=1)
+
 
 class Project(db.Model):
     __tablename__ = 'projects'
