@@ -1,32 +1,95 @@
-from flask import render_template, redirect
-from app import app
+from flask import render_template, redirect, request
+from app import app, db
 from app.models import Task
 import calendar
 
 
-class Todo:
-    def __init__(self, task):
-        self.id = task['id']
-        self.content = task['content']
-        self.completed = task['completed']
-        self.date = task['date']
-
-@app.route('/')
+@app.route('/',methods=['GET','POST'])
 def home():
-    count=projects()
-    cal = create_monthly_calendar_with_tasks(2024,10,task_list())
-    return render_template('index.html', count=count, calendar=cal)
+    tasks=Task.query.order_by(Task.id).all()
+    return render_template('index.html',tasks=tasks)
+    
 
-@app.route('/projects')
+@app.route('/delete/<int:id>')
+def delete(id):
+    task_to_delete = Task.query.get_or_404(id)
+
+    try:
+        db.session.delete(task_to_delete)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'There was a problem deleting the task'
+
+@app.route('/update/<int:id>',methods=['GET','POST'])
+def update(id):
+    task = Task.query.get_or_404(id)
+    if request.method == 'POST':
+        task.content=request.form['content']
+
+        try:
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue updating your task'
+    else:
+        return render_template("update.html", task=task)
+    
+@app.route('/add_task/', methods=['GET', 'POST'])
+def add_task():
+    if request.method == 'POST':
+        task_content = request.form['content']
+        new_task = Task(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
+    else:
+        return render_template('add_task.html')  # Render the add task form
+  
+
+@app.route('/complete_task/', methods=['POST','GET'])
+def completion_status():
+    task_id = request.form.get('task_id')
+    task_complete = request.form.get('task_complete') == '1'  
+
+    task = Task.query.get_or_404(task_id)
+    task.completed = task_complete 
+
+    try:
+        db.session.commit()
+        return redirect('/') 
+    except:
+        return "Unable to mark your task complete"
+    
+    
+
+
 def projects():
     new_projects = ['python','c','java']
     count = sum(1 for project in new_projects)
     return count
 
-def task_list():
-    ongoing_tasks = [{"id": 1, "content": "Learn Python basics", "completed": False, "date": "2024-10-01"},
-    {"id": 2, "content": "Build a Flask API", "completed": False, "date": "2024-10-02"}]
-    return ongoing_tasks
+
+def get_tasks(sorting_metric='id', position='all'):
+    # Validate sorting metric
+    sorting_metrics = {'id': Task.id, 'date': Task.date, 'content': Task.content}
+    if sorting_metric not in sorting_metrics:
+        sorting_metric = 'id'  # Default to 'id' if invalid metric is provided
+    
+    # Build the query with dynamic sorting
+    query = Task.query.order_by(sorting_metrics[sorting_metric])
+
+    # Return based on position
+    if position == 'first':
+        return query.first()
+    elif position == 'last':
+        return query.order_by(sorting_metrics[sorting_metric].desc()).first()
+    else:
+        return query.all()
 
 def project_list():
     project_lists = []
@@ -35,6 +98,10 @@ def project_list():
 def my_progress():
     my_progress = {}
     return my_progress
+
+def daily_affirmation():
+    affirmations = []
+    return affirmations
 
 
 def create_monthly_calendar_with_tasks(year, month, all_tasks):

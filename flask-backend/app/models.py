@@ -10,7 +10,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     completed = db.Column(db.Boolean, default=False)
-    date = db.Column(db.String)
+    date = db.Column(db.String,default='10-23-2024')
 
 class Project(db.Model):
     __tablename__ = 'projects'
