@@ -76,7 +76,7 @@ def projects():
 
 def get_tasks(sorting_metric='id', position='all'):
     # Validate sorting metric
-    sorting_metrics = {'id': Task.id, 'date': Task.date, 'content': Task.content}
+    sorting_metrics = {'id': Task.id, 'date_created': Task.date_created, 'content': Task.content}
     if sorting_metric not in sorting_metrics:
         sorting_metric = 'id'  # Default to 'id' if invalid metric is provided
     
@@ -120,7 +120,7 @@ def create_monthly_calendar_with_tasks(year, month, all_tasks):
                 html_calendar += f"<td><strong>{day}</strong>"
                 
                 # Fetch tasks for that specific day
-                tasks_for_day = [task for task in all_tasks if task['date'] == date_str and not task['completed']]
+                tasks_for_day = [task for task in all_tasks if task['date_created'] == date_str and not task['completed']]
                 if tasks_for_day:
                     html_calendar += "<ul>"
                     for task in tasks_for_day:

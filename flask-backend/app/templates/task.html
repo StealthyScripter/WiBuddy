@@ -8,6 +8,7 @@
 {% else %} 
 <table>
     <tr>
+        <th>Id</th>
         <th>Task</th>
         <th>Added</th>
         <th>Actions</th>
@@ -21,6 +22,8 @@
         <tr>
             <td>{{ task.id }}</td>
             <td>{{task.content}}</td>
+            <td>{{ task.date_created }}</td>
+
             <td>
                 <form action="/complete_task/" method="POST">
                     <input type="checkbox" name="task_complete" value="1" onchange="this.form.submit()" id="taskCheckbox" aria-label="status">
@@ -32,10 +35,8 @@
                 <br>
                 <a href="/update/{{task.id}}">Update</a>
             </td>
-            <td>
-                {{ task.date }}
-            </td>
-            <td>4</td>
+            <td>{{ task.deadline }}</td>
+            <td>{{ task.duration }}</td>
         </tr>
         {% endif %}
     {% endfor %}
@@ -44,4 +45,83 @@
 {% endif %}
 
 </div>
+
+<style>
+    /* Style the main container */
+.content {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the button */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 15px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+/* Style the task table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-family: Arial, sans-serif;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* Header row styling */
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+/* Alternating row colors */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Action links */
+a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* Empty task list message */
+h3 {
+    color: #888;
+    text-align: center;
+}
+</style>
 
