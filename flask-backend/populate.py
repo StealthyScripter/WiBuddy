@@ -1,22 +1,29 @@
-# from datetime import datetime
-# from app import Task, db, app, Project,Progress,project_technologies,Milestone,Technology,Affirmation
+from app.models import Task, Project, Progress, Milestone, Technology, Affirmation
+from app import db  # Ensure db is also imported to manage session commits
 
 def populate_data():
     # Extended Task Data
     tasks_data = [
-        Task(id=1, content="Learn Python basics", completed=True, date="2024-10-01"),
-        Task(id=2, content="Build a Flask API", completed=False, date="2024-10-02"),
-        Task(id=3, content="Study JavaScript fundamentals", completed=True, date="2024-10-03"),
-        Task(id=4, content="Learn advanced JavaScript concepts", completed=False, date=""),
-        Task(id=5, content="Refactor existing codebase", completed=True, date="2024-11-01"),
-        Task(id=6, content="Deploy application on cloud", completed=False, date="2024-11-03"),
-        Task(id=7, content="Handle missing data gracefully", completed=False, date=None),  # Edge case: missing date
-        Task(id=8, content="Explore serverless architecture", completed=True, date="2025-01-10"),
-        Task(id=9, content="Write unit tests", completed=False, date="2025-02-05"),
-        Task(id=10, content="Optimize database queries", completed=True, date="2025-02-12"),
-        Task(id=11, content="Work on a collaborative project", completed=False, date="2024-12-31"),
+        Task(content="Learn Python basics", completed=True, deadline="2024-10-01"),
+        Task(content="Build a Flask API", completed=False, deadline="2024-10-02"),
+        Task(content="Study JavaScript fundamentals", completed=True, deadline="2024-10-03"),
+        Task(content="Learn advanced JavaScript concepts", completed=False, deadline=""),
+        Task(content="Refactor existing codebase", completed=True, deadline="2024-11-01"),
+        Task(content="Deploy application on cloud", completed=False, deadline="2024-11-03"),
+        Task(content="Handle missing data gracefully", completed=False, deadline=None),  # Edge case: missing date
+        Task(content="Explore serverless architecture", completed=True, deadline="2025-01-10"),
+        Task(content="Write unit tests", completed=False, deadline="2025-02-05"),
+        Task(content="Optimize database queries", completed=True, deadline="2025-02-12"),
+        Task(content="Work on a collaborative project", completed=False, deadline="2024-12-31"),
     ]
-    db.session.bulk_save_objects(tasks_data)
+
+    try:
+        for task_info in tasks_data:
+            db.session.add(task_info)
+        db.session.commit()  # Commit all tasks in one go
+    except Exception as e:
+        db.session.rollback()
+        print("Error occurred adding tasks:", e)
 
     # Extended Technology Data
     tech_names = [
@@ -24,55 +31,90 @@ def populate_data():
         "sql", "figma", "docker", "vue.js", "node.js", "react", "graphql",
         "tensorflow", "aws", "azure", "typescript", "next.js"
     ]
-    technologies = [Technology(name=tech) for tech in tech_names]
-    db.session.bulk_save_objects(technologies)
+    
+    try:
+        for tech_name in tech_names:
+            tech = Technology(name=tech_name)
+            db.session.add(tech)
+        db.session.commit()  # Commit all technologies
+    except Exception as e:
+        db.session.rollback()
+        print("Error occurred adding technologies:", e)
 
     # Extended Project Data with Edge Cases
     projects_data = [
-        Project(id=1, name='Personal Portfolio', technologies=[technologies[0], technologies[12]]),
-        Project(id=2, name='E-commerce Platform', technologies=[technologies[13], technologies[15], technologies[16]]),
-        Project(id=3, name='Machine Learning API', technologies=[technologies[0], technologies[16], technologies[14]]),
-        Project(id=4, name='Student Management System', technologies=[technologies[1], technologies[2], technologies[3]]),
-        Project(id=5, name='Weather Forecasting App', technologies=[technologies[17], technologies[10]]),
-        Project(id=6, name='Real-Time Chat Application', technologies=[technologies[6], technologies[13]]),
-        Project(id=7, name='Single Page Application', technologies=[technologies[2], technologies[12], technologies[19]]),
-        Project(id=8, name='API Integration Demo', technologies=[technologies[8], technologies[15], technologies[18]]),
-        Project(id=9, name='Data Science Pipeline', technologies=[technologies[0], technologies[6], technologies[9]]),
-        Project(id=10, name='Social Media Platform', technologies=[technologies[13], technologies[19]]),
+        Project(name='Personal Portfolio'),
+        Project(name='E-commerce Platform'),
+        Project(name='Machine Learning API'),
+        Project(name='Student Management System'),
+        Project(name='Weather Forecasting App'),
+        Project(name='Real-Time Chat Application'),
+        Project(name='Single Page Application'),
+        Project(name='API Integration Demo'),
+        Project(name='Data Science Pipeline'),
+        Project(name='Social Media Platform'),
     ]
-    db.session.bulk_save_objects(projects_data)
+    
+    try:
+        for project in projects_data:
+            db.session.add(project)
+        db.session.commit()  # Commit all projects
+    except Exception as e:
+        db.session.rollback()
+        print("Error occurred adding projects:", e)
+
+    # Add technologies to projects (assuming technology entries exist)
+    try:
+        personal_portfolio = Project.query.filter_by(name='Personal Portfolio').first()
+        python_tech = Technology.query.filter_by(name='python').first()
+        react_tech = Technology.query.filter_by(name='react').first()
+        
+        if personal_portfolio and python_tech and react_tech:
+            personal_portfolio.technologies.extend([python_tech, react_tech])
+            db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print("Error occurred linking technologies to projects:", e)
 
     # Extended Milestones Data with Variety
     milestones_data = [
-        Milestone(description="Initial Setup", project=projects_data[0]),
-        Milestone(description="Basic Authentication", project=projects_data[1]),
-        Milestone(description="API Endpoints Implemented", project=projects_data[2]),
-        Milestone(description="Frontend Layout Design", project=projects_data[3]),
-        Milestone(description="Responsive Design Adjustment", project=projects_data[4]),
-        Milestone(description="Testing and Debugging", project=projects_data[5]),
-        Milestone(description="Continuous Deployment Pipeline", project=projects_data[6]),
-        Milestone(description="User Feedback Integration", project=projects_data[7]),
-        Milestone(description="Performance Optimization", project=projects_data[8]),
-        Milestone(description="Security Enhancements", project=projects_data[9]),
-        Milestone(description="Final Deployment", project=projects_data[1]),  # Additional milestone for Project 2
+        Milestone(description="Initial Setup", project_id=1),
+        Milestone(description="Basic Authentication", project_id=1),
+        Milestone(description="API Endpoints Implemented", project_id=1),
+        Milestone(description="Frontend Layout Design", project_id=1),
+        Milestone(description="Responsive Design Adjustment", project_id=1),
+        Milestone(description="Testing and Debugging", project_id=1),
+        Milestone(description="Continuous Deployment Pipeline", project_id=1),
+        Milestone(description="User Feedback Integration", project_id=1),
+        Milestone(description="Performance Optimization", project_id=1),
+        Milestone(description="Security Enhancements", project_id=1),
+        Milestone(description="Final Deployment", project_id=1),
     ]
-    db.session.bulk_save_objects(milestones_data)
+
+    try:
+        for milestone_info in milestones_data:
+            db.session.add(milestone_info)
+        db.session.commit()  # Commit all milestones
+    except Exception as e:
+        db.session.rollback()
+        print("Error occurred adding milestones:", e)
 
     # Extended Affirmations Data for Variety
     affirmations_data = [
-        Affirmation(id=1, content="Consistency is key to success."),
-        Affirmation(id=2, content="Challenge yourself every day to improve."),
-        Affirmation(id=3, content="Celebrate every small win."),
-        Affirmation(id=4, content="Success is the sum of small efforts."),
-        Affirmation(id=5, content="Embrace the journey of learning."),
-        Affirmation(id=6, content="Hard work beats talent when talent doesn't work hard."),
-        Affirmation(id=7, content="If it scares you, it might be a good thing to try."),
-        Affirmation(id=8, content="Mistakes are proof that you are trying."),
-        Affirmation(id=9, content="Every line of code is a step toward mastery."),
-        Affirmation(id=10, content="Knowledge without action is meaningless."),
-        Affirmation(id=11, content="A smooth sea never made a skilled sailor."),
+        Affirmation(content="Embrace the Journey: As a computer science major, you are embarking on a journey filled with endless possibilities and exciting challenges. Every line of code you write is a step towards creating something impactful, whether it's a revolutionary app, an innovative algorithm, or a solution to a complex problem. Remember, the road to mastery is paved with experimentation and learning from failures. Embrace each challenge as an opportunity to grow, and know that the skills you are developing today will empower you to shape the future."),
+        Affirmation(content="Innovate and Inspire: The world is evolving rapidly, and technology is at the forefront of this transformation. As a computer science student, you have the unique opportunity to innovate and inspire others. Your ideas could lead to breakthroughs that change lives and improve communities. Don’t be afraid to think outside the box and push the boundaries of what is possible. With your knowledge and creativity, you can be a catalyst for positive change, driving advancements in fields like artificial intelligence, cybersecurity, and software development."),
+        Affirmation(content="Collaboration and Community: One of the most rewarding aspects of studying computer science is the collaborative environment you will find. You are part of a community of like-minded individuals who share your passion for technology and problem-solving. Take advantage of this network by seeking help, sharing ideas, and collaborating on projects. Remember, some of the greatest innovations come from teamwork and diverse perspectives. Support each other, learn from one another, and celebrate your collective achievements as you navigate this dynamic field."),
+        Affirmation(content="Adapt and Thrive: The tech landscape is constantly evolving, and as a computer science major, adaptability is your greatest asset. Embrace the change and stay curious about new technologies and methodologies. Each new programming language, framework, or tool you encounter adds to your versatility and strengthens your problem-solving abilities. Stay proactive in your learning, and don’t shy away from challenges; they are the stepping stones to your success. The ability to adapt will not only make you a better developer but also prepare you to tackle any challenge that comes your way in your career."),
+        Affirmation(content="Your Future is Bright: As you delve into the intricacies of algorithms, data structures, and software design, remember that your future as a computer scientist is bright. The demand for tech-savvy professionals is higher than ever, and your skills will be sought after in various industries. Whether you aspire to work in gaming, healthcare, finance, or tech startups, know that your education is equipping you with the tools to succeed. Stay focused, keep pushing your limits, and trust in your ability to create a meaningful impact in the world."),
     ]
-    db.session.bulk_save_objects(affirmations_data)
+
+    try:
+        for affirmation_info in affirmations_data:
+            db.session.add(affirmation_info)
+        db.session.commit()  # Commit all affirmations
+    except Exception as e:
+        db.session.rollback()
+        print("Error occurred adding affirmations:", e)
 
     # Extended Progress Data with Edge Cases
     progress_data = [
@@ -88,22 +130,18 @@ def populate_data():
         Progress(language="Next.js", completed=12, total=12, date_started="2024-10-20"),  # Edge case: Fully completed
         Progress(language="Docker", completed=2, total=10, date_started="2024-07-15"),  # Low progress relative to total
     ]
-    db.session.bulk_save_objects(progress_data)
 
-    db.session.commit()
+    try:
+        for progress_info in progress_data:
+            db.session.add(progress_info)
+        db.session.commit()  # Commit all progress data
+    except Exception as e:
+        db.session.rollback()
+        print("Error occurred adding progress:", e)
 
-    models = {
-        'Task': Task,
-        'Project': Project,
-        'Progress': Progress,
-        'project_technologies': project_technologies,
-        'Milestone': Milestone,
-        'Technology': Technology,
-        'Affirmation': Affirmation
-    }
-
-
-    # with app.app_context():
-    #     for name, model in models.items():
-    #         count = model.query.count()
-    #         print(f"{name}: {count}") 
+    try:
+        db.session.commit()
+        print("Data populated successfully")
+    except Exception as e:
+        db.session.rollback()
+        print("Error committing data:", e)

@@ -1,10 +1,10 @@
 <h2>My Progress</h2>
-<!-- <ul>
+<ul>
     {% for progress in myprogress %}
         {% if progress.total != 0 %}
-        <li>{{ progress.language }} - {{ ((progress.completed / progress.total) * 100) | round | int }}%</li>
+        <li>{{ progress.language }}:  {{ ((progress.completed / progress.total) * 100) | round | int }}%</li>
         {% else %}
             <li>{{ progress.language }} - No progress available</li>
         {% endif %}
     {% endfor %}
-</ul> -->
+</ul>
