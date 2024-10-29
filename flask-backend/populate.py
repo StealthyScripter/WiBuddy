@@ -101,17 +101,11 @@ def populate_data():
 
     # Extended Affirmations Data for Variety
     affirmations_data = [
-        Affirmation(content="Consistency is key to success."),
-        Affirmation(content="Challenge yourself every day to improve."),
-        Affirmation(content="Celebrate every small win."),
-        Affirmation(content="Success is the sum of small efforts."),
-        Affirmation(content="Embrace the journey of learning."),
-        Affirmation(content="Hard work beats talent when talent doesn't work hard."),
-        Affirmation(content="If it scares you, it might be a good thing to try."),
-        Affirmation(content="Mistakes are proof that you are trying."),
-        Affirmation(content="Every line of code is a step toward mastery."),
-        Affirmation(content="Knowledge without action is meaningless."),
-        Affirmation(content="A smooth sea never made a skilled sailor."),
+        Affirmation(content="Embrace the Journey: As a computer science major, you are embarking on a journey filled with endless possibilities and exciting challenges. Every line of code you write is a step towards creating something impactful, whether it's a revolutionary app, an innovative algorithm, or a solution to a complex problem. Remember, the road to mastery is paved with experimentation and learning from failures. Embrace each challenge as an opportunity to grow, and know that the skills you are developing today will empower you to shape the future."),
+        Affirmation(content="Innovate and Inspire: The world is evolving rapidly, and technology is at the forefront of this transformation. As a computer science student, you have the unique opportunity to innovate and inspire others. Your ideas could lead to breakthroughs that change lives and improve communities. Don’t be afraid to think outside the box and push the boundaries of what is possible. With your knowledge and creativity, you can be a catalyst for positive change, driving advancements in fields like artificial intelligence, cybersecurity, and software development."),
+        Affirmation(content="Collaboration and Community: One of the most rewarding aspects of studying computer science is the collaborative environment you will find. You are part of a community of like-minded individuals who share your passion for technology and problem-solving. Take advantage of this network by seeking help, sharing ideas, and collaborating on projects. Remember, some of the greatest innovations come from teamwork and diverse perspectives. Support each other, learn from one another, and celebrate your collective achievements as you navigate this dynamic field."),
+        Affirmation(content="Adapt and Thrive: The tech landscape is constantly evolving, and as a computer science major, adaptability is your greatest asset. Embrace the change and stay curious about new technologies and methodologies. Each new programming language, framework, or tool you encounter adds to your versatility and strengthens your problem-solving abilities. Stay proactive in your learning, and don’t shy away from challenges; they are the stepping stones to your success. The ability to adapt will not only make you a better developer but also prepare you to tackle any challenge that comes your way in your career."),
+        Affirmation(content="Your Future is Bright: As you delve into the intricacies of algorithms, data structures, and software design, remember that your future as a computer scientist is bright. The demand for tech-savvy professionals is higher than ever, and your skills will be sought after in various industries. Whether you aspire to work in gaming, healthcare, finance, or tech startups, know that your education is equipping you with the tools to succeed. Stay focused, keep pushing your limits, and trust in your ability to create a meaningful impact in the world."),
     ]
 
     try:

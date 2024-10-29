@@ -1,0 +1,29 @@
+<h1>{{ project.name }}</h1>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam eum magnam voluptatum sapiente quaerat, qui vel? Eius a earum labore suscipit perspiciatis officia accusamus quisquam placeat neque. Omnis, perferendis illo?</p>
+<h4>Technologies</h4>
+<ul>
+    {% for tech in project.technologies %}
+    <li>{{ tech.name }}</li>
+    {% endfor %}
+</ul>
+
+<h4>Milestones</h4>
+<ul>
+    {% for milestone in project.milestones %}
+    <li>{{ milestone.description }}</li>
+    {% endfor %}
+</ul>
+<h4>Images</h4>
+<ul>
+    <li>Image 1</li>
+    <li>Image 2</li>
+    <li>Image 3</li>
+    <li>Image 4</li>
+    
+</ul>
+<p>
+    Progress for this project
+</p>
+<p>Project timeline</p>
+<p>Project metrics</p>
+<p>design files</p>

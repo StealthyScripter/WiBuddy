@@ -1,0 +1,9 @@
+<h2>Ongoing Projects</h2>
+<ul>
+   {% for project in projects%}
+   <li><a href="/project/{{ project.id }}">{{ project.name }}</a></li>
+   {% endfor %}
+</ul>
+
+
+

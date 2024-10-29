@@ -21,7 +21,7 @@
     {% if not task.completed %}
         <tr>
             <td>{{ task.id }}</td>
-            <td>{{task.content}}</td>
+            <td><a href="/todo/{{ task.id }}">{{task.content}}</a></td>
             <td>{{ task.date_created }}</td>
 
             <td>
