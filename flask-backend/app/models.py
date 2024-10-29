@@ -12,8 +12,8 @@ class Task(db.Model):
     completed = db.Column(db.Boolean, default=False)
     date_created = db.Column(db.String,default='10-23-2024')
     priority = db.Column(db.String,default=1) #Higher valaues higher priorirty
-    deadline=db.Column(db.String)
-    duration=db.Column(db.Integer,default=1)
+    deadline=db.Column(db.String,default='11-31-2024')
+    duration=db.Column(db.Integer,default=4)
 
 
 class Project(db.Model):

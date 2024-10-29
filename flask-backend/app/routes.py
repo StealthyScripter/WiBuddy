@@ -1,13 +1,14 @@
 from flask import render_template, redirect, request
 from app import app, db
-from app.models import Task
+from app.models import Task,Project
 import calendar
 
 
 @app.route('/',methods=['GET','POST'])
 def home():
     tasks=Task.query.order_by(Task.id).all()
-    return render_template('index.html',tasks=tasks)
+    projects=Project.query.order_by(Project.id).all()
+    return render_template('index.html',tasks=tasks, projects=projects)
     
 
 @app.route('/delete/<int:id>')
