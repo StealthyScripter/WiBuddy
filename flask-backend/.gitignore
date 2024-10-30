@@ -49,3 +49,4 @@ coverage.xml
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 __pychache
+__pycache__/
