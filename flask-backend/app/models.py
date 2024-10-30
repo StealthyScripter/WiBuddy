@@ -50,6 +50,11 @@ class Project(db.Model):
     @staticmethod
     def get_ongoing_projects():
         return Project.query.filter_by(is_completed='False').order_by(Project.id).all()
+    
+    def get_project(id):
+        return Project.query.get(id)
+
+
 
 class Technology(db.Model):
     __tablename__ = 'technologies'

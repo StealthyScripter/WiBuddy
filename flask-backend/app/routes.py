@@ -13,8 +13,8 @@ def home():
     projects = Project.get_ongoing_projects()
     affirmations = Affirmation.get_affirmations()
     progress= TaskService.get_completion_stats()
-    print(type(progress), progress)
-    return render_template('index.html', tasks=tasks, projects=projects, affirmations=affirmations,myprogress=progress)
+    project=Project.get_project(id)
+    return render_template('index.html', tasks=tasks, projects=projects, affirmations=affirmations,myprogress=progress, project=project)
 
     
 #Task management 
@@ -114,9 +114,27 @@ def todo(id):
 
 #Ongoing projects section
 @app.route('/project/<int:id>')
-def projects(id):
+def projects():
     project = Project.get_ongoing_projects()
-    return render_template("ongoing_projects/projectpage.html", project=project) 
+    return render_template("ongoing_projects/projectpage.html", project=project)
+
+@app.route('/add_project/',methods=['POST','GET'])
+def addProjects():
+    if request.method == 'POST':
+        return '<p>Adding project logic/function</p>'
+    else:
+        return render_template('ongoing_projects/add_project.html')
+    
+@app.route('/update_project/<int:id>', methods=['POST','GET'])
+def updateProject(id):
+    if request.method == 'POST':
+        return '<h2><update project logic</h2>'
+    else:
+        return render_template('ongoing_projects/update_project.html')
+
+
+
+
 
 # def create_monthly_calendar_with_tasks(year, month, all_tasks):
 #     cal = calendar.HTMLCalendar()
