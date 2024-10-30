@@ -1,29 +1,55 @@
 <h1>{{ project.name }}</h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam eum magnam voluptatum sapiente quaerat, qui vel? Eius a earum labore suscipit perspiciatis officia accusamus quisquam placeat neque. Omnis, perferendis illo?</p>
-<h4>Technologies</h4>
-<ul>
-    {% for tech in project.technologies %}
-    <li>{{ tech.name }}</li>
-    {% endfor %}
-</ul>
-
-<h4>Milestones</h4>
-<ul>
-    {% for milestone in project.milestones %}
-    <li>{{ milestone.description }}</li>
-    {% endfor %}
-</ul>
-<h4>Images</h4>
-<ul>
-    <li>Image 1</li>
-    <li>Image 2</li>
-    <li>Image 3</li>
-    <li>Image 4</li>
-    
-</ul>
-<p>
-    Progress for this project
+<p>The company itself is a very successful company. Who will seek all the great pleasures of a wise man? We accuse him of taking care of his labors, and no one pleases him. Everyone, putting up with that? If the customer is very smart, he or she will be able to achieve the desired result. They are therefore bound to please us, and there is no distinction for us. Are they repulsed by pain, the harsher hardships of the great truth? Except for the accusers or the truth?
 </p>
-<p>Project timeline</p>
-<p>Project metrics</p>
-<p>design files</p>
+<div class="section1">
+   <ul>
+    <h4>Features</h4>
+    <li>Thank you very much</li>
+    <li>edit tasks to add specs</li>
+    <li>Change tasks descriptions</li>
+    <li>Delete tasks here</li>
+    </ul>
+
+    
+    <ul>
+        <h4>Technologies</h4>
+        {% for tech in project.technologies %}
+        <li>{{ tech.name }}</li>
+        {% endfor %}
+    </ul> 
+</div>
+<div class="section2">
+    
+    <ul>
+        <h4>Milestones</h4>
+        {% for milestone in project.milestones %}
+        <li>{{ milestone.description }}</li>
+        {% endfor %}
+    </ul>
+
+    <div>
+        <p style="font-size: 36px;">Progress.....</p>
+       <ul>
+        <h4>Images</h4>
+        <li>Image 1</li>
+        <li>Image 2</li>
+        <li>Image 3</li>
+        <li>Image 4</li>
+        <li>Image 5</li>
+        <li>Image 6</li>
+        <li>Image 7</li>
+        <li>Image 8</li>
+        
+    </ul> 
+    </div>
+    
+</div>
+<style>
+    .section1, .section2{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+  }
+</style>
+
+
+

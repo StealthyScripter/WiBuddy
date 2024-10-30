@@ -1,17 +1,20 @@
 from flask import render_template, redirect, request
 from app import app, db
-from app.models import Task,Project,Affirmation,Progress,Technology,Milestone 
+from app.models import Task,Project,Affirmation,Technology
+from app.services.task_service import TaskService
 import calendar
 from sqlalchemy.orm import joinedload
+from datetime import datetime
 
 #default route to render the home page
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    tasks = Task.query.order_by(Task.id).all()
-    projects = Project.query.order_by(Project.id).all()
-    affirmations = Affirmation.query.all()
-    progress=Progress.query.order_by(Progress.id).all()
-    return render_template('index.html', tasks=tasks, projects=projects, affirmation=affirmations,myprogress=progress)
+    tasks = TaskService.get_all_tasks()
+    projects = Project.get_ongoing_projects()
+    affirmations = Affirmation.get_affirmations()
+    progress= TaskService.get_completion_stats()
+    print(type(progress), progress)
+    return render_template('index.html', tasks=tasks, projects=projects, affirmations=affirmations,myprogress=progress)
 
     
 #Task management 
@@ -32,7 +35,7 @@ def delete(id):
 def update(id):
     task = Task.query.get_or_404(id)
     if request.method == 'POST':
-        task.content=request.form['content']
+        task.name=request.form['name']
 
         try:
             db.session.commit()
@@ -45,15 +48,27 @@ def update(id):
 @app.route('/add_task/', methods=['GET', 'POST'])
 def add_task():
     if request.method == 'POST':
-        task_content = request.form['content']
-        new_task = Task(content=task_content)
+        name = request.form['name']
+        description=request.form['description']
+        due_date_str=request.form['due_date']
+
+        if due_date_str:
+            due_date = datetime.strptime(due_date_str, '%Y-%m-%d').date()
+        else:
+            due_date = None 
+
+        estimated_duration=request.form['estimated_duration']
+        project_id=request.form['project_id']
+        technology_id=request.form['technology_id']
+        #is_milestone=request.form['is_milestone']
 
         try:
-            db.session.add(new_task)
-            db.session.commit()
+            task = TaskService.add_task(
+                name=name,description=description,due_date=due_date,estimated_duration=estimated_duration,project_id=project_id,technology_id=technology_id,#is_milestone=is_milestone
+                )
             return redirect('/')
-        except:
-            return 'There was an issue adding your task'
+        except Exception as e:
+            return (f'There was an issue adding your task {str(e)}')
     else:
         return render_template('task_manager/add_task.html')  # Render the add task form
   
@@ -75,7 +90,7 @@ def completion_status():
 #sort task route   
 def sort_tasks(sorting_metric='id', position='all'):
     # Validate sorting metric
-    sorting_metrics = {'id': Task.id, 'date_created': Task.date_created, 'content': Task.content}
+    sorting_metrics = {'id': Task.id, 'date_created': Task.date_created, 'name': Task.name}
     if sorting_metric not in sorting_metrics:
         sorting_metric = 'id'  # Default to 'id' if invalid metric is provided
     
@@ -90,10 +105,6 @@ def sort_tasks(sorting_metric='id', position='all'):
     else:
         return query.all()
 
-# get a list of tasks    
-def get_task(Task):
-    return Task.query.order_by(Task.id).all()
-
 @app.route('/todo/<int:id>')
 def todo(id):
     task=Task.query.get_or_404(id)
@@ -104,47 +115,34 @@ def todo(id):
 #Ongoing projects section
 @app.route('/project/<int:id>')
 def projects(id):
-    project = Project.query.options(joinedload(Project.technologies), joinedload(Project.milestones)).get_or_404(id)
-    return render_template("ongoing_projects/projectpage.html", project=project)
+    project = Project.get_ongoing_projects()
+    return render_template("ongoing_projects/projectpage.html", project=project) 
 
-
-def project_list():
-    project_lists = []
-    return project_list
-
-def my_progress():
-    my_progress = {}
-    return my_progress
-
-def daily_affirmation():
-    affirmations = []
-    return affirmations  
-
-def create_monthly_calendar_with_tasks(year, month, all_tasks):
-    cal = calendar.HTMLCalendar()
+# def create_monthly_calendar_with_tasks(year, month, all_tasks):
+#     cal = calendar.HTMLCalendar()
     
-    html_calendar = "<table border='0' cellpadding='0' cellspacing='0' class='calendar'>"
-    html_calendar += "<tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>"
+#     html_calendar = "<table border='0' cellpadding='0' cellspacing='0' class='calendar'>"
+#     html_calendar += "<tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>"
     
-    for week in cal.monthdayscalendar(year, month):
-        html_calendar += "<tr>"
-        for day in week:
-            if day == 0:
-                html_calendar += "<td class='noday'>&nbsp;</td>"
-            else:
-                date_str = f"{year}-{month:02d}-{day:02d}"
-                html_calendar += f"<td><strong>{day}</strong>"
+#     for week in cal.monthdayscalendar(year, month):
+#         html_calendar += "<tr>"
+#         for day in week:
+#             if day == 0:
+#                 html_calendar += "<td class='noday'>&nbsp;</td>"
+#             else:
+#                 date_str = f"{year}-{month:02d}-{day:02d}"
+#                 html_calendar += f"<td><strong>{day}</strong>"
                 
-                # Fetch tasks for that specific day
-                tasks_for_day = [task for task in all_tasks if task.date_created.strftime("%Y-%m-%d") == date_str and not task.completed]
-                if tasks_for_day:
-                    html_calendar += "<ul>"
-                    for task in tasks_for_day:
-                        html_calendar += f"<li>{task.content}</li>"
-                    html_calendar += "</ul>"
+#                 # Fetch tasks for that specific day
+#                 tasks_for_day = [task for task in all_tasks if task.date_created.strftime("%Y-%m-%d") == date_str and not task.completed]
+#                 if tasks_for_day:
+#                     html_calendar += "<ul>"
+#                     for task in tasks_for_day:
+#                         html_calendar += f"<li>{task.name}</li>"
+#                     html_calendar += "</ul>"
                 
-                html_calendar += "</td>"
-        html_calendar += "</tr>"
+#                 html_calendar += "</td>"
+#         html_calendar += "</tr>"
     
-    html_calendar += "</table>"
-    return html_calendar
+#     html_calendar += "</table>"
+#     return html_calendar

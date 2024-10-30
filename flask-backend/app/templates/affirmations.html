@@ -1,7 +1,5 @@
-<p>
-    {{ affirmation[1].content }}
-</p>
-
-<p>
-    {{ affirmation[2].content }}
-</p>
+{% if affirmations | length > 1 %}
+    <p>{{ affirmations[1].name }}</p>
+{% else %}
+    <p>No affirmation available.</p>
+{% endif %}

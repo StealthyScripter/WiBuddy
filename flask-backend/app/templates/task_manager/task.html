@@ -1,5 +1,5 @@
-<div class="content">
-    <div class="content">
+<div class="name">
+    <div class="name">
         <a href="/add_task/" class="button">Add Task</a>
     </div>
 </form>
@@ -21,7 +21,7 @@
     {% if not task.completed %}
         <tr>
             <td>{{ task.id }}</td>
-            <td><a href="/todo/{{ task.id }}">{{task.content}}</a></td>
+            <td><a href="/todo/{{ task.id }}">{{task.name}}</a></td>
             <td>{{ task.date_created }}</td>
 
             <td>
@@ -35,8 +35,8 @@
                 <br>
                 <a href="/update/{{task.id}}">Update</a>
             </td>
-            <td>{{ task.deadline }}</td>
-            <td>{{ task.duration }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.estimated_duration }}</td>
         </tr>
         {% endif %}
     {% endfor %}
@@ -48,7 +48,7 @@
 
 <style>
     /* Style the main container */
-.content {
+.name {
     width: 80%;
     margin: 0 auto;
     padding: 20px;
