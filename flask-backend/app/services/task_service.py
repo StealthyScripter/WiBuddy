@@ -33,6 +33,8 @@ class TaskService:
             db.session.rollback()  # Rollback in case of error
             raise Exception(f"Error adding task: {str(e)}")
 
+
+
     @staticmethod
     def update_task(task_id, name=None, description=None, is_completed=None, 
                     due_date=None, estimated_duration=None, project_id=None, 
@@ -65,6 +67,18 @@ class TaskService:
             db.session.rollback()  # Rollback in case of error
             raise Exception(f"Error updating task: {str(e)}")
 
+
+
+    @staticmethod
+    def complete_task(task_id,task_complete):
+        task = Task.query.get_or_404(task_id)
+        task.is_completed = task_complete
+        try:
+            db.session.commit()
+            return 
+        except:
+            return "Unable to mark your task complete"
+
     @staticmethod
     def delete_task(task_id):
         task_to_delete = Task.query.get_or_404(task_id)
@@ -74,9 +88,10 @@ class TaskService:
         except SQLAlchemyError as e:
             db.session.rollback()  # Rollback in case of error
             raise Exception(f"Error deleting task: {str(e)}")
+            return e
 
     @staticmethod
-    def get_all_tasks(is_completed=False):
+    def get_all_tasks(): #display_task()
         """
         Retrieves all tasks filtered by completion status.
         
@@ -86,8 +101,32 @@ class TaskService:
         Returns:
             list: List of Task objects.
         """
+        return Task.query.filter_by().order_by(Task.id).all()
+    
+    @staticmethod
+    def get_incomplete_tasks(is_completed=False):
         return Task.query.filter_by(is_completed=is_completed).order_by(Task.id).all()
     
+    @staticmethod
+    def sort_tasks(sorting_metric='id', position='all'):
+        # Validate sorting metric
+        sorting_metrics = {'id': Task.id, 'date_created': Task.date_created, 'name': Task.name}
+        if sorting_metric not in sorting_metrics:
+            sorting_metric = 'id'  # Default to 'id' if invalid metric is provided
+        
+        # Build the query with dynamic sorting
+        query = Task.query.order_by(sorting_metrics[sorting_metric])
+
+        # Return based on position
+        if position == 'first':
+            return query.first()
+        elif position == 'last':
+            return query.order_by(sorting_metrics[sorting_metric].desc()).first()
+        else:
+            return query.all()
+
+
+
     @staticmethod
     def get_completion_stats(group_by="both"):
         """
@@ -131,3 +170,4 @@ class TaskService:
                 results[key] = completion_percentage
         
         return results
+    

@@ -22,26 +22,6 @@ def home():
 
     
 #Task management 
-#Delete task route
-@app.route('/delete/<int:id>')
-def delete(id):
-    task_to_delete = Task.query.get_or_404(id)
-
-    try:
-        db.session.delete(task_to_delete)
-        db.session.commit()
-        return redirect('/')
-    except:
-        return 'There was a problem deleting the task'
-    
-#update task route
-@app.route('/update/<int:id>',methods=['GET','POST'])
-def update(id):
-    task = Task.query.get_or_404(id)
-    if request.method == 'POST':
-        TaskService.update_task(id)
-    else:
-        return render_template("task_manager/update.html", task=task)
 #Add task Route   
 @app.route('/add_task/', methods=['GET', 'POST'])
 def add_task():
@@ -54,44 +34,46 @@ def add_task():
         return redirect('/')
     else:
         return render_template('task_manager/add_task.html')  # Render the add task form
-  
+
+
+#update task route
+@app.route('/update/<int:id>',methods=['GET','POST'])
+def update(id):
+    task = Task.query.get_or_404(id)
+    if request.method == 'POST':
+        TaskService.update_task(id)
+    else:
+        return render_template("task_manager/update.html", task=task)
+
 #complete task route
 @app.route('/complete_task/', methods=['POST','GET'])
 def completion_status():
     task_id = request.form.get('task_id')
     task_complete = request.form.get('task_complete') == '1'  
 
-    task = Task.query.get_or_404(task_id)
-    task.is_completed = task_complete 
-
     try:
-        db.session.commit()
+        TaskService.complete_task(task_id,task_complete)
         return redirect('/') 
     except:
         return "Unable to mark your task complete"
 
+#Delete task route
+@app.route('/delete/<int:id>')
+def delete(id):
+    TaskService.delete_task(id)
+    return redirect('/')
+
+
+@app.route('/display_task/')
+def display_task():
+    task=TaskService.get_incomplete_tasks()
+    return render_template('task_manager/display_task.html', task=task)
+
 #sort task route   
 def sort_tasks(sorting_metric='id', position='all'):
-    # Validate sorting metric
-    sorting_metrics = {'id': Task.id, 'date_created': Task.date_created, 'name': Task.name}
-    if sorting_metric not in sorting_metrics:
-        sorting_metric = 'id'  # Default to 'id' if invalid metric is provided
-    
-    # Build the query with dynamic sorting
-    query = Task.query.order_by(sorting_metrics[sorting_metric])
-
-    # Return based on position
-    if position == 'first':
-        return query.first()
-    elif position == 'last':
-        return query.order_by(sorting_metrics[sorting_metric].desc()).first()
-    else:
-        return query.all()
-
-@app.route('/todo/<int:id>')
-def todo(id):
-    task=Task.query.get_or_404(id)
-    return render_template('task_manager/todo.html', task=task)
+    #returns a query of items pre-sorted
+    tasks=sort_tasks('name','last')
+    return
     
     
 
