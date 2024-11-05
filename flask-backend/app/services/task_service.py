@@ -1,5 +1,5 @@
 from app import db
-from app.models import Task, Technology, Project
+from app.models import Task, Project, Technology
 from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime

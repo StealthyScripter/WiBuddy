@@ -47,13 +47,6 @@ class Project(db.Model):
     completion_date = db.Column(db.DateTime)
     is_completed=db.Column(db.Boolean,default=False)
 
-    @staticmethod
-    def get_ongoing_projects():
-        return Project.query.filter_by(is_completed='False').order_by(Project.id).all()
-    
-    def get_project(id):
-        return Project.query.get(id)
-
 
 
 class Technology(db.Model):

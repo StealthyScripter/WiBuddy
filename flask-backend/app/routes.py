@@ -2,6 +2,7 @@ from flask import render_template, redirect, request
 from app import app, db
 from app.models import Task,Project,Affirmation,Technology
 from app.services.task_service import TaskService
+from app.services.project_service import ProjectService
 import calendar
 from sqlalchemy.orm import joinedload
 from datetime import datetime
@@ -10,13 +11,13 @@ from datetime import datetime
 @app.route('/', methods=['GET', 'POST'])
 def home():
     tasks = TaskService.get_all_tasks()
-    projects = Project.get_ongoing_projects()
+    projects = ProjectService.get_ongoing_projects()
     affirmations = Affirmation.get_affirmations()
     progress = TaskService.get_completion_stats()
     
     # Set a default project ID for demonstration, or retrieve from a query parameter
     project_id = request.args.get('project_id', 1)  # Use 1 or any default project ID
-    project = Project.get_project(int(project_id))
+    project = ProjectService.get_project(int(project_id))
     
     return render_template('index.html', tasks=tasks, projects=projects, affirmations=affirmations, myprogress=progress, project=project)
 
@@ -80,20 +81,20 @@ def sort_tasks(sorting_metric='id', position='all'):
 #Ongoing projects section
 @app.route('/project/<int:id>')
 def projects():
-    project = Project.get_ongoing_projects()
+    project = ProjectService.get_ongoing_projects()
     return render_template("ongoing_projects/projectpage.html", project=project)
 
 @app.route('/add_project/',methods=['POST','GET'])
 def addProjects():
     if request.method == 'POST':
-        return '<p>Adding project logic/function</p>'
+        return ProjectService.add_projects()
     else:
         return render_template('ongoing_projects/add_project.html')
     
 @app.route('/update_project/<int:id>', methods=['POST','GET'])
 def updateProject(id):
     if request.method == 'POST':
-        return '<h2><update project logic</h2>'
+        return ProjectService.update_project()
     else:
         return render_template('ongoing_projects/update_project.html')
 
