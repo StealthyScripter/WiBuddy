@@ -12,9 +12,13 @@ def home():
     tasks = TaskService.get_all_tasks()
     projects = Project.get_ongoing_projects()
     affirmations = Affirmation.get_affirmations()
-    progress= TaskService.get_completion_stats()
-    project=Project.get_project(id)
-    return render_template('index.html', tasks=tasks, projects=projects, affirmations=affirmations,myprogress=progress, project=project)
+    progress = TaskService.get_completion_stats()
+    
+    # Set a default project ID for demonstration, or retrieve from a query parameter
+    project_id = request.args.get('project_id', 1)  # Use 1 or any default project ID
+    project = Project.get_project(int(project_id))
+    
+    return render_template('index.html', tasks=tasks, projects=projects, affirmations=affirmations, myprogress=progress, project=project)
 
     
 #Task management 
@@ -35,13 +39,7 @@ def delete(id):
 def update(id):
     task = Task.query.get_or_404(id)
     if request.method == 'POST':
-        task.name=request.form['name']
-
-        try:
-            db.session.commit()
-            return redirect('/')
-        except:
-            return 'There was an issue updating your task'
+        TaskService.update_task(id)
     else:
         return render_template("task_manager/update.html", task=task)
 #Add task Route   
@@ -50,25 +48,10 @@ def add_task():
     if request.method == 'POST':
         name = request.form['name']
         description=request.form['description']
-        due_date_str=request.form['due_date']
+        due_date=request.form['due_date']
 
-        if due_date_str:
-            due_date = datetime.strptime(due_date_str, '%Y-%m-%d').date()
-        else:
-            due_date = None 
-
-        estimated_duration=request.form['estimated_duration']
-        project_id=request.form['project_id']
-        technology_id=request.form['technology_id']
-        #is_milestone=request.form['is_milestone']
-
-        try:
-            task = TaskService.add_task(
-                name=name,description=description,due_date=due_date,estimated_duration=estimated_duration,project_id=project_id,technology_id=technology_id,#is_milestone=is_milestone
-                )
-            return redirect('/')
-        except Exception as e:
-            return (f'There was an issue adding your task {str(e)}')
+        TaskService.add_task(name=name,description=description,due_date=due_date)
+        return redirect('/')
     else:
         return render_template('task_manager/add_task.html')  # Render the add task form
   
@@ -79,7 +62,7 @@ def completion_status():
     task_complete = request.form.get('task_complete') == '1'  
 
     task = Task.query.get_or_404(task_id)
-    task.completed = task_complete 
+    task.is_completed = task_complete 
 
     try:
         db.session.commit()

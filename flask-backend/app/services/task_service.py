@@ -8,10 +8,9 @@ class TaskService:
     @staticmethod
     def add_task(name, estimated_duration=5, due_date=None, description=None, 
                  is_completed=False, project_id=None, technology_id=None, 
-                 is_milestone=False, date_created=None, hierarchy=1, completion_date=None):
+                 is_milestone=False, hierarchy=2, completion_date=None):
         
-        if not name or not due_date:
-            raise ValueError("Name and due date are required fields.")
+        due_date = datetime.strptime(due_date, '%Y-%m-%d') if due_date else None
 
         new_task = Task(
             name=name,
@@ -22,7 +21,7 @@ class TaskService:
             project_id=project_id,
             technology_id=technology_id,
             is_milestone=is_milestone,
-            date_created=date_created or datetime.utcnow(),
+            date_created=datetime.utcnow(),
             hierarchy=hierarchy,
             completion_date=completion_date
         )
@@ -44,8 +43,8 @@ class TaskService:
         if name is None or due_date is None:
             raise ValueError("Name and due date are mandatory fields.")
 
-        task.name = name
-        task.due_date = due_date
+        task.name = name if name else task.name
+        task.due_date = due_date if due_date else task.due_date
         task.description = description if description is not None else task.description
         task.is_completed = is_completed if is_completed is not None else task.is_completed
         task.estimated_duration = estimated_duration if estimated_duration is not None else task.estimated_duration
