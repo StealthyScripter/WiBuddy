@@ -1,11 +1,11 @@
 <h2>Ongoing Projects</h2>
 <ul>
-   {% for project in projects%}
+   {% for project in all_projects%}
+   {% if not project.is_completed %}
    <li><a href="/project/{{ project.id }}">{{ project.name }}</a></li>
+   {% endif %}
    {% endfor %}
 </ul>
 <a href="/add_project/">Add Project</a>
-
-<a href="/update_project/{{ project.id }}">Update Project</a>
 
 
