@@ -1,6 +1,7 @@
 <h1>{{ project.name }}</h1>
 <p>The company itself is a very successful company. Who will seek all the great pleasures of a wise man? We accuse him of taking care of his labors, and no one pleases him. Everyone, putting up with that? If the customer is very smart, he or she will be able to achieve the desired result. They are therefore bound to please us, and there is no distinction for us. Are they repulsed by pain, the harsher hardships of the great truth? Except for the accusers or the truth?
 </p>
+
 <div class="section1">
    <ul>
     <h4>Features</h4>
@@ -28,28 +29,61 @@
     </ul>
 
     <div>
-        <p style="font-size: 36px;">Progress.....</p>
+        <p>Progress....</p>
        <ul>
-        <h4>Images</h4>
-        <li>Image 1</li>
-        <li>Image 2</li>
-        <li>Image 3</li>
-        <li>Image 4</li>
-        <li>Image 5</li>
-        <li>Image 6</li>
-        <li>Image 7</li>
-        <li>Image 8</li>
-        
-    </ul> 
+            <h4>Images</h4>
+            <li>Image 1</li>
+            <li>Image 2</li>
+            <li>Image 3</li>
+            <li>Image 4</li>
+            <li>Image 5</li>
+            <li>Image 6</li>
+            <li>Image 7</li>
+            <li>Image 8</li>
+        </ul> 
     </div>
     
 </div>
+
+<div class='footer'>
+    <a href="/update_project/{{ project.id }}" class="btn">Update Project</a>
+    <a href="/complete_project/{{ project.id }}" class="btn">Mark as Complete</a>
+    <a href="/delete_project/{{ project.id }}" class="btn delete-btn">Delete project</a>
+    
+</div>
+
 <style>
     .section1, .section2{
     display:grid;
     grid-template-columns: 1fr 1fr;
-  }
+    }
+    .footer {
+    text-align: center;
+    margin-top: 20px;
+    }
+
+    .footer .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 16px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #007bff; 
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .footer .btn:hover {
+        background-color: #0056b3; 
+    }
+
+    .footer .delete-btn {
+        background-color: #dc3545; 
+    }
+
+    .footer .delete-btn:hover {
+        background-color: #a71d2a; 
+    }
+
 </style>
-
-
-
