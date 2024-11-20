@@ -103,9 +103,27 @@ class TaskService:
         """
         return Task.query.filter_by().order_by(Task.id).all()
     
+
+    @staticmethod
+    def get_task(id): #display_task()
+        """
+        Retrieves all tasks filtered by completion status.
+        
+        Args:
+            is_completed (bool): Filter for completed tasks.
+        
+        Returns:
+            list: List of Task objects.
+        """
+        return Task.query.get_or_404(id)
+
+    
     @staticmethod
     def get_incomplete_tasks(is_completed=False):
-        return Task.query.filter_by(is_completed=is_completed).order_by(Task.id).all()
+        try:
+            return Task.query.filter_by(is_completed=is_completed).order_by(Task.id).all()
+        except SQLAlchemyError as e:
+            return "There was an error returning the page. Try again"
     
     @staticmethod
     def sort_tasks(sorting_metric='id', position='all'):

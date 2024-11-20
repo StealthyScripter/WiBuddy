@@ -1,5 +1,5 @@
-from flask import render_template, redirect, request
-from app import app, db
+from flask import render_template, redirect, request, jsonify
+from app import app,db
 from app.models import Task,Project,Affirmation,Technology
 from app.services.task_service import TaskService
 from app.services.project_service import ProjectService
@@ -11,16 +11,12 @@ from datetime import datetime
 @app.route('/', methods=['GET', 'POST'])
 def home():
     tasks = TaskService.get_all_tasks()
-    projects = ProjectService.get_ongoing_projects()
     affirmations = Affirmation.get_affirmations()
     progress = TaskService.get_completion_stats()
     all_projects = ProjectService.get_all_projects()
     
-    # Set a default project ID for demonstration, or retrieve from a query parameter
-    project_id = request.args.get('project_id', 1)  # Use 1 or any default project ID
-    project = ProjectService.get_project(int(project_id))
     
-    return render_template('index.html', tasks=tasks, projects=projects, affirmations=affirmations, myprogress=progress, project=project, all_projects=all_projects)
+    return render_template('index.html', tasks=tasks, projects=projects, affirmations=affirmations, myprogress=progress, all_projects=all_projects)
 
     
 #Task management 
@@ -66,9 +62,9 @@ def delete(id):
     return redirect('/')
 
 
-@app.route('/display_task/')
-def display_task():
-    task=TaskService.get_incomplete_tasks()
+@app.route('/display_task/<int:id>')
+def display_task(id):
+    task=TaskService.get_task(id)
     return render_template('task_manager/display_task.html', task=task)
 
 #sort task route   
@@ -158,3 +154,4 @@ def deleteProject(id):
     
 #     html_calendar += "</table>"
 #     return html_calendar
+
