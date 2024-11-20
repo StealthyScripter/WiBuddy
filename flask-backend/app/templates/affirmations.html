@@ -1,5 +1,8 @@
-{% if affirmations | length > 1 %}
-    <p>{{ affirmations[1].name }}</p>
-{% else %}
-    <p>No affirmation available.</p>
-{% endif %}
+<form action="/add_affirmation/" method="POST">
+    <input type="text" name="affirmation" id="affirmation" aria-label="affirmation" placeholder="Add affirmation*" required>
+    
+    <input type="text" name="daily_goals" id="description" aria-label="Affirmation description" placeholder="Affirmation description">
+
+    <input type="submit" value="Add Affirmation new">
+</form>
+
