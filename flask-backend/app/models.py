@@ -97,10 +97,10 @@ class Affirmation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     affirmation = db.Column(db.String(500))
     daily_goals = db.Column(db.String(500))
+    """
+        Add a column to track the type of affirmation(goal or affirmation)
+    """
 
-    @staticmethod
-    def get_affirmations():
-        return Affirmation.query.all()
 
 class Graph(db.Model):  # Renaming to singular "Graph" for clarity
     __tablename__ = 'graphs'

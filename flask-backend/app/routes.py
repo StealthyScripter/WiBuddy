@@ -3,6 +3,7 @@ from app import app,db
 from app.models import Task,Project,Affirmation,Technology
 from app.services.task_service import TaskService
 from app.services.project_service import ProjectService
+from app.services.utility_service import AffirmationService,TechnologyService
 import calendar
 from sqlalchemy.orm import joinedload
 from datetime import datetime
@@ -11,12 +12,12 @@ from datetime import datetime
 @app.route('/', methods=['GET', 'POST'])
 def home():
     tasks = TaskService.get_all_tasks()
-    affirmations = Affirmation.get_affirmations()
     progress = TaskService.get_completion_stats()
     all_projects = ProjectService.get_all_projects()
+    affirmations = AffirmationService.get_all_affirmations()
     
     
-    return render_template('index.html', tasks=tasks, projects=projects, affirmations=affirmations, myprogress=progress, all_projects=all_projects)
+    return render_template('index.html', tasks=tasks, projects=projects, myprogress=progress, all_projects=all_projects,affirmations=affirmations)
 
     
 #Task management 
@@ -121,6 +122,34 @@ def project_completion_status(project_id):
 def deleteProject(id):
     ProjectService.delete_project(id)
     return redirect('/')
+
+
+
+"""
+    Technology routes
+"""
+@app.route('/add_tech/', methods=['POST','GET'])
+def add_tech():
+    if request.method == 'POST':
+        name = request.form['name']
+        description = request.form['description']
+        TechnologyService.add_tech(name,description)
+        return redirect('/')
+    else:
+        return render_template('technology.html')
+    
+
+
+@app.route('/add_affirmation/', methods=['POST','GET'])
+def add_affirmation():
+    if request.method == 'POST':
+        affirmation = request.form['affirmation']
+        daily_goals = request.form['daily_goals']
+    
+        AffirmationService.add_affirmation(affirmation, daily_goals)
+        return redirect('/')
+    else:
+        return render_template('affirmations.html')
 
 
 
