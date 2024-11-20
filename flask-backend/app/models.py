@@ -47,13 +47,50 @@ class Project(db.Model):
     completion_date = db.Column(db.DateTime)
     is_completed=db.Column(db.Boolean,default=False)
 
+    #Secondary tables and methods
+    tasks = db.relationship('Task', backref='project', lazy=True)
 
+    # Convenience methods
+    def project_milestones(self):
+        return [task for task in self.tasks if task.is_milestone]
+
+    def project_progress(self):
+        completed_tasks = sum(1 for task in self.tasks if task.is_completed)
+        total_tasks = len(self.tasks)
+        return (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+
+    def technologies_used(self):
+        return list(set(task.technology for task in self.tasks if task.technology))
+
+
+class Progress(db.Model):
+    __tablename__ = 'progress'
+    id = db.Column(db.Integer, primary_key=True)
+    entity_type = db.Column(db.String(50), nullable=False)
+    entity_id = db.Column(db.Integer, nullable=False)
+    progress_value = db.Column(db.Float, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    @staticmethod
+    def calculate_progress(entity_type, entity_id):
+        if entity_type == 'project':
+            project = Project.query.get(entity_id)
+            return project.progress() if project else None
+        elif entity_type == 'technology':
+            technology = Technology.query.get(entity_id)
+            tasks = technology.tasks
+            completed_tasks = sum(1 for task in tasks if task.is_completed)
+            total_tasks = len(tasks)
+            return (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
 
 class Technology(db.Model):
     __tablename__ = 'technologies'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String)
+
+    #relationship
+    tasks = db.relationship('Task', backref='technology', lazy=True)
 
 class Affirmation(db.Model):
     __tablename__ = 'affirmations'
