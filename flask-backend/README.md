@@ -40,4 +40,11 @@ This starts the application.
 
 5. **Run Tests**
 ```bash
-python -m unittest discover tests/
+python3 -m unittest discover -s tests/
+
+
+using coverage to check the code that has been tested
+pip install coverage
+coverage run -m unittest discover -s tests
+coverage report
+
