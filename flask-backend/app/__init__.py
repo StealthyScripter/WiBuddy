@@ -7,4 +7,8 @@ app.config.from_object('app.config.Config')
 
 db = SQLAlchemy(app)
 
-from app import routes, models
+def create_app():
+    return app
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,6 +1,6 @@
 from app import app, db
 from app.models import *
-from populate import populate_data
+from tests.populate import populate_data
 
 
 def init_db():

@@ -1,16 +1,27 @@
 <form action="/add_task/" method="POST">
+    <label for="name">Name:  </label>
     <input type="text" name="name" id="name" aria-label="name" placeholder="Task name*" required>
-    
+    <br>
+    <label for="description">Description: </label>
     <input type="text" name="description" id="description" aria-label="Task description" placeholder="Task Description">
+        <br>
 
+    <label for="due_date">Due date: </label>
     <input type="date" name="due_date" id="due_date" aria-label="Due date" required>
-    
+        <br>
+    <label for="estimated_duration">Estimated duration: </label>
     <input type="text" name="estimated_duration" id="estimated_duration" aria-label="Estimated Duration" placeholder="Estimated Duration">
 
+    <br>
+    <label for="project_id">Project ID: </label>
     <input type="number" name="project_id" id="project_id" aria-label="Project ID" placeholder="Project ID" required>
 
+    <br>
+    <label for="technology_id">Technology ID</label>
     <input type="number" name="technology_id" id="technology_id" aria-label="Technology ID" placeholder="Technology ID" required>
 
+    <br>
+    <label for="is_milestone">Milestone</label>
     <input type="checkbox" name="is_milestone" id="is_milestone" aria-label="Is Milestone">
 
     <input type="submit" value="Add task">
