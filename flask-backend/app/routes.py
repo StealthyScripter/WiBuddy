@@ -1,9 +1,9 @@
+from . import app
 from flask import render_template, redirect, request, jsonify
-from app import app,db
-from app.models import Task,Project,Affirmation,Technology
-from app.services.task_service import TaskService
-from app.services.project_service import ProjectService
-from app.services.utility_service import AffirmationService,TechnologyService
+from .models import Task,Project,Affirmation,Technology
+from .services.task_service import TaskService
+from .services.project_service import ProjectService
+from .services.utility_service import AffirmationService,TechnologyService
 import calendar
 from sqlalchemy.orm import joinedload
 from datetime import datetime
@@ -14,35 +14,58 @@ def home():
     tasks = TaskService.get_all_tasks()
     progress = TaskService.get_completion_stats()
     all_projects = ProjectService.get_all_projects()
+    technologies = TechnologyService.get_all_technologies()
     affirmations = AffirmationService.get_all_affirmations()
     
+
     
-    return render_template('index.html', tasks=tasks, projects=projects, myprogress=progress, all_projects=all_projects,affirmations=affirmations)
+    return render_template('index.html', tasks=tasks, all_projects=all_projects, myprogress=progress, affirmations=affirmations,technologies=technologies)
 
     
 #Task management 
 #Add task Route   
 @app.route('/add_task/', methods=['GET', 'POST'])
 def add_task():
+    all_projects = ProjectService.get_all_projects()
+    technologies = TechnologyService.get_all_technologies()
+
     if request.method == 'POST':
         name = request.form['name']
-        description=request.form['description']
-        due_date=request.form['due_date']
+        description = request.form['description']
+        due_date = request.form['due_date']
+        estimated_duration = request.form['estimated_duration']
+        project_id = request.form['project_id']
+        technology_id = request.form['technology_id']
+        is_milestone = request.form['is_milestone'] == '1'
 
-        TaskService.add_task(name=name,description=description,due_date=due_date)
+        TaskService.add_task(
+            name=name,
+            description=description,
+            due_date=due_date,
+            estimated_duration=estimated_duration,
+            project_id=project_id,
+            technology_id=technology_id,
+            is_milestone=is_milestone
+        )
         return redirect('/')
     else:
-        return render_template('task_manager/add_task.html')  # Render the add task form
+        return render_template(
+            'task_manager/add_task.html',
+            all_projects=all_projects,
+            technologies=technologies
+        )
 
 
 #update task route
 @app.route('/update/<int:id>',methods=['GET','POST'])
 def update(id):
     task = Task.query.get_or_404(id)
+    all_projects = ProjectService.get_all_projects()
+    technologies = TechnologyService.get_all_technologies()
     if request.method == 'POST':
         TaskService.update_task(id)
     else:
-        return render_template("task_manager/update.html", task=task)
+        return render_template("task_manager/update.html", task=task, all_projects=all_projects, technologies=technologies)
 
 #complete task route
 @app.route('/complete_task/', methods=['POST','GET'])
@@ -136,7 +159,7 @@ def add_tech():
         TechnologyService.add_tech(name,description)
         return redirect('/')
     else:
-        return render_template('technology.html')
+        return render_template('add_technology.html')
     
 
 
@@ -149,7 +172,7 @@ def add_affirmation():
         AffirmationService.add_affirmation(affirmation, daily_goals)
         return redirect('/')
     else:
-        return render_template('affirmations.html')
+        return render_template('add_affirmations.html')
 
 
 
