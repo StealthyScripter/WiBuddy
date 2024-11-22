@@ -1,28 +1,127 @@
 <form action="/add_task/" method="POST">
-    <label for="name">Name:  </label>
+    <label for="name">Name: </label>
     <input type="text" name="name" id="name" aria-label="name" placeholder="Task name*" required>
     <br>
+
     <label for="description">Description: </label>
-    <input type="text" name="description" id="description" aria-label="Task description" placeholder="Task Description">
-        <br>
+    <textarea name="description" id="description" aria-label="Task description" placeholder="Task Description"></textarea>
+    <br>
 
-    <label for="due_date">Due date: </label>
+    <label for="due_date">Due Date: </label>
     <input type="date" name="due_date" id="due_date" aria-label="Due date" required>
-        <br>
-    <label for="estimated_duration">Estimated duration: </label>
-    <input type="text" name="estimated_duration" id="estimated_duration" aria-label="Estimated Duration" placeholder="Estimated Duration">
-
     <br>
-    <label for="project_id">Project ID: </label>
-    <input type="number" name="project_id" id="project_id" aria-label="Project ID" placeholder="Project ID" required>
 
+    <label for="estimated_duration">Estimated Duration (hours): </label>
+    <input type="number" name="estimated_duration" id="estimated_duration" aria-label="Estimated Duration" placeholder="e.g., 5">
     <br>
-    <label for="technology_id">Technology ID</label>
-    <input type="number" name="technology_id" id="technology_id" aria-label="Technology ID" placeholder="Technology ID" required>
 
+    <label for="project_id">Project: </label>
+    <select name="project_id" id="project_id" required>
+        <option value="" disabled selected>Select a project</option>
+        {% for project in all_projects %}
+        <option value="{{ project.id }}">{{ project.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" onclick="location.href='/add_project/'">Add New Project</button>
     <br>
-    <label for="is_milestone">Milestone</label>
-    <input type="checkbox" name="is_milestone" id="is_milestone" aria-label="Is Milestone">
 
-    <input type="submit" value="Add task">
+    <label for="technology_id">Technology: </label>
+    <select name="technology_id" id="technology_id" required>
+        <option value="" disabled selected>Select a technology</option>
+        {% for technology in technologies %}
+        <option value="{{ technology.id }}">{{ technology.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" onclick="location.href='/add_tech/'">Add New Technology</button>
+    <br>
+
+    <label for="is_milestone">Is Milestone? </label>
+    <input type="radio" name="is_milestone" id="is_milestone_yes" value="1" aria-label="Milestone Yes"> Yes
+    <input type="radio" name="is_milestone" id="is_milestone_no" value="0" aria-label="Milestone No" checked> No
+    <br>
+
+    <input type="submit" value="Add Task">
 </form>
+
+<style>
+    /* General form styling */
+form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* Button styling */
+button[type="button"],
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+}
+
+button[type="button"]:hover,
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Radio button and checkbox styling */
+input[type="radio"] {
+    margin-right: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    form {
+        width: 90%;
+    }
+
+    label,
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    textarea,
+    select,
+    button[type="button"],
+    input[type="submit"] {
+        font-size: 12px;
+    }
+}
+
+</style>
