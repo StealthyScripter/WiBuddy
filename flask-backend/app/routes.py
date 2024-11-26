@@ -1,4 +1,4 @@
-from . import app
+from app import app
 from flask import render_template, redirect, request, jsonify
 from .models import Task,Project,Affirmation,Technology
 from .services.task_service import TaskService
