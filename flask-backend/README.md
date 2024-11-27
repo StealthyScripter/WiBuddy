@@ -1,14 +1,14 @@
 # Project Title
 
 ## Introduction
-A brief description of what your project does and its purpose.
+This project is a personal assisting and tracking website that allows planning, distributing and executing tasks efficiently using AI for optimization.
 
 ## Initialization
 
 To initialize the database and get the application running, follow these steps:
 
 ### Prerequisites
-- Ensure you have Python installed (version X.X or higher).
+- Ensure you have Python installed (version 3.1.2 or higher).
 - Install `pip` if it’s not already installed.
 
 ### Setup Steps
@@ -31,9 +31,14 @@ To initialize the database and get the application running, follow these steps:
 ```bash
     pip install -r requirements.txt```
 
+4. **Initialize the database**
+
+    python init_db.py
+
 4. **Run the Application**
 ```bash
-python run.py
+
+    python run.py
 
 
 This starts the application.
@@ -43,8 +48,8 @@ This starts the application.
 python3 -m unittest discover -s tests/
 
 
-using coverage to check the code that has been tested
-pip install coverage
-coverage run -m unittest discover -s tests
-coverage report
+# using coverage to check the code that has been tested
+# pip install coverage
+# coverage run -m unittest discover -s tests
+# coverage report
 

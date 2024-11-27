@@ -1,4 +1,4 @@
-from app import app
+from app import app, api
 from flask import render_template, redirect, request, jsonify
 from .models import Task,Project,Affirmation,Technology
 from .services.task_service import TaskService
@@ -100,6 +100,7 @@ def sort_tasks(sorting_metric='id', position='all'):
     
 
 #Ongoing projects section
+#Display a specific project
 @app.route('/project/<int:id>')
 def projects(id):
     project = ProjectService.get_project(id)
@@ -115,7 +116,8 @@ def addProjects():
         return redirect('/')
     else:
         return render_template('ongoing_projects/add_project.html')
-    
+
+ #update project   
 @app.route('/update_project/<int:id>', methods=['POST','GET'])
 def updateProject(id):
     current_project=ProjectService.get_project(id)
@@ -130,7 +132,8 @@ def updateProject(id):
         return redirect(f'/project/{id}')
     else:
         return render_template('ongoing_projects/update_project.html',project=current_project)
-    
+
+#Mark project as complete   
 @app.route('/complete_project/<int:project_id>', methods=['POST','GET'])
 def project_completion_status(project_id):
     try:
@@ -151,6 +154,7 @@ def deleteProject(id):
 """
     Technology routes
 """
+#add tech
 @app.route('/add_tech/', methods=['POST','GET'])
 def add_tech():
     if request.method == 'POST':
@@ -162,7 +166,7 @@ def add_tech():
         return render_template('add_technology.html')
     
 
-
+#Add affirmation
 @app.route('/add_affirmation/', methods=['POST','GET'])
 def add_affirmation():
     if request.method == 'POST':
@@ -174,36 +178,48 @@ def add_affirmation():
     else:
         return render_template('add_affirmations.html')
 
-
-
-
-
-# def create_monthly_calendar_with_tasks(year, month, all_tasks):
-#     cal = calendar.HTMLCalendar()
+# Define API resources (endpoints)
+class TaskListResource(Resource):
+    """API endpoint to get a list of tasks or add a new task."""
     
-#     html_calendar = "<table border='0' cellpadding='0' cellspacing='0' class='calendar'>"
-#     html_calendar += "<tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>"
-    
-#     for week in cal.monthdayscalendar(year, month):
-#         html_calendar += "<tr>"
-#         for day in week:
-#             if day == 0:
-#                 html_calendar += "<td class='noday'>&nbsp;</td>"
-#             else:
-#                 date_str = f"{year}-{month:02d}-{day:02d}"
-#                 html_calendar += f"<td><strong>{day}</strong>"
-                
-#                 # Fetch tasks for that specific day
-#                 tasks_for_day = [task for task in all_tasks if task.date_created.strftime("%Y-%m-%d") == date_str and not task.completed]
-#                 if tasks_for_day:
-#                     html_calendar += "<ul>"
-#                     for task in tasks_for_day:
-#                         html_calendar += f"<li>{task.name}</li>"
-#                     html_calendar += "</ul>"
-                
-#                 html_calendar += "</td>"
-#         html_calendar += "</tr>"
-    
-#     html_calendar += "</table>"
-#     return html_calendar
+    def get(self):
+        """Get a list of tasks."""
+        tasks = TaskService.get_all_tasks()
+        tasks_data = [{"id": task.id, "name": task.name, "due_date": task.due_date, "completed": task.completed} for task in tasks]
+        return jsonify(tasks_data)
 
+    def post(self):
+        """Create a new task."""
+        data = request.get_json()
+        TaskService.add_task(
+            name=data['name'],
+            description=data['description'],
+            due_date=data['due_date'],
+            estimated_duration=data['estimated_duration'],
+            project_id=data['project_id'],
+            technology_id=data['technology_id'],
+            is_milestone=data['is_milestone']
+        )
+        return jsonify({"message": "Task created successfully"}), 201
+
+
+class ProjectResource(Resource):
+    """API endpoint to get details of a specific project."""
+    
+    def get(self, id):
+        """Get a specific project by ID."""
+        project = ProjectService.get_project(id)
+        project_data = {
+            "id": project.id,
+            "name": project.name,
+            "description": project.description,
+            "due_date": project.due_date
+        }
+        return jsonify(project_data)
+
+
+# Add resources to the API
+api.add_resource(TaskListResource, '/api/tasks')  # /api/tasks -> GET (list) and POST (add task)
+api.add_resource(ProjectResource, '/api/project/<int:id>')  # /api/project/1 -> GET (fetch project)
+
+# Define any additional non-API routes below (HTML rendering routes)
