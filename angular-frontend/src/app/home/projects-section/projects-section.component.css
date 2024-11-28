@@ -1,0 +1,12 @@
+.projects-container {
+    background-color: #f0f0f0;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    min-height: 100vh;
+  }
+
+  ul{
+    list-style: none;
+    padding:10px;
+  }

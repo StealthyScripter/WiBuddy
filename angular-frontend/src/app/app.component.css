@@ -1,0 +1,20 @@
+h1{
+  min-height:60px;
+}
+
+.home-container {
+  display:grid;
+  grid-template-columns: 1fr 4fr;
+  min-height: 100vh;
+  background-color: greenyellow;
+}
+.left-section {
+  height:100vh;
+  flex-direction: column;
+  margin-right: 0px;
+  background-color: blue;
+}
+.middle-section {
+ display:grid;
+ grid-template-columns: 2fr 1fr;
+}

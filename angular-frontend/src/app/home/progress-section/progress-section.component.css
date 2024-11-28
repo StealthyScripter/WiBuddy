@@ -1,0 +1,11 @@
+.progress-container {
+    background-color: #e3f2fd;
+    padding: 10px;
+    box-sizing: border-box;
+    min-height: 60vh;
+  }
+
+  ul {
+    list-style: none;
+    padding:10px;
+  }
