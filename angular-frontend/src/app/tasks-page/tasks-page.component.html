@@ -1,0 +1,49 @@
+<div class="task-container">
+  <header>
+    <h1>Tasks Management</h1>
+  </header>
+
+    <div class="search-bar">
+      <div class="search-input">
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          placeholder="Search tasks..."
+          (input)="filterTasks()"
+        >
+        <span class="search-icon"><img src="icons8-search.svg" style="height: 25px;"></span>
+      </div>
+      <div class="actions">
+        <select [(ngModel)]="sortCriteria" (change)="sortTasks()">
+          <option value="priority">Sort by Priority</option>
+          <option value="date">Sort by Date</option>
+          <option value="status">Sort by Status</option>
+        </select>
+        <button class="add-task-btn" (click)="addTask()">
+          Add Task
+        </button>
+      </div>
+    </div>
+
+    <div class="tasks-grid">
+      <div *ngFor="let task of filteredTasks" class="task-card" [ngClass]="task.status.toLowerCase().replace(' ', '-')" 
+      (click)="navigateToTask(task.id)">
+        <div class="task-header">
+          <h3>{{ task.name }}</h3>
+          <span class="status-badge">{{ task.status }}</span>
+        </div>
+        <p class="description">{{ task.description }}</p>
+        <div class="task-footer">
+          <div class="due-date">
+            <span>📅</span>
+            {{ task.dueDate | date:'MMM dd, yyyy' }}
+          </div>
+          <div class="category-badge">
+            <span>🏷️</span>
+            {{ task.category }}
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </div>

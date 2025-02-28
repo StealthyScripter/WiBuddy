@@ -96,7 +96,7 @@ class Affirmation(db.Model):
     __tablename__ = 'affirmations'
     id = db.Column(db.Integer, primary_key=True)
     affirmation = db.Column(db.String(500))
-    daily_goals = db.Column(db.String(500))
+    daily_goals = db.Column(db.String(501))
     """
         Add a column to track the type of affirmation(goal or affirmation)
     """

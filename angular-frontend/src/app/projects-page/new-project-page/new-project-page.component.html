@@ -1,0 +1,86 @@
+<div class="container">
+    <h2>Create New Project</h2>
+    
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="projectName">Project Name</label>
+        <input 
+          id="projectName"
+          type="text"
+          formControlName="name"
+          placeholder="Enter project name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          placeholder="Describe your project"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="startDate">Start Date</label>
+          <input
+            id="startDate"
+            type="date"
+            formControlName="startDate"
+          >
+        </div>
+
+        <div class="form-group half">
+          <label for="dueDate">Due Date</label>
+          <input
+            id="dueDate"
+            type="date"
+            formControlName="dueDate"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Task Categories</label>
+        <select id="category" formControlName="category">
+          <option value="">Select a category</option>
+          <option *ngFor="let category of taskCategories" [value]="category">
+            {{category}}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Project Status</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input
+              type="radio"
+              formControlName="status"
+              value="ongoing"
+            >
+            Ongoing
+          </label>
+          <label class="radio-label">
+            <input
+              type="radio"
+              formControlName="status"
+              value="completed"
+            >
+            Completed
+          </label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn-cancel" (click)="onCancel()">
+          Cancel
+        </button>
+        <button type="submit" class="btn-create" [disabled]="!projectForm.valid">
+          Create Project
+        </button>
+      </div>
+    </form>
+  </div>

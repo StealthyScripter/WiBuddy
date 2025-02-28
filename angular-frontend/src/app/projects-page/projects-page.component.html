@@ -1,0 +1,66 @@
+<div class="dashboard">
+  <div>
+    <h1>Projects</h1>
+  </div>
+
+  <nav class="tabs">
+    <button 
+      *ngFor="let tab of tabs" 
+      [class.active]="activeTab === tab.status"
+      (click)="setActiveTab(tab.status)">
+      {{tab.label}}
+    </button>
+
+    <div class="search-container">
+      <input 
+        type="text" 
+        placeholder="Search projects..." 
+        [(ngModel)]="filterOptions.searchQuery"
+        (input)="filterProjects()">
+        <button id="add-project-btn" (click)="addProject()">
+          Add Task
+        </button>
+    </div>
+  </nav>
+
+  <div class="projects-grid">
+    <div
+      *ngFor="let project of filteredProjects" 
+      class="project-card"
+      (click)="navigateToProject(project.id)">
+      <div class="project-header">
+        <h2>{{project.name}}</h2>
+        <span class="status-badge" [class]="project.status.toLowerCase()">
+          {{project.status}}
+        </span>
+      </div>
+
+      <div class="department">{{project.department}}</div>
+      <p class="description">{{project.description}}</p>
+
+      <div class="progress-section">
+        <div class="progress-label">
+          <span>Progress</span>
+          <span>{{project.progress}}%</span>
+        </div>
+        <div class="progress-bar">
+          <div 
+            class="progress-fill"
+            [style.width.%]="project.progress">
+          </div>
+        </div>
+      </div>
+
+      <div class="project-footer">
+        <div class="team-members">
+          <span *ngFor="let i of [].constructor(project.teamMembers)">
+            👤
+          </span>
+        </div>
+        <div class="milestones">
+          {{getMilestoneCount(project)}} milestones
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

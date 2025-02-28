@@ -1,0 +1,106 @@
+<div class="container">
+    <header class="header">
+      <div class="logo">&lt;/&gt;</div>
+      <div class="header-actions">
+        <button class="icon-button">🔔</button>
+        <button class="icon-button" (click)="toggleDarkMode()">
+          {{ darkMode ? '🌙' : '☀️' }}
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="profile-header">
+        <div class="profile-info">
+          <img src="icons8-profile-picture.png" alt="Profile" class="avatar"/>
+          <div>
+            <h1 class="name">Sarah Anderson</h1>
+            <p class="title">Senior Software Developer</p>
+            <div class="tags">
+              <span class="tag">React</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">TypeScript</span>
+            </div>
+          </div>
+        </div>
+        <button class="edit-button">Edit Profile</button>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h2>Tasks Completed</h2>
+          <div class="stat">
+            <span class="number">248</span>
+            <span class="trend">↑ 12% from last month</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Project Progress</h2>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress" style="width: 75%"></div>
+            </div>
+            <span>75% Complete</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Settings</h2>
+          <div class="settings">
+            <div class="setting-item">
+              <span>Dark Mode</span>
+              <label class="switch">
+                <input type="checkbox" [(ngModel)]="darkMode">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <span>Email Notifications</span>
+              <label class="switch">
+                <input type="checkbox" [(ngModel)]="emailNotifications">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card tech-section">
+        <h2>Technologies Used</h2>
+        <div class="tech-list">
+          <div class="tech-item" *ngFor="let tech of technologies">
+            <div class="tech-header">
+              <span>{{tech.name}}</span>
+              <span>{{tech.proficiency}}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress" [style.width.%]="tech.proficiency"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Connected Accounts</h2>
+        <div class="connected-accounts">
+          <div class="account-item">
+            <div class="account-info">
+              <span>GitHub</span>
+              <span class="status connected">Connected</span>
+            </div>
+          </div>
+          <div class="account-item">
+            <div class="account-info">
+              <span>Slack</span>
+              <button class="connect-button">Connect</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>© 2025 DevProfile. All rights reserved.</p>
+    </footer>
+  </div>
