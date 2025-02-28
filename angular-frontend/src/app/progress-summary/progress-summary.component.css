@@ -1,0 +1,196 @@
+.dashboard-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .menu-btn, .notification-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .metric-number {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .metric-subtitle {
+    color: #6c757d;
+    font-size: 14px;
+  }
+
+  .progress-bar {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress {
+    height: 100%;
+    background-color: #0d6efd;
+    border-radius: 4px;
+  }
+
+  .tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .task-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .task-list {
+    margin-top: 16px;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background-color: #f8f9fa;
+  }
+
+  .task-icon {
+    margin-right: 12px;
+  }
+
+  .task-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .task-date {
+    font-size: 14px;
+    color: #6c757d;
+  }
+
+  .tech-stack {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .tech-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .tech-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .tech-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .tech-count {
+    font-size: 14px;
+    color: #6c757d;
+  }
+
+  .takeaways {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .takeaway-list {
+    margin-top: 16px;
+  }
+
+  .takeaway-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .takeaway-icon {
+    margin-right: 16px;
+    font-size: 24px;
+  }
+
+  .takeaway-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .takeaway-description {
+    color: #6c757d;
+    font-size: 14px;
+  }

@@ -1,0 +1,45 @@
+.upcoming {
+    background-color: #fff;
+    border-radius: 10px;
+    min-height: 100%;
+    padding: 20px;
+
+}
+
+.sect2-title {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    position:relative;
+    padding: 10px;
+
+}
+
+.sect2-title h3 {
+    flex-grow: 1;
+    text-align: left;
+    margin:0;
+}
+.sect2-title img{
+    position:absolute;
+    right:0;
+    padding: 5px 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0px 20px;
+
+}
+
+li {
+    display: flex;
+    background: #f7f9fa;
+    padding: 10px;
+    margin: 10px;
+    align-items: center;
+}
+
+app-due-date {
+    padding: 10px;
+}

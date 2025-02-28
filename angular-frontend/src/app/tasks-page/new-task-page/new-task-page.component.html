@@ -1,0 +1,122 @@
+<!-- new-task-page.component.html -->
+<div class="container">
+  <header class="header">
+    <div class="logo">
+      <i class="fas fa-bars"></i>
+      <span>Task Manager</span>
+    </div>
+    <div class="header-right">
+      <i class="far fa-bell"></i>
+      <div class="avatar"></div>
+    </div>
+  </header>
+
+  <main class="content">
+    <h1>Create New Task</h1>
+    <p class="subtitle">Fill in the details below to create a new task</p>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
+      <div class="form-group">
+        <label for="taskName">Task Name</label>
+        <input 
+          id="taskName"
+          type="text"
+          formControlName="taskName"
+          placeholder="Enter task name"
+          class="form-control"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          placeholder="Enter task description"
+          class="form-control"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label for="dueDate">Due Date</label>
+          <div class="date-input-container">
+            <input
+              id="dueDate"
+              type="text"
+              formControlName="dueDate"
+              placeholder="mm/dd/yyyy"
+              class="form-control"
+            >
+            <i class="far fa-calendar"></i>
+          </div>
+        </div>
+
+        <div class="form-group half-width">
+          <label for="duration">Estimated Duration</label>
+          <input
+            id="duration"
+            type="text"
+            formControlName="duration"
+            placeholder="Hours"
+            class="form-control"
+          >
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label for="project">Project</label>
+          <select
+            id="project"
+            formControlName="project"
+            class="form-control"
+          >
+            <option value="" disabled selected>Select Project</option>
+            <option *ngFor="let project of projects" [value]="project.id">
+              {{project.name}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group half-width">
+          <label for="technology">Technology</label>
+          <select
+            id="technology"
+            formControlName="technology"
+            class="form-control"
+          >
+            <option value="" disabled selected>Select Technology</option>
+            <option *ngFor="let tech of technologies" [value]="tech.id">
+              {{tech.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label class="checkbox-container">
+          <input
+            type="checkbox"
+            formControlName="isMilestone"
+          >
+          <span class="checkbox-label">Mark as milestone</span>
+        </label>
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn btn-cancel" (click)="onCancel()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-submit" [disabled]="!taskForm.valid">
+          Create Task
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="footer">
+    © 2025 Task Manager. All rights reserved.
+  </footer>
+</div>

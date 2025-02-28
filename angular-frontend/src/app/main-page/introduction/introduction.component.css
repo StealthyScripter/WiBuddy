@@ -1,0 +1,51 @@
+.introduction {
+    display:grid;
+    grid-template-columns: 2fr 3fr;
+    gap:10px;
+}
+
+.affirmation {
+    background-color: #fff;
+    border-radius: 10px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    min-height: calc(100% - 40px);
+
+}
+
+.intro {
+    background-image: linear-gradient(to right, #4f47e6 , #7d3bed);
+    color:#fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    
+}
+
+.intro h2, p{
+    margin-bottom: 15px;
+    
+}
+
+
+.prompt {
+    display: flex;
+    gap: 10px;
+}
+
+.prompt input{
+    background: none;
+    border:3px solid #8464ed;
+    border-radius: 8px;
+}
+
+.prompt button {
+    border:none;
+    border-radius: 5px;
+    padding:10px;
+    width:80px;
+    color:#4f47e6;
+}

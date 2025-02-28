@@ -1,25 +1,18 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { ProjectsSectionComponent } from './home/projects-section/projects-section.component';
-import { TasksSectionComponent } from './home/tasks-section/tasks-section.component';
-import { AffirmationsSectionComponent } from './home/affirmations-section/affirmations-section.component';
-import { CalendarSectionComponent } from './home/calendar-section/calendar-section.component';
-import { ProgressSectionComponent } from './home/progress-section/progress-section.component';
+import { Component, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { MainMenuComponent } from './main-menu/main-menu.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
-    ProjectsSectionComponent, 
-    TasksSectionComponent,
-    CalendarSectionComponent,
-    ProgressSectionComponent,
-    AffirmationsSectionComponent,
-  ],
+    RouterModule,
+    MainMenuComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'angular-frontend';
+
 }

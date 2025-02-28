@@ -1,0 +1,135 @@
+<section class="container">
+  <section class="section2">
+    <section class="introduction">
+      <section class="affirmation">
+        <div>
+            {{ '"' + dailyAffirmation.quote +'"' }}
+            <br>
+            {{ dailyAffirmation.author }}  
+        </div>
+        
+      </section>
+      <section class="intro">
+        <h2>Hello Brian?</h2>
+        <p>Ready to make today productive?
+        </p>
+        <form class="prompt">
+            <input type="text" id="prompt" name="prompt" placeholder="What's on your mind?">
+            <button>send</button>
+        </form>
+      </section>
+    </section>
+  </section>
+  
+    
+  <section class="section3">
+        
+    <table class="tasks">
+      <thead class="sect3-title">
+        <tr>
+          <th><h3>Today's tasks</h3></th>
+          <th><button>3 tasks</button></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of filteredTasks()">
+          <td>
+            <input type="checkbox">
+          </td>
+          <td>{{ task.name }}</td>
+          <td>
+            <span class="priority-dot"></span>
+          </td>
+          <td>
+            <app-due-date [dueDate]="task.dueDate  ?? 'No Due Today'"></app-due-date>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="projects">
+      <div class="sect3-title">
+          <h3>Ongoing Projects</h3>
+          <button>5 active</button>
+        </div>
+      <ul>
+          <li *ngFor="let ongoingProject of ongoingProjects">
+            <span class="project-name">{{ ongoingProject.name }}</span>
+            <span class="progress-percentage">{{ ongoingProject.progress }}</span>
+            <div class="progress-bar" >
+              <div class="progress-bar-fill" [style.width]="ongoingProject.progress + '%'"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+  
+    <table class="upcoming">
+      <thead class="sect3-title">
+        <tr>
+          <th><h3>Upcoming Projects</h3></th>
+          <th><img src="icons8-calendar-new.png"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (upcomingProject of upcomingProjects; track upcomingProject) {
+        <tr>
+          <td><app-due-date [dueDate]="upcomingProject.date"></app-due-date></td>
+          <td><p>{{ upcomingProject.name }}</p></td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </section>
+    
+  <section class="section4">
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <button class="nav-button" (click)="previousWeek()">❮</button>
+        <h3 class="calendar-title">{{ weekDateRange }}</h3>
+        <button (click)="nextWeek()">❯</button>
+      </div>
+  
+  <div class="calendar-grid">
+    <table class="calendar">
+      <thead>
+        <tr>
+          <th *ngFor="let day of weekDays">{{ day.day }}</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let day of weekDays" class="day-cell" [ngClass]="{'today': isToday(day.date)}">
+        <tr *ngFor="let task of getTasksForDay(day.date)" 
+          class="task" 
+          [ngClass]="{'priority-high': task.priority === priorityEnum.HIGH, 
+                    'priority-medium': task.priority === priorityEnum.MEDIUM, 
+                    'priority-low': task.priority === priorityEnum.LOW}">
+          <td >
+              <span class="task-name">{{ task.name }}</span>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+    <div class="notes">
+      <div class="sect3-title">
+        <h3>Notes</h3>
+        <img src="icons8-plus sign.png" (click)="togglePreview(0)">
+      </div>
+      <div class="note-list">
+        <div *ngFor="let note of notes; let i = index" class="note">
+          <div class="note-header">
+            <span class="note-title">{{ note.title }}</span>
+            <span class="note-date">{{ note.date }}</span>
+          </div>
+          <div class="note-preview" >
+            {{ note.content }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+

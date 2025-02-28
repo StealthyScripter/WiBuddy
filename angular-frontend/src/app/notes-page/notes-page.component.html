@@ -1,0 +1,18 @@
+<div class="p-4">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold">Notes</h2>
+      <button routerLink="/add-note" 
+              class="text-blue-600 hover:text-blue-800">
+        <span class="material-icons">add</span>
+      </button>
+    </div>
+    <div class="space-y-3">
+      <div *ngFor="let note of notes" 
+           (click)="openNote(note.id)"
+           class="cursor-pointer p-3 rounded-lg bg-white hover:bg-gray-50">
+        <h3 class="font-medium">{{note.title}}</h3>
+        <p class="text-sm text-gray-600 truncate">{{note.content}}</p>
+        <span class="text-xs text-gray-500">{{note.lastModified | date}}</span>
+      </div>
+    </div>
+  </div>

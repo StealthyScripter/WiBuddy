@@ -1,0 +1,110 @@
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">{{ selectedTask?.name }}</h1>
+      <span class="status-badge" [class]="selectedTask?.status?.toLowerCase()">
+        {{ selectedTask?.status | titlecase }}
+      </span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary">Edit</button>
+      <button class="btn btn-primary">Share</button>
+    </div>
+  </header>
+
+  <div class="content-grid">
+    <div class="main-content">
+      <section class="content-section">
+        <h2 class="section-title">Description</h2>
+        <p class="description-text">{{ selectedTask?.description }}</p>
+      </section>
+
+      <section class="content-section">
+        <h2 class="section-title">Prerequisites</h2>
+        <ul class="prerequisites-list">
+          <li class="prerequisite-item">
+            <span class="check-icon">✓</span>
+            Database Schema Design
+          </li>
+          <li class="prerequisite-item">
+            <span class="check-icon">✓</span>
+            Authentication System Setup
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2 class="section-title">Comments</h2>
+        <div class="comments-container">
+          <div class="comment-input">
+            <div class="avatar">
+              <img src="icons8-profile-picture.png" alt="User avatar">
+            </div>
+            <textarea 
+              [(ngModel)]="newComment"
+              placeholder="Add a comment..."
+              class="comment-textarea"
+            ></textarea>
+          </div>
+
+          <div class="comments-list">
+            <div *ngFor="let comment of comments" class="comment-item">
+              <div class="avatar">
+                <img src="icons8-profile-picture.png" alt="User avatar">
+              </div>
+              <div class="comment-content">
+                <div class="comment-header">
+                  <span class="comment-author">{{ comment.author }}</span>
+                  <span class="comment-time">{{ comment.timestamp | date:'relative' }}</span>
+                </div>
+                <p class="comment-text">{{ comment.content }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="sidebar">
+      <section class="sidebar-section">
+        <h2 class="section-title">Task Information</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Due Date</label>
+            <div class="info-value">
+              <i class="calendar-icon"></i>
+              {{ selectedTask?.dueDate | date }}
+            </div>
+          </div>
+          <div class="info-item">
+            <label>Estimated Duration</label>
+            <div class="info-value">
+              <i class="time-icon"></i>
+              3 days
+            </div>
+          </div>
+          <div class="info-item">
+            <label>Priority</label>
+            <div class="info-value">
+              <span class="priority-badge high">High</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sidebar-section">
+        <h2 class="section-title">Linked Items</h2>
+        <div class="linked-items-list">
+          <a href="#" class="linked-item">
+            <i class="doc-icon"></i>
+            API Documentation
+          </a>
+          <a href="#" class="linked-item">
+            <i class="code-icon"></i>
+            Technical Specs
+          </a>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>
