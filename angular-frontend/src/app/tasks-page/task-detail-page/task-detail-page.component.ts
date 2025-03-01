@@ -3,19 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
-import { Task, TaskStatus, Priority, TaskCategory } from '../../../models.interface';
+import { Task, TaskStatus, Priority, TaskCategory, Comment } from '../../../models.interface';
+import { mockCompletedTasks, mockTasks } from '../../../test-data/task.data';
 
-interface Comment {
-  id: string;
-  author: string;
-  content: string;
-  timestamp: string;
-  attachments?: Array<{
-    id: string;
-    filename: string;
-    url: string;
-  }>;
-}
+
 
 @Component({
   selector: 'app-task-detail-page',
@@ -30,53 +21,7 @@ export class TaskDetailPageComponent implements OnInit {
   selectedTask: Task | undefined;
 
 
-  tasks: Task[] = [
-    {
-      id: 'task-1',
-      name: 'Update User Interface',
-      description: 'Implement new design system across the platform',
-      status: TaskStatus.IN_PROGRESS,
-      dueDate: '2025-03-15',
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      hierarchy: 1,
-      isMilestone: false,
-      priority: Priority.HIGH,
-      category: TaskCategory.DESIGN,
-      prerequisites: [],
-      dependentTasks: []
-    },
-    {
-      id: 'task-2',
-      name: 'API Integration',
-      description: 'Connect backend services with frontend',
-      status: TaskStatus.COMPLETED,
-      dueDate: '2025-03-20',
-      isCompleted: true,
-      dateCreated: new Date().toISOString(),
-      hierarchy: 1,
-      isMilestone: false,
-      priority: Priority.MEDIUM,
-      category: TaskCategory.DEVELOPMENT,
-      prerequisites: [],
-      dependentTasks: []
-    },
-    {
-      id: 'task-3',
-      name: 'Security Audit',
-      description: 'Perform security assessment and fix vulnerabilities',
-      status: TaskStatus.BLOCKED,
-      dueDate: '2025-03-25',
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      hierarchy: 1,
-      isMilestone: false,
-      priority: Priority.CRITICAL,
-      category: TaskCategory.TESTING,
-      prerequisites: [],
-      dependentTasks: []
-    }
-  ];
+  tasks: Task[] = mockTasks;
 
 
   comments: Comment[] = [

@@ -26,7 +26,7 @@
     </div>
 
     <div class="tasks-grid">
-      <div *ngFor="let task of filteredTasks" class="task-card" [ngClass]="task.status.toLowerCase().replace(' ', '-')" 
+      <div *ngFor="let task of filteredTasks" class="task-card clickable-field" [ngClass]="task.status.toLowerCase().replace(' ', '-')" 
       (click)="navigateToTask(task.id)">
         <div class="task-header">
           <h3>{{ task.name }}</h3>

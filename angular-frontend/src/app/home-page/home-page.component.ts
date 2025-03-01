@@ -1,9 +1,10 @@
 import { Component, NgModule } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Task, Project, DailyAffirmation, TaskStatus, Priority, TaskCategory, Note } from '../../models.interface';
 import { DueDateComponent } from '../main-page/due-date/due-date.component';
+import { mockTasks, mockProjects, mockNotes } from '../../test-data/task.data';
 
 @Component({
   selector: 'app-home-page',
@@ -26,142 +27,13 @@ export class HomePageComponent {
     author: "Richard James"
   };
 
-  todaysTasks: Task[] = [
-    {
-      id: 'task-1',
-      name: 'Create a program dashboard',
-      description: '',
-      status: TaskStatus.NOT_STARTED,
-      dueDate: '2025-02-28T14:30:00',
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      hierarchy: 1,
-      isMilestone: false,
-      priority: Priority.MEDIUM,
-      category: TaskCategory.DEVELOPMENT,
-      prerequisites: [],
-      dependentTasks: []
-    },
-    {
-      id: 'task-2',
-      name: 'Start Documentation',
-      description: '',
-      status: TaskStatus.NOT_STARTED,
-      dueDate: '2025-02-01T14:30:00',
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      hierarchy: 1,
-      isMilestone: false,
-      priority: Priority.MEDIUM,
-      category: TaskCategory.DOCUMENTATION,
-      prerequisites: [],
-      dependentTasks: []
-    },
-    {
-      id: 'task-3',
-      name: 'Make the machine learning model',
-      description: '',
-      status: TaskStatus.NOT_STARTED,
-      dueDate: '2025-02-09T14:30:00',
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      hierarchy: 1,
-      isMilestone: false,
-      priority: Priority.MEDIUM,
-      category: TaskCategory.DEVELOPMENT,
-      prerequisites: [],
-      dependentTasks: []
-    }
-  ];
+  todaysTasks: Task[] = mockTasks.slice(3,6);
 
-  ongoingProjects: Project[] = [
-    {
-      id: 'proj-1',
-      name: 'Website redesign',
-      description: '',
-      status: TaskStatus.ACTIVE,
-      priority: Priority.HIGH,
-      progress: 90,
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      ownerId: 'user-1',
-      teamMembers: [],
-      tasks: []
-    },
-    {
-      id: 'proj-2',
-      name: 'Machine Learning',
-      description: '',
-      status: TaskStatus.ACTIVE,
-      priority: Priority.MEDIUM,
-      progress: 40,
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      ownerId: 'user-1',
-      teamMembers: [],
-      tasks: []
-    },
-    {
-      id: 'proj-3',
-      name: 'Senior project',
-      description: '',
-      status: TaskStatus.ACTIVE,
-      priority: Priority.HIGH,
-      progress: 20,
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      ownerId: 'user-1',
-      teamMembers: [],
-      tasks: []
-    },
-    {
-      id: 'proj-4',
-      name: 'Motor board',
-      description: '',
-      status: TaskStatus.ACTIVE,
-      priority: Priority.MEDIUM,
-      progress: 80,
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      ownerId: 'user-1',
-      teamMembers: [],
-      tasks: []
-    },
-    {
-      id: 'proj-5',
-      name: 'Heart rate monitor',
-      description: '',
-      status: TaskStatus.ACTIVE,
-      priority: Priority.HIGH,
-      progress: 90,
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      ownerId: 'user-1',
-      teamMembers: [],
-      tasks: []
-    }
-  ];
+  ongoingProjects: Project[] = mockProjects;
+   
+  upcomingProjects: Project[] = mockProjects;
 
-  upcomingProjects = [
-    { name: 'KiSA first general meeting', date: '2025-02-09' },
-    { name: 'Doctors appointment', date: '2025-02-09' },
-    { name: 'project proposal', date: '2025-02-09' }
-  ];
-
-  
-  notes= [
-    { id: '1', title: 'Make measurements of the model', date: '02/02/2025', content: ['Calipers will be provided by the dean'], dateCreated: '', lastModified: '' },
-    { id: '2', title: 'Note 2', date: '02/03/2025', content: ['This is a preview text that should be truncated if it is too long. Otherwise, it will be displayed fully'], dateCreated:'', lastModified:''},
-  ];
-
-  timeSlots = [
-    { label: '12:00 AM - 4:00 AM', start: 0, end: 3 },
-    { label: '4:00 AM - 8:00 AM', start: 4, end: 7 },
-    { label: '8:00 AM - 12:00 PM', start: 8, end: 11 },
-    { label: '12:00 PM - 4:00 PM', start: 12, end: 15 },
-    { label: '4:00 PM - 8:00 PM', start: 16, end: 19 },
-    { label: '8:00 PM - 12:00 AM', start: 20, end: 23 }
-  ];
+  notes: Note[] = mockNotes;
 
   togglePreview(index: number) {
     this.expanded = !this.expanded;
@@ -184,7 +56,7 @@ export class HomePageComponent {
     }
   }
 
-  constructor() {
+  constructor(private router: Router) {
     this.generateWeekCalendar();
   }
 
@@ -261,6 +133,22 @@ export class HomePageComponent {
   
   isToday(date: Date) {
 
+  }
+
+  navigateToTask(taskId: string) {
+    this.router.navigate(['/task-details', taskId]);
+  }
+
+  navigateToProject(projectId: string){
+    this.router.navigate(['/project-details', projectId]);
+  }
+
+  navigateToNote(noteId: string){
+    this.router.navigate(['notes-details',noteId]);
+  }
+
+  navigateToNewNote() {
+    this.router.navigate(['add-notes']);
   }
   
 }

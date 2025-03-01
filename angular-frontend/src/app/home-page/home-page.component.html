@@ -32,9 +32,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let task of filteredTasks()">
+        <tr id="homepage-task" *ngFor="let task of filteredTasks()" (click)="navigateToTask(task.id)" class="clickable-field">
           <td>
-            <input type="checkbox">
+            <input type="checkbox" (click)="$event.stopPropagation()"> 
           </td>
           <td>{{ task.name }}</td>
           <td>
@@ -53,7 +53,7 @@
           <button>5 active</button>
         </div>
       <ul>
-          <li *ngFor="let ongoingProject of ongoingProjects">
+          <li *ngFor="let ongoingProject of ongoingProjects" (click)="navigateToProject(ongoingProject.id)" class="clickable-field">
             <span class="project-name">{{ ongoingProject.name }}</span>
             <span class="progress-percentage">{{ ongoingProject.progress }}</span>
             <div class="progress-bar" >
@@ -72,7 +72,7 @@
       </thead>
       <tbody>
         @for (upcomingProject of upcomingProjects; track upcomingProject) {
-        <tr>
+        <tr (click)="navigateToProject(upcomingProject.id)" class="clickable-field">
           <td><app-due-date [dueDate]="upcomingProject.date"></app-due-date></td>
           <td><p>{{ upcomingProject.name }}</p></td>
         </tr>
@@ -103,7 +103,7 @@
                     'priority-medium': task.priority === priorityEnum.MEDIUM, 
                     'priority-low': task.priority === priorityEnum.LOW}">
           <td >
-              <span class="task-name">{{ task.name }}</span>
+              <span class="clickable-field cal-task-name" (click)="navigateToTask(task.id)">{{ task.name }}</span>
             
           </td>
         </tr>
@@ -115,12 +115,12 @@
     <div class="notes">
       <div class="sect3-title">
         <h3>Notes</h3>
-        <img src="icons8-plus sign.png" (click)="togglePreview(0)">
+        <img src="icons8-plus sign.png" (click)="navigateToNewNote()">
       </div>
       <div class="note-list">
-        <div *ngFor="let note of notes; let i = index" class="note">
+        <div *ngFor="let note of notes; let i = index" class="notes clickable-field" (click)="navigateToNote(note.id)">
           <div class="note-header">
-            <span class="note-title">{{ note.title }}</span>
+            <span class="note-title">{{ note.name }}</span>
             <span class="note-date">{{ note.date }}</span>
           </div>
           <div class="note-preview" >

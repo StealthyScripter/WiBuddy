@@ -133,3 +133,12 @@
     background-color: #f3f4f6;
     border-radius: 4px;
   }
+
+  .clickable-field {
+    cursor: pointer;
+    transition: filter 0.3s ease;
+  }
+  
+  .clickable-field:hover {
+    filter: brightness(85%) contrast(110%);
+  }

@@ -14,13 +14,13 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'angular-frontend' title`, () => {
+  it(`should have the 'angular-frontend' name`, () => {
     const fixture = TestBed.createComponent(MainPageComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-frontend');
+    expect(app.name).toEqual('angular-frontend');
   });
 
-  it('should render title', () => {
+  it('should render name', () => {
     const fixture = TestBed.createComponent(MainPageComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;

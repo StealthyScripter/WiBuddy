@@ -166,6 +166,3 @@
     color: #6c757d;
     font-size: 0.875rem;
   }
-  
-  /* Add these imports to your index.html or angular.json */
-  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');

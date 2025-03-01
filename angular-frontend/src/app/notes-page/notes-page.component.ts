@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Note } from '../../models.interface';
+import { mockNotes } from '../../test-data/task.data';
 
 @Component({
   selector: 'app-notes-page',
@@ -11,23 +12,8 @@ import { Note } from '../../models.interface';
   styleUrl: './notes-page.component.css'
 })
 export class NotesPageComponent {
-    notes: Note[] = [
-      {
-        id: '1',
-        title: 'Lorem ipsum',
-        content: 'maiores debitis magni in maxime.',
-        dateCreated: new Date().toISOString(),
-        lastModified: new Date().toISOString()
-      },
-      {
-        id: '2',
-        title: 'Lorem ipsum',
-        content: 'Lorem ipsum dolor, sit amet consectetur',
-        dateCreated: new Date().toISOString(),
-        lastModified: new Date().toISOString()
-      }
-    ];
-  
+    notes: Note[] = mockNotes;
+    
     openNote(noteId: string) {
       // Implement navigation to note detail
       console.log('Opening note:', noteId);

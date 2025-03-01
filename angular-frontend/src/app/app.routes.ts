@@ -10,6 +10,9 @@ import { CalendarsPageComponent } from './calendars-page/calendars-page.componen
 import { NewTaskPageComponent } from './tasks-page/new-task-page/new-task-page.component';
 import { NewProjectPageComponent } from './projects-page/new-project-page/new-project-page.component';
 import { NotesPageComponent } from './notes-page/notes-page.component';
+import { NewNotePageComponent } from './notes-page/new-note-page/new-note-page.component';
+
+import { NotesDetailPageComponent } from './notes-page/notes-detail-page/notes-detail-page.component';
 
 
 import { HomePageComponent } from './home-page/home-page.component';
@@ -40,9 +43,9 @@ const routeConfig: Routes = [
 
      {path: 'notes', component:NotesPageComponent},
 
-     // {path: 'note-details/:noteId', component: NoteDetailComponent},
+     {path: 'notes-details/:noteId', component: NotesDetailPageComponent},
     
-     // {path: 'add-note', component: AddNoteComponent},
+     {path: 'add-notes', component: NewNotePageComponent},
 
 ];
 

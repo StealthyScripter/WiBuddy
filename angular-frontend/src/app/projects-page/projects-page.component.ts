@@ -3,21 +3,8 @@ import { Project, TaskStatus, Priority, Task } from '../../models.interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-
-
-interface ProjectStats {
-  totalTasks: number;
-  completedTasks: number;
-  teamMembers: number;
-  milestones: Task[];
-}
-
-interface FilterOptions {
-  status?: TaskStatus;
-  priority?: Priority;
-  category?: string;
-  searchQuery?: string;
-}
+import { ProjectStats, FilterOptions } from '../../models.interface';
+import { mockProjects } from '../../test-data/task.data';
 
 @Component({
   selector: 'app-projects-page',
@@ -37,50 +24,7 @@ export class ProjectsPageComponent implements OnInit {
   activeTab: TaskStatus | null = null;
   filterOptions: FilterOptions = {};
   
-  projects: Project[] = [
-    {
-      id: 'uuid-1',
-      name: 'Website Redesign',
-      department: 'Marketing',
-      description: 'Complete overhaul of company website with modern UI/UX principles',
-      status: TaskStatus.ACTIVE,
-      priority: Priority.HIGH,
-      progress: 75,
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      ownerId: 'owner-1',
-      teamMembers: ['member-1', 'member-2', 'member-3'],
-      tasks: []
-    },
-    {
-      id: 'uuid-2',
-      name: 'Mobile App Development',
-      department: 'Technology',
-      description: 'Native mobile application for iOS and Android platforms',
-      status: TaskStatus.UPCOMING,
-      priority: Priority.CRITICAL,
-      progress: 0,
-      isCompleted: false,
-      dateCreated: new Date().toISOString(),
-      ownerId: 'owner-2',
-      teamMembers: ['member-4', 'member-5'],
-      tasks: []
-    },
-    {
-      id: 'uuid-3',
-      name: 'Brand Identity',
-      department: 'Design',
-      description: 'Complete brand redesign including logo and guidelines',
-      status: TaskStatus.COMPLETED,
-      priority: Priority.MEDIUM,
-      progress: 100,
-      isCompleted: true,
-      dateCreated: new Date().toISOString(),
-      ownerId: 'owner-1',
-      teamMembers: ['member-1', 'member-6'],
-      tasks: []
-    }
-  ];
+  projects: Project[] = mockProjects;
 
   filteredProjects: Project[] = [];
 
@@ -96,7 +40,8 @@ export class ProjectsPageComponent implements OnInit {
   }
 
   getMilestoneCount(project: Project): number {
-    return project.tasks.filter(task => task.isMilestone).length;
+    // return project.tasks.filter(task => task.isMilestone).length;
+    return 10;
   }
 
   navigateToProject(projectId: string) {

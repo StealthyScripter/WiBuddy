@@ -31,7 +31,7 @@ export enum TaskCategory {
 // Base Interface for common properties
 interface BaseEntity {
   id: UUID;
-  dateCreated: ISODateString;
+  dateCreated?: ISODateString;
   lastModified?: ISODateString;
 }
 
@@ -61,19 +61,20 @@ export interface Task extends BaseEntity {
 // Project Interface
 export interface Project extends BaseEntity {
   name: string;
-  description: string;
+  description?: string;
   dueDate?: ISODateString;
   completionDate?: ISODateString;
-  isCompleted: boolean;
-  tasks: Task[];
-  ownerId: UUID;
-  teamMembers: UUID[];
+  isCompleted?: boolean;
+  tasks?: Task[];
+  ownerId?: UUID;
+  teamMembers?: UUID[];
   budget?: number;
-  status: TaskStatus;
-  priority: Priority;
+  status?: TaskStatus;
+  priority?: Priority;
   department?: string;
   progress:number;
   milestones?:string;
+  date:string
 }
 
 // Project Methods Interface (Separate from data interface)
@@ -107,6 +108,7 @@ export interface Technology extends BaseEntity {
   tasks?: Task[]; // Consider making this a resolver
   category?: string;
   documentationUrl?: string;
+  proficiency?:number;
 }
 
 // Affirmation Interface
@@ -121,7 +123,7 @@ export interface Affirmation extends BaseEntity {
 
 // Graph Interface
 export interface Graph extends BaseEntity {
-  title: string;
+  name: string;
   type: 'BAR' | 'LINE' | 'PIE' | 'GANTT';
   dataSource?: {
     entityType: 'TASK' | 'PROJECT' | 'PROGRESS';
@@ -158,13 +160,58 @@ interface Attachment {
 
 export interface Note {
   id: string;
-  title: string;
+  name: string;
   content: string | string[];
   dateCreated: string | null;
   lastModified: string | null;
+  date:string;
 }
 
 export interface DailyAffirmation {
   quote: string;
   author: string;
+}
+
+export interface CalendarEvent {
+  id: number;
+  name: string;
+  date: Date;
+  endDate?: Date;
+  type: 'meeting' | 'deadline' | 'task';
+  projectId?: number;
+  color: string;
+  description?: string;
+}
+
+export interface TechStack {
+  name: string;
+  icon: string;
+  count: string;
+
+}
+
+export interface ProjectStats {
+  totalTasks: number;
+  completedTasks: number;
+  teamMembers: number;
+  milestones: Task[];
+}
+
+export interface FilterOptions {
+  status?: TaskStatus;
+  priority?: Priority;
+  category?: string;
+  searchQuery?: string;
+}
+
+export interface Comment {
+  id: string;
+  author: string;
+  content: string;
+  timestamp: string;
+  attachments?: Array<{
+    id: string;
+    filename: string;
+    url: string;
+  }>;
 }
