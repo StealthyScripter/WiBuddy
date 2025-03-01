@@ -48,7 +48,7 @@
         <div class="task-item" *ngFor="let task of upcomingTasks">
           <div class="task-icon"><img src="icons8-time.png"></div>
           <div class="task-details">
-            <div class="task-title">{{task.title}}</div>
+            <div class="task-title">{{task.name}}</div>
             <div class="task-date">Due {{task.dueDate}}</div>
           </div>
         </div>
@@ -61,7 +61,7 @@
         <div class="task-item" *ngFor="let task of completedTasks">
           <div class="task-icon"><img src="icons8-check-mark-plain.png" style="height:24px"></div>
           <div class="task-details">
-            <div class="task-title">{{task.title}}</div>
+            <div class="task-title">{{task.name}}</div>
             <div class="task-date">Completed {{task.dueDate}}</div>
           </div>
         </div>
@@ -72,7 +72,7 @@
   <div class="tech-stack">
     <h3>Technology Stack</h3>
     <div class="tech-grid">
-      <div class="tech-card" *ngFor="let tech of techStack">
+      <div class="tech-card" *ngFor="let tech of technologies">
         <div class="tech-icon">{{tech.icon}}</div>
         <div class="tech-name">{{tech.name}}</div>
         <div class="tech-count">{{tech.count}}</div>

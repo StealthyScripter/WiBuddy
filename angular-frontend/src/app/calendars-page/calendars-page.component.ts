@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CalendarEvent, Project } from '../../models.interface';
+import { mockProjects } from '../../test-data/task.data';
 import { 
   addDays, 
   addHours, 
@@ -16,25 +18,6 @@ import {
   setHours,
   setMinutes
 } from 'date-fns';
-
-interface CalendarEvent {
-  id: number;
-  title: string;
-  date: Date;
-  endDate?: Date;
-  type: 'meeting' | 'deadline' | 'task';
-  projectId?: number;
-  color: string;
-  description?: string;
-}
-
-interface Project {
-  id: number;
-  name: string;
-  deadline: Date;
-  progress: number;
-  color?: string;
-}
 
 @Component({
   selector: 'app-calendars-page',
@@ -58,7 +41,7 @@ export class CalendarsPageComponent implements OnInit {
   events: CalendarEvent[] = [
     {
       id: 1,
-      title: 'Team Meeting',
+      name: 'Team Meeting',
       date: new Date(2025, 1, 18, 10, 0),
       endDate: new Date(2025, 1, 18, 11, 0),
       type: 'meeting',
@@ -67,7 +50,7 @@ export class CalendarsPageComponent implements OnInit {
     },
     {
       id: 2,
-      title: 'Project Deadline',
+      name: 'Project Deadline',
       date: new Date(2025, 1, 25),
       type: 'deadline',
       projectId: 1,
@@ -76,7 +59,7 @@ export class CalendarsPageComponent implements OnInit {
     },
     {
       id: 3,
-      title: 'Client Call',
+      name: 'Client Call',
       date: new Date(2025, 1, 20, 14, 0),
       endDate: new Date(2025, 1, 20, 15, 0),
       type: 'meeting',
@@ -85,7 +68,7 @@ export class CalendarsPageComponent implements OnInit {
     },
     {
       id: 4,
-      title: 'Design Review',
+      name: 'Design Review',
       date: new Date(2025, 1, 18, 13, 0),
       endDate: new Date(2025, 1, 18, 14, 30),
       type: 'meeting',
@@ -95,22 +78,7 @@ export class CalendarsPageComponent implements OnInit {
     }
   ];
 
-  projects: Project[] = [
-    {
-      id: 1,
-      name: 'Website Redesign',
-      deadline: new Date(2025, 2, 15),
-      progress: 75,
-      color: '#4f46e5'
-    },
-    {
-      id: 2,
-      name: 'Mobile App Development',
-      deadline: new Date(2025, 3, 1),
-      progress: 30,
-      color: '#0ea5e9'
-    }
-  ];
+  projects: Project[] = mockProjects;
 
   ngOnInit() {
     this.generateDates();
@@ -209,8 +177,9 @@ export class CalendarsPageComponent implements OnInit {
   }
 
   get sortedProjects() {
-    return [...this.projects].sort((a, b) => 
-      a.deadline.getTime() - b.deadline.getTime()
-    );
+    // return [...this.projects].sort((a, b) => 
+    //   a.dueDate.getTime() - b.dueDate.getTime()
+    // );
+    return this.projects
   }
 }

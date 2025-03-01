@@ -9,8 +9,8 @@ import { Component } from '@angular/core';
 })
 export class NotesComponent {
   notes = [
-    { title: "Project Ideas", content: "Brainstorm new features for the mobile app including AI recommendations, better UI/UX, and cloud integration...", date: "2025-01-29" },
-    { title: "Meeting Notes", content: "Follow up with team regarding deadline and ensure documentation is complete before the next sprint review...", date: new Date().toISOString().split('T')[0] } // Today
+    { name: "Project Ideas", content: "Brainstorm new features for the mobile app including AI recommendations, better UI/UX, and cloud integration...", date: "2025-01-29" },
+    { name: "Meeting Notes", content: "Follow up with team regarding deadline and ensure documentation is complete before the next sprint review...", date: new Date().toISOString().split('T')[0] } // Today
   ];
 
   getFormattedDate(date: string): string {

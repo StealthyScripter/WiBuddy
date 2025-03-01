@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { mockTech } from '../../test-data/task.data';
+import { Technology } from '../../models.interface';
 
-
-interface Technology {
-  name: string;
-  proficiency: number;
-}
 
 @Component({
   selector: 'app-profile-page',
@@ -19,11 +16,7 @@ export class ProfilePageComponent {
   darkMode = false;
   emailNotifications = true;
 
-  technologies: Technology[] = [
-    { name: 'React', proficiency: 85 },
-    { name: 'Node.js', proficiency: 70 },
-    { name: 'TypeScript', proficiency: 65 }
-  ];
+  technologies: Technology[] = mockTech;
 
   toggleDarkMode() {
     this.darkMode = !this.darkMode;

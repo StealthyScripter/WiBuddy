@@ -18,7 +18,7 @@
         [(ngModel)]="filterOptions.searchQuery"
         (input)="filterProjects()">
         <button id="add-project-btn" (click)="addProject()">
-          Add Task
+          Add Project
         </button>
     </div>
   </nav>
@@ -26,11 +26,11 @@
   <div class="projects-grid">
     <div
       *ngFor="let project of filteredProjects" 
-      class="project-card"
+      class="project-card clickable-field"
       (click)="navigateToProject(project.id)">
       <div class="project-header">
         <h2>{{project.name}}</h2>
-        <span class="status-badge" [class]="project.status.toLowerCase()">
+        <span class="status-badge" [class]="project.status">
           {{project.status}}
         </span>
       </div>

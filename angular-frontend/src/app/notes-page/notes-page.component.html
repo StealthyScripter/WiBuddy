@@ -10,7 +10,7 @@
       <div *ngFor="let note of notes" 
            (click)="openNote(note.id)"
            class="cursor-pointer p-3 rounded-lg bg-white hover:bg-gray-50">
-        <h3 class="font-medium">{{note.title}}</h3>
+        <h3 class="font-medium">{{note.name}}</h3>
         <p class="text-sm text-gray-600 truncate">{{note.content}}</p>
         <span class="text-xs text-gray-500">{{note.lastModified | date}}</span>
       </div>

@@ -190,6 +190,8 @@ tbody {
 }
 
 tbody tr {
+  background-color: #f9fafb;
+  border-radius: 8px;
   margin: 5px;
   height: 40px;
   width: 100%;
@@ -244,7 +246,6 @@ input[type="checkbox"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .sect3-title h3 {
@@ -406,7 +407,7 @@ app-due-date {
 
 .calendar th {
   background-color: #f9f9f9;
-  color: #666;
+  color: #1f2a38;
   font-weight: 500;
   padding: 8px;
   text-align: center;
@@ -415,7 +416,9 @@ app-due-date {
 }
 
 .calendar tr {
-  background-color: #dfe0df;
+  padding: 2px;
+  color:#4438c9;
+  background-color: #e0e8ff;
 }
 
 .calendar td {
@@ -426,6 +429,11 @@ app-due-date {
 .task-container {
   max-height: 100%;
   max-width: 100%;
+}
+
+.cal-task-name {
+  padding:2px;
+  border-left:3px solid #f0849f;
 }
 
 .day-cell {
@@ -492,6 +500,7 @@ app-due-date {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   height:100%;
   overflow: auto;
+  margin-bottom: 5px;
 }
 
 .notes .sect3-title {
@@ -510,11 +519,6 @@ app-due-date {
 .note-list {
   display: flex;
   flex-direction: column;
-}
-
-.note {
-  padding: 10px 0;
-  border-bottom: 1px solid #e5e7eb;
 }
 
 .note-header {
@@ -542,3 +546,12 @@ app-due-date {
   margin-top: 5px;
   max-width: 100%;
 } 
+
+.clickable-field {
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.clickable-field:hover {
+  filter: brightness(85%) contrast(110%);
+}
