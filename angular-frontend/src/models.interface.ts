@@ -164,7 +164,11 @@ export interface Note {
   content: string | string[];
   dateCreated: string | null;
   lastModified: string | null;
-  date:string;
+  type?: 'text' | 'list' | 'media'; // Different note types
+  imageUrl?: string;  // Preview thumbnail
+  images?: { url: string; alt?: string }[];  // Full-size images in the note
+  tags?: string[];
+  items?: string[];  // For list-type notes
 }
 
 export interface DailyAffirmation {

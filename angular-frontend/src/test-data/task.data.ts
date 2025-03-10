@@ -197,28 +197,27 @@ export const mockNotes: Note[] = [
     content: ['Calipers will be provided by the dean'],
     dateCreated: new Date('2025-02-01').toISOString(),
     lastModified: new Date('2025-02-01').toISOString(),
-    date:'2025-03-02'
   },
   {
     id: '2',
     name: 'Note 2',
     content: ['This is a preview text that should be truncated if it is too long. Otherwise, it will be displayed fully'],
     dateCreated: new Date('2025-02-03').toISOString(),
-    lastModified: new Date('2025-02-03').toISOString(),date:'2025-03-02'
+    lastModified: new Date('2025-02-03').toISOString(),
   },
   {
     id: '3',
     name: 'Lorem ipsum',
     content: 'maiores debitis magni in maxime.',
     dateCreated: new Date('2025-01-15').toISOString(),
-    lastModified: new Date('2025-01-15').toISOString(),date:'2025-03-02'
+    lastModified: new Date('2025-01-15').toISOString(),
   },
   {
     id: '4',
     name: 'Lorem ipsum',
     content: 'Lorem ipsum dolor, sit amet consectetur',
     dateCreated: new Date('2025-01-20').toISOString(),
-    lastModified: new Date('2025-01-20').toISOString(),date:'2025-03-02'
+    lastModified: new Date('2025-01-20').toISOString(),
   }
 ];
 

@@ -1,1 +1,71 @@
-<p>notes-detail-page works!</p>
+<div class="selectedNotess-detail-container" *ngIf="selectedNotes">
+    <div class="selectedNotess-header">
+      <div class="back-button" (click)="goBack()">
+        <i class="fa fa-arrow-left"></i> Back
+      </div>
+      <div class="selectedNotess-actions">
+        <button class="action-button edit-button" (click)="editselectedNotes()">
+          <i class="fa fa-pencil"></i> Edit
+        </button>
+        <button class="action-button delete-button" (click)="confirmDelete()">
+          <i class="fa fa-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+  
+    <div class="selectedNotess-content-wrapper">
+      <h1 class="selectedNotes-title">{{ selectedNotes.name }}</h1>
+      
+      <div class="selectedNotes-metadata">
+        <span class="date-info">Created: {{ selectedNotes.dateCreated | date:'medium' }}</span>
+        <span class="date-info">Modified: {{ selectedNotes.lastModified | date:'medium' }}</span>
+        <div class="tags-container" *ngIf="selectedNotes.tags && selectedNotes.tags.length > 0">
+          <span class="tag" *ngFor="let tag of selectedNotes.tags">{{ tag }}</span>
+        </div>
+      </div>
+  
+      <!-- Text selectedNotes -->
+      <div *ngIf="selectedNotes.type === 'text' || !selectedNotes.type" class="selectedNotes-content text-content">
+        <p *ngIf="typeof selectedNotes.content === 'string'">{{ selectedNotes.content }}</p>
+        <ng-container *ngIf="Array.isArray(selectedNotes.content)">
+            <p *ngFor="let paragraph of selectedNotes.content" >{{ paragraph }}</p>
+        </ng-container>
+      </div>
+  
+      <!-- List selectedNotes -->
+      <div *ngIf="selectedNotes.type === 'list'" class="selectedNotes-content list-content">
+        <ul *ngIf="selectedNotes.items && selectedNotes.items.length > 0">
+          <li *ngFor="let item of selectedNotes.items">{{ item }}</li>
+        </ul>
+        <ul *ngIf="Array.isArray(selectedNotes.content) && (!selectedNotes.items || selectedNotes.items.length === 0)">
+          <li *ngFor="let item of selectedNotes.content">{{ item }}</li>
+        </ul>
+      </div>
+  
+      <!-- Media selectedNotes -->
+      <div *ngIf="selectedNotes.type === 'media'" class="selectedNotes-content media-content">
+        <p *ngIf="typeof selectedNotes.content === 'string'">{{ selectedNotes.content }}</p>
+        <ng-container *ngIf="Array.isArray(selectedNotes.content)">
+            <p *ngFor="let paragraph of selectedNotes.content" >{{ paragraph }}</p>
+        </ng-container>
+       
+        
+        <div class="images-container" *ngIf="selectedNotes.images && selectedNotes.images.length > 0">
+          <div *ngFor="let image of selectedNotes.images" class="image-wrapper">
+            <img [src]="image.url" [alt]="image.alt || 'selectedNotes image'" class="selectedNotes-image" />
+            <p *ngIf="image.alt" class="image-caption">{{ image.alt }}</p>
+          </div>
+        </div>
+        
+        <div *ngIf="selectedNotes.imageUrl && (!selectedNotes.images || selectedNotes.images.length === 0)" class="single-image-container">
+          <img [src]="selectedNotes.imageUrl" alt="selectedNotes image" class="selectedNotes-image" />
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="error-message" *ngIf="!selectedNotes">
+    <h2>selectedNotes not found</h2>
+    <p>The selectedNotes you're looking for doesn't exist or has been deleted.</p>
+    <button class="action-button back-button" (click)="goBack()">Back to selectedNotess</button>
+  </div>
