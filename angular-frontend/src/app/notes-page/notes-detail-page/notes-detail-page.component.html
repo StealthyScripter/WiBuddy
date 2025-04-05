@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <div *ngIf="note.attachments && note.attachments.length > 0" class="attachments-container">
+    <div *ngIf="note.attachments && note.attachments.length" class="attachments-container">
       <h3 class="attachments-title">Attachments</h3>
       <div class="attachment-grid">
         <div *ngFor="let attachment of note.attachments" class="attachment-item" (click)="openAttachment(attachment)">

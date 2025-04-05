@@ -1,16 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Note } from '../../../models.interface';
+import { Note, Attachment } from '../../../models.interface';
 import { mockNotes } from '../../../test-data/task.data';
 
-interface Attachment {
-  id: string;
-  type: 'image' | 'document' | 'link' | 'github';
-  name: string;
-  url: string;
-  thumbnail?: string;
-}
 
 @Component({
   selector: 'app-notes-detail-page',
@@ -20,41 +14,7 @@ interface Attachment {
   styleUrl: './notes-detail-page.component.css'
 })
 export class NotesDetailPageComponent {
-  @Input() note: Note = {
-    id: '1',
-    name: 'Sample Note',
-    content: ['This is a sample note line.', 'You can view and edit this note.'],
-    attachments: [
-      {
-        id: '1',
-        type: 'image',
-        name: 'Sample Image',
-        url: '/assets/sample.jpg',
-        thumbnail: '/assets/sample-thumb.jpg'
-      },
-      {
-        id: '2',
-        type: 'document',
-        name: 'Project Spec',
-        url: '/assets/spec.pdf'
-      },
-      {
-        id: '3',
-        type: 'link',
-        name: 'TaskFlow Docs',
-        url: 'https://taskflow.docs.com'
-      },
-      {
-        id: '4',
-        type: 'github',
-        name: 'Repository',
-        url: 'https://github.com/user/repo'
-      }
-    ],
-    dateCreated:'2025-03-30T10:00:00',  //new Date('2025-03-30T10:00:00'),
-    lastModified:'2025-04-03T15:30:00' //new Date('2025-04-03T15:30:00')
-  };
-
+  @Input() note: Note = mockNotes[0];
   @Output() backEvent = new EventEmitter<void>();
   @Output() saveEvent = new EventEmitter<Note>();
   @Output() deleteEvent = new EventEmitter<string>();
@@ -64,9 +24,30 @@ export class NotesDetailPageComponent {
 
   editedNote: Note = { ...this.note, content: [...this.note.content] };
 
+  constructor(private route: ActivatedRoute){}
+
   ngOnInit() {
+     // Get the noteId from the route parameter
+     this.route.paramMap.subscribe(params => {
+      const noteId = params.get('noteId');
+      if (noteId) {
+        this.loadNoteById(noteId);
+      }
+    });
     // Deep clone the note to prevent modifying the original
     this.resetEditedNote();
+  }
+
+  loadNoteById(noteId: string) {
+    // Retrieve the note by ID (for now using mock data)
+    const note = mockNotes.find(n => n.id === noteId);
+    if (note) {
+      this.note = note;
+      this.resetEditedNote();
+    } else {
+      // Handle case where note is not found
+      console.error('Note not found with ID:', noteId);
+    }
   }
 
   resetEditedNote() {
@@ -90,7 +71,7 @@ export class NotesDetailPageComponent {
    }
 
   removeLine(index: number) {
-    this.editedNote.content.slice(index, 1);
+    this.editedNote.content.splice(index, 1);
   }
 
   onBack() {
@@ -125,4 +106,6 @@ export class NotesDetailPageComponent {
       }, 1000);
     }
   }
+
+
 }

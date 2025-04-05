@@ -148,29 +148,27 @@ interface GraphConfig {
   isInteractive: boolean;
 }
 
-interface Attachment {
-  id: UUID;
-  filename: string;
+export interface Attachment {
+  id: string;
+  type: 'image' | 'document' | 'link' | 'github';
+  name: string;
   url: string;
-  mimeType: string;
-  size: number;
-  uploadedBy: UUID;
-  uploadedAt: ISODateString;
+  thumbnail?: string;
 }
 
 export interface Note {
   id: string;
   name: string;
-  content: string | string[];
+  content: string[];
   dateCreated: string | null;
   lastModified: string | null;
-  type?: 'text' | 'list' | 'media'; // Different note types
+  type?: 'text' | 'list' | 'media' ; // Different note types
   imageUrl?: string;  // Preview thumbnail
   images?: { url: string; alt?: string }[];  // Full-size images in the note
   tags?: string[];
   items?: string[];  // For list-type notes
   aiSummary?: string;
-  attachments?:{};
+  attachments?:Attachment[];
 }
 
 export interface DailyAffirmation {
