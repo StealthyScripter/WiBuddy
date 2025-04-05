@@ -195,27 +195,73 @@ export const mockNotes: Note[] = [
     id: '1',
     name: 'Make measurements of the model',
     content: ['Calipers will be provided by the dean'],
+    attachments: [
+      {
+        id: '1',
+        type: 'image',
+        name: 'Sample Image',
+        url: '/assets/sample.jpg',
+        thumbnail: '/assets/sample-thumb.jpg'
+      },
+      {
+        id: '4',
+        type: 'github',
+        name: 'Repository',
+        url: 'https://github.com/user/repo'
+      }
+    ],
     dateCreated: new Date('2025-02-01').toISOString(),
     lastModified: new Date('2025-02-01').toISOString(),
   },
   {
     id: '2',
     name: 'Note 2',
-    content: ['This is a preview text that should be truncated if it is too long. Otherwise, it will be displayed fully'],
+    content: ['This is a preview text that should be truncated if it is too long. Otherwise, it will be displayed fully','are under-defined; there are many solutions, good, bad, and indifferent. The art is to arrive at a good ','Ready to make today productive' ],
+    attachments: [
+      {
+        id: '3',
+        type: 'link',
+        name: 'TaskFlow Docs',
+        url: 'https://taskflow.docs.com'
+      },
+      {
+        id: '4',
+        type: 'github',
+        name: 'Repository',
+        url: 'https://github.com/user/repo'
+      }
+    ],
     dateCreated: new Date('2025-02-03').toISOString(),
     lastModified: new Date('2025-02-03').toISOString(),
   },
   {
     id: '3',
     name: 'Lorem ipsum',
-    content: 'maiores debitis magni in maxime.',
+    content: ['maiores debitis magni in maxime.'],
+    attachments: [
+      {
+        id: '1',
+        type: 'image',
+        name: 'Sample Image',
+        url: '/assets/sample.jpg',
+        thumbnail: '/assets/sample-thumb.jpg'
+      }
+    ],
     dateCreated: new Date('2025-01-15').toISOString(),
     lastModified: new Date('2025-01-15').toISOString(),
   },
   {
     id: '4',
     name: 'Lorem ipsum',
-    content: 'Lorem ipsum dolor, sit amet consectetur',
+    content: ['Lorem ipsum dolor, sit amet consectetur'],
+    attachments: [
+      {
+        id: '4',
+        type: 'github',
+        name: 'Repository',
+        url: 'https://github.com/user/repo'
+      }
+    ],
     dateCreated: new Date('2025-01-20').toISOString(),
     lastModified: new Date('2025-01-20').toISOString(),
   }
@@ -268,8 +314,8 @@ export const mockCalendarEvents: CalendarEvent[] = [
 import { Task, TechStack } from '../models.interface';
 
 export const mockUpcomingTasks: Task[] = [
-  { 
-    name: 'API Integration', 
+  {
+    name: 'API Integration',
     dueDate: 'Jan 15, 2025',
     id: '',
     description: '',
@@ -283,8 +329,8 @@ export const mockUpcomingTasks: Task[] = [
     prerequisites: [],
     dependentTasks: []
   },
-  { 
-    name: 'Database Migration', 
+  {
+    name: 'Database Migration',
     dueDate: 'Jan 20, 2025',
     id: '',
     description: '',
@@ -301,8 +347,8 @@ export const mockUpcomingTasks: Task[] = [
 ];
 
 export const mockCompletedTasks: Task[] = [
-  { 
-    name: 'User Authentication', 
+  {
+    name: 'User Authentication',
     dueDate: 'Jan 5, 2025',
     id: '',
     description: '',
@@ -316,8 +362,8 @@ export const mockCompletedTasks: Task[] = [
     prerequisites: [],
     dependentTasks: []
   },
-  { 
-    name: 'Frontend Redesign', 
+  {
+    name: 'Frontend Redesign',
     dueDate: 'Jan 2, 2025',
     id: '',
     description: '',
