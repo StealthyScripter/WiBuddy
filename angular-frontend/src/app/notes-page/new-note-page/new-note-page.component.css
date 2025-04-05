@@ -1,0 +1,123 @@
+.note-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  height: 100%;
+}
+
+.note-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.title-input-container {
+  margin-bottom: 20px;
+}
+
+.title-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+}
+
+.notebook-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.notebook-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+.line-input {
+  flex: 1;
+  padding: 2px 0;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.line-actions {
+  display: flex;
+  visibility: hidden;
+}
+
+.notebook-line:hover .line-actions {
+  visibility: visible;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  margin-left: 5px;
+  font-size: 0.9rem;
+}
+
+.icon-button:hover {
+  color: #6c5ce7;
+}
+
+.footer {
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.action-button i {
+  margin-right: 5px;
+}
+
+.action-button:hover {
+  background-color: #e0e0e0;
+}
+
+.ai-button {
+  background-color: #6c5ce7;
+  color: white;
+}
+
+.ai-button:hover {
+  background-color: #5b4bc9;
+}
+
+.attachments-button {
+  background-color: #74b9ff;
+  color: white;
+}
+
+.attachments-button:hover {
+  background-color: #5fa8f0;
+}

@@ -169,6 +169,8 @@ export interface Note {
   images?: { url: string; alt?: string }[];  // Full-size images in the note
   tags?: string[];
   items?: string[];  // For list-type notes
+  aiSummary?: string;
+  attachments?:{};
 }
 
 export interface DailyAffirmation {

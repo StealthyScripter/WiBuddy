@@ -1,71 +1,93 @@
-<div class="selectedNotess-detail-container" *ngIf="selectedNotes">
-    <div class="selectedNotess-header">
-      <div class="back-button" (click)="goBack()">
-        <i class="fa fa-arrow-left"></i> Back
-      </div>
-      <div class="selectedNotess-actions">
-        <button class="action-button edit-button" (click)="editselectedNotes()">
-          <i class="fa fa-pencil"></i> Edit
+<div class="note-container">
+  <div class="note-header">
+    <div class="header-actions">
+      <button class="icon-button" (click)="onBack()">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+      <div class="header-right">
+        <button class="icon-button" [class.active]="isEditing" (click)="toggleEdit()">
+          <i class="fas fa-edit"></i> {{ isEditing ? 'Save' : 'Edit' }}
         </button>
-        <button class="action-button delete-button" (click)="confirmDelete()">
-          <i class="fa fa-trash"></i> Delete
+        <button class="icon-button danger" (click)="confirmDelete()">
+          <i class="fas fa-trash"></i> Delete
         </button>
       </div>
     </div>
-  
-    <div class="selectedNotess-content-wrapper">
-      <h1 class="selectedNotes-title">{{ selectedNotes.name }}</h1>
-      
-      <div class="selectedNotes-metadata">
-        <span class="date-info">Created: {{ selectedNotes.dateCreated | date:'medium' }}</span>
-        <span class="date-info">Modified: {{ selectedNotes.lastModified | date:'medium' }}</span>
-        <div class="tags-container" *ngIf="selectedNotes.tags && selectedNotes.tags.length > 0">
-          <span class="tag" *ngFor="let tag of selectedNotes.tags">{{ tag }}</span>
-        </div>
+
+    <div class="title-container">
+      <h2 *ngIf="!isEditing" class="note-title">{{ note.name }}</h2>
+      <input
+        *ngIf="isEditing"
+        type="text"
+        class="title-input"
+        [(ngModel)]="editedNote.name"
+      />
+    </div>
+
+    <div class="note-metrics">
+      <span class="metric">
+        <i class="fas fa-calendar-plus"></i> Created: {{ note.dateCreated | date:'medium' }}
+      </span>
+      <span class="metric">
+        <i class="fas fa-calendar-check"></i> Modified: {{ note.lastModified | date:'medium' }}
+      </span>
+      <button
+        class="ai-button"
+        [class.has-summary]="note.aiSummary"
+        (click)="generateAISummary()"
+      >
+        <i class="fas fa-robot"></i> {{ note.aiSummary ? 'View AI Summary' : 'Generate AI Summary' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="note-body">
+    <div class="content-container">
+      <div *ngIf="!isEditing" class="content-lines">
+        <p *ngFor="let line of note.content" class="content-line">{{ line }}</p>
       </div>
-  
-      <!-- Text selectedNotes -->
-      <div *ngIf="selectedNotes.type === 'text' || !selectedNotes.type" class="selectedNotes-content text-content">
-        <p *ngIf="typeof selectedNotes.content === 'string'">{{ selectedNotes.content }}</p>
-        <ng-container *ngIf="Array.isArray(selectedNotes.content)">
-            <p *ngFor="let paragraph of selectedNotes.content" >{{ paragraph }}</p>
-        </ng-container>
-      </div>
-  
-      <!-- List selectedNotes -->
-      <div *ngIf="selectedNotes.type === 'list'" class="selectedNotes-content list-content">
-        <ul *ngIf="selectedNotes.items && selectedNotes.items.length > 0">
-          <li *ngFor="let item of selectedNotes.items">{{ item }}</li>
-        </ul>
-        <ul *ngIf="Array.isArray(selectedNotes.content) && (!selectedNotes.items || selectedNotes.items.length === 0)">
-          <li *ngFor="let item of selectedNotes.content">{{ item }}</li>
-        </ul>
-      </div>
-  
-      <!-- Media selectedNotes -->
-      <div *ngIf="selectedNotes.type === 'media'" class="selectedNotes-content media-content">
-        <p *ngIf="typeof selectedNotes.content === 'string'">{{ selectedNotes.content }}</p>
-        <ng-container *ngIf="Array.isArray(selectedNotes.content)">
-            <p *ngFor="let paragraph of selectedNotes.content" >{{ paragraph }}</p>
-        </ng-container>
-       
-        
-        <div class="images-container" *ngIf="selectedNotes.images && selectedNotes.images.length > 0">
-          <div *ngFor="let image of selectedNotes.images" class="image-wrapper">
-            <img [src]="image.url" [alt]="image.alt || 'selectedNotes image'" class="selectedNotes-image" />
-            <p *ngIf="image.alt" class="image-caption">{{ image.alt }}</p>
+      <div *ngIf="isEditing" class="edit-lines">
+        <div class="notebook-line" *ngFor="let line of editedNote.content; let i = index">
+          <input
+            type="text"
+            class="line-input"
+            [(ngModel)]="editedNote.content[i]"
+          />
+          <div class="line-actions">
+            <button class="small-icon-button" (click)="removeLine(i)">
+              <i class="fas fa-times"></i>
+            </button>
           </div>
         </div>
-        
-        <div *ngIf="selectedNotes.imageUrl && (!selectedNotes.images || selectedNotes.images.length === 0)" class="single-image-container">
-          <img [src]="selectedNotes.imageUrl" alt="selectedNotes image" class="selectedNotes-image" />
+        <button class="add-line-button" (click)="addLine()">
+          <i class="fas fa-plus"></i> Add line
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="note.attachments && note.attachments.length > 0" class="attachments-container">
+      <h3 class="attachments-title">Attachments</h3>
+      <div class="attachment-grid">
+        <div *ngFor="let attachment of note.attachments" class="attachment-item" (click)="openAttachment(attachment)">
+          <div class="attachment-thumbnail" [ngClass]="'type-' + attachment.type">
+            <i *ngIf="attachment.type === 'document'" class="fas fa-file-alt"></i>
+            <i *ngIf="attachment.type === 'link'" class="fas fa-link"></i>
+            <i *ngIf="attachment.type === 'github'" class="fab fa-github"></i>
+            <img *ngIf="attachment.type === 'image'" [src]="attachment.thumbnail || attachment.url" alt="attachment" />
+          </div>
+          <div class="attachment-name">{{ attachment.name }}</div>
         </div>
       </div>
     </div>
+
+    <div *ngIf="showAISummary && note.aiSummary" class="ai-summary">
+      <div class="summary-header">
+        <h3>AI Summary</h3>
+        <button class="icon-button small" (click)="showAISummary = false">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p>{{ note.aiSummary }}</p>
+    </div>
   </div>
-  
-  <div class="error-message" *ngIf="!selectedNotes">
-    <h2>selectedNotes not found</h2>
-    <p>The selectedNotes you're looking for doesn't exist or has been deleted.</p>
-    <button class="action-button back-button" (click)="goBack()">Back to selectedNotess</button>
-  </div>
+</div>
