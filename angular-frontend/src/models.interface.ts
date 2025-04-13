@@ -10,7 +10,8 @@ export enum TaskStatus {
   IN_PROGRESS = 'IN_PROGRESS',
   BLOCKED = 'BLOCKED',
   COMPLETED = 'COMPLETED',
-  CANCELLED = 'CANCELLED'
+  CANCELLED = 'CANCELLED',
+  OVERDUE = 'OVERDUE'
 }
 
 export enum Priority {
@@ -47,7 +48,7 @@ export interface Task extends BaseEntity {
   isMilestone: boolean;
   projectId?: UUID;
   technologyId?: UUID;
-  status: TaskStatus;
+  completionStatus: TaskStatus;
   priority: Priority;
   category: TaskCategory;
   prerequisites: UUID[]; // Array of Task IDs
@@ -69,7 +70,7 @@ export interface Project extends BaseEntity {
   ownerId?: UUID;
   teamMembers?: UUID[];
   budget?: number;
-  status?: TaskStatus;
+  completionStatus?: TaskStatus;
   priority?: Priority;
   department?: string;
   progress:number;
@@ -202,7 +203,7 @@ export interface ProjectStats {
 }
 
 export interface FilterOptions {
-  status?: TaskStatus;
+  completionStatus?: TaskStatus;
   priority?: Priority;
   category?: string;
   searchQuery?: string;

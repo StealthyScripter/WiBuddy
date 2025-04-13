@@ -153,13 +153,7 @@ export class NoteService extends BaseService<Note> {
     await this.delay();
     return this.data.filter(note => note.id === taskId);
   }
-
-  // // Get notes by project ID
-  // async getByProjectId(projectId: string): Promise<Note[]> {
-  //   await this.delay();
-  //   return this.data.filter(note => note.projectId === projectId);
-  // }
-
+  
   // Search notes by content
 async searchNotes(query: string): Promise<Note[]> {
   await this.delay();
