@@ -28,7 +28,7 @@
       <thead class="sect3-title">
         <tr>
           <th><h3>Today's tasks</h3></th>
-          <th><button>3 tasks</button></th>
+          <th><button (click)="navigateToTasks()">{{tasksInProgress().length}} tasks</button></th>
         </tr>
       </thead>
       <tbody>
@@ -50,7 +50,7 @@
     <div class="projects">
       <div class="sect3-title">
           <h3>Ongoing Projects</h3>
-          <button>5 active</button>
+          <button (click)="navigateToProjects()">{{ getOngoingProjects().length}} active</button>
         </div>
       <ul>
           <li *ngFor="let ongoingProject of ongoingProjects" (click)="navigateToProject(ongoingProject.id)" class="clickable-field">
@@ -95,7 +95,7 @@
         <div *ngFor="let note of notes; let i = index" class="notes clickable-field" (click)="navigateToNote(note.id)">
           <div class="note-header">
             <span class="note-title">{{ note.name }}</span>
-            <span class="note-date">{{ note.dateCreated | date: 'medium' }}</span>
+            <span class="note-date">{{ note.dateCreated | relativeTime }}</span>
           </div>
           <div class="note-preview" >
             {{ getNotesPreview(note.content) }}

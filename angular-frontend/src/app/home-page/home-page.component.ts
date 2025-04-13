@@ -5,12 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { Task, Project, DailyAffirmation, TaskStatus, Priority, TaskCategory, Note } from '../../models.interface';
 import { DueDateComponent } from './due-date/due-date.component';
 import { HomePageCalendarComponent } from './home-page-calendar/home-page-calendar.component';
+import { RelativeTimePipe } from '../pipes/relative-time.pipe';
 import { mockTasks, mockProjects, mockNotes } from '../../test-data/task.data';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, DueDateComponent, NgFor, HomePageCalendarComponent],
+  imports: [CommonModule, RouterModule, FormsModule, DueDateComponent, NgFor, HomePageCalendarComponent, RelativeTimePipe],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
@@ -33,6 +34,7 @@ export class HomePageComponent {
 
   todaysTasks: Task[] = this.getTasksForDay()
 
+
   ongoingProjects: Project[] = this.getOngoingProjects();
 
   upcomingProjects: Project[] = this.getUpcomingProjects();
@@ -40,7 +42,8 @@ export class HomePageComponent {
   notes: Note[] = mockNotes;
 
   constructor(private router: Router) {
-
+   console.log('Upcoming: ', this.getUpcomingProjects());
+   console.log('ongoing projects: ', this.getOngoingProjects());
   }
 
   getNotesPreview(notes: string[]): string {
@@ -70,7 +73,7 @@ export class HomePageComponent {
   }
 
   tasksInProgress(): Task[] {
-    return this.todaysTasks.filter(task => task.completionStatus !== TaskStatus.COMPLETED);
+    return this.todaysTasks.filter(task => task.completionStatus !== TaskStatus.BLOCKED);
   }
 
   getTasksForDay() {
@@ -93,6 +96,14 @@ export class HomePageComponent {
 
   parseFloat(value: string): number {
     return parseFloat(value);
+  }
+
+  navigateToTasks(){
+    this.router.navigate(['/tasks']);
+  }
+
+  navigateToProjects() {
+    this.router.navigate(['/projects']);
   }
 
   navigateToTask(taskId: string) {

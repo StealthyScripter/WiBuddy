@@ -8,7 +8,7 @@ export const mockTasks: Task[] = [
     description: 'Implement new design system across the platform',
     completionStatus: TaskStatus.IN_PROGRESS,
     dueDate: '2025-03-15',
-    isCompleted: true,
+    isCompleted: false,
     dateCreated: new Date('2025-02-01').toISOString(),
     hierarchy: 1,
     isMilestone: false,
@@ -59,6 +59,36 @@ export const mockTasks: Task[] = [
     isMilestone: false,
     priority: Priority.MEDIUM,
     category: TaskCategory.DEVELOPMENT,
+    prerequisites: [],
+    dependentTasks: []
+  },
+  {
+    id: 'task-7',
+    name: 'Update User Interface',
+    description: 'Implement new design system across the platform',
+    completionStatus: TaskStatus.IN_PROGRESS,
+    dueDate: '2025-03-15',
+    isCompleted: false,
+    dateCreated: new Date('2025-02-01').toISOString(),
+    hierarchy: 1,
+    isMilestone: false,
+    priority: Priority.HIGH,
+    category: TaskCategory.DESIGN,
+    prerequisites: [],
+    dependentTasks: []
+  },
+  {
+    id: 'task-8',
+    name: 'Update User Interface',
+    description: 'Implement new design system across the platform',
+    completionStatus: TaskStatus.OVERDUE,
+    dueDate: '2025-03-15',
+    isCompleted: false,
+    dateCreated: new Date('2025-02-01').toISOString(),
+    hierarchy: 1,
+    isMilestone: false,
+    priority: Priority.HIGH,
+    category: TaskCategory.DESIGN,
     prerequisites: [],
     dependentTasks: []
   },
@@ -210,7 +240,7 @@ export const mockNotes: Note[] = [
         url: 'https://github.com/user/repo'
       }
     ],
-    dateCreated: new Date('2025-02-01').toISOString(),
+    dateCreated: new Date('2025-04-13').toISOString(),
     lastModified: new Date('2025-02-01').toISOString(),
   },
   {
@@ -231,7 +261,7 @@ export const mockNotes: Note[] = [
         url: 'https://github.com/user/repo'
       }
     ],
-    dateCreated: new Date('2025-02-03').toISOString(),
+    dateCreated: new Date('2025-04-10').toISOString(),
     lastModified: new Date('2025-02-03').toISOString(),
   },
   {
@@ -247,7 +277,7 @@ export const mockNotes: Note[] = [
         thumbnail: '/assets/sample-thumb.jpg'
       }
     ],
-    dateCreated: new Date('2025-01-15').toISOString(),
+    dateCreated: new Date('2025-04-15').toISOString(),
     lastModified: new Date('2025-01-15').toISOString(),
   },
   {
@@ -262,7 +292,7 @@ export const mockNotes: Note[] = [
         url: 'https://github.com/user/repo'
       }
     ],
-    dateCreated: new Date('2025-01-20').toISOString(),
+    dateCreated: new Date('2025-03-13').toISOString(),
     lastModified: new Date('2025-01-20').toISOString(),
   }
 ];
