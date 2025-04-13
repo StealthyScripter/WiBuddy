@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DueDateComponent } from '../due-date/due-date.component';
+import { DueDateComponent } from '../../home-page/due-date/due-date.component';
 
 @Component({
   selector: 'app-upcoming-tasks',

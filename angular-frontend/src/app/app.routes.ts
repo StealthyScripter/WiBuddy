@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { MainPageComponent } from './main-page/home-page.component';
 import { TasksPageComponent } from './tasks-page/tasks-page.component';
 import { ProjectsPageComponent } from './projects-page/projects-page.component';
 import { ProgressSummaryComponent } from './progress-summary/progress-summary.component';
@@ -21,10 +20,8 @@ import { HomePageComponent } from './home-page/home-page.component';
 const routeConfig: Routes = [
      {path: '', component: HomePageComponent},
 
-     {path:'home', component: MainPageComponent},
-     
      {path: 'tasks', component: TasksPageComponent},
-     
+
      {path: 'task-details/:taskId', component: TaskDetailPageComponent},
 
      {path: 'add-task', component: NewTaskPageComponent},
@@ -38,13 +35,13 @@ const routeConfig: Routes = [
      {path: 'progress', component: ProgressSummaryComponent},
 
      {path: 'profile', component: ProfilePageComponent},
-     
+
      {path: 'calendar', component: CalendarsPageComponent},
 
      {path: 'notes', component:NotesPageComponent},
 
      {path: 'notes-details/:noteId', component: NotesDetailPageComponent},
-    
+
      {path: 'add-notes', component: NewNotePageComponent},
 
 ];

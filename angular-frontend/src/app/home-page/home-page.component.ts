@@ -3,7 +3,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Task, Project, DailyAffirmation, TaskStatus, Priority, TaskCategory, Note } from '../../models.interface';
-import { DueDateComponent } from '../main-page/due-date/due-date.component';
+import { DueDateComponent } from './due-date/due-date.component';
 import { mockTasks, mockProjects, mockNotes } from '../../test-data/task.data';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DueDateComponent } from '../due-date/due-date.component';
+import { DueDateComponent } from '../../home-page/due-date/due-date.component';
 
 @Component({
   selector: 'app-tasks',
