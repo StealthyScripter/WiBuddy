@@ -5,9 +5,9 @@
 
     <div class="search-bar">
       <div class="search-input">
-        <input 
-          type="text" 
-          [(ngModel)]="searchQuery" 
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
           placeholder="Search tasks..."
           (input)="filterTasks()"
         >
@@ -26,11 +26,11 @@
     </div>
 
     <div class="tasks-grid">
-      <div *ngFor="let task of filteredTasks" class="task-card clickable-field" [ngClass]="task.status.toLowerCase().replace(' ', '-')" 
+      <div *ngFor="let task of filteredTasks" class="task-card clickable-field" [ngClass]="task.completionStatus.toLowerCase().replace(' ', '-')"
       (click)="navigateToTask(task.id)">
-        <div class="task-header">
+        <div class="task-header {{ getStatusClass(task.completionStatus) }}">
           <h3>{{ task.name }}</h3>
-          <span class="status-badge">{{ task.status }}</span>
+          <span class="completionStatus-badge">{{ task.completionStatus }}</span>
         </div>
         <p class="description">{{ task.description }}</p>
         <div class="task-footer">
@@ -44,6 +44,6 @@
           </div>
         </div>
       </div>
-    
+
     </div>
   </div>
