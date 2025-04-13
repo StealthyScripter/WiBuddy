@@ -83,34 +83,8 @@
 
   <section class="section4">
     <div class="calendar-container">
-      <div class="calendar-header">
-        <button class="nav-button" (click)="previousWeek()">❮</button>
-        <h3 class="calendar-title">{{ weekDateRange }}</h3>
-        <button (click)="nextWeek()">❯</button>
-      </div>
-
-  <div class="calendar-grid">
-    <table class="calendar">
-      <thead>
-        <tr>
-          <th *ngFor="let day of weekDays">{{ day.day }}</th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let day of weekDays" class="day-cell" [ngClass]="{'today': isToday(day.date)}">
-        <tr *ngFor="let task of getTasksForDay()"
-          class="task"
-          [ngClass]="{'priority-high': task.priority === priorityEnum.HIGH,
-                    'priority-medium': task.priority === priorityEnum.MEDIUM,
-                    'priority-low': task.priority === priorityEnum.LOW}">
-          <td >
-              <span class="clickable-field cal-task-name" (click)="navigateToTask(task.id)">{{ task.name }}</span>
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+      <app-home-page-calendar />
+    </div>
 
     <div class="notes">
       <div class="sect3-title">
@@ -124,7 +98,7 @@
             <span class="note-date">{{ note.dateCreated | date: 'medium' }}</span>
           </div>
           <div class="note-preview" >
-            {{ note.content }}
+            {{ getNotesPreview(note.content) }}
           </div>
         </div>
       </div>

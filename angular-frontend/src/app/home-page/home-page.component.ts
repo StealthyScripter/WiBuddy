@@ -4,12 +4,13 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Task, Project, DailyAffirmation, TaskStatus, Priority, TaskCategory, Note } from '../../models.interface';
 import { DueDateComponent } from './due-date/due-date.component';
+import { HomePageCalendarComponent } from './home-page-calendar/home-page-calendar.component';
 import { mockTasks, mockProjects, mockNotes } from '../../test-data/task.data';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, DueDateComponent, NgFor],
+  imports: [CommonModule, RouterModule, FormsModule, DueDateComponent, NgFor, HomePageCalendarComponent],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
@@ -19,7 +20,6 @@ export class HomePageComponent {
   weekDateRange: string = "";
   username = 'Brian';
   newTaskText = '';
-  expanded = false;
   priorityEnum = Priority;
 
   dailyAffirmation: DailyAffirmation = {
@@ -39,30 +39,28 @@ export class HomePageComponent {
 
   notes: Note[] = mockNotes;
 
-  togglePreview(index: number) {
-    this.expanded = !this.expanded;
-    const note: Note = this.notes[index]; // Assuming this.notes is Note[]
+  constructor(private router: Router) {
 
-    if (note && note.hasOwnProperty('content')) { // Check if note exists and has a content property
-      if (this.expanded) {
-        // When expanded, join the array of strings into a single string
-        if (Array.isArray(note.content)) {
-          note.content = note.content;
-        }
-      } else {
-        // When collapsed, truncate the content to the first 20 characters
-        if (Array.isArray(note.content)) {
-          note.content =note.content
-        } else if (typeof note.content === 'string') {
-          note.content = note.content
-        }
-      }
-    }
   }
 
+  getNotesPreview(notes: string[]): string {
+    if (!notes || notes.length === 0) return '';
 
-  constructor(private router: Router) {
-    this.generateWeekCalendar();
+    // Get the first content item
+    const content = notes[0] || '';
+
+    // Split into words
+    const words = content.split(' ');
+
+    // Default number of words (adjust based on testing)
+    const baseWordCount = 10;
+
+    // Return truncated text with ellipsis if needed
+    if (words.length > baseWordCount) {
+      return words.slice(0, baseWordCount).join(' ') + '...';
+    }
+
+    return content;
   }
 
   addNewTask() {
@@ -73,48 +71,6 @@ export class HomePageComponent {
 
   tasksInProgress(): Task[] {
     return this.todaysTasks.filter(task => task.completionStatus !== TaskStatus.COMPLETED);
-  }
-
-  generateWeekCalendar() {
-    // Set the current week start to Sunday
-    const today = new Date();
-    this.currentWeekStart = new Date(today);
-    this.currentWeekStart.setDate(today.getDate() - today.getDay()); // Set to Sunday of current week
-
-    // Generate the week days
-    this.weekDays = [];
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(this.currentWeekStart);
-      date.setDate(this.currentWeekStart.getDate() + i);
-
-      const dayName = date.toLocaleString('en-US', { weekday: 'short' });
-      const dayNum = date.getDate();
-
-      this.weekDays.push({
-        day: `${dayName} ${dayNum}`,
-        date: date
-      });
-    }
-
-    // Set the week date range
-    const weekEnd = new Date(this.currentWeekStart);
-    weekEnd.setDate(this.currentWeekStart.getDate() + 6);
-
-    this.weekDateRange = `${this.formatDateShort(this.currentWeekStart)} - ${this.formatDateShort(weekEnd)}`;
-  }
-
-  previousWeek() {
-    this.currentWeekStart.setDate(this.currentWeekStart.getDate() - 7);
-    this.generateWeekCalendar();
-  }
-
-  nextWeek() {
-    this.currentWeekStart.setDate(this.currentWeekStart.getDate() + 7);
-    this.generateWeekCalendar();
-  }
-
-  formatDateShort(date: Date): string {
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 
   getTasksForDay() {
@@ -137,10 +93,6 @@ export class HomePageComponent {
 
   parseFloat(value: string): number {
     return parseFloat(value);
-  }
-
-  isToday(date: Date) {
-
   }
 
   navigateToTask(taskId: string) {
