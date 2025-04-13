@@ -15,15 +15,15 @@ import { mockProjects } from '../../test-data/task.data';
 })
 export class ProjectsPageComponent implements OnInit {
   tabs = [
-    { label: 'All Projects', status: null},
-    { label: 'In Progress', status: TaskStatus.IN_PROGRESS },
-    { label: 'Completed', status: TaskStatus.COMPLETED },
-    { label: 'Not Started', status: TaskStatus.NOT_STARTED }
+    { label: 'All Projects', completionStatus: null},
+    { label: 'In Progress', completionStatus: TaskStatus.IN_PROGRESS },
+    { label: 'Completed', completionStatus: TaskStatus.COMPLETED },
+    { label: 'Not Started', completionStatus: TaskStatus.NOT_STARTED }
   ];
-  
+
   activeTab: TaskStatus | null = null;
   filterOptions: FilterOptions = {};
-  
+
   projects: Project[] = mockProjects;
 
   filteredProjects: Project[] = [];
@@ -34,8 +34,8 @@ export class ProjectsPageComponent implements OnInit {
     this.filterProjects();
   }
 
-  setActiveTab(status: TaskStatus | null) {
-    this.activeTab = status;
+  setActiveTab(completionStatus: TaskStatus | null) {
+    this.activeTab = completionStatus;
     this.filterProjects();
   }
 
@@ -50,13 +50,13 @@ export class ProjectsPageComponent implements OnInit {
 
   filterProjects() {
     this.filteredProjects = this.projects.filter(project => {
-      const matchesSearch = !this.filterOptions.searchQuery || 
+      const matchesSearch = !this.filterOptions.searchQuery ||
         project.name.toLowerCase().includes(this.filterOptions.searchQuery.toLowerCase());
-      
-        const matchesStatus = this.activeTab === null || project.status === this.activeTab;
+
+        const matchesStatus = this.activeTab === null || project.completionStatus === this.activeTab;
 
         const matchesPriority = !this.filterOptions.priority || project.priority === this.filterOptions.priority;
-    
+
         return matchesSearch && matchesStatus && matchesPriority;
 
     });

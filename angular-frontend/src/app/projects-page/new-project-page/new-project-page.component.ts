@@ -23,7 +23,7 @@ import { FormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms'
       'Planning',
       'Operations'
     ];
-  
+
     constructor(private fb: FormBuilder) {
       this.projectForm = this.fb.group({
         name: ['', [Validators.required]],
@@ -31,17 +31,17 @@ import { FormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms'
         startDate: ['', [Validators.required]],
         dueDate: ['', [Validators.required]],
         category: ['', [Validators.required]],
-        status: ['ongoing', [Validators.required]]
+        completionStatus: ['ongoing', [Validators.required]]
       });
     }
-  
+
     onSubmit() {
       if (this.projectForm.valid) {
         console.log(this.projectForm.value);
         // Handle form submission
       }
     }
-  
+
     onCancel() {
       this.projectForm.reset();
       // Handle navigation or cancel action
