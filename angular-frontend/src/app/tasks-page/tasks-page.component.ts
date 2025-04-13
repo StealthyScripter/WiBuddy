@@ -15,9 +15,9 @@ import { mockTasks } from '../../test-data/task.data';
 })
 export class TasksPageComponent implements OnInit {
   searchQuery = '';
-  sortCriteria: 'priority' | 'date' | 'status' = 'priority';
+  sortCriteria: 'priority' | 'date' | 'completionStatus' = 'priority';
   TaskStatus = TaskStatus; // Make enum available in template
-  
+
   tasks: Task[] = mockTasks;
 
   filteredTasks: Task[] = this.tasks;
@@ -56,8 +56,8 @@ export class TasksPageComponent implements OnInit {
           return dateA - dateB;
         });
         break;
-      case 'status':
-        this.filteredTasks.sort((a, b) => a.status.localeCompare(b.status));
+      case 'completionStatus':
+        this.filteredTasks.sort((a, b) => a.completionStatus.localeCompare(b.completionStatus));
         break;
     }
   }
@@ -68,5 +68,10 @@ export class TasksPageComponent implements OnInit {
 
   navigateToTask(taskId: string) {
     this.router.navigate(['/task-details', taskId]);
+  }
+
+  getStatusClass(status: string): string {
+    if (!status) return '';
+    return status.toLowerCase().replace(/[_\s]+/g, '-');
   }
 }

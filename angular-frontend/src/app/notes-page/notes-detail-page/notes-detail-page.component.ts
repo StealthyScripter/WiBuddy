@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { Note } from '../../../models.interface';
+import { Note, Attachment } from '../../../models.interface';
 import { mockNotes } from '../../../test-data/task.data';
+
 
 @Component({
   selector: 'app-notes-detail-page',
@@ -13,73 +13,99 @@ import { mockNotes } from '../../../test-data/task.data';
   templateUrl: './notes-detail-page.component.html',
   styleUrl: './notes-detail-page.component.css'
 })
-export class NotesDetailPageComponent implements OnInit {
-  noteId: string | null= null;
-  selectedNotes: Note | null = null;
-  notes: Note[] = mockNotes;
-  Array = Array;
+export class NotesDetailPageComponent {
+  @Input() note: Note = mockNotes[0];
+  @Output() backEvent = new EventEmitter<void>();
+  @Output() saveEvent = new EventEmitter<Note>();
+  @Output() deleteEvent = new EventEmitter<string>();
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  isEditing = false;
+  showAISummary = false;
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.noteId = params.get('noteId');
-      if (this.noteId) {
-        this.selectedNotes = this.notes.find(note => note.id === this.noteId) || null;
+  editedNote: Note = { ...this.note, content: [...this.note.content] };
+
+  constructor(private route: ActivatedRoute){}
+
+  ngOnInit() {
+     // Get the noteId from the route parameter
+     this.route.paramMap.subscribe(params => {
+      const noteId = params.get('noteId');
+      if (noteId) {
+        this.loadNoteById(noteId);
       }
     });
+    // Deep clone the note to prevent modifying the original
+    this.resetEditedNote();
   }
 
-  loadNote(id: string): void {
-    this.getNoteById(id).subscribe({
-      next: (note) => {
-        this.selectedNotes = note; // ✅ Fixed incorrect property reference
-      },
-      error: (error) => {
-        console.error('Error loading note:', error);
-        this.selectedNotes = null;
-      }
-    });
-  }
-
-  getNoteById(id: string): Observable<Note | null> {
-    const note = this.notes.find(n => n.id === id) || null;
-    return of(note);
-  }
-
-  deleteNote(id: string): Observable<void> {
-    return new Observable(observer => {
-      const index = this.notes.findIndex(n => n.id === id);
-      if (index !== -1) {
-        this.notes.splice(index, 1);
-      }
-      observer.next();
-      observer.complete();
-    });
-  }
-
-  goBack(): void {
-    this.router.navigate(['/notes']);
-  }
-
-  editselectedNotes(): void {
-    if (this.selectedNotes) { // ✅ Fixed incorrect property reference
-      this.router.navigate(['/notes/edit', this.selectedNotes.id]);
+  loadNoteById(noteId: string) {
+    // Retrieve the note by ID (for now using mock data)
+    const note = mockNotes.find(n => n.id === noteId);
+    if (note) {
+      this.note = note;
+      this.resetEditedNote();
+    } else {
+      // Handle case where note is not found
+      console.error('Note not found with ID:', noteId);
     }
   }
 
-  confirmDelete(): void {
-    if (!this.selectedNotes) return; // ✅ Fixed incorrect property reference
+  resetEditedNote() {
+    this.editedNote = JSON.parse(JSON.stringify(this.note));
+  }
 
+  toggleEdit() {
+    if (this.isEditing) {
+      // Save changes
+      this.saveEvent.emit(this.editedNote);
+      this.isEditing = false;
+    } else {
+      // Enter edit mode
+      this.resetEditedNote();
+      this.isEditing = true;
+    }
+  }
+
+  addLine() {
+  //   this.editedNote.content.push('');
+   }
+
+  removeLine(index: number) {
+    this.editedNote.content.splice(index, 1);
+  }
+
+  onBack() {
+    if (this.isEditing) {
+      if (confirm('Discard unsaved changes?')) {
+        this.isEditing = false;
+        this.backEvent.emit();
+      }
+    } else {
+      this.backEvent.emit();
+    }
+  }
+
+  confirmDelete() {
     if (confirm('Are you sure you want to delete this note?')) {
-      this.deleteNote(this.selectedNotes.id).subscribe({
-        next: () => {
-          this.router.navigate(['/notes']);
-        },
-        error: (error) => {
-          console.error('Error deleting note:', error);
-        }
-      });
+      this.deleteEvent.emit(this.note.id);
     }
   }
+
+  openAttachment(attachment: Attachment) {
+    window.open(attachment.url, '_blank');
+  }
+
+  generateAISummary() {
+    if (this.note.aiSummary) {
+      this.showAISummary = !this.showAISummary;
+    } else {
+      // Simulate AI summary generation
+      setTimeout(() => {
+        this.note.aiSummary = 'This note contains information about the project requirements, including key deliverables and timeline. There are attachments with additional specifications and reference materials.';
+        this.showAISummary = true;
+      }, 1000);
+    }
+  }
+
+
 }

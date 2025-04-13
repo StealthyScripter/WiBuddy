@@ -6,9 +6,9 @@ export const mockTasks: Task[] = [
     id: 'task-1',
     name: 'Update User Interface',
     description: 'Implement new design system across the platform',
-    status: TaskStatus.IN_PROGRESS,
+    completionStatus: TaskStatus.IN_PROGRESS,
     dueDate: '2025-03-15',
-    isCompleted: false,
+    isCompleted: true,
     dateCreated: new Date('2025-02-01').toISOString(),
     hierarchy: 1,
     isMilestone: false,
@@ -21,7 +21,7 @@ export const mockTasks: Task[] = [
     id: 'task-2',
     name: 'API Integration',
     description: 'Connect backend services with frontend',
-    status: TaskStatus.COMPLETED,
+  completionStatus: TaskStatus.COMPLETED,
     dueDate: '2025-03-20',
     isCompleted: true,
     dateCreated: new Date('2025-02-05').toISOString(),
@@ -36,7 +36,7 @@ export const mockTasks: Task[] = [
     id: 'task-3',
     name: 'Security Audit',
     description: 'Perform security assessment and fix vulnerabilities',
-    status: TaskStatus.BLOCKED,
+  completionStatus: TaskStatus.BLOCKED,
     dueDate: '2025-03-25',
     isCompleted: false,
     dateCreated: new Date('2025-02-10').toISOString(),
@@ -51,7 +51,7 @@ export const mockTasks: Task[] = [
     id: 'task-4',
     name: 'Create a program dashboard',
     description: '',
-    status: TaskStatus.NOT_STARTED,
+  completionStatus: TaskStatus.NOT_STARTED,
     dueDate: '2025-02-28T14:30:00',
     isCompleted: false,
     dateCreated: new Date('2025-01-15').toISOString(),
@@ -66,7 +66,7 @@ export const mockTasks: Task[] = [
     id: 'task-5',
     name: 'Start Documentation',
     description: '',
-    status: TaskStatus.NOT_STARTED,
+  completionStatus: TaskStatus.OVERDUE,
     dueDate: '2025-02-01T14:30:00',
     isCompleted: false,
     dateCreated: new Date('2025-01-20').toISOString(),
@@ -81,7 +81,7 @@ export const mockTasks: Task[] = [
     id: 'task-6',
     name: 'Make the machine learning model',
     description: '',
-    status: TaskStatus.NOT_STARTED,
+  completionStatus: TaskStatus.NOT_STARTED,
     dueDate: '2025-02-09T14:30:00',
     isCompleted: false,
     dateCreated: new Date('2025-01-25').toISOString(),
@@ -103,7 +103,7 @@ export const mockProjects: Project[] = [
     name: 'Website Redesign',
     department: 'Marketing',
     description: 'Complete overhaul of company website with modern UI/UX principles',
-    status: TaskStatus.ACTIVE,
+  completionStatus: TaskStatus.ACTIVE,
     priority: Priority.HIGH,
     progress: 75,
     isCompleted: false,
@@ -118,9 +118,9 @@ export const mockProjects: Project[] = [
     name: 'Mobile App Development',
     department: 'Technology',
     description: 'Native mobile application for iOS and Android platforms',
-    status: TaskStatus.UPCOMING,
+  completionStatus: TaskStatus.UPCOMING,
     priority: Priority.CRITICAL,
-    progress: 70,
+    progress: 0,
     isCompleted: false,
     dateCreated: new Date('2025-01-15').toISOString(),
     ownerId: 'owner-2',
@@ -133,7 +133,7 @@ export const mockProjects: Project[] = [
     name: 'Brand Identity',
     department: 'Design',
     description: 'Complete brand redesign including logo and guidelines',
-    status: TaskStatus.COMPLETED,
+  completionStatus: TaskStatus.COMPLETED,
     priority: Priority.MEDIUM,
     progress: 68,
     isCompleted: true,
@@ -147,9 +147,9 @@ export const mockProjects: Project[] = [
     id: 'proj-1',
     name: 'Website redesign',
     description: '',
-    status: TaskStatus.ACTIVE,
+  completionStatus: TaskStatus.ACTIVE,
     priority: Priority.HIGH,
-    progress: 90,
+    progress: 0,
     isCompleted: false,
     dateCreated: new Date('2025-01-05').toISOString(),
     ownerId: 'user-1',
@@ -161,7 +161,7 @@ export const mockProjects: Project[] = [
     id: 'proj-2',
     name: 'Machine Learning',
     description: '',
-    status: TaskStatus.ACTIVE,
+  completionStatus: TaskStatus.ACTIVE,
     priority: Priority.MEDIUM,
     progress: 40,
     isCompleted: false,
@@ -175,7 +175,7 @@ export const mockProjects: Project[] = [
     id: 'proj-3',
     name: 'Senior project',
     description: '',
-    status: TaskStatus.ACTIVE,
+  completionStatus: TaskStatus.ACTIVE,
     priority: Priority.HIGH,
     progress: 20,
     isCompleted: false,
@@ -195,27 +195,73 @@ export const mockNotes: Note[] = [
     id: '1',
     name: 'Make measurements of the model',
     content: ['Calipers will be provided by the dean'],
+    attachments: [
+      {
+        id: '1',
+        type: 'image',
+        name: 'Sample Image',
+        url: '/assets/sample.jpg',
+        thumbnail: '/assets/sample-thumb.jpg'
+      },
+      {
+        id: '4',
+        type: 'github',
+        name: 'Repository',
+        url: 'https://github.com/user/repo'
+      }
+    ],
     dateCreated: new Date('2025-02-01').toISOString(),
     lastModified: new Date('2025-02-01').toISOString(),
   },
   {
     id: '2',
     name: 'Note 2',
-    content: ['This is a preview text that should be truncated if it is too long. Otherwise, it will be displayed fully'],
+    content: ['This is a preview text that should be truncated if it is too long. Otherwise, it will be displayed fully','are under-defined; there are many solutions, good, bad, and indifferent. The art is to arrive at a good ','Ready to make today productive' ],
+    attachments: [
+      {
+        id: '3',
+        type: 'link',
+        name: 'TaskFlow Docs',
+        url: 'https://taskflow.docs.com'
+      },
+      {
+        id: '4',
+        type: 'github',
+        name: 'Repository',
+        url: 'https://github.com/user/repo'
+      }
+    ],
     dateCreated: new Date('2025-02-03').toISOString(),
     lastModified: new Date('2025-02-03').toISOString(),
   },
   {
     id: '3',
     name: 'Lorem ipsum',
-    content: 'maiores debitis magni in maxime.',
+    content: ['maiores debitis magni in maxime.'],
+    attachments: [
+      {
+        id: '1',
+        type: 'image',
+        name: 'Sample Image',
+        url: '/assets/sample.jpg',
+        thumbnail: '/assets/sample-thumb.jpg'
+      }
+    ],
     dateCreated: new Date('2025-01-15').toISOString(),
     lastModified: new Date('2025-01-15').toISOString(),
   },
   {
     id: '4',
     name: 'Lorem ipsum',
-    content: 'Lorem ipsum dolor, sit amet consectetur',
+    content: ['Lorem ipsum dolor, sit amet consectetur'],
+    attachments: [
+      {
+        id: '4',
+        type: 'github',
+        name: 'Repository',
+        url: 'https://github.com/user/repo'
+      }
+    ],
     dateCreated: new Date('2025-01-20').toISOString(),
     lastModified: new Date('2025-01-20').toISOString(),
   }
@@ -268,12 +314,12 @@ export const mockCalendarEvents: CalendarEvent[] = [
 import { Task, TechStack } from '../models.interface';
 
 export const mockUpcomingTasks: Task[] = [
-  { 
-    name: 'API Integration', 
+  {
+    name: 'API Integration',
     dueDate: 'Jan 15, 2025',
     id: '',
     description: '',
-    status: TaskStatus.NOT_STARTED,
+  completionStatus: TaskStatus.NOT_STARTED,
     isCompleted: false,
     dateCreated: '',
     hierarchy: 0,
@@ -283,12 +329,12 @@ export const mockUpcomingTasks: Task[] = [
     prerequisites: [],
     dependentTasks: []
   },
-  { 
-    name: 'Database Migration', 
+  {
+    name: 'Database Migration',
     dueDate: 'Jan 20, 2025',
     id: '',
     description: '',
-    status: TaskStatus.NOT_STARTED,
+  completionStatus: TaskStatus.NOT_STARTED,
     isCompleted: false,
     dateCreated: '',
     hierarchy: 0,
@@ -301,12 +347,12 @@ export const mockUpcomingTasks: Task[] = [
 ];
 
 export const mockCompletedTasks: Task[] = [
-  { 
-    name: 'User Authentication', 
+  {
+    name: 'User Authentication',
     dueDate: 'Jan 5, 2025',
     id: '',
     description: '',
-    status: TaskStatus.COMPLETED,
+  completionStatus: TaskStatus.COMPLETED,
     isCompleted: true,
     dateCreated: '',
     hierarchy: 0,
@@ -316,12 +362,12 @@ export const mockCompletedTasks: Task[] = [
     prerequisites: [],
     dependentTasks: []
   },
-  { 
-    name: 'Frontend Redesign', 
+  {
+    name: 'Frontend Redesign',
     dueDate: 'Jan 2, 2025',
     id: '',
     description: '',
-    status: TaskStatus.COMPLETED,
+  completionStatus: TaskStatus.COMPLETED,
     isCompleted: true,
     dateCreated: '',
     hierarchy: 0,

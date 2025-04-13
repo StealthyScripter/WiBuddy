@@ -4,17 +4,17 @@
   </div>
 
   <nav class="tabs">
-    <button 
-      *ngFor="let tab of tabs" 
-      [class.active]="activeTab === tab.status"
-      (click)="setActiveTab(tab.status)">
+    <button
+      *ngFor="let tab of tabs"
+      [class.active]="activeTab === tab.completionStatus"
+      (click)="setActiveTab(tab.completionStatus)">
       {{tab.label}}
     </button>
 
     <div class="search-container">
-      <input 
-        type="text" 
-        placeholder="Search projects..." 
+      <input
+        type="text"
+        placeholder="Search projects..."
         [(ngModel)]="filterOptions.searchQuery"
         (input)="filterProjects()">
         <button id="add-project-btn" (click)="addProject()">
@@ -25,13 +25,13 @@
 
   <div class="projects-grid">
     <div
-      *ngFor="let project of filteredProjects" 
+      *ngFor="let project of filteredProjects"
       class="project-card clickable-field"
       (click)="navigateToProject(project.id)">
       <div class="project-header">
         <h2>{{project.name}}</h2>
-        <span class="status-badge" [class]="project.status">
-          {{project.status}}
+        <span class="completionStatus-badge" [class]="project.completionStatus">
+          {{project.completionStatus}}
         </span>
       </div>
 
@@ -44,7 +44,7 @@
           <span>{{project.progress}}%</span>
         </div>
         <div class="progress-bar">
-          <div 
+          <div
             class="progress-fill"
             [style.width.%]="project.progress">
           </div>

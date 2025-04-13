@@ -10,7 +10,8 @@ export enum TaskStatus {
   IN_PROGRESS = 'IN_PROGRESS',
   BLOCKED = 'BLOCKED',
   COMPLETED = 'COMPLETED',
-  CANCELLED = 'CANCELLED'
+  CANCELLED = 'CANCELLED',
+  OVERDUE = 'OVERDUE'
 }
 
 export enum Priority {
@@ -47,7 +48,7 @@ export interface Task extends BaseEntity {
   isMilestone: boolean;
   projectId?: UUID;
   technologyId?: UUID;
-  status: TaskStatus;
+  completionStatus: TaskStatus;
   priority: Priority;
   category: TaskCategory;
   prerequisites: UUID[]; // Array of Task IDs
@@ -69,7 +70,7 @@ export interface Project extends BaseEntity {
   ownerId?: UUID;
   teamMembers?: UUID[];
   budget?: number;
-  status?: TaskStatus;
+  completionStatus?: TaskStatus;
   priority?: Priority;
   department?: string;
   progress:number;
@@ -148,27 +149,27 @@ interface GraphConfig {
   isInteractive: boolean;
 }
 
-interface Attachment {
-  id: UUID;
-  filename: string;
+export interface Attachment {
+  id: string;
+  type: 'image' | 'document' | 'link' | 'github';
+  name: string;
   url: string;
-  mimeType: string;
-  size: number;
-  uploadedBy: UUID;
-  uploadedAt: ISODateString;
+  thumbnail?: string;
 }
 
 export interface Note {
   id: string;
   name: string;
-  content: string | string[];
+  content: string[];
   dateCreated: string | null;
   lastModified: string | null;
-  type?: 'text' | 'list' | 'media'; // Different note types
+  type?: 'text' | 'list' | 'media' ; // Different note types
   imageUrl?: string;  // Preview thumbnail
   images?: { url: string; alt?: string }[];  // Full-size images in the note
   tags?: string[];
   items?: string[];  // For list-type notes
+  aiSummary?: string;
+  attachments?:Attachment[];
 }
 
 export interface DailyAffirmation {
@@ -202,7 +203,7 @@ export interface ProjectStats {
 }
 
 export interface FilterOptions {
-  status?: TaskStatus;
+  completionStatus?: TaskStatus;
   priority?: Priority;
   category?: string;
   searchQuery?: string;
