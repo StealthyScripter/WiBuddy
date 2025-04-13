@@ -27,11 +27,15 @@ export class HomePageComponent {
     author: "Richard James"
   };
 
-  todaysTasks: Task[] = mockTasks.slice(3,6);
+  Tasks: Task[] = mockTasks;
 
-  ongoingProjects: Project[] = mockProjects;
+  Projects: Project[] = mockProjects;
 
-  upcomingProjects: Project[] = mockProjects;
+  todaysTasks: Task[] = this.getTasksForDay()
+
+  ongoingProjects: Project[] = this.getOngoingProjects();
+
+  upcomingProjects: Project[] = this.getUpcomingProjects();
 
   notes: Note[] = mockNotes;
 
@@ -67,8 +71,8 @@ export class HomePageComponent {
     }
   }
 
-  filteredTasks(): Task[] {
-    return this.todaysTasks.filter(task => task.status !== TaskStatus.COMPLETED);
+  tasksInProgress(): Task[] {
+    return this.todaysTasks.filter(task => task.completionStatus !== TaskStatus.COMPLETED);
   }
 
   generateWeekCalendar() {
@@ -113,20 +117,23 @@ export class HomePageComponent {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 
-  getTasksForDay(day: Date): Task[] {
-    return this.todaysTasks.filter(task => {
-      // Check if the task has a date
-      if (!task.dueDate) return false;
-
-      // Parse the task due date
-      const taskDate = new Date(task.dueDate);
-
-      // Check if the date matches the current day
-      return taskDate.getDate() === day.getDate() &&
-             taskDate.getMonth() === day.getMonth() &&
-             taskDate.getFullYear() === day.getFullYear();
+  getTasksForDay() {
+    return this.Tasks.filter(task => {
+      return !task.isCompleted;
     });
   }
+
+  getUpcomingProjects(){
+    return this.Projects.filter(project => {
+      return project.progress === 0;
+    });
+  };
+
+  getOngoingProjects(){
+    return this.Projects.filter(project => {
+      return project.progress > 0;
+    });
+  };
 
   parseFloat(value: string): number {
     return parseFloat(value);

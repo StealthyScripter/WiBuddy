@@ -86,26 +86,37 @@
     margin-bottom: 12px;
   }
 
-  .status-badge {
+  .completionStatus-badge {
     padding: 6px 12px;
+    margin-left: 5px;
     border-radius: 16px;
     font-size: 12px;
     font-weight: 500;
   }
 
-  .in-progress .status-badge {
-    background-color: #fff7ed;
-    color: #c2410c;
+  .not-started .completionStatus-badge{
+      background-color: #f3f4f6;
+      color: #141414;
+    }
+
+  .in-progress .completionStatus-badge {
+    background-color: #dfeaf5;
+    color: #0c6dc2;
   }
 
-  .completed .status-badge {
+  .completed .completionStatus-badge {
     background-color: #f0fdf4;
     color: #15803d;
   }
 
-  .overdue .status-badge {
+  .overdue .completionStatus-badge {
     background-color: #fef2f2;
-    color: #dc2626;
+    color: #f41010;
+  }
+
+  .blocked .completionStatus-badge {
+    background-color: #fef2f2;
+    color:#8e0b0b;
   }
 
   .description {
@@ -138,7 +149,7 @@
     cursor: pointer;
     transition: filter 0.3s ease;
   }
-  
+
   .clickable-field:hover {
     filter: brightness(85%) contrast(110%);
   }

@@ -2,8 +2,8 @@
   <header class="page-header">
     <div class="header-left">
       <h1 class="page-title">{{ selectedTask?.name }}</h1>
-      <span class="status-badge" [class]="selectedTask?.status?.toLowerCase()">
-        {{ selectedTask?.status | titlecase }}
+      <span class="completionStatus-badge" [class]="selectedTask?.completionStatus?.toLowerCase()">
+        {{ selectedTask?.completionStatus | titlecase }}
       </span>
     </div>
     <div class="header-actions">
@@ -40,7 +40,7 @@
             <div class="avatar">
               <img src="icons8-profile-picture.png" alt="User avatar">
             </div>
-            <textarea 
+            <textarea
               [(ngModel)]="newComment"
               placeholder="Add a comment..."
               class="comment-textarea"

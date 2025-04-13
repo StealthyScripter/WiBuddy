@@ -5,9 +5,9 @@
         <div>
             {{ '"' + dailyAffirmation.quote +'"' }}
             <br>
-            {{ dailyAffirmation.author }}  
+            {{ dailyAffirmation.author }}
         </div>
-        
+
       </section>
       <section class="intro">
         <h2>Hello Brian?</h2>
@@ -20,10 +20,10 @@
       </section>
     </section>
   </section>
-  
-    
+
+
   <section class="section3">
-        
+
     <table class="tasks">
       <thead class="sect3-title">
         <tr>
@@ -32,9 +32,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="homepage-task" *ngFor="let task of filteredTasks()" (click)="navigateToTask(task.id)" class="clickable-field">
+        <tr id="homepage-task" *ngFor="let task of tasksInProgress()" (click)="navigateToTask(task.id)" class="clickable-field">
           <td>
-            <input type="checkbox" (click)="$event.stopPropagation()"> 
+            <input type="checkbox" (click)="$event.stopPropagation()">
           </td>
           <td>{{ task.name }}</td>
           <td>
@@ -62,7 +62,7 @@
           </li>
         </ul>
       </div>
-  
+
     <table class="upcoming">
       <thead class="sect3-title">
         <tr>
@@ -80,7 +80,7 @@
       </tbody>
     </table>
   </section>
-    
+
   <section class="section4">
     <div class="calendar-container">
       <div class="calendar-header">
@@ -88,7 +88,7 @@
         <h3 class="calendar-title">{{ weekDateRange }}</h3>
         <button (click)="nextWeek()">❯</button>
       </div>
-  
+
   <div class="calendar-grid">
     <table class="calendar">
       <thead>
@@ -97,14 +97,14 @@
         </tr>
       </thead>
       <tbody *ngFor="let day of weekDays" class="day-cell" [ngClass]="{'today': isToday(day.date)}">
-        <tr *ngFor="let task of getTasksForDay(day.date)" 
-          class="task" 
-          [ngClass]="{'priority-high': task.priority === priorityEnum.HIGH, 
-                    'priority-medium': task.priority === priorityEnum.MEDIUM, 
+        <tr *ngFor="let task of getTasksForDay()"
+          class="task"
+          [ngClass]="{'priority-high': task.priority === priorityEnum.HIGH,
+                    'priority-medium': task.priority === priorityEnum.MEDIUM,
                     'priority-low': task.priority === priorityEnum.LOW}">
           <td >
               <span class="clickable-field cal-task-name" (click)="navigateToTask(task.id)">{{ task.name }}</span>
-            
+
           </td>
         </tr>
       </tbody>
