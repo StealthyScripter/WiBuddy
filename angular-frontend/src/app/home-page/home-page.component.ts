@@ -42,8 +42,7 @@ export class HomePageComponent {
   notes: Note[] = mockNotes;
 
   constructor(private router: Router) {
-   console.log('Upcoming: ', this.getUpcomingProjects());
-   console.log('ongoing projects: ', this.getOngoingProjects());
+
   }
 
   getNotesPreview(notes: string[]): string {

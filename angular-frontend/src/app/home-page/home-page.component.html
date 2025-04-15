@@ -60,7 +60,6 @@
           <ng-container *ngIf="ongoingProjects.length === 0"            class="text-centre">
             <li> No Ongoing Projects </li>
           </ng-container>
-          <ng-template #projectList>
             <li *ngFor="let ongoingProject of ongoingProjects"
             (click)="navigateToProject(ongoingProject.id)"
             class="clickable-field">
@@ -70,7 +69,6 @@
                 <div class="progress-bar-fill" [style.width]="ongoingProject.progress + '%'"></div>
               </div>
             </li>
-          </ng-template>
 
         </ul>
       </div>
