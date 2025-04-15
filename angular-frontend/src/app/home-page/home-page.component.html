@@ -32,6 +32,10 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngIf="tasksInProgress().length === 0">
+          <td colspan="4" class="text-centre
+          "> No tasks in Progress</td>
+        </tr>
         <tr id="homepage-task" *ngFor="let task of tasksInProgress()" (click)="navigateToTask(task.id)" class="clickable-field">
           <td>
             <input type="checkbox" (click)="$event.stopPropagation()">
@@ -50,16 +54,24 @@
     <div class="projects">
       <div class="sect3-title">
           <h3>Ongoing Projects</h3>
-          <button (click)="navigateToProjects()">{{ getOngoingProjects().length}} active</button>
+            <button (click)="navigateToProjects()">{{ getOngoingProjects().length}} active</button>
         </div>
       <ul>
-          <li *ngFor="let ongoingProject of ongoingProjects" (click)="navigateToProject(ongoingProject.id)" class="clickable-field">
-            <span class="project-name">{{ ongoingProject.name }}</span>
-            <span class="progress-percentage">{{ ongoingProject.progress }}</span>
-            <div class="progress-bar" >
-              <div class="progress-bar-fill" [style.width]="ongoingProject.progress + '%'"></div>
-            </div>
-          </li>
+          <ng-container *ngIf="ongoingProjects.length === 0"            class="text-centre">
+            <li> No Ongoing Projects </li>
+          </ng-container>
+          <ng-template #projectList>
+            <li *ngFor="let ongoingProject of ongoingProjects"
+            (click)="navigateToProject(ongoingProject.id)"
+            class="clickable-field">
+              <span class="project-name">{{ ongoingProject.name }}</span>
+              <span class="progress-percentage">{{ ongoingProject.progress }}</span>
+              <div class="progress-bar" >
+                <div class="progress-bar-fill" [style.width]="ongoingProject.progress + '%'"></div>
+              </div>
+            </li>
+          </ng-template>
+
         </ul>
       </div>
 
@@ -71,6 +83,10 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngIf="upcomingProjects.length === 0">
+          <td colspan="4" class="text-centre
+          "> No upcoming Projects</td>
+        </tr>
         @for (upcomingProject of upcomingProjects; track upcomingProject) {
         <tr (click)="navigateToProject(upcomingProject.id)" class="clickable-field">
           <td><app-due-date [dueDate]="upcomingProject.date"></app-due-date></td>

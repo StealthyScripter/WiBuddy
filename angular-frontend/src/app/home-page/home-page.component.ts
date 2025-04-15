@@ -1,5 +1,5 @@
 import { Component, NgModule } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Task, Project, DailyAffirmation, TaskStatus, Priority, TaskCategory, Note } from '../../models.interface';
@@ -11,7 +11,7 @@ import { mockTasks, mockProjects, mockNotes } from '../../test-data/task.data';
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, DueDateComponent, NgFor, HomePageCalendarComponent, RelativeTimePipe],
+  imports: [CommonModule, RouterModule, FormsModule, DueDateComponent, NgFor, NgIf, HomePageCalendarComponent, RelativeTimePipe],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
