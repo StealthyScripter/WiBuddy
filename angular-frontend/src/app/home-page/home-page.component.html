@@ -15,7 +15,7 @@
         </p>
         <form class="prompt">
             <input type="text" id="prompt" name="prompt" placeholder="What's on your mind?">
-            <button>send</button>
+            <button disabled>send</button>
         </form>
       </section>
     </section>
@@ -105,6 +105,7 @@
         <h3>Notes</h3>
         <img src="icons8-plus%20sign.png" (click)="navigateToNewNote()" alt="Add Note">
       </div>
+      <div *ngIf="notes.length === 0">Notes List Empty</div>
       <div class="note-list">
         <div *ngFor="let note of notes; let i = index" class="notes clickable-field" (click)="navigateToNote(note.id)">
           <div class="note-header">

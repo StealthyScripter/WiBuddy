@@ -32,7 +32,7 @@ export class HomePageComponent {
 
   Projects: Project[] = mockProjects;
 
-  todaysTasks: Task[] = this.getTasksForDay()
+  todaysTasks: Task[] = this.getTasksForDay();
 
 
   ongoingProjects: Project[] = this.getOngoingProjects();
@@ -72,7 +72,7 @@ export class HomePageComponent {
   }
 
   tasksInProgress(): Task[] {
-    return this.todaysTasks.filter(task => task.completionStatus !== TaskStatus.BLOCKED);
+    return this.todaysTasks.filter(task => task.completionStatus !== TaskStatus.CANCELLED);
   }
 
   getTasksForDay() {

@@ -4,14 +4,11 @@ type UUID = string;
 
 // Status and Priority Enums
 export enum TaskStatus {
-  ACTIVE = 'ACTIVE',
-  UPCOMING = 'UPCOMING',
-  NOT_STARTED = 'NOT_STARTED',
   IN_PROGRESS = 'IN_PROGRESS',
-  BLOCKED = 'BLOCKED',
+  OVERDUE = 'OVERDUE',
+  NOT_STARTED = 'NOT_STARTED',
   COMPLETED = 'COMPLETED',
-  CANCELLED = 'CANCELLED',
-  OVERDUE = 'OVERDUE'
+  CANCELLED = 'CANCELLED'
 }
 
 export enum Priority {
