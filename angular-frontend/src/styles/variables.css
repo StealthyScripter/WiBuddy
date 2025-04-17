@@ -1,0 +1,33 @@
+:root {
+  /* Color palette */
+  --primary-color: #0f172a;
+  --primary-hover: #1e293b;
+  --background-color: #f8f9fa;
+  --card-background: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+
+  /* Status colors */
+  --status-inprogress-bg: #dfeaf5;
+  --status-inprogress-text: #0c6dc2;
+  --status-completed-bg: #f0fdf4;
+  --status-completed-text: #15803d;
+  --status-notstarted-bg: #f3f4f6;
+  --status-notstarted-text: #141414;
+  --status-overdue-bg: #fef2f2;
+  --status-overdue-text: #f41010;
+  --status-blocked-bg: #fef2f2;
+  --status-blocked-text: #8e0b0b;
+
+  /* Spacing */
+  --container-padding: 20px;
+  --section-spacing: 24px;
+  --item-spacing: 16px;
+
+  /* UI Elements */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}

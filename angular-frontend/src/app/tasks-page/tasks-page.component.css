@@ -1,8 +1,9 @@
 .task-container {
-    padding:0px 20px;
-    background-color: #f8f9fa;
+    padding:0px var(--container-padding);
+    background-color: var(--background-color);
     min-height: 100vh;
-    margin: 0px
+    max-width: 1400px;
+    margin: 0 auto;
   }
 
   header {
@@ -54,16 +55,16 @@
 
   .add-task-btn {
     padding: 10px 20px;
-    background-color: #0f172a;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--border-radius-md);
     cursor: pointer;
     transition: background-color 0.2s;
   }
 
   .add-task-btn:hover {
-    background-color: #1e293b;
+    background-color: var(--primary-hover);
   }
 
   .tasks-grid {
@@ -73,10 +74,10 @@
   }
 
   .task-card {
-    background: white;
-    border-radius: 12px;
+    background: var(--card-background);
+    border-radius: var(--border-radius-md);
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: var(--box-shadow);
   }
 
   .task-header {

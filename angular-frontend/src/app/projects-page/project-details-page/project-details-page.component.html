@@ -2,13 +2,13 @@
     <h2>{{ selectedProject.name }}</h2>
     <p><strong>Department:</strong> {{ selectedProject.department }}</p>
     <p><strong>Description:</strong> {{ selectedProject.description }}</p>
-    <p><strong>Status:</strong> {{ selectedProject.status }}</p>
+    <p><strong>Status:</strong> {{ selectedProject.completionStatus }}</p>
     <p><strong>Priority:</strong> {{ selectedProject.priority }}</p>
     <p><strong>Progress:</strong> {{ selectedProject.progress }}%</p>
     <p><strong>Owner ID:</strong> {{ selectedProject.ownerId }}</p>
     <p><strong>Team Members:</strong> {{ selectedProject.teamMembers.join(', ') }}</p>
   </div>
-  
+
   <ng-template #notFound>
     <p>Project not found!</p>
   </ng-template> -->
@@ -29,7 +29,7 @@
         </button>
       </div>
     </header>
-  
+
     <div class="project-header">
       <div class="project-title-section">
         <h1>{{ selectedProject.name }}</h1>
@@ -46,7 +46,7 @@
         </button>
       </div>
     </div>
-  
+
     <div class="project-progress-card">
       <div class="progress-header">
         <h3>Project Progress</h3>
@@ -75,7 +75,7 @@
         </div>
       </div>
     </div>
-  
+
     <section class="tasks-section">
       <h2>Tasks</h2>
       <div class="task-list">
@@ -97,7 +97,7 @@
         </div>
       </div>
     </section>
-  
+
     <section class="technologies-section">
       <h2>Technologies Used</h2>
       <div class="tech-grid">
@@ -124,7 +124,7 @@
         </div>
       </div>
     </section>
-  
+
     <section class="project-notes">
       <h2>Project Notes</h2>
       <div class="note-card">
@@ -155,7 +155,7 @@
         </div>
       </div>
     </section>
-  
+
     <footer class="page-footer">
       <div class="footer-left">
         Last updated: 2 hours ago

@@ -1,155 +1,163 @@
 .dashboard {
-    margin:0 20px;
-    padding: 20px;
-    background: #f5f5f5;
-  }
+  padding: 20px;
+  background: #f5f5f5;
+}
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-  .header-right {
-    display: flex;
-    gap: 15px;
-  }
+.header-right {
+  display: flex;
+  gap: 15px;
+}
 
-  .tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    align-items: center;
-  }
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
 
-  .tabs button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    background: white;
-    cursor: pointer;
-  }
+.tabs button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
 
-  .tabs button.active {
-    background: #1a1a1a;
-    color: white;
-  }
+.tabs button.active {
+  background: #1a1a1a;
+  color: white;
+}
 
-  .search-container {
-    margin-left: auto;
-  }
+.search-container {
+  margin-left: auto;
+}
 
-  .search-container input {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 200px;
-  }
+.search-container input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 200px;
+}
 
-  #add-project-btn {
-    background-color: #0f172a;
-    color: white;
-    padding: 10px 20px;
-    margin:0px 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
+#add-project-btn {
+  background-color: #0f172a;
+  color: white;
+  padding: 10px 20px;
+  margin: 0px 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
 
-  #add-project-btn:hover {
-    background-color: #1e293b;
-  }
+#add-project-btn:hover {
+  background-color: #1e293b;
+}
 
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
 
-  .project-card {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
+.project-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 10px;
-  }
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 10px;
+}
 
-  .status-badge {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-  }
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
 
-  .active { background: #e3f2fd; color: #1565c0; }
-  .upcoming { background: #f5f5f5; color: #616161; }
-  .completed { background: #e8f5e9; color: #2e7d32; }
+.active {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+.upcoming {
+  background: #f5f5f5;
+  color: #616161;
+}
+.completed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
 
-  .department {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
+.department {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
 
-  .description {
-    margin-bottom: 15px;
-    font-size: 14px;
-    line-height: 1.4;
-  }
+.description {
+  margin-bottom: 15px;
+  font-size: 14px;
+  line-height: 1.4;
+}
 
-  .progress-section {
-    margin-bottom: 15px;
-  }
+.progress-section {
+  margin-bottom: 15px;
+}
 
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    font-size: 14px;
-  }
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
 
-  .progress-bar {
-    height: 8px;
-    background: #eee;
-    border-radius: 4px;
-    overflow: hidden;
-  }
+.progress-bar {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
 
-  .progress-fill {
-    height: 100%;
-    background: #1976d2;
-    transition: width 0.3s ease;
-  }
+.progress-fill {
+  height: 100%;
+  background: #1976d2;
+  transition: width 0.3s ease;
+}
 
-  .project-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-  }
+.project-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
 
-  .team-members {
-    display: flex;
-    gap: 5px;
-  }
+.team-members {
+  display: flex;
+  gap: 5px;
+}
 
-  .milestones {
-    font-size: 14px;
-    color: #666;
-  }
+.milestones {
+  font-size: 14px;
+  color: #666;
+}
 
-  .clickable-field {
-    cursor: pointer;
-    transition: filter 0.3s ease;
-  }
-  
-  .clickable-field:hover {
-    filter: brightness(85%) contrast(110%);
-  }
+.clickable-field {
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.clickable-field:hover {
+  filter: brightness(85%) contrast(110%);
+}
