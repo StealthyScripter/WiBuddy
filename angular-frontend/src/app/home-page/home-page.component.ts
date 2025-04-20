@@ -29,46 +29,27 @@ export class HomePageComponent {
   };
 
   Tasks: Task[] = mockTasks;
-
   Projects: Project[] = mockProjects;
-
   todaysTasks: Task[] = this.getTasksForDay();
-
-
   ongoingProjects: Project[] = this.getOngoingProjects();
-
   upcomingProjects: Project[] = this.getUpcomingProjects();
-
   notes: Note[] = mockNotes;
 
-  constructor(private router: Router) {
-
-  }
+  constructor(private router: Router) {}
 
   getNotesPreview(notes: string[]): string {
     if (!notes || notes.length === 0) return '';
 
-    // Get the first content item
+    // Get the first content item and split
     const content = notes[0] || '';
-
-    // Split into words
     const words = content.split(' ');
-
-    // Default number of words (adjust based on testing)
     const baseWordCount = 10;
 
-    // Return truncated text with ellipsis if needed
     if (words.length > baseWordCount) {
       return words.slice(0, baseWordCount).join(' ') + '...';
     }
 
     return content;
-  }
-
-  addNewTask() {
-    if (this.newTaskText.trim()) {
-      this.newTaskText = '';
-    }
   }
 
   tasksInProgress(): Task[] {
@@ -92,6 +73,22 @@ export class HomePageComponent {
       return project.progress > 0;
     });
   };
+
+  getPriorityColor(priority: Priority): string {
+    const colors = {
+      [Priority.CRITICAL]: '#ef4444',
+      [Priority.HIGH]: '#f97316',
+      [Priority.MEDIUM]: '#facc15',
+      [Priority.LOW]: '#22c55e'
+    };
+    return colors[priority] || '#64748b';
+  }
+
+  getProgressClass(progress: number): string {
+    if (progress < 30) return 'progress-low';
+    if (progress < 70) return 'progress-medium';
+    return 'progress-high';
+  }
 
   parseFloat(value: string): number {
     return parseFloat(value);
