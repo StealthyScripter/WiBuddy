@@ -28,7 +28,7 @@
       <thead class="sect3-title">
         <tr>
           <th><h3>Today's tasks</h3></th>
-          <th><button (click)="navigateToTasks()">{{tasksInProgress().length}} tasks</button></th>
+          <th class="active-count"><button (click)="navigateToTasks()">{{tasksInProgress().length}} active</button></th>
         </tr>
       </thead>
       <tbody>
@@ -54,7 +54,7 @@
     <div class="projects">
       <div class="sect3-title">
           <h3>Ongoing Projects</h3>
-            <button (click)="navigateToProjects()">{{ getOngoingProjects().length}} active</button>
+            <button (click)="navigateToProjects()" class="active-count">{{ getOngoingProjects().length}} active</button>
         </div>
       <ul>
           <ng-container *ngIf="ongoingProjects.length === 0"            class="text-centre">
@@ -75,9 +75,9 @@
 
     <table class="upcoming">
       <thead class="sect3-title">
-        <tr>
+        <tr style="justify-content: space-between;">
           <th><h3>Upcoming Projects</h3></th>
-          <th><img src="icons8-calendar-new.png"></th>
+          <th class="active-count"><img src="icons8-calendar-new.png"></th>
         </tr>
       </thead>
       <tbody>

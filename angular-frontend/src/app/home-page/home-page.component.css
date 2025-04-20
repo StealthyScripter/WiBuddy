@@ -1,31 +1,4 @@
-/* ================= Header================== */
-
-.header {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  padding: 12px 20px;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 20px;
-}
-
-.header a {
-  margin-right: 20px;
-  display: flex;
-  align-items: center;
-}
-
-/* ================= Dashboard Container ================== */
-
-.dashboard-container,
-.container {
-  max-width: var(--max-width, 1400px);
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-/* ================= Introduction ================== */
-
+/* Introduction sections */
 .introduction {
   display: flex;
   gap: 1rem;
@@ -54,6 +27,7 @@
   line-height: 1.6;
 }
 
+/* Prompt input area */
 .prompt {
   margin-top: auto;
   display: flex;
@@ -69,10 +43,6 @@
   border-radius: var(--radius-sm);
 }
 
-.prompt input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
 .prompt button {
   background-color: white;
   color: var(--primary-color);
@@ -81,8 +51,7 @@
   border-radius: var(--radius-sm);
 }
 
-/* ================= Section 3 - Tasks, Projects, Upcoming ================== */
-
+/* Tasks, Projects, Upcoming grid */
 .section3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -90,7 +59,7 @@
   margin-bottom: 1.5rem;
 }
 
-.tasks, .upcoming {
+.tasks, .upcoming, .projects {
   background-color: white;
   border-radius: var(--radius);
   padding: 1.5rem;
@@ -99,6 +68,54 @@
   flex-direction: column;
 }
 
+/* Section titles */
+.sect3-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* For table headers in sect3-title */
+.sect3-title tr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sect3-title th {
+  padding: 0;
+  text-align: left;
+}
+
+.sect3-title th:last-child {
+  text-align: right;
+}
+
+.sect3-title h3 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+
+.sect3-title button,
+.sect3-title img {
+  background-color: var(--primary-color-light, #e0e7ff);
+  color: var(--primary-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+}
+
+/* Active count display */
+.active-count {
+  display: inline-block;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Task list styling */
 .tasks table, .upcoming table {
   width: 100%;
   table-layout: fixed;
@@ -112,7 +129,7 @@ thead, tbody {
 
 tbody tr {
   background-color: #f9fafb;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-sm, 0.25rem);
   margin: 5px 0;
   display: flex;
   align-items: center;
@@ -127,34 +144,10 @@ tbody tr td {
   width: 8px;
   height: 8px;
   border-radius: 9999px;
-  background-color: var(--warning);
+  background-color: var(--warning, #f59e0b);
 }
 
-.projects {
-  background-color: white;
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-}
-
-.sect3-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.sect3-title button,
-.sect3-title img {
-  background-color: var(--primary-color-light);
-  color: var(--primary-color);
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.875rem;
-}
-
+/* Project list styling */
 .projects ul {
   list-style: none;
   margin: 0;
@@ -163,10 +156,17 @@ tbody tr td {
 
 .projects ul li {
   background-color: #f9fafb;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-sm, 0.25rem);
   padding: 0.75rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-info {
+  flex: 1;
 }
 
 .project-name {
@@ -174,10 +174,37 @@ tbody tr td {
   margin-bottom: 0.25rem;
 }
 
+.progress-percentage {
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--primary-color);
+  padding-left: 1rem;
+}
+
 .progress-percentage::after {
   content: '%';
 }
 
+/* Upcoming project styling with right-aligned icon */
+.upcoming ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9fafb;
+  border-radius: var(--radius-sm, 0.25rem);
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.upcoming ul li .project-title {
+  flex: 1;
+}
+
+.upcoming ul li img {
+  margin-left: auto;
+}
+
+/* Progress bar styling */
 .progress-bar {
   width: 100%;
   height: 5px;
@@ -192,32 +219,17 @@ tbody tr td {
   transition: width 0.4s ease;
 }
 
-app-due-date {
-  background-color: var(--gray-100);
-  border-radius: var(--radius-sm);
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  display: inline-block;
-}
-
-/* ================= Section 4 - Calendar and Notes ================== */
-
+/* Calendar and notes section */
 .section4 {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 1.5rem;
-  width:100%;
+  width: 100%;
   max-width: 100%;
   overflow-x: hidden;
 }
 
-.calendar-container {
-  width:100%;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.notes-container{
+.notes-container {
   background-color: white;
   border-radius: var(--radius);
   padding: 1.5rem;
@@ -225,11 +237,12 @@ app-due-date {
   display: flex;
   flex-direction: column;
   height: 100%;
-  width:100%;
+  width: 100%;
   max-width: 100%;
   overflow-y: hidden;
 }
 
+/* Notes styling */
 .note-list {
   overflow-y: auto;
   flex-grow: 1;
@@ -237,15 +250,15 @@ app-due-date {
   flex-direction: column;
 }
 
-.notes .clickable-field {
+.notes.clickable-field {
   padding: 0.75rem;
-  border-bottom: 1px solid var(--gray-200);
-  transition: var(--transition);
+  border-bottom: 1px solid var(--gray-200, #e5e7eb);
+  transition: var(--transition, all 0.2s ease);
   cursor: pointer;
 }
 
-.notes .clickable-field:hover {
-  background-color: var(--gray-100);
+.notes.clickable-field:hover {
+  background-color: var(--gray-100, #f3f4f6);
 }
 
 .note-header {
@@ -260,19 +273,34 @@ app-due-date {
 
 .note-date {
   font-size: 0.75rem;
-  color: var(--gray-500);
+  color: var(--gray-500, #6b7280);
 }
 
 .note-preview {
   font-size: 0.875rem;
-  color: var(--gray-600);
+  color: var(--gray-600, #4b5563);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* ================= Responsive ================== */
+/* Make items clickable */
+.clickable-field {
+  cursor: pointer;
+  transition: var(--transition, all 0.2s ease);
+}
 
+.clickable-field:hover {
+  background-color: var(--gray-100, #f3f4f6);
+  transform: translateY(-2px);
+}
+
+/* Empty state text centering */
+.text-centre {
+  text-align: center;
+}
+
+/* Responsive adjustments */
 @media (max-width: 1024px) {
   .section3 {
     grid-template-columns: 1fr 1fr;
@@ -286,5 +314,10 @@ app-due-date {
 
   .section3, .section4 {
     grid-template-columns: 1fr;
+  }
+
+  /* Hide active-count on smaller screens */
+  .active-count {
+    display: none;
   }
 }
