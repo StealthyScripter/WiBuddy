@@ -1,0 +1,138 @@
+/* Main container */
+.main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  background-color: var(--background-color);
+}
+
+/* Content area where components are rendered */
+.content-wrapper {
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Navigation bar */
+.main-menu {
+  background-color: white;
+  box-shadow: var(--shadow);
+  height: var(--header-height);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.main-menu .main {
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Logo styling */
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+/* Navigation menu styling */
+.main-menu .main ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+}
+
+.main-menu .main ul li {
+  margin: 0;
+  padding: 0;
+}
+
+.main-menu .main ul li a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gray-700);
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  transition: var(--transition);
+}
+
+/* Highlight active link */
+.main-menu .main ul li a.active {
+  color: var(--primary-color);
+  background-color: var(--primary-color-light);
+}
+
+/* Hover effect */
+.main-menu .main ul li a:hover {
+  color: var(--primary-color);
+  background-color: var(--gray-100);
+}
+
+/* Profile section */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--gray-800);
+}
+
+.profile img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Mobile menu toggle button */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--gray-700);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+/* Responsive navigation adjustments */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .main-menu .main ul {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background-color: white;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+  }
+
+  .main-menu .main ul.mobile-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .main-menu .main ul li a {
+    padding: 0.75rem 0.5rem;
+  }
+}
