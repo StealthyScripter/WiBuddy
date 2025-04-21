@@ -1,4 +1,7 @@
 <div class="calendar-dashboard">
+  <header class="page-header">
+    <h1 class="page-title">Calendar</h1>
+  </header>
   <!-- Header with navigation and view controls -->
   <header class="calendar-header">
     <div class="calendar-navigation">
@@ -10,9 +13,9 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </button>
     </div>
-    
+
     <div class="view-selector">
-      <button 
+      <button
         *ngFor="let view of viewOptions"
         [class.active]="currentView === view"
         (click)="changeView(view)"
@@ -32,7 +35,7 @@
             <h3 class="month-title">{{month[14] | date:'MMMM'}}</h3>
             <div class="mini-month-grid">
               <div class="mini-weekday" *ngFor="let day of weekDays">{{day.charAt(0)}}</div>
-              <div 
+              <div
                 *ngFor="let date of month"
                 [class.different-month]="!isSameMonth(date, month[14])"
                 [class.has-event]="hasEvents(date)"
@@ -51,14 +54,14 @@
           <div class="weekday" *ngFor="let day of weekDays">{{day}}</div>
         </div>
         <div class="month-grid-body">
-          <div 
+          <div
             *ngFor="let date of monthDates"
             [class.different-month]="!isSameMonth(date, currentViewDate)"
             [class.today]="isSameDay(date, currentDate)"
             class="date-cell">
             <div class="date-number">{{date | date:'d'}}</div>
             <div class="event-list">
-              <div 
+              <div
                 *ngFor="let event of getEventsForDate(date).slice(0, 3)"
                 class="event-item"
                 [style.background-color]="event.color + '22'"
@@ -95,7 +98,7 @@
               <div class="hour-slot" *ngFor="let hour of hours">
                 <!-- Events would be positioned absolutely here -->
               </div>
-              <div 
+              <div
                 *ngFor="let event of getEventsForDate(date)"
                 class="week-event-item"
                 [style.top.px]="calculateEventTop(event)"
@@ -116,12 +119,13 @@
       <div class="sidebar-section upcoming-tasks">
         <h3 class="sidebar-title">Upcoming Tasks</h3>
         <ul class="task-list">
-          <li 
+          <!-- --primary-dark: ; -->
+          <li
             *ngFor="let task of upcomingTasks"
-            class="task-item">
-            <div class="task-indicator" [style.background-color]="task.color"></div>
+            class="task-item" (click)="navigateToTask(task.id)">
+            <div class="task-indicator" style="background-color:#4338ca ;"></div>
             <div class="task-content">
-              <div class="task-date">{{task.date | date:'EEE, MMM d'}}</div>
+              <div class="task-date">{{task.dueDate | date:'EEE, MMM d'}}</div>
               <div class="task-title">{{task.name}}</div>
             </div>
           </li>
@@ -134,16 +138,16 @@
       <div class="sidebar-section project-deadlines">
         <h3 class="sidebar-title">Project Deadlines</h3>
         <ul class="project-list">
-          <li 
+          <li
             *ngFor="let project of sortedProjects"
-            class="project-item">
+            class="project-item" (click)="navigateToProject(project.id)">
             <div class="project-info">
               <h4 class="project-name">{{project.name}}</h4>
-              <div class="project-deadline">Due: {{project.dueDate | date:'MMM d, yyyy'}}</div>
+              <div class="project-deadline">Due: {{project.dueDate}}</div>
             </div>
             <div class="progress-container">
               <div class="progress-bar">
-                <div 
+                <div
                   class="progress-fill"
                   [style.width.%]="project.progress"
                   [ngClass]="{
