@@ -7,15 +7,18 @@
 
 /* Header and title */
 .page-header {
-  margin-bottom: 2rem;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--section-spacing);
 }
 
 .page-title {
   font-size: 1.75rem;
   font-weight: 600;
-  color: var(--gray-800);
+  color: var(--text-primary);
   margin: 0;
+
 }
 
 /* Search and action bar styles */
