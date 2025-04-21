@@ -60,7 +60,7 @@ export interface Task extends BaseEntity {
 export interface Project extends BaseEntity {
   name: string;
   description?: string;
-  dueDate?: ISODateString;
+  // dueDate?: ISODateString;
   completionDate?: ISODateString;
   isCompleted?: boolean;
   tasks?: Task[];
@@ -72,7 +72,7 @@ export interface Project extends BaseEntity {
   department?: string;
   progress:number;
   milestones?:string;
-  date:string
+  dueDate:string
 }
 
 // Project Methods Interface (Separate from data interface)

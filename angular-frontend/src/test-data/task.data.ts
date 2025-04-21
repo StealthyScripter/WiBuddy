@@ -141,7 +141,7 @@ export const mockProjects: Project[] = [
     ownerId: 'owner-1',
     teamMembers: ['member-1', 'member-2', 'member-3'],
     tasks: [],
-    date:'2025-02-02'
+    dueDate:'2025-02-02'
   },
   {
     id: 'uuid-2',
@@ -156,7 +156,7 @@ export const mockProjects: Project[] = [
     ownerId: 'owner-2',
     teamMembers: ['member-4', 'member-5'],
     tasks: [],
-    date:'2025-02-02'
+    dueDate:'2025-02-02'
   },
   {
     id: 'uuid-3',
@@ -171,7 +171,7 @@ export const mockProjects: Project[] = [
     ownerId: 'owner-1',
     teamMembers: ['member-1', 'member-6'],
     tasks: [],
-    date: '2025-02-10'
+    dueDate: '2025-02-10'
   },
   {
     id: 'proj-1',
@@ -185,7 +185,7 @@ export const mockProjects: Project[] = [
     ownerId: 'user-1',
     teamMembers: [],
     tasks: [],
-    date:'2025-04-01'
+    dueDate:'2025-04-01'
   },
   {
     id: 'proj-2',
@@ -199,7 +199,7 @@ export const mockProjects: Project[] = [
     ownerId: 'user-1',
     teamMembers: [],
     tasks: [],
-    date: '2025-06-08'
+    dueDate: '2025-06-08'
   },
   {
     id: 'proj-3',
@@ -213,7 +213,7 @@ export const mockProjects: Project[] = [
     ownerId: 'user-1',
     teamMembers: [],
     tasks: [],
-    date:'2025-03-02'
+    dueDate:'2025-03-02'
   }
 ];
 
