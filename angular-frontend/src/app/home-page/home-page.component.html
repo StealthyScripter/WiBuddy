@@ -77,7 +77,7 @@
       <thead class="sect3-title">
         <tr style="justify-content: space-between;">
           <th><h3>Upcoming Projects</h3></th>
-          <th class="active-count"><img src="icons8-calendar-new.png"></th>
+          <th class="active-count" (click)="navigateToProjects()"><img src="icons8-calendar-new.png"></th>
         </tr>
       </thead>
       <tbody>
@@ -87,7 +87,7 @@
         </tr>
         @for (upcomingProject of upcomingProjects; track upcomingProject) {
         <tr (click)="navigateToProject(upcomingProject.id)" class="clickable-field">
-          <td><app-due-date [dueDate]="upcomingProject.date"></app-due-date></td>
+          <td><app-due-date [dueDate]="upcomingProject.dueDate"></app-due-date></td>
           <td><p>{{ upcomingProject.name }}</p></td>
         </tr>
       }
