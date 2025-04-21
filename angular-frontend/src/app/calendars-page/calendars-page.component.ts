@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { CalendarEvent, Project } from '../../models.interface';
-import { mockProjects } from '../../test-data/task.data';
-import { 
-  addDays, 
-  addHours, 
-  addMonths, 
-  addWeeks, 
-  format, 
-  startOfWeek, 
-  startOfMonth, 
-  startOfYear, 
-  eachDayOfInterval, 
-  isSameDay, 
+import { mockProjects, mockTasks } from '../../test-data/task.data';
+import { Task } from '../../models.interface';
+import {
+  addDays,
+  addHours,
+  addMonths,
+  addWeeks,
+  format,
+  startOfWeek,
+  startOfMonth,
+  startOfYear,
+  eachDayOfInterval,
+  isSameDay,
   isSameMonth,
   differenceInMinutes,
   setHours,
@@ -30,10 +32,12 @@ export class CalendarsPageComponent implements OnInit {
   viewOptions = ['Year', 'Month', 'Week'];
   currentView = 'Month';
   currentViewDate = new Date();
-  currentDate = new Date(); // Today's date
+  currentDate = new Date();
   weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  hours = Array.from({ length: 24 }, (_, i) => i); // 0-23 hours
-  
+  hours = Array.from({ length: 24 }, (_, i) => i);
+
+  Tasks: Task[] = mockTasks;
+
   yearDates: Date[][] = [];
   monthDates: Date[] = [];
   weekDates: Date[] = [];
@@ -80,6 +84,8 @@ export class CalendarsPageComponent implements OnInit {
 
   projects: Project[] = mockProjects;
 
+  constructor(private router: Router){}
+
   ngOnInit() {
     this.generateDates();
   }
@@ -100,7 +106,7 @@ export class CalendarsPageComponent implements OnInit {
   generateMonthDates(start: Date): Date[] {
     const daysInWeek = 7;
     const weeksToShow = 6;
-    return Array.from({ length: daysInWeek * weeksToShow }, (_, i) => 
+    return Array.from({ length: daysInWeek * weeksToShow }, (_, i) =>
       addDays(start, i - start.getDay())
     );
   }
@@ -155,7 +161,7 @@ export class CalendarsPageComponent implements OnInit {
   calculateEventHeight(event: CalendarEvent): number {
     // Calculate height based on duration
     if (!event.endDate) return 25; // Default height for events without end time
-    
+
     const durationMinutes = differenceInMinutes(event.endDate, event.date);
     return (durationMinutes / 60) * 50; // 50px per hour
   }
@@ -169,17 +175,41 @@ export class CalendarsPageComponent implements OnInit {
   }
 
   get upcomingTasks() {
-    const now = new Date();
-    return this.events
-      .filter(event => event.date >= now)
-      .sort((a, b) => a.date.getTime() - b.date.getTime())
-      .slice(0, 5);
+    return this.Tasks.filter(task => {
+      return !task.isCompleted;
+    });
   }
 
+
   get sortedProjects() {
-    // return [...this.projects].sort((a, b) => 
-    //   a.dueDate.getTime() - b.dueDate.getTime()
-    // );
-    return this.projects
+    return [...this.projects].sort((a, b) => {
+      const aTime = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+      const bTime = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+      return aTime - bTime;
+    });
+  }
+
+  navigateToTasks(){
+    this.router.navigate(['/tasks']);
+  }
+
+  navigateToProjects() {
+    this.router.navigate(['/projects']);
+  }
+
+  navigateToTask(taskId: string) {
+    this.router.navigate(['/task-details', taskId]);
+  }
+
+  navigateToProject(projectId: string){
+    this.router.navigate(['/project-details', projectId]);
+  }
+
+  navigateToNote(noteId: string){
+    this.router.navigate(['notes-details',noteId]);
+  }
+
+  navigateToNewNote() {
+    this.router.navigate(['add-notes']);
   }
 }
