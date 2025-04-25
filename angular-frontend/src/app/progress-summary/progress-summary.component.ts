@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { TechStack, Task, Project } from '../../models.interface';
+import { Task, Project, Technology } from '../../models.interface';
 import {
-  mockUpcomingTasks,
-  mockCompletedTasks,
   mockTechStack,
   mockTasks,
   mockProjects
@@ -37,7 +35,7 @@ export class ProgressSummaryComponent implements OnInit{
   dueThisWeekCount: number = 0;
 
   // Technology data
-  technologies: TechStack[] = [];
+  technologies: Technology[] = [];
   technologiesCount: number = 0;
   newTechnologiesCount: number = 0;
 
@@ -65,8 +63,8 @@ export class ProgressSummaryComponent implements OnInit{
   }
 
   loadTaskData(): void {
-    this.upcomingTasks = mockUpcomingTasks;
-    this.completedTasks = mockCompletedTasks;
+    this.upcomingTasks = [];
+    this.completedTasks = [];
 
     // Calculate task metrics
     this.totalTasksCount = this.allTasks.length;
@@ -79,7 +77,7 @@ export class ProgressSummaryComponent implements OnInit{
   loadProjectData(): void {
     // Get active projects count
     this.activeProjectsCount = this.projects.filter(project =>
-      !project.isCompleted && project.progress > 0
+      !project.isCompleted
     ).length;
 
     // Calculate projects due this week
@@ -114,7 +112,7 @@ export class ProgressSummaryComponent implements OnInit{
 
     return iconMap[techName] || 'fas fa-code'; // Default to code icon
   }
-  
+
   navigateToTask(taskId: string) {
     this.router.navigate(['/task-details', taskId]);
   }

@@ -109,7 +109,7 @@ export class HomePageCalendarComponent implements OnInit {
           id: task.id,
           name: task.name,
           type: 'task',
-          priority: task.priority,
+          priority: task.priority || Priority.MEDIUM,
           projectId: task.projectId,
           projectColor: task.projectId ? this.projectColors.get(task.projectId) : undefined
         });

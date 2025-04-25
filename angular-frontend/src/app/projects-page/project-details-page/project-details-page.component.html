@@ -77,10 +77,6 @@
           </p>
           <p *ngIf="!selectedProject.priority">Not set</p>
         </div>
-        <div class="detail-item" *ngIf="selectedProject.budget">
-          <label>Budget</label>
-          <p>${{ selectedProject.budget.toLocaleString() }}</p>
-        </div>
         <div class="detail-item">
           <label>Team Members</label>
           <div class="team-members">

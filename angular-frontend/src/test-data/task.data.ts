@@ -10,7 +10,6 @@ export const mockTasks: Task[] = [
     dueDate: '2025-03-15',
     isCompleted: false,
     dateCreated: new Date('2025-02-01').toISOString(),
-    hierarchy: 1,
     isMilestone: false,
     priority: Priority.HIGH,
     category: TaskCategory.DESIGN,
@@ -25,7 +24,6 @@ export const mockTasks: Task[] = [
     dueDate: '2025-03-20',
     isCompleted: true,
     dateCreated: new Date('2025-02-05').toISOString(),
-    hierarchy: 1,
     isMilestone: false,
     priority: Priority.MEDIUM,
     category: TaskCategory.DEVELOPMENT,
@@ -40,7 +38,6 @@ export const mockTasks: Task[] = [
     dueDate: '2025-03-25',
     isCompleted: false,
     dateCreated: new Date('2025-02-10').toISOString(),
-    hierarchy: 1,
     isMilestone: false,
     priority: Priority.CRITICAL,
     category: TaskCategory.TESTING,
@@ -55,7 +52,6 @@ export const mockTasks: Task[] = [
     dueDate: '2025-02-28T14:30:00',
     isCompleted: false,
     dateCreated: new Date('2025-01-15').toISOString(),
-    hierarchy: 1,
     isMilestone: false,
     priority: Priority.MEDIUM,
     category: TaskCategory.DEVELOPMENT,
@@ -70,7 +66,6 @@ export const mockTasks: Task[] = [
     dueDate: '2025-03-15',
     isCompleted: false,
     dateCreated: new Date('2025-02-01').toISOString(),
-    hierarchy: 1,
     isMilestone: false,
     priority: Priority.HIGH,
     category: TaskCategory.DESIGN,
@@ -85,7 +80,6 @@ export const mockTasks: Task[] = [
     dueDate: '2025-03-15',
     isCompleted: false,
     dateCreated: new Date('2025-02-01').toISOString(),
-    hierarchy: 1,
     isMilestone: false,
     priority: Priority.HIGH,
     category: TaskCategory.DESIGN,
@@ -100,7 +94,6 @@ export const mockTasks: Task[] = [
     dueDate: '2025-02-01T14:30:00',
     isCompleted: false,
     dateCreated: new Date('2025-01-20').toISOString(),
-    hierarchy: 1,
     isMilestone: false,
     priority: Priority.MEDIUM,
     category: TaskCategory.DOCUMENTATION,
@@ -115,10 +108,37 @@ export const mockTasks: Task[] = [
     dueDate: '2025-02-09T14:30:00',
     isCompleted: false,
     dateCreated: new Date('2025-01-25').toISOString(),
-    hierarchy: 1,
     isMilestone: false,
     priority: Priority.MEDIUM,
     category: TaskCategory.DEVELOPMENT,
+    prerequisites: [],
+    dependentTasks: []
+  },
+  {
+    name: 'User Authentication',
+    dueDate: 'Jan 5, 2025',
+    id: 'task-7',
+    description: '',
+  completionStatus: TaskStatus.COMPLETED,
+    isCompleted: true,
+    dateCreated: '',
+    isMilestone: false,
+    priority: Priority.MEDIUM,
+    category: TaskCategory.DEVELOPMENT,
+    prerequisites: [],
+    dependentTasks: []
+  },
+  {
+    name: 'Frontend Redesign',
+    dueDate: 'Jan 2, 2025',
+    id: 'task-8',
+    description: '',
+  completionStatus: TaskStatus.COMPLETED,
+    isCompleted: true,
+    dateCreated: '',
+    isMilestone: false,
+    priority: Priority.MEDIUM,
+    category: TaskCategory.DESIGN,
     prerequisites: [],
     dependentTasks: []
   }
@@ -341,7 +361,7 @@ export const mockCalendarEvents: CalendarEvent[] = [
 ];
 
 // src/test-data/progress-summary.data.ts
-import { Task, TechStack } from '../models.interface';
+import { Task } from '../models.interface';
 
 export const mockUpcomingTasks: Task[] = [
   {
@@ -352,7 +372,6 @@ export const mockUpcomingTasks: Task[] = [
   completionStatus: TaskStatus.NOT_STARTED,
     isCompleted: false,
     dateCreated: '',
-    hierarchy: 0,
     isMilestone: false,
     priority: Priority.MEDIUM,
     category: TaskCategory.DEVELOPMENT,
@@ -367,7 +386,6 @@ export const mockUpcomingTasks: Task[] = [
   completionStatus: TaskStatus.NOT_STARTED,
     isCompleted: false,
     dateCreated: '',
-    hierarchy: 0,
     isMilestone: false,
     priority: Priority.MEDIUM,
     category: TaskCategory.DEVELOPMENT,
@@ -376,44 +394,11 @@ export const mockUpcomingTasks: Task[] = [
   }
 ];
 
-export const mockCompletedTasks: Task[] = [
-  {
-    name: 'User Authentication',
-    dueDate: 'Jan 5, 2025',
-    id: '',
-    description: '',
-  completionStatus: TaskStatus.COMPLETED,
-    isCompleted: true,
-    dateCreated: '',
-    hierarchy: 0,
-    isMilestone: false,
-    priority: Priority.MEDIUM,
-    category: TaskCategory.DEVELOPMENT,
-    prerequisites: [],
-    dependentTasks: []
-  },
-  {
-    name: 'Frontend Redesign',
-    dueDate: 'Jan 2, 2025',
-    id: '',
-    description: '',
-  completionStatus: TaskStatus.COMPLETED,
-    isCompleted: true,
-    dateCreated: '',
-    hierarchy: 0,
-    isMilestone: false,
-    priority: Priority.MEDIUM,
-    category: TaskCategory.DESIGN,
-    prerequisites: [],
-    dependentTasks: []
-  }
-];
-
-export const mockTechStack: TechStack[] = [
-  { name: 'React', count: '15 components', icon: '⚛️' },
-  { name: 'Node.js', count: '8 services', icon: '🟢' },
-  { name: 'Python', count: '5 scripts', icon: '🐍' },
-  { name: 'MongoDB', count: '3 databases', icon: '🍃' }
+export const mockTechStack: Technology[] = [
+  { id: '1', name: 'React', count: 15, icon: '⚛️' },
+  {  id: '2', name: 'Node.js', count: 8, icon: '🟢' },
+  {  id: '3', name: 'Python', count: 5, icon: '🐍' },
+  {  id: '4', name: 'MongoDB', count: 3, icon: '🍃' }
 ];
 
 import { Technology } from '../models.interface';

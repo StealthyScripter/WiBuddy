@@ -1,3 +1,5 @@
+import { DurationUnit } from "date-fns";
+
 // Common Types
 type ISODateString = string;
 type UUID = string;
@@ -37,42 +39,38 @@ interface BaseEntity {
 export interface Task extends BaseEntity {
   name: string;
   description?: string;
-  isCompleted: boolean;
-  hierarchy: number;
+  isCompleted?: boolean; //for data manipulation - default false
   dueDate?: string;
-  estimatedDuration?: string; // Consider using a Duration type
-  completionDate?: ISODateString;
-  isMilestone: boolean;
+  estimatedDuration?: number; // Consider using a Duration type
+  completionDate?: ISODateString; //default today
+  isMilestone?: boolean;
   projectId?: UUID;
-  technologyId?: UUID;
+  technologyId?: UUID[];
   completionStatus: TaskStatus;
-  priority: Priority;
-  category: TaskCategory;
-  prerequisites: UUID[]; // Array of Task IDs
+  priority?: Priority;
+  category?: TaskCategory;
+  prerequisites?: UUID[]; // Array of Task IDs
   dependentTasks?: Task[]; // Populated through resolver
   assigneeId?: UUID;
   tags?: string[];
   attachments?: Attachment[];
-  icon?: "🔥";
 }
 
 // Project Interface
 export interface Project extends BaseEntity {
   name: string;
   description?: string;
-  // dueDate?: ISODateString;
+  dueDate?: string;
   completionDate?: ISODateString;
   isCompleted?: boolean;
   tasks?: Task[];
   ownerId?: UUID;
   teamMembers?: UUID[];
-  budget?: number;
   completionStatus?: TaskStatus;
   priority?: Priority;
   department?: string;
   progress:number;
   milestones?:string;
-  dueDate:string
 }
 
 // Project Methods Interface (Separate from data interface)
@@ -103,20 +101,22 @@ export interface Technology extends BaseEntity {
   name: string;
   description?: string;
   version?: string;
-  tasks?: Task[]; // Consider making this a resolver
+  tasks?: Task[];
   category?: string;
   documentationUrl?: string;
   proficiency?:number;
+  count?:number;
+  icon?:string;
 }
 
 // Affirmation Interface
 export interface Affirmation extends BaseEntity {
   content: string;
-  dailyGoals: string[];
-  userId: UUID;
+  dailyGoals?: string[];
+  userId?: UUID;
   tags?: string[];
   reminderTime?: ISODateString;
-  isActive: boolean;
+  isActive?: boolean;
 }
 
 // Graph Interface
@@ -149,8 +149,8 @@ interface GraphConfig {
 export interface Attachment {
   id: string;
   type: 'image' | 'document' | 'link' | 'github';
-  name: string;
-  url: string;
+  name?: string;
+  url?: string;
   thumbnail?: string;
 }
 
@@ -159,7 +159,7 @@ export interface Note {
   name: string;
   content: string[];
   dateCreated: string | null;
-  lastModified: string | null;
+  lastModified?: string | null;
   type?: 'text' | 'list' | 'media' ; // Different note types
   imageUrl?: string;  // Preview thumbnail
   images?: { url: string; alt?: string }[];  // Full-size images in the note
@@ -183,13 +183,6 @@ export interface CalendarEvent {
   projectId?: number;
   color: string;
   description?: string;
-}
-
-export interface TechStack {
-  name: string;
-  icon: string;
-  count: string;
-
 }
 
 export interface ProjectStats {

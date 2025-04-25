@@ -1,10 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { Task, TaskStatus, Priority, TaskCategory, Comment } from '../../../models.interface';
-import { mockCompletedTasks, mockTasks, mockProjects } from '../../../test-data/task.data';
+import { BaseService } from '../../../services/base_service';
+import { TaskService, MockTaskService } from '../../../services/task_service';
+import { AuthService } from '../../../services/auth_service';
+import { mockTasks, mockProjects } from '../../../test-data/task.data';
 
 
 
@@ -16,10 +19,10 @@ import { mockCompletedTasks, mockTasks, mockProjects } from '../../../test-data/
   styleUrl: './task-detail-page.component.css'
 })
 export class TaskDetailPageComponent implements OnInit {
-  route: ActivatedRoute = inject(ActivatedRoute);
   taskId: string | null = '';
   selectedTask: Task | undefined;
-  tasks: Task[] = mockTasks;
+  loading =false;
+  error='';
   newComment = '';
 
   // Sample prerequisites
@@ -37,23 +40,71 @@ export class TaskDetailPageComponent implements OnInit {
     }
   ];
 
-  constructor() {
-    this.route.paramMap.subscribe(params => {
-      this.taskId = params.get('taskId');
-      if (this.taskId) {
-        this.selectedTask = this.tasks.find(task =>
-          task.id === this.taskId);
+  constructor(
+    private route: ActivatedRoute,
+    @Inject('TaskServiceToken') private taskServiceBase: BaseService<Task>,
+    private taskService: TaskService,
+    @Inject('AuthServiceToken') private authService: AuthService
+  ) {
+    // this.route.paramMap.subscribe(params => {
+    //   this.taskId = params.get('taskId');
+    //   if (this.taskId) {
+    //     this.selectedTask = this.tasks.find(task =>
+    //       task.id === this.taskId);
 
-          this.loadTaskDetails();
-      }
-    });
+    //       this.loadTaskDetails();
+    //   }
+    // });
   }
 
   ngOnInit() {
-    const taskId = this.route.snapshot.paramMap.get('id');
-    if (taskId) {
-      // TODO: Fetch task details using a service
-      console.log('Loading task:', taskId);
+    this.route.paramMap.subscribe(params => {
+      this.taskId = params.get('taskId');
+      if (this.taskId) {
+        this.loadTask();
+      }
+    });
+    // const taskId = this.route.snapshot.paramMap.get('id');
+    // if (taskId) {
+    //   // TODO: Fetch task details using a service
+    //   console.log('Loading task:', taskId);
+    // }
+  }
+
+  loadTask() {
+    this.loading = true;
+
+    if (!this.taskId) {
+      this.error = 'Task ID is missing';
+      this.loading = false;
+      return;
+    }
+
+    const result = this.taskServiceBase.getById(this.taskId);
+
+    if (result instanceof Promise) {
+      // Mock service
+      result.then(task => {
+        this.selectedTask = task;
+        this.loadTaskDetails();
+        this.loading = false;
+      }).catch(error => {
+        this.error = 'Failed to load task';
+        this.loading = false;
+      });
+    } else {
+      // HTTP service
+      result.subscribe({
+        next: (response: any) => {
+          this.selectedTask = response.task || response;
+          this.loadTaskDetails();
+          this.loading = false;
+        },
+        error: (error) => {
+          this.error = 'Failed to load task';
+          this.loading = false;
+        }
+      });
     }
   }
 
@@ -100,6 +151,7 @@ export class TaskDetailPageComponent implements OnInit {
   getProjectName(projectId: string | undefined): string {
     if (!projectId) return 'Not assigned';
 
+    // Use the imported mock projects data
     const project = mockProjects.find(p => p.id === projectId);
     return project ? project.name : 'Unknown Project';
   }
