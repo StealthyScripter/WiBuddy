@@ -1,10 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { Task, TaskStatus, Priority, TaskCategory } from '../../models.interface';
-import { BaseService } from '../../services/base_service';
-import { TaskService } from '../../services/task_service';
 import { mockTasks } from '../../test-data/task.data';
 
 @Component({
@@ -19,52 +17,18 @@ export class TasksPageComponent implements OnInit {
   sortCriteria: 'priority' | 'date' | 'completionStatus' = 'priority';
   TaskStatus = TaskStatus; // Make enum available in template
 
-  tasks: Task[] = [];
+  tasks: Task[] = mockTasks; // Use mockTasks directly
   filteredTasks: Task[] = [];
   loading = false;
   error = '';
 
   constructor(
-    private router: Router,
-    @Inject('TaskServiceToken') private taskServiceBase: BaseService<Task>,
-    private taskService: TaskService
+    private router: Router
   ) {}
 
   ngOnInit() {
+    this.filteredTasks = [...this.tasks]; // Initialize with all tasks
     this.filterTasks();
-  }
-
-  loadTasks() {
-    this.loading = true;
-
-    const result = this.taskServiceBase.getAll();
-
-    if (result instanceof Promise) {
-      // Mock service
-      result.then(tasks => {
-        this.tasks = tasks;
-        this.filteredTasks = tasks;
-        this.filterTasks();
-        this.loading = false;
-      }).catch(error => {
-        this.error = 'Failed to load tasks';
-        this.loading = false;
-      });
-    } else {
-      // HTTP service
-      result.subscribe({
-        next: (response: any) => {
-          this.tasks = response.tasks || response;
-          this.filteredTasks = this.tasks;
-          this.filterTasks();
-          this.loading = false;
-        },
-        error: (error) => {
-          this.error = 'Failed to load tasks';
-          this.loading = false;
-        }
-      });
-    }
   }
 
   filterTasks() {
@@ -92,7 +56,29 @@ export class TasksPageComponent implements OnInit {
         });
         break;
       case 'date':
-        // Your existing date sorting logic
+        const today = new Date();
+        this.filteredTasks.sort((a, b) => {
+          // Check if tasks are completed or cancelled
+          const aCompleted = a.completionStatus === 'COMPLETED' || a.completionStatus === 'CANCELLED';
+          const bCompleted = b.completionStatus === 'COMPLETED' || b.completionStatus === 'CANCELLED';
+
+          // Put completed/cancelled tasks at the bottom
+          if (aCompleted && !bCompleted) return 1;
+          if (!aCompleted && bCompleted) return -1;
+
+          // If both completed or both not completed, sort by due date
+          const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+          const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+
+          // For tasks with overdue date, put them at the top
+          const aOverdue = a.completionStatus === 'OVERDUE';
+          const bOverdue = b.completionStatus === 'OVERDUE';
+
+          if (aOverdue && !bOverdue) return -1;
+          if (!aOverdue && bOverdue) return 1;
+
+          return dateA - dateB;
+        });
         break;
       case 'completionStatus':
         this.filteredTasks.sort((a, b) => {

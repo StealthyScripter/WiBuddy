@@ -1,5 +1,4 @@
 .dashboard-container {
-  padding: var(--section-spacing);
   max-width: var(--max-width);
   margin: 0 auto;
   background-color: var(--background-color);
