@@ -47,7 +47,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"New API Task\",\n    \"description\": \"Task created via API\",\n    \"due_date\": \"2025-12-31\",\n    \"estimated_duration\": 8,\n    \"project_id\": 1,\n    \"technology_id\": 1,\n    \"is_milestone\": false\n}"
+              "raw": "{\n    \"name\": \"New API Task\",\n    \"description\": \"Task created via API\",\n    \"due_date\": \"2025-05-30\",\n    \"estimated_duration\": 8,\n    \"project_id\": 1,\n    \"technology_id\": 1,\n    \"is_milestone\": false\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/tasks",
@@ -117,6 +117,289 @@
               "path": ["api", "tasks", "1", "complete"]
             },
             "description": "Mark a task as incomplete"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            },
+            "description": "Retrieve all projects"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Project",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            },
+            "description": "Retrieve a specific project by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"New API Project\",\n    \"description\": \"Project created via API\",\n    \"due_date\": \"2025-06-30\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            },
+            "description": "Create a new project"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Project\",\n    \"description\": \"This project was updated via API\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            },
+            "description": "Update an existing project"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            },
+            "description": "Delete a project"
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Project",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1", "complete"]
+            },
+            "description": "Mark a project as complete"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Technologies",
+      "item": [
+        {
+          "name": "Get All Technologies",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/technologies",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "technologies"]
+            },
+            "description": "Retrieve all technologies"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Technology",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/technologies/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "technologies", "1"]
+            },
+            "description": "Retrieve a specific technology by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Technology",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"New Technology\",\n    \"description\": \"Technology created via API\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/technologies",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "technologies"]
+            },
+            "description": "Create a new technology"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Technology",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Technology\",\n    \"description\": \"This technology was updated via API\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/technologies/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "technologies", "1"]
+            },
+            "description": "Update an existing technology"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Technology",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/technologies/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "technologies", "1"]
+            },
+            "description": "Delete a technology"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Affirmations",
+      "item": [
+        {
+          "name": "Get All Affirmations",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/affirmations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "affirmations"]
+            },
+            "description": "Retrieve all affirmations"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Affirmation",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/affirmations/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "affirmations", "1"]
+            },
+            "description": "Retrieve a specific affirmation by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Affirmation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"affirmation\": \"New Affirmation\",\n    \"daily_goals\": \"Daily goals via API\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/affirmations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "affirmations"]
+            },
+            "description": "Create a new affirmation"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Affirmation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"affirmation\": \"Updated Affirmation\",\n    \"daily_goals\": \"Updated daily goals\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/affirmations/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "affirmations", "1"]
+            },
+            "description": "Update an existing affirmation"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Affirmation",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/affirmations/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "affirmations", "1"]
+            },
+            "description": "Delete an affirmation"
           },
           "response": []
         }
