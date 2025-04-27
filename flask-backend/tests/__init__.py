@@ -1,6 +1,6 @@
 from app import db, app
 from app.models import Task, Project, Technology, Affirmation, Graph
-from populate import populate_data
+from tests.populate import populate_data
 
 # Initialize the database and populate it with sample data
 if __name__ == '__main__':
