@@ -8,6 +8,7 @@ from .resources.task_resource import TaskListResource, TaskResource, TaskComplet
 from .resources.project_resource import ProjectListResource, ProjectResource, ProjectCompleteResource
 from .resources.technology_resource import TechnologyListResource, TechnologyResource
 from .resources.affirmation_resource import AffirmationListResource, AffirmationResource
+from .resources.auth_resource import RegisterResource, LoginResource, UserListResource, UserResource
 import calendar
 from sqlalchemy.orm import joinedload
 from datetime import datetime
@@ -26,6 +27,12 @@ api.add_resource(TechnologyResource, '/api/technologies/<int:tech_id>')
 
 api.add_resource(AffirmationListResource, '/api/affirmations')
 api.add_resource(AffirmationResource, '/api/affirmations/<int:affirmation_id>')
+
+# Add authentication endpoints
+api.add_resource(RegisterResource, '/api/auth/register')
+api.add_resource(LoginResource, '/api/auth/login')
+api.add_resource(UserListResource, '/api/users')
+api.add_resource(UserResource, '/api/users/<int:user_id>')
 
 # original routes for backward compatibility
 @app.route('/', methods=['GET', 'POST'])
