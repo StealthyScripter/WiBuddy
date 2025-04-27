@@ -3,13 +3,14 @@ from app.models import Task, Project, Technology
 from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
+from flask import abort
 
 class TaskService:
     @staticmethod
-    def add_task(name, estimated_duration=5, due_date=None, description=None, 
-                 is_completed=False, project_id=None, technology_id=None, 
+    def add_task(name, estimated_duration=5, due_date=None, description=None,
+                 is_completed=False, project_id=None, technology_id=None,
                  is_milestone=False, hierarchy=2, completion_date=None):
-        
+
         due_date = datetime.strptime(due_date, '%Y-%m-%d') if due_date else None
 
         new_task = Task(
@@ -36,24 +37,30 @@ class TaskService:
 
 
     @staticmethod
-    def update_task(task_id, name=None, description=None, is_completed=None, 
-                    due_date=None, estimated_duration=None, project_id=None, 
+    def update_task(task_id, name=None, description=None, is_completed=None,
+                    due_date=None, estimated_duration=None, project_id=None,
                     technology_id=None, is_milestone=None):
-        
+
         task = Task.query.get_or_404(task_id)
 
-        if name is None or due_date is None:
-            raise ValueError("Name and due date are mandatory fields.")
+        # Only check for name and due_date if they're explicitly provided
+        if name is not None:
+            task.name = name
+        if description is not None:
+            task.description = description
+        if is_completed is not None:
+            task.is_completed = is_completed
+        if due_date is not None:
+            task.due_date = datetime.strptime(due_date, '%Y-%m-%d')
+        if estimated_duration is not None:
+            task.estimated_duration = estimated_duration
+        if project_id is not None:
+            task.project_id = project_id
+        if technology_id is not None:
+            task.technology_id = technology_id
+        if is_milestone is not None:
+            task.is_milestone = is_milestone
 
-        task.name = name if name else task.name
-        task.due_date = due_date if due_date else task.due_date
-        task.description = description if description is not None else task.description
-        task.is_completed = is_completed if is_completed is not None else task.is_completed
-        task.estimated_duration = estimated_duration if estimated_duration is not None else task.estimated_duration
-        task.project_id = project_id if project_id is not None else task.project_id
-        task.technology_id = technology_id if technology_id is not None else task.technology_id
-        task.is_milestone = is_milestone if is_milestone is not None else task.is_milestone
-        
         # Update completion date if the task is marked as completed
         if task.is_completed:
             task.completion_date = datetime.utcnow()
@@ -73,9 +80,14 @@ class TaskService:
     def complete_task(task_id,task_complete):
         task = Task.query.get_or_404(task_id)
         task.is_completed = task_complete
+        if task_complete:
+            task.completion_date = datetime.utcnow()
+        else:
+            task.completion_date = None
+
         try:
             db.session.commit()
-            return 
+            return
         except:
             return "Unable to mark your task complete"
 
@@ -91,47 +103,31 @@ class TaskService:
             return e
 
     @staticmethod
-    def get_all_tasks(): #display_task()
-        """
-        Retrieves all tasks filtered by completion status.
-        
-        Args:
-            is_completed (bool): Filter for completed tasks.
-        
-        Returns:
-            list: List of Task objects.
-        """
-        return Task.query.filter_by().order_by(Task.id).all()
-    
+    def get_all_tasks():
+        # Retrieves all tasks
+        return Task.query.order_by(Task.id).all()
+
 
     @staticmethod
     def get_task(id): #display_task()
-        """
-        Retrieves all tasks filtered by completion status.
-        
-        Args:
-            is_completed (bool): Filter for completed tasks.
-        
-        Returns:
-            list: List of Task objects.
-        """
+        #retrieves a task by id.
         return Task.query.get_or_404(id)
 
-    
+
     @staticmethod
     def get_incomplete_tasks(is_completed=False):
         try:
-            return Task.query.filter_by(is_completed=is_completed).order_by(Task.id).all()
+            return Task.query.filter_by(is_completed=False).order_by(Task.id).all()
         except SQLAlchemyError as e:
             return "There was an error returning the page. Try again"
-    
+
     @staticmethod
     def sort_tasks(sorting_metric='id', position='all'):
         # Validate sorting metric
         sorting_metrics = {'id': Task.id, 'date_created': Task.date_created, 'name': Task.name}
         if sorting_metric not in sorting_metrics:
             sorting_metric = 'id'  # Default to 'id' if invalid metric is provided
-        
+
         # Build the query with dynamic sorting
         query = Task.query.order_by(sorting_metrics[sorting_metric])
 
@@ -147,15 +143,6 @@ class TaskService:
 
     @staticmethod
     def get_completion_stats(group_by="both"):
-        """
-        Calculates completion statistics grouped by project, technology, or both.
-        
-        Args:
-            group_by (str): Grouping criterion. Can be 'project', 'technology', or 'both' (default).
-        
-        Returns:
-            dict: Dictionary with keys as project/technology names and values as completion percentages.
-        """
         query = db.session.query(
             Task.project_id,
             Task.technology_id,
@@ -164,11 +151,11 @@ class TaskService:
         ).group_by(Task.project_id, Task.technology_id)
 
         results = {}
-        
+
         for row in query.all():
             project_name = None
             technology_name = None
-            
+
             if row.project_id:
                 project = Project.query.get(row.project_id)
                 project_name = project.name if project else "Unknown Project"
@@ -186,6 +173,6 @@ class TaskService:
             elif group_by == "both" and project_name and technology_name:
                 key = f"{project_name} - {technology_name}"
                 results[key] = completion_percentage
-        
+
         return results
-    
+

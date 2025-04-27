@@ -1,6 +1,8 @@
-Flask
-Flask-SQLAlchemy
-Flask-Migrate
-requests
-flask-restful
-flask_cors
+Flask==2.2.3
+Werkzeug==2.2.3
+Flask-SQLAlchemy==3.0.3
+Flask-Migrate==4.0.4
+requests==2.28.2
+flask-restful==0.3.9
+flask_cors==3.0.10
+flask-restx==1.1.0
