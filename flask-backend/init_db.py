@@ -1,5 +1,6 @@
 from app import app, db
 from app.models import *
+from werkzeug.security import generate_password_hash
 
 def init_db():
     with app.app_context():
@@ -9,8 +10,26 @@ def init_db():
         db.create_all()
         print("Database initialized successfully")
 
-        # Optional: Add some initial data for testing
+        # Add some initial data for testing(optional)
         try:
+            # Create admin user
+            admin_user = User(
+                username="admin",
+                email="admin@example.com",
+                password_hash=generate_password_hash("AdminPassword123!"),
+                is_admin=True
+            )
+            db.session.add(admin_user)
+
+            # Create regular user
+            regular_user = User(
+                username="user",
+                email="user@example.com",
+                password_hash=generate_password_hash("UserPassword123!"),
+                is_admin=False
+            )
+            db.session.add(regular_user)
+
             # Create sample technologies
             tech1 = Technology(name="Python", description="Programming language")
             tech2 = Technology(name="Flask", description="Web framework")
@@ -35,6 +54,13 @@ def init_db():
             db.session.add(task)
             db.session.commit()
             print("Sample data added successfully")
+
+            print(f"\nDefault Admin User Created:")
+            print(f"Username: admin")
+            print(f"Password: AdminPassword123!")
+            print(f"\nDefault Regular User Created:")
+            print(f"Username: user")
+            print(f"Password: UserPassword123!")
         except Exception as e:
             db.session.rollback()
             print(f"Error adding sample data: {str(e)}")

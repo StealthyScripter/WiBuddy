@@ -1,3 +1,4 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from datetime import datetime
 from sqlalchemy import func
@@ -20,7 +21,7 @@ class Task(db.Model):
     estimated_duration = db.Column(db.Integer, default=4)  # duration in hours, days, etc.
     completion_date = db.Column(db.DateTime)
     is_milestone = db.Column(db.Boolean, default=False)
-    
+
     # Foreign keys with project and technology references
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=True)
     technology_id = db.Column(db.Integer, db.ForeignKey('technologies.id'), nullable=True)
@@ -107,4 +108,37 @@ class Graph(db.Model):  # Renaming to singular "Graph" for clarity
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     type = db.Column(db.String(50), nullable=False)  # Replace Enum with String for simplicity
-    data_source = db.Column(db.Integer)
+    data_source = db.Column(db.Integer) 
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password_hash = db.Column(db.String(256), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
+    date_joined = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Tasks created by this user (if you want to add ownership)
+    # tasks = db.relationship('Task', backref='creator', lazy=True)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
