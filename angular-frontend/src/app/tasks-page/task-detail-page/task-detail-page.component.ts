@@ -7,7 +7,7 @@ import { Task, TaskStatus, Priority, TaskCategory, Comment } from '../../../mode
 import { BaseService } from '../../../services/base_service';
 import { TaskService, MockTaskService } from '../../../services/task_service';
 import { AuthService } from '../../../services/auth_service';
-import { mockTasks, mockProjects } from '../../../test-data/task.data';
+import { mockTasks, mockProjects } from '../../../services/task.data';
 
 
 
@@ -46,15 +46,6 @@ export class TaskDetailPageComponent implements OnInit {
     private taskService: TaskService,
     @Inject('AuthServiceToken') private authService: AuthService
   ) {
-    // this.route.paramMap.subscribe(params => {
-    //   this.taskId = params.get('taskId');
-    //   if (this.taskId) {
-    //     this.selectedTask = this.tasks.find(task =>
-    //       task.id === this.taskId);
-
-    //       this.loadTaskDetails();
-    //   }
-    // });
   }
 
   ngOnInit() {
@@ -64,11 +55,7 @@ export class TaskDetailPageComponent implements OnInit {
         this.loadTask();
       }
     });
-    // const taskId = this.route.snapshot.paramMap.get('id');
-    // if (taskId) {
-    //   // TODO: Fetch task details using a service
-    //   console.log('Loading task:', taskId);
-    // }
+
   }
 
   loadTask() {

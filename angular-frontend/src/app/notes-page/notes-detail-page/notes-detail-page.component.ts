@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Note, Attachment } from '../../../models.interface';
-import { mockNotes } from '../../../test-data/task.data';
+import { mockNotes } from '../../../services/task.data';
 
 
 @Component({

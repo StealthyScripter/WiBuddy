@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router} from '@angular/router';
 import { Note } from '../../models.interface';
-import { mockNotes } from '../../test-data/task.data';
+import { mockNotes } from '../../services/task.data';
 
 @Component({
   selector: 'app-notes-page',

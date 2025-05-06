@@ -2,16 +2,8 @@ import { Component } from '@angular/core';
 import { FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-
-interface Project {
-  id: number;
-  name: string;
-}
-
-interface Technology {
-  id: number;
-  name: string;
-}
+import { mockProjects, mockTechStack } from '../../../services/task.data';
+import { Project, Technology } from '../../../models.interface';
 
 @Component({
   selector: 'app-new-task-page',
@@ -22,21 +14,10 @@ interface Technology {
 })
 export class NewTaskPageComponent {
   taskForm: FormGroup;
-  
-  projects: Project[] = [
-    { id: 1, name: 'Website Redesign' },
-    { id: 2, name: 'Mobile App Development' },
-    { id: 3, name: 'API Integration' },
-    { id: 4, name: 'Database Migration' }
-  ];
 
-  technologies: Technology[] = [
-    { id: 1, name: 'Angular' },
-    { id: 2, name: 'React' },
-    { id: 3, name: 'Node.js' },
-    { id: 4, name: 'Python' },
-    { id: 5, name: 'Java' }
-  ];
+  projects: Project[] = mockProjects;
+
+  technologies: Technology[] = mockTechStack;
 
   constructor(private fb: FormBuilder) {
     this.taskForm = this.fb.group({

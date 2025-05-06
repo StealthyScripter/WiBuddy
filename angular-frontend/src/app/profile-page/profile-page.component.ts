@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { TaskStatus, Task, Project, Note, Technology } from '../../models.interface';
-import { mockTasks, mockProjects, mockNotes, mockTech } from '../../test-data/task.data';
+import { mockTasks, mockProjects, mockNotes, mockTech } from '../../services/task.data';
 
 interface TimelineActivity {
   type: 'task' | 'project' | 'note';

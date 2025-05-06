@@ -6,7 +6,8 @@ import { Task, Project, DailyAffirmation, TaskStatus, Priority, TaskCategory, No
 import { DueDateComponent } from './due-date/due-date.component';
 import { HomePageCalendarComponent } from './home-page-calendar/home-page-calendar.component';
 import { RelativeTimePipe } from '../pipes/relative-time.pipe';
-import { mockTasks, mockProjects, mockNotes } from '../../test-data/task.data';
+import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation } from '../../services/task.data';
+import { AuthService } from '../../services/auth_service';
 
 @Component({
   selector: 'app-home-page',
@@ -19,14 +20,12 @@ export class HomePageComponent {
   currentWeekStart: Date = new Date();
   weekDays: { day: string, date: Date }[] = [];
   weekDateRange: string = "";
-  username = 'Brian';
+  username: string | null = null;
   newTaskText = '';
   priorityEnum = Priority;
 
-  dailyAffirmation: DailyAffirmation = {
-    quote: "Engineering problems are under-defined; there are many solutions, good, bad, and indifferent. The art is to arrive at a good solution.",
-    author: "Richard James"
-  };
+
+  dailyAffirmation: DailyAffirmation = mockDailyAffirmation;
 
   Tasks: Task[] = mockTasks;
   Projects: Project[] = mockProjects;
@@ -35,7 +34,13 @@ export class HomePageComponent {
   upcomingProjects: Project[] = this.getUpcomingProjects();
   notes: Note[] = mockNotes;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
+
+  ngOnInit(){
+    this.authService.currentUser.subscribe(user => {
+      this.username = user?.username ?? null;
+    });
+  }
 
   getNotesPreview(notes: string[]): string {
     if (!notes || notes.length === 0) return '';

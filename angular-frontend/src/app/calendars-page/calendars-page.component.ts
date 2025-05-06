@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { CalendarEvent, Project } from '../../models.interface';
-import { mockProjects, mockTasks } from '../../test-data/task.data';
+import { mockProjects, mockTasks, mockCalendarEvents } from '../../services/task.data';
 import { Task } from '../../models.interface';
 import {
   addDays,
@@ -42,45 +42,7 @@ export class CalendarsPageComponent implements OnInit {
   monthDates: Date[] = [];
   weekDates: Date[] = [];
 
-  events: CalendarEvent[] = [
-    {
-      id: 1,
-      name: 'Team Meeting',
-      date: new Date(2025, 1, 18, 10, 0),
-      endDate: new Date(2025, 1, 18, 11, 0),
-      type: 'meeting',
-      color: '#4f46e5',
-      description: 'Weekly team sync to discuss project progress'
-    },
-    {
-      id: 2,
-      name: 'Project Deadline',
-      date: new Date(2025, 1, 25),
-      type: 'deadline',
-      projectId: 1,
-      color: '#ef4444',
-      description: 'Website redesign project due'
-    },
-    {
-      id: 3,
-      name: 'Client Call',
-      date: new Date(2025, 1, 20, 14, 0),
-      endDate: new Date(2025, 1, 20, 15, 0),
-      type: 'meeting',
-      color: '#0ea5e9',
-      description: 'Review app requirements with client'
-    },
-    {
-      id: 4,
-      name: 'Design Review',
-      date: new Date(2025, 1, 18, 13, 0),
-      endDate: new Date(2025, 1, 18, 14, 30),
-      type: 'meeting',
-      projectId: 1,
-      color: '#8b5cf6',
-      description: 'Review mockups for website redesign'
-    }
-  ];
+  events: CalendarEvent[] = mockCalendarEvents;
 
   projects: Project[] = mockProjects;
 
