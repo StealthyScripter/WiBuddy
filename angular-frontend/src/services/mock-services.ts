@@ -1,5 +1,5 @@
 import {Note, Task, Project} from '../models.interface';
-import {mockNotes, mockProjects, mockTasks} from '../test-data/task.data'
+import {mockNotes, mockProjects, mockTasks} from './task.data'
 
 // Base service class with common functionality
 abstract class BaseService<T> {
@@ -153,7 +153,7 @@ export class NoteService extends BaseService<Note> {
     await this.delay();
     return this.data.filter(note => note.id === taskId);
   }
-  
+
   // Search notes by content
 async searchNotes(query: string): Promise<Note[]> {
   await this.delay();
