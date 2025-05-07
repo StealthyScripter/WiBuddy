@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { Project, TaskStatus, Priority, Task, Note, Technology } from '../../../models.interface';
-import { mockProjects, mockTasks, mockNotes, mockTech } from '../../../services/task.data';
+import { mockProjects, mockTasks, mockNotes, mockTech } from '../../../services/test.data';
 
 @Component({
   selector: 'app-project-details-page',

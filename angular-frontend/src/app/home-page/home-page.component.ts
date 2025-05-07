@@ -6,7 +6,7 @@ import { Task, Project, DailyAffirmation, TaskStatus, Priority, TaskCategory, No
 import { DueDateComponent } from './due-date/due-date.component';
 import { HomePageCalendarComponent } from './home-page-calendar/home-page-calendar.component';
 import { RelativeTimePipe } from '../pipes/relative-time.pipe';
-import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation } from '../../services/task.data';
+import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation } from '../../services/test.data';
 import { AuthService } from '../../services/auth_service';
 
 @Component({

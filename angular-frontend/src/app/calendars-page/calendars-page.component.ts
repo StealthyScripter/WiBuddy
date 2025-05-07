@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { CalendarEvent, Project } from '../../models.interface';
-import { mockProjects, mockTasks, mockCalendarEvents } from '../../services/task.data';
+import { mockProjects, mockTasks, mockCalendarEvents } from '../../services/test.data';
 import { Task } from '../../models.interface';
 import {
   addDays,

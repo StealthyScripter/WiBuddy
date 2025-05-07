@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { mockProjects, mockTechStack } from '../../../services/task.data';
+import { mockProjects, mockTechStack } from '../../../services/test.data';
 import { Project, Technology } from '../../../models.interface';
 
 @Component({

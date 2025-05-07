@@ -6,7 +6,7 @@ import {
   mockTechStack,
   mockTasks,
   mockProjects
-} from '../../services/task.data';
+} from '../../services/test.data';
 
 interface KeyTakeaway {
   title: string;

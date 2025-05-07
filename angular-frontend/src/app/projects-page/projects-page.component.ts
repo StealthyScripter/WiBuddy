@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { ProjectStats, FilterOptions } from '../../models.interface';
-import { mockProjects } from '../../services/task.data';
+import { mockProjects } from '../../services/test.data';
 
 @Component({
   selector: 'app-projects-page',

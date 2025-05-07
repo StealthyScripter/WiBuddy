@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { Task, TaskStatus, Priority, TaskCategory } from '../../models.interface';
-import { mockTasks } from '../../services/task.data';
+import { mockTasks } from '../../services/test.data';
 
 @Component({
   selector: 'app-tasks-page',
