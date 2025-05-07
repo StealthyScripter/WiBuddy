@@ -1,4 +1,3 @@
-// src/services/task_service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -28,7 +27,11 @@ export class TaskService extends BaseHttpService<Task> {
     projectId?: string,
     isCompleted?: boolean,
     status?: TaskStatus,
-    priority?: Priority
+    priority?: Priority,
+    technologyId?: string,
+    isMilestone?: boolean,
+    dueDate?: string,
+    hierarchy?: string
   } = {}): Observable<any> {
     let params = new HttpParams()
       .set('page', options.page?.toString() || '1')
@@ -48,6 +51,22 @@ export class TaskService extends BaseHttpService<Task> {
 
     if (options.priority !== undefined) {
       params = params.set('priority', options.priority);
+    }
+
+    if (options.technologyId !== undefined) {
+      params = params.set('technology_id', options.technologyId);
+    }
+
+    if (options.isMilestone !== undefined) {
+      params = params.set('is_milestone', options.isMilestone.toString());
+    }
+
+    if (options.dueDate !== undefined) {
+      params = params.set('due_date', options.dueDate);
+    }
+
+    if (options.hierarchy !== undefined) {
+      params = params.set('hierarchy', options.hierarchy);
     }
 
     return this.http.get(this.apiUrl, { params })
@@ -76,6 +95,61 @@ export class TaskService extends BaseHttpService<Task> {
       `${this.apiUrl}/metrics`
     ).pipe(
       catchError(error => UtilityService.handleError(error, 'Failed to fetch task metrics'))
+    );
+  }
+
+  /**
+   * Create a new task
+   */
+  createTask(task: {
+    name: string,
+    description?: string,
+    due_date?: string,
+    estimated_duration?: number,
+    project_id?: string,
+    technology_id?: string,
+    is_milestone?: boolean,
+    hierarchy?: string
+  }): Observable<any> {
+    return this.create(task);
+  }
+
+  /**
+   * Update a task
+   */
+  updateTask(id: string, updates: {
+    name?: string,
+    description?: string,
+    due_date?: string,
+    estimated_duration?: number,
+    project_id?: string,
+    technology_id?: string,
+    is_milestone?: boolean,
+    hierarchy?: string
+  }): Observable<any> {
+    return this.update(id, updates);
+  }
+
+  /**
+   * Mark task as complete
+   */
+  markTaskComplete(id: string): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/${id}/complete`,
+      {}
+    ).pipe(
+      catchError(error => UtilityService.handleError(error, 'Failed to mark task as complete'))
+    );
+  }
+
+  /**
+   * Mark task as incomplete
+   */
+  markTaskIncomplete(id: string): Observable<any> {
+    return this.http.delete(
+      `${this.apiUrl}/${id}/complete`
+    ).pipe(
+      catchError(error => UtilityService.handleError(error, 'Failed to mark task as incomplete'))
     );
   }
 }
@@ -133,6 +207,14 @@ export class MockTaskService extends BaseMockService<Task> {
   }
 
   /**
+   * Get tasks by milestone status
+   */
+  async getByMilestoneStatus(isMilestone: boolean): Promise<Task[]> {
+    await UtilityService.simulateDelay();
+    return this.data.filter(task => task.isMilestone === isMilestone);
+  }
+
+  /**
    * Get tasks by tag
    */
   async getByTag(tag: string): Promise<Task[]> {
@@ -141,13 +223,29 @@ export class MockTaskService extends BaseMockService<Task> {
   }
 
   /**
-   * Toggle task completion status
+   * Mark task as complete
    */
-  async toggleCompletion(id: string): Promise<Task | undefined> {
-    const task = await this.getById(id);
-    if (!task) return undefined;
+  async markTaskComplete(id: string): Promise<Task | undefined> {
+    await UtilityService.simulateDelay();
+    return this.update(id, { isCompleted: true });
+  }
 
-    return this.update(id, { isCompleted: !task.isCompleted });
+  /**
+   * Mark task as incomplete
+   */
+  async markTaskIncomplete(id: string): Promise<Task | undefined> {
+    await UtilityService.simulateDelay();
+    return this.update(id, { isCompleted: false });
+  }
+
+  /**
+   * Get task metrics (completed vs total)
+   */
+  async getTaskMetrics(): Promise<{ completed: number, total: number }> {
+    await UtilityService.simulateDelay();
+    const completed = this.data.filter(task => task.isCompleted).length;
+    const total = this.data.length;
+    return { completed, total };
   }
 }
 
@@ -166,5 +264,4 @@ export class TaskServiceFactory {
     }
   }
 }
-
 

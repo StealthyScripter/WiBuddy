@@ -1,4 +1,3 @@
-// src/services/auth_service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
@@ -11,23 +10,41 @@ interface User {
   username: string;
   email: string;
   is_admin: boolean;
+  date_joined: string;
 }
 
 interface AuthResponse {
-  success: boolean;
+  success?: boolean;
   user?: User;
   access_token?: string;
   refresh_token?: string;
   message?: string;
+  token: string;
+  user_id: string;
+  username: string;
+}
+
+export interface RegisterRequest {
+  username: string;
+  email: string;
+  password: string;
+  is_admin?: boolean;
+}
+
+export interface LoginRequest {
+  username: string;
+  password: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/auth`;
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser = this.currentUserSubject.asObservable();
+  private tokenKey = 'auth_token';
   private tokenExpiryTimer: any;
 
   constructor(private http: HttpClient) {
@@ -36,13 +53,27 @@ export class AuthService {
   }
 
   private loadUserFromStorage() {
-    const userData = localStorage.getItem('currentUser');
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem(this.tokenKey);
+    if (token) {
+      try {
+        // Parse JWT token to get user data (simplified - in real app we'd validate token)
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const payload = JSON.parse(window.atob(base64));
 
-    if (userData && token) {
-      const user = JSON.parse(userData);
-      this.currentUserSubject.next(user);
-      this.scheduleTokenRefresh();
+        if (payload.user_id) {
+          this.currentUserSubject.next({
+            id: payload.user_id,
+            username: payload.username,
+            email: payload.email || '',
+            is_admin: payload.is_admin || false,
+            date_joined: payload.date_joined || ''
+          });
+        }
+      } catch (e) {
+        console.error('Error parsing auth token', e);
+        this.logout();
+      }
     }
   }
 
@@ -92,11 +123,42 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem(this.tokenKey);
     this.currentUserSubject.next(null);
 
     if (this.tokenExpiryTimer) {
       clearTimeout(this.tokenExpiryTimer);
     }
+  }
+
+  /**
+   * Get the current auth token
+   */
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  /**
+   * Check if user is authenticated
+   */
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+
+  /**
+   * Check if user is an admin
+   */
+  isAdmin(): boolean {
+    const user = this.currentUserSubject.value;
+    return user ? user.is_admin : false;
+  }
+
+  /**
+   * Get current user details
+   */
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
   }
 
   refreshToken(): Observable<AuthResponse> {
@@ -182,88 +244,116 @@ export class AuthService {
 }
 
 /**
- * Mock Auth Service for testing
+ * Mock Auth Service for development use
  */
 @Injectable({
   providedIn: 'root'
 })
 export class MockAuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser = this.currentUserSubject.asObservable();
+  public currentUser$ = this.currentUserSubject.asObservable();
+  private mockUsers: User[] = [
+    {
+      id: '1',
+      username: 'admin',
+      email: 'admin@example.com',
+      is_admin: true,
+      date_joined: new Date().toISOString()
+    },
+    {
+      id: '2',
+      username: 'user',
+      email: 'user@example.com',
+      is_admin: false,
+      date_joined: new Date().toISOString()
+    }
+  ];
 
-  // Mock user for testing
-  private mockUser: User = {
-    id: 'mock-user-1',
-    username: 'testuser',
-    email: 'test@example.com',
-    is_admin: false
-  };
-
-  constructor() {}
-
-  public get isLoggedIn(): boolean {
-    return !!this.currentUserSubject.value;
+  constructor() {
+    // Simulate already logged-in user for development
+    this.currentUserSubject.next(this.mockUsers[1]);
   }
 
-  public get currentUserValue(): User | null {
-    return this.currentUserSubject.value;
+  /**
+   * Register a new mock user
+   */
+  async register(userData: RegisterRequest): Promise<User> {
+    await UtilityService.simulateDelay();
+
+    // Check if username already exists
+    if (this.mockUsers.some(u => u.username === userData.username)) {
+      throw new Error('Username already exists');
+    }
+
+    const newUser: User = {
+      id: UtilityService.generateId(),
+      username: userData.username,
+      email: userData.email,
+      is_admin: userData.is_admin || false,
+      date_joined: new Date().toISOString()
+    };
+
+    this.mockUsers.push(newUser);
+    return newUser;
   }
 
-  register(username: string, email: string, password: string): Observable<AuthResponse> {
-    return of({
-      success: true,
-      message: 'Registration successful'
-    } as AuthResponse).pipe(delay(300));
+  /**
+   * Login mock user
+   */
+  async login(credentials: LoginRequest): Promise<AuthResponse> {
+    await UtilityService.simulateDelay();
+
+    const user = this.mockUsers.find(u =>
+      u.username === credentials.username && credentials.password === 'password'
+    );
+
+    if (!user) {
+      throw new Error('Invalid credentials');
+    }
+
+    this.currentUserSubject.next(user);
+
+    return {
+      token: 'mock-jwt-token',
+      user_id: user.id,
+      username: user.username
+    };
   }
 
-  login(usernameOrEmail: string, password: string): Observable<AuthResponse> {
-    // Simulate successful login
-    this.currentUserSubject.next(this.mockUser);
-
-    return of({
-      success: true,
-      user: this.mockUser,
-      access_token: 'mock-access-token',
-      refresh_token: 'mock-refresh-token'
-    } as AuthResponse).pipe(delay(300));
-  }
-
+  /**
+   * Logout mock user
+   */
   logout(): void {
     this.currentUserSubject.next(null);
   }
 
-  refreshToken(): Observable<AuthResponse> {
-    return of({
-      success: true,
-      access_token: 'new-mock-access-token',
-      refresh_token: 'new-mock-refresh-token'
-    } as AuthResponse).pipe(delay(300));
+  /**
+   * Get the current auth token
+   */
+  getToken(): string | null {
+    return this.currentUserSubject.value ? 'mock-jwt-token' : null;
   }
 
-  getUserProfile(): Observable<{user: User}> {
-    return of({
-      user: this.mockUser
-    }).pipe(delay(300));
+  /**
+   * Check if user is authenticated
+   */
+  isAuthenticated(): boolean {
+    return this.currentUserSubject.value !== null;
   }
 
-  updateProfile(updates: Partial<User>): Observable<{success: boolean, user: User}> {
-    const updatedUser = {
-      ...this.mockUser,
-      ...updates
-    };
-    this.currentUserSubject.next(updatedUser);
-
-    return of({
-      success: true,
-      user: updatedUser
-    }).pipe(delay(300));
+  /**
+   * Check if user is an admin
+   */
+  isAdmin(): boolean {
+    const user = this.currentUserSubject.value;
+    return user ? user.is_admin : false;
   }
 
-  changePassword(currentPassword: string, newPassword: string): Observable<{success: boolean, message: string}> {
-    return of({
-      success: true,
-      message: 'Password changed successfully'
-    }).pipe(delay(300));
+  /**
+   * Get current user details
+   */
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
   }
 }
 
