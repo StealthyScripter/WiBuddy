@@ -2,30 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-import { TaskStatus, Task, Project, Note, Technology } from '../../models.interface';
+import { TaskStatus, Task, Project, Note, Technology, TimelineActivity, RecentNote, Deadline } from '../../models.interface';
 import { mockTasks, mockProjects, mockNotes, mockTech } from '../../services/test.data';
-
-interface TimelineActivity {
-  type: 'task' | 'project' | 'note';
-  title: string;
-  description: string;
-  time: string;
-}
-
-interface RecentNote {
-  id:string;
-  name: string;
-  preview: string;
-  date: string;
-}
-
-interface Deadline {
-  day: string;
-  month: string;
-  title: string;
-  project: string;
-  priority: 'high' | 'medium' | 'low';
-}
 
 @Component({
   selector: 'app-profile-page',

@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { Task, Project, Technology } from '../../models.interface';
+import { Task, Project, Technology, KeyTakeaway } from '../../models.interface';
 import {
   mockTechStack,
   mockTasks,
   mockProjects
 } from '../../services/test.data';
-
-interface KeyTakeaway {
-  title: string;
-  description: string;
-}
 
 @Component({
   selector: 'app-progress-summary',

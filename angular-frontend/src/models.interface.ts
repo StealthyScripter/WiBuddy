@@ -210,3 +210,44 @@ export interface Comment {
     url: string;
   }>;
 }
+
+export interface CalendarDay {
+  date: Date;
+  dayName: string;
+  isToday: boolean;
+  items: Array<{
+    id: string;
+    name: string;
+    type: 'task' | 'project';
+    priority: Priority;
+    projectId?: string;
+    projectColor?: string;
+  }>;
+}
+
+export interface TimelineActivity {
+  type: 'task' | 'project' | 'note';
+  title: string;
+  description: string;
+  time: string;
+}
+
+export interface RecentNote {
+  id:string;
+  name: string;
+  preview: string;
+  date: string;
+}
+
+export interface Deadline {
+  day: string;
+  month: string;
+  title: string;
+  project: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
+export interface KeyTakeaway {
+  title: string;
+  description: string;
+}

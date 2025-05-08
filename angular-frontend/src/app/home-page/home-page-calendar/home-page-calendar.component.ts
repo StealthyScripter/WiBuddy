@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { Task, Project, TaskStatus, Priority } from '../../../models.interface';
+import { Task, Project, TaskStatus, Priority, CalendarDay } from '../../../models.interface';
 import { mockTasks, mockProjects } from '../../../services/test.data';
 import {
   addDays,
@@ -12,19 +12,6 @@ import {
   isSameDay
 } from 'date-fns';
 
-interface CalendarDay {
-  date: Date;
-  dayName: string;
-  isToday: boolean;
-  items: Array<{
-    id: string;
-    name: string;
-    type: 'task' | 'project';
-    priority: Priority;
-    projectId?: string;
-    projectColor?: string;
-  }>;
-}
 @Component({
   selector: 'app-home-page-calendar',
   standalone:true,
