@@ -73,10 +73,8 @@ class Task(db.Model):
     last_modified = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     tags = db.Column(db.JSON)
 
-
     # Foreign keys with project and technology references
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id', ondelete='CASCADE'), nullable=True)
-    attachments = db.relationship('Attachment', backref='task', lazy=True)
     comments = db.relationship('Comment', backref='task', lazy=True)
 
     # Relationship for prerequisites
@@ -113,6 +111,10 @@ class Task(db.Model):
         lazy='dynamic'
     )
 
+    # Method to get attachments for this task
+    def get_attachments(self):
+        return Attachment.query.filter_by(entity_type='task', entity_id=self.id).all()
+
 class Project(db.Model):
     __tablename__ = 'projects'
     __table_args__ = (
@@ -147,6 +149,10 @@ class Project(db.Model):
 
     def technologies_used(self):
         return list(set(task.technology for task in self.tasks if task.technology))
+
+    # Method to get attachments for this project
+    def get_attachments(self):
+        return Attachment.query.filter_by(entity_type='project', entity_id=self.id).all()
 
 
 class Progress(db.Model):
@@ -262,11 +268,12 @@ class Note(db.Model):
     items = db.Column(db.JSON)  # For list-type notes, store as JSON array
     ai_summary = db.Column(db.String)
 
-    # Relationships
-    attachments = db.relationship('Attachment', backref='note', lazy=True)
-
     # User relationship (optional)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+
+    # Method to get attachments for this note
+    def get_attachments(self):
+        return Attachment.query.filter_by(entity_type='note', entity_id=self.id).all()
 
 
 class Comment(db.Model):
@@ -280,11 +287,12 @@ class Comment(db.Model):
     task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'), nullable=True)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=True)
 
-    # Relationships
-    attachments = db.relationship('Attachment', backref='comment', lazy=True)
-
     # User who authored the comment
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+
+    # Method to get attachments for this comment
+    def get_attachments(self):
+        return Attachment.query.filter_by(entity_type='comment', entity_id=self.id).all()
 
 
 class CalendarEvent(db.Model):
@@ -309,4 +317,3 @@ class CalendarEvent(db.Model):
     db.Index('idx_calendar_task', 'task_id'),
     db.Index('idx_calendar_user', 'user_id'),
     )
-
