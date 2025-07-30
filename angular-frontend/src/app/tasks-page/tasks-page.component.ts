@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { Task, TaskStatus, Priority, TaskCategory } from '../../models.interface';
+import { BaseService } from '../../services/base_service';
 import { mockTasks } from '../../services/test.data';
 
 @Component({
@@ -23,13 +24,33 @@ export class TasksPageComponent implements OnInit {
   error = '';
 
   constructor(
-    private router: Router
+    private router: Router,
+    @Inject('TaskServiceToken') private taskService: BaseService<Task>
   ) {}
 
   ngOnInit() {
-    this.filteredTasks = [...this.tasks]; // Initialize with all tasks
-    this.filterTasks();
+    this.loadTasks();
   }
+
+  loadTasks() {
+    this.loading = true;
+
+    const result = this.taskService.getAll();
+
+    if (result instanceof Promise) {
+      result.then(tasks => {
+        this.tasks = tasks;
+        this.filteredTasks = [...tasks];
+        this.loading = false;
+      });
+    } else {
+      result.subscribe(response => {
+        this.tasks = response.tasks || response;
+        this.filteredTasks = [...this.tasks];
+        this.loading = false;
+      });
+    }
+  };
 
   filterTasks() {
     this.filteredTasks = this.tasks.filter(task =>
@@ -117,5 +138,27 @@ export class TasksPageComponent implements OnInit {
   getStatusClass(completionStatus: string): string {
     if (!completionStatus) return '';
     return completionStatus.toLowerCase().replace(/[_\s]+/g, '-');
+  }
+
+  getStatusDisplay(status: TaskStatus): string {
+    return status.replace(/_/g, ' ').toLowerCase()
+      .replace(/\b\w/g, l => l.toUpperCase());
+  }
+
+  isOverdue(task: Task): boolean {
+    if (!task.dueDate || task.isCompleted) return false;
+    return new Date(task.dueDate) < new Date();
+  }
+
+  toggleTaskComplete(task: Task) {
+    const result = this.taskService.update(task.id, {
+      isCompleted: !task.isCompleted
+    });
+
+    if (result instanceof Promise) {
+      result.then(() => this.loadTasks());
+    } else {
+      result.subscribe(() => this.loadTasks());
+    }
   }
 }

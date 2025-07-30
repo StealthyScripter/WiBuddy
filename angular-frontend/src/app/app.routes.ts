@@ -15,10 +15,16 @@ import { NotesDetailPageComponent } from './notes-page/notes-detail-page/notes-d
 
 
 import { HomePageComponent } from './home-page/home-page.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 const routeConfig: Routes = [
-     {path: '', component: HomePageComponent},
+    //  { path: 'login', component: LoginComponent },
+
+    //  { path: 'register', component: RegisterComponent },
+
+    //  {path: '', component: HomePageComponent, canActivate: [AuthGuard]},
+    {path: '', component: HomePageComponent },
 
      {path: 'tasks', component: TasksPageComponent},
 

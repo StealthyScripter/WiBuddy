@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, OnInit, Inject } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,8 @@ import { HomePageCalendarComponent } from './home-page-calendar/home-page-calend
 import { RelativeTimePipe } from '../pipes/relative-time.pipe';
 import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation } from '../../services/test.data';
 import { AuthService } from '../../services/auth_service';
+import { BaseService } from '../../services/base_service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -16,31 +18,84 @@ import { AuthService } from '../../services/auth_service';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit {
   currentWeekStart: Date = new Date();
   weekDays: { day: string, date: Date }[] = [];
   weekDateRange: string = "";
   username: string | null = null;
   newTaskText = '';
   priorityEnum = Priority;
-
-
   dailyAffirmation: DailyAffirmation = mockDailyAffirmation;
 
-  Tasks: Task[] = mockTasks;
-  Projects: Project[] = mockProjects;
-  todaysTasks: Task[] = this.getTasksForDay();
-  ongoingProjects: Project[] = this.getOngoingProjects();
-  upcomingProjects: Project[] = this.getUpcomingProjects();
+  tasks: Task[] = mockTasks;
+  projects: Project[] = mockProjects;
+  todaysTasks: Task[] = [];
+  ongoingProjects: Project[] = [];
+  upcomingProjects: Project[] = [];
   notes: Note[] = mockNotes;
+  loading = true;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    @Inject('TaskServiceToken') private taskService: BaseService<Task>,
+    @Inject('ProjectServiceToken') private projectService: BaseService<Project>
+    ) {}
 
   ngOnInit(){
-    this.authService.currentUser.subscribe(user => {
-      this.username = user?.username ?? null;
-    });
+    this.loadDashboardData();
   }
+
+  async loadDashboardData() {
+    try {
+      // Load tasks
+      const taskResult = this.taskService.getAll();
+      const projectResult = this.projectService.getAll();
+
+      if (taskResult instanceof Promise) {
+        this.tasks = await taskResult;
+        this.projects = await projectResult as Project[];
+      } else {
+        taskResult.subscribe(response => {
+          this.tasks = response.tasks || response;
+        });
+        (projectResult as Observable<any>).subscribe(response => {
+          this.projects = response.projects || response;
+        });
+      }
+      this.todaysTasks = this.getTasksForDay();
+      this.ongoingProjects = this.getOngoingProjects();
+      this.upcomingProjects = this.getUpcomingProjects();
+
+      } catch (error) {
+        console.error('Failed to load dashboard data:', error);
+      } finally {
+        this.loading = false;
+      }
+    }
+
+    // Key dashboard metrics
+    tasksInProgress(): Task[] {
+      return this.tasks.filter(task =>
+        !task.isCompleted && task.completionStatus !== TaskStatus.CANCELLED
+      );
+    }
+
+    get overdueTasksCount(): number {
+      const today = new Date();
+      return this.tasks.filter(task =>
+        !task.isCompleted &&
+        task.dueDate &&
+        new Date(task.dueDate) < today
+      ).length;
+    }
+
+    get completionRate(): number {
+      if (this.tasks.length === 0) return 0;
+      const completed = this.tasks.filter(task => task.isCompleted).length;
+      return Math.round((completed / this.tasks.length) * 100);
+    }
+
 
   getNotesPreview(notes: string[]): string {
     if (!notes || notes.length === 0) return '';
@@ -57,24 +112,20 @@ export class HomePageComponent {
     return content;
   }
 
-  tasksInProgress(): Task[] {
-    return this.todaysTasks.filter(task => task.completionStatus !== TaskStatus.CANCELLED);
-  }
-
   getTasksForDay() {
-    return this.Tasks.filter(task => {
+    return this.tasks.filter(task => {
       return !task.isCompleted;
     });
   }
 
   getUpcomingProjects(){
-    return this.Projects.filter(project => {
+    return this.projects.filter(project => {
       return project.progress === 0;
     });
   };
 
   getOngoingProjects(){
-    return this.Projects.filter(project => {
+    return this.projects.filter(project => {
       return project.progress > 0;
     });
   };

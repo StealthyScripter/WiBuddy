@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { ProjectStats, FilterOptions } from '../../models.interface';
-import { mockProjects } from '../../services/test.data';
+import { ProjectService } from '../../services/project_service';
+import { mockProjects, mockTasks } from '../../services/test.data';
 
 @Component({
   selector: 'app-projects-page',
@@ -28,7 +29,9 @@ export class ProjectsPageComponent implements OnInit {
 
   filteredProjects: Project[] = [];
 
-  constructor(private router: Router) {}
+  allTasks: Task[] = mockTasks;
+
+  constructor(private router: Router, private projectService: ProjectService) {}
 
   ngOnInit() {
     this.filterProjects();
@@ -48,6 +51,21 @@ export class ProjectsPageComponent implements OnInit {
     this.router.navigate(['/project-details', projectId])
   }
 
+   // In task form, load projects for dropdown
+  loadProjects() {
+    const result = this.projectService.getAll();
+
+    if (result instanceof Promise) {
+      result.then(projects => {
+        this.projects = projects;
+      });
+    } else {
+      result.subscribe(response => {
+        this.projects = response.projects || response;
+      });
+    }
+  }
+
   filterProjects() {
     this.filteredProjects = this.projects.filter(project => {
       const matchesSearch = !this.filterOptions.searchQuery ||
@@ -64,5 +82,16 @@ export class ProjectsPageComponent implements OnInit {
 
   addProject(){
     this.router.navigate(['/add-project'])
+  }
+
+  // Show tasks count per project
+  getTaskCount(projectId: string): number {
+    return this.allTasks.filter(task => task.projectId === projectId).length;
+  }
+
+  getCompletedTaskCount(projectId: string): number {
+    return this.allTasks.filter(task =>
+      task.projectId === projectId && task.isCompleted
+    ).length;
   }
 }
