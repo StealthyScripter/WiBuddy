@@ -21,6 +21,8 @@ import { TrendsPageComponent } from './trends-page/trends-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AffirmationsDetailsPageComponent } from './home-page/affirmations-details-page/affirmations-details-page.component';
+import { NewEventComponent } from './calendars-page/new-event/new-event.component';
+import { CalendarDayDetailComponent } from './calendars-page/calendar-day-detail/calendar-day-detail.component';
 
 
 const routeConfig: Routes = [
@@ -59,7 +61,11 @@ const routeConfig: Routes = [
 
      { path: 'trends', component: TrendsPageComponent },
 
-     {path: 'affirmations/:id', component: AffirmationsDetailsPageComponent}
+     {path: 'affirmations/:id', component: AffirmationsDetailsPageComponent},
+
+     {path: 'new-event', component: NewEventComponent},
+
+     {path: 'day/:date', component: CalendarDayDetailComponent}
 
 ];
 

@@ -57,7 +57,6 @@
           [ngClass]="{'overdue': isOverdue(task)}">
             Due: {{ task.dueDate | date:'MMM dd' }}
           </span>
-          <!-- {{ task.dueDate | date:'MMM dd, yyyy' }} -->
         </div>
 
         <div class="task-category">
@@ -72,10 +71,12 @@
         {{ task.isCompleted ? 'Undo' : 'Complete' }}
       </button>
 
+      </div>
     </div>
-
-      <p>No tasks found matching your criteria</p>
-      <button class="btn btn-primary" (click)="addTask()">Create a new task</button>
-    </div>
+    <div *ngIf="filteredTasks.length === 0" class="empty-state">
+    <svg ...></svg>
+    <p>No tasks found matching your criteria</p>
+    <button class="btn btn-primary" (click)="addTask()">Create a new task</button>
+  </div>
   </div>
 </div>

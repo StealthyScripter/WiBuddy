@@ -168,10 +168,19 @@ export class CalendarsPageComponent implements OnInit {
   }
 
   navigateToNote(noteId: string){
-    this.router.navigate(['notes-details',noteId]);
+    this.router.navigate(['/notes-details',noteId]);
   }
 
   navigateToNewNote() {
-    this.router.navigate(['add-notes']);
+    this.router.navigate(['/add-notes']);
+  }
+
+  navigateToNewEvent() {
+    this.router.navigate(['/new-event']);
+  }
+
+  navigateToDay(date: Date) {
+    const formatted = date.toISOString().split('T')[0];
+    this.router.navigate(['/day', formatted]);
   }
 }

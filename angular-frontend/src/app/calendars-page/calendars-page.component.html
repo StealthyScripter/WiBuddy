@@ -40,7 +40,8 @@
                 [class.different-month]="!isSameMonth(date, month[14])"
                 [class.has-event]="hasEvents(date)"
                 [class.today]="isSameDay(date, currentDate)"
-                class="mini-date">
+                class="mini-date"
+                (click)="navigateToDay(date)">
                 {{date | date:'d'}}
               </div>
             </div>
@@ -58,7 +59,8 @@
             *ngFor="let date of monthDates"
             [class.different-month]="!isSameMonth(date, currentViewDate)"
             [class.today]="isSameDay(date, currentDate)"
-            class="date-cell">
+            class="date-cell"
+            (click)="navigateToDay(date)">
             <div class="date-number">{{date | date:'d'}}</div>
             <div class="event-list">
               <div
@@ -81,7 +83,7 @@
         <div class="week-header">
           <div class="time-column"></div>
           <div class="day-column" *ngFor="let date of weekDates">
-            <div class="day-label" [class.today]="isSameDay(date, currentDate)">
+            <div class="day-label" [class.today]="isSameDay(date, currentDate)" (click)="navigateToDay(date)">
               <span class="weekday">{{date | date:'EEE'}}</span>
               <span class="date-number">{{date | date:'d'}}</span>
             </div>
@@ -95,7 +97,7 @@
               </div>
             </div>
             <div class="day-column" *ngFor="let date of weekDates">
-              <div class="hour-slot" *ngFor="let hour of hours">
+              <div class="hour-slot" (click)="navigateToDay(date)" *ngFor="let hour of hours">
                 <!-- Events would be positioned absolutely here -->
               </div>
               <div
@@ -168,7 +170,7 @@
 
       <div class="sidebar-section quick-add">
         <h3 class="sidebar-title">Quick Add</h3>
-        <button class="add-event-btn">
+        <button class="add-event-btn" (click)="navigateToNewEvent()">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           New Event
         </button>
