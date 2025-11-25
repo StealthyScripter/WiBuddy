@@ -248,7 +248,7 @@ export class LmsPageComponent implements OnInit {
       this.toggleFolder(item.id);
       this.currentFolderId = item.id;
     } else if (item.type === 'course') {
-      this.navigateToCourse(item.id);
+      this.navigateToResource(item.id);
     } else if (item.type === 'note') {
       this.navigateToNote(item.id);
     }
@@ -436,12 +436,12 @@ export class LmsPageComponent implements OnInit {
   }
 
   // Navigation
-  navigateToCourse(courseId: string) {
-    this.router.navigate(['/lms/course', courseId]);
+  navigateToResource(courseId: string) {
+    this.router.navigate(['/resource', courseId]);
   }
 
   navigateToNote(noteId: string) {
-    this.router.navigate(['/lms/note', noteId]);
+    this.router.navigate(['/notes-details', noteId]);
   }
 
   navigateToNewNote() {
@@ -468,5 +468,19 @@ export class LmsPageComponent implements OnInit {
   getTargetPosition(skill: Skill): string {
     return `${skill.targetLevel}%`;
   }
+
+  handleItemClick(item: any) {
+    console.log("Handling item click")
+  if (item.type === 'folder') {
+    this.toggleFolder(item.id);
+  } else if (item.type === 'note') {
+    this.navigateToNote(item.id);
+  } else if (item.type === 'resource') {
+    this.navigateToResource(item.id);
+  }
+
+  this.selectItem(item);
+}
+
 }
 

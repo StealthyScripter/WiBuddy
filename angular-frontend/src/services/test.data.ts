@@ -925,7 +925,7 @@ export const mockTrendItems: TrendItem[] = [
   {
     id: 'trend-1',
     title: 'React 19 Released with New Features',
-    source: 'React Blog',
+    resource: 'React Blog',
     sourceType: 'article',
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
     relevanceScore: 95,
@@ -940,7 +940,7 @@ export const mockTrendItems: TrendItem[] = [
   {
     id: 'trend-2',
     title: 'TypeScript 5.4 Announcement',
-    source: 'TypeScript Docs',
+    resource: 'TypeScript Docs',
     sourceType: 'bulletin',
     timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
     relevanceScore: 88,
@@ -955,7 +955,7 @@ export const mockTrendItems: TrendItem[] = [
   {
     id: 'trend-3',
     title: 'AI in Healthcare: Latest Developments',
-    source: 'Healthcare Tech RSS',
+    resource: 'Healthcare Tech RSS',
     sourceType: 'rss',
     timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
     relevanceScore: 72,
@@ -970,7 +970,7 @@ export const mockTrendItems: TrendItem[] = [
   {
     id: 'trend-4',
     title: 'Job Market Update: Frontend Developers',
-    source: 'LinkedIn Newsletter',
+    resource: 'LinkedIn Newsletter',
     sourceType: 'email',
     timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     relevanceScore: 85,

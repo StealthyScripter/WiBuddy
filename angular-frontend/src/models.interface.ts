@@ -351,7 +351,7 @@ export interface LearningActivity extends BaseEntity {
 export interface TrendItem extends BaseEntity {
   id:string;
   title: string;
-  source: string;
+  resource: string;
   sourceType: 'article' | 'bulletin' | 'rss' | 'email' | 'webinar' | 'publication';
   timestamp: ISODateString;
   relevanceScore: number; // 0-100

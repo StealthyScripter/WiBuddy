@@ -28,6 +28,7 @@ import { MarketInsightComponent } from './trends-page/market-insight/market-insi
 import { RecommendationComponent } from './trends-page/recommendation/recommendation.component';
 import { SkillNotificationComponent } from './trends-page/skill-notification/skill-notification.component';
 import { TrendNotificationComponent } from './trends-page/trend-notification/trend-notification.component';
+import { ResourceComponent } from './lms-page/resource/resource.component';
 
 
 const routeConfig: Routes = [
@@ -80,7 +81,9 @@ const routeConfig: Routes = [
 
      {path: 'skill-notification/:id', component: SkillNotificationComponent},
 
-     {path: 'trend-notification/:id', component: TrendNotificationComponent}
+     {path: 'trend-notification/:id', component: TrendNotificationComponent},
+
+     {path: 'resource/:id', component: ResourceComponent}
 
 ];
 
