@@ -2,270 +2,243 @@
   <!-- Header -->
   <div class="bg-white border-b border-gray-200 px-6 py-4">
     <div class="max-w-7xl mx-auto">
-      <h1 class="text-2xl font-bold text-gray-900">Learning Dashboard</h1>
-      <p class="text-gray-600 text-sm mt-1">Track your skills, courses, and progress</p>
+      <h1 class="text-2xl font-bold text-gray-900">Learning Management</h1>
+      <p class="text-gray-600 text-sm mt-1">Organize your learning materials and track progress</p>
     </div>
   </div>
 
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto p-6">
-    <!-- Course Header Section -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6" *ngIf="isSelected Course">
-      <!-- Tabs -->
-      <div class="border-b border-gray-200 mb-4">
-        <div class="flex gap-4">
-          <button
-            *ngFor="let tab of ['overview', 'materials', 'practice', 'progress']"
-            (click)="setActiveTab(tab)"
-            [class.border-indigo-600]="activeTab === tab"
-            [class.text-indigo-600]="activeTab === tab"
-            [class.border-transparent]="activeTab !== tab"
-            [class.text-gray-600]="activeTab !== tab"
-            class="py-3 px-2 border-b-2 transition-colors font-medium hover:text-gray-900">
-            {{ tab | titlecase }}
-          </button>
-        </div>
-      </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-      <!-- Course Title and Progress -->
-      <div *ngIf="selectedCourse">
-        <h3 class="text-xl font-semibold mb-4">{{ selectedCourse.name }}</h3>
-
-        <div class="flex items-center gap-4 mb-6">
-          <div class="flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-              <polyline points="22 4 12 14.01 9 11.01"></polyline>
-            </svg>
-            <span class="text-sm text-gray-600">
-              {{ selectedCourse.completedModules }}/{{ selectedCourse.modules }} modules completed
-            </span>
-          </div>
-          <div class="flex items-center gap-2" *ngIf="selectedCourse.totalHours">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            <span class="text-sm text-gray-600">{{ selectedCourse.totalHours }} hours total</span>
-          </div>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="mb-6">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-sm font-medium">Overall Progress</span>
-            <span class="text-sm text-gray-600">{{ selectedCourse.progress }}%</span>
-          </div>
-          <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              class="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all"
-              [style.width.%]="selectedCourse.progress">
+      <!-- Left Column - Library (2 columns) -->
+      <div class="lg:col-span-2">
+        <!-- Library Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+              Library
+            </h2>
+            <div class="flex gap-2">
+              <button
+                (click)="openCreateModal('folder')"
+                class="px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+                New Folder
+              </button>
+              <button
+                (click)="openCreateModal('note')"
+                class="px-3 py-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                New Note
+              </button>
             </div>
           </div>
+
+          <!-- Library Tree -->
+          <div class="space-y-1 max-h-96 overflow-y-auto">
+            <ng-container *ngTemplateOutlet="treeTemplate; context: {items: libraryItems, level: 0}"></ng-container>
+          </div>
         </div>
 
-        <!-- Tab Content: Materials -->
-        <div *ngIf="activeTab === 'materials'">
+        <!-- AI Chat Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
           <div class="flex justify-between items-center mb-4">
-            <h4 class="text-lg font-semibold">Study Materials</h4>
-            <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm">
-              Add Material
+            <h2 class="text-lg font-semibold flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              AI Study Assistant
+            </h2>
+            <button
+              *ngIf="aiConversation.length > 0"
+              (click)="clearAIConversation()"
+              class="text-sm text-gray-500 hover:text-gray-700">
+              Clear
             </button>
           </div>
 
+          <!-- Conversation History -->
+          <div *ngIf="aiConversation.length > 0" class="mb-4 space-y-3 max-h-64 overflow-y-auto">
+            <div
+              *ngFor="let message of aiConversation"
+              [class.text-right]="message.role === 'user'"
+              class="flex"
+              [class.justify-end]="message.role === 'user'">
+              <div
+                [class.bg-indigo-600]="message.role === 'user'"
+                [class.text-white]="message.role === 'user'"
+                [class.bg-gray-100]="message.role === 'assistant'"
+                [class.text-gray-800]="message.role === 'assistant'"
+                class="max-w-[80%] px-4 py-2 rounded-lg text-sm">
+                {{ message.content }}
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Input -->
+          <div class="flex gap-2">
+            <input
+              [(ngModel)]="aiPrompt"
+              (keyup.enter)="sendAIMessage()"
+              [disabled]="isAiLoading"
+              type="text"
+              placeholder="Ask me anything about your learning..."
+              class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:bg-gray-100">
+            <button
+              (click)="sendAIMessage()"
+              [disabled]="!aiPrompt.trim() || isAiLoading"
+              class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+              <svg *ngIf="isAiLoading" class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span *ngIf="!isAiLoading">Send</span>
+              <span *ngIf="isAiLoading">...</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Insights -->
+      <div class="lg:col-span-1 space-y-6">
+
+        <!-- Skills Mastery -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 2a7 7 0 0 0 0 14"></path>
+            </svg>
+            Skill Progress
+          </h2>
+          <div class="space-y-4">
+            <div *ngFor="let skill of skills.slice(0, 5)">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-sm font-medium">{{ skill.name }}</span>
+                <span class="text-xs text-gray-500">{{ skill.level }}% → {{ skill.targetLevel }}%</span>
+              </div>
+              <div class="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  class="absolute h-full bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-full transition-all"
+                  [style.width]="getProgressBarWidth(skill)">
+                </div>
+                <div
+                  class="absolute h-full border-r-2 border-dashed border-gray-400"
+                  [style.left]="getTargetPosition(skill)">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <h2 class="text-lg font-semibold mb-4">Recent Activity</h2>
           <div class="space-y-3">
             <div
-              *ngFor="let material of studyMaterials"
-              class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-                    <path *ngIf="material.type === 'notes'" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <path *ngIf="material.type === 'flashcards'" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path>
-                  </svg>
-                </div>
-                <div class="flex-1">
-                  <h5 class="font-medium mb-1">{{ material.title }}</h5>
-                  <div class="flex items-center gap-4 text-sm text-gray-600">
-                    <span>{{ material.items }} items</span>
-                    <span>•</span>
-                    <span>Modified {{ formatTime(material.lastModified) }}</span>
-                  </div>
-                </div>
-                <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                  </svg>
-                </button>
+              *ngFor="let activity of recentActivities.slice(0, 5)"
+              class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+              <svg
+                *ngIf="activity.completed"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-green-600 flex-shrink-0 mt-0.5">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <svg
+                *ngIf="!activity.completed"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-blue-600 flex-shrink-0 mt-0.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="10 8 16 12 10 16 10 8"></polygon>
+              </svg>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium truncate">{{ activity.moduleName }}</p>
+                <p class="text-xs text-gray-600">{{ activity.courseId }}</p>
               </div>
+              <span class="text-xs text-gray-500 flex-shrink-0">{{ formatTime(activity.timestamp) }}</span>
             </div>
           </div>
         </div>
 
-        <!-- Tab Content: Practice -->
-        <div *ngIf="activeTab === 'practice'" class="text-center py-12">
-          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300 mx-auto mb-4">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M12 16v-4"></path>
-            <path d="M12 8h.01"></path>
-          </svg>
-          <p class="text-gray-600">Practice exercises and quizzes coming soon</p>
-        </div>
-
-        <!-- Tab Content: Progress -->
-        <div *ngIf="activeTab === 'progress'" class="text-center py-12">
-          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300 mx-auto mb-4">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-            <polyline points="17 6 23 6 23 12"></polyline>
-          </svg>
-          <p class="text-gray-600">Detailed progress analytics coming soon</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Course Library -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-      <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-        </svg>
-        Library
-      </h2>
-      <div class="space-y-1 max-h-96 overflow-y-auto" *ngIf="courseTree">
-        <ng-container *ngTemplateOutlet="treeTemplate; context: {item: courseTree, level: 0}"></ng-container>
-      </div>
-    </div>
-
-    <!-- Recent Activity & Skills in Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-      <!-- Recent Activity -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-        <h2 class="text-lg font-semibold mb-4">Recent Activity</h2>
-        <div class="space-y-3">
-          <div
-            *ngFor="let activity of recentActivities"
-            class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-            <svg
-              *ngIf="activity.completed"
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-green-600 flex-shrink-0 mt-0.5">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-              <polyline points="22 4 12 14.01 9 11.01"></polyline>
-            </svg>
-            <svg
-              *ngIf="!activity.completed"
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-blue-600 flex-shrink-0 mt-0.5">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polygon points="10 8 16 12 10 16 10 8"></polygon>
-            </svg>
-            <div class="flex-1">
-              <p class="text-sm font-medium">{{ activity.moduleName }}</p>
-              <p class="text-xs text-gray-600">{{ activity.courseId }}</p>
-            </div>
-            <span class="text-xs text-gray-500">{{ formatTime(activity.timestamp) }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Skills Mastery -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M12 2a7 7 0 0 0 0 14"></path>
-          </svg>
-          Skill Mastery
-        </h2>
-        <div class="space-y-4">
-          <div *ngFor="let skill of skills">
-            <div class="flex justify-between items-center mb-1">
-              <span class="text-sm font-medium">{{ skill.name }}</span>
-              <span class="text-xs text-gray-500">{{ skill.level }}% → {{ skill.targetLevel }}%</span>
-            </div>
-            <div class="relative h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                class="absolute h-full bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-full transition-all"
-                [style.width]="getProgressBarWidth(skill)">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-600">Active Courses</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ activeCourses }}</p>
               </div>
-              <div
-                class="absolute h-full border-r-2 border-dashed border-gray-400"
-                [style.left]="getTargetPosition(skill)">
-              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Bottom Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-gray-600">Active Courses</p>
-            <p class="text-2xl font-bold text-gray-900 mt-1">{{ activeCourses }}</p>
+          <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-600">Study Hours</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ studyHours }}</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
           </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-          </svg>
-        </div>
-      </div>
 
-      <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-gray-600">Study Hours</p>
-            <p class="text-2xl font-bold text-gray-900 mt-1">{{ studyHours }}</p>
+          <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-600">Skills Mastered</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ skillsMastered }}</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-600">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
           </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg>
-        </div>
-      </div>
 
-      <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-gray-600">Skills Mastered</p>
-            <p class="text-2xl font-bold text-gray-900 mt-1">{{ skillsMastered }}</p>
+          <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-600">Avg Progress</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ avgProgress }}%</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </div>
           </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-600">
-            <circle cx="12" cy="8" r="7"></circle>
-            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-          </svg>
-        </div>
-      </div>
-
-      <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-gray-600">Avg Progress</p>
-            <p class="text-2xl font-bold text-gray-900 mt-1">{{ avgProgress }}%</p>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-            <polyline points="17 6 23 6 23 12"></polyline>
-          </svg>
         </div>
       </div>
     </div>
@@ -273,47 +246,135 @@
 </div>
 
 <!-- Tree Template for Recursive Rendering -->
-<ng-template #treeTemplate let-item="item" let-level="level">
-  <div>
+<ng-template #treeTemplate let-items="items" let-level="level">
+  <div *ngFor="let item of items">
     <div
-      [class.bg-indigo-50]="isSelected(item.id)"
-      [class.border-l-4]="isSelected(item.id)"
-      [class.border-indigo-600]="isSelected(item.id)"
+      [class.bg-indigo-50]="selectedLibraryItem?.id === item.id"
+      [class.border-l-4]="selectedLibraryItem?.id === item.id"
+      [class.border-indigo-600]="selectedLibraryItem?.id === item.id"
       [style.padding-left]="getItemPaddingLeft(level)"
-      class="flex items-center gap-2 p-2 rounded cursor-pointer transition-colors hover:bg-gray-50"
-      (click)="selectItem(item)">
+      class="flex items-center justify-between gap-2 p-2 rounded cursor-pointer transition-colors hover:bg-gray-50 group"
+      (click)="selectItem(item)"
+      (contextmenu)="showItemContextMenu($event, item)">
 
-      <ng-container *ngIf="item.type === 'folder'">
-        <svg *ngIf="isExpanded(item.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-        <svg *ngIf="!isExpanded(item.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <div class="flex items-center gap-2 flex-1 min-w-0">
+        <!-- Expand/Collapse Icon for folders -->
+        <svg
+          *ngIf="item.type === 'folder' && item.children?.length"
+          [class.rotate-90]="isExpanded(item.id)"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="transition-transform flex-shrink-0">
           <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
-        <svg *ngIf="isExpanded(item.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-        </svg>
-        <svg *ngIf="!isExpanded(item.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
-          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-        </svg>
-      </ng-container>
 
-      <ng-container *ngIf="item.type === 'course'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500 ml-5">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-          <polyline points="14 2 14 8 20 8"></polyline>
-        </svg>
-      </ng-container>
+        <!-- Icon -->
+        <span class="text-lg flex-shrink-0">{{ getItemIcon(item.type) }}</span>
 
-      <span class="flex-1 text-sm font-medium">{{ item.name }}</span>
-      <span *ngIf="item.progress !== undefined" class="text-xs text-gray-500">{{ item.progress }}%</span>
+        <!-- Name -->
+        <span class="flex-1 text-sm font-medium truncate">{{ item.name }}</span>
+      </div>
+
+      <!-- Context menu button (visible on hover) -->
+      <button
+        (click)="showItemContextMenu($event, item); $event.stopPropagation()"
+        class="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-opacity flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="12" cy="5" r="1"></circle>
+          <circle cx="12" cy="19" r="1"></circle>
+        </svg>
+      </button>
     </div>
 
-    <ng-container *ngIf="item.type === 'folder' && isExpanded(item.id) && item.children">
-      <div *ngFor="let child of item.children">
-        <ng-container *ngTemplateOutlet="treeTemplate; context: {item: child, level: level + 1}"></ng-container>
-      </div>
+    <!-- Render children if folder is expanded -->
+    <ng-container *ngIf="item.type === 'folder' && isExpanded(item.id) && item.children?.length">
+      <ng-container *ngTemplateOutlet="treeTemplate; context: {items: item.children, level: level + 1}"></ng-container>
     </ng-container>
   </div>
 </ng-template>
 
+<!-- Context Menu -->
+<div
+  *ngIf="showContextMenu"
+  [style.left.px]="contextMenuPosition.x"
+  [style.top.px]="contextMenuPosition.y"
+  class="fixed bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 min-w-[160px]"
+  (click)="$event.stopPropagation()">
+  <button
+    (click)="openEditModal(contextMenuItem!)"
+    class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+    </svg>
+    Rename
+  </button>
+  <button
+    (click)="duplicateItem(contextMenuItem!)"
+    class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    </svg>
+    Duplicate
+  </button>
+  <hr class="my-1">
+  <button
+    (click)="deleteItem(contextMenuItem!)"
+    class="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 6 5 6 21 6"></polyline>
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+    </svg>
+    Delete
+  </button>
+</div>
+
+<!-- Modal for Create/Edit -->
+<div
+  *ngIf="showCreateModal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  (click)="closeModal()">
+  <div
+    class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md"
+    (click)="$event.stopPropagation()">
+    <h3 class="text-lg font-semibold mb-4">
+      {{ editingItem ? 'Rename' : 'Create' }} {{ createModalType === 'folder' ? 'Folder' : 'Note' }}
+    </h3>
+    <input
+      [(ngModel)]="modalItemName"
+      (keyup.enter)="saveItem()"
+      type="text"
+      [placeholder]="createModalType === 'folder' ? 'Folder name' : 'Note title'"
+      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent mb-4"
+      autofocus>
+    <div class="flex justify-end gap-2">
+      <button
+        (click)="closeModal()"
+        class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+        Cancel
+      </button>
+      <button
+        (click)="saveItem()"
+        [disabled]="!modalItemName.trim()"
+        class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        {{ editingItem ? 'Save' : 'Create' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Click outside to close context menu -->
+<div
+  *ngIf="showContextMenu"
+  class="fixed inset-0 z-40"
+  (click)="hideContextMenu()">
+</div>
