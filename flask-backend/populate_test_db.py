@@ -48,7 +48,7 @@ def init_db():
         db.session.add_all([admin_user, regular_user, team_member1, team_member2])
         db.session.commit()
 
-        # Create technologies from mockTech and mockTechStack
+  
         technologies = []
         tech_map = {}  # For mapping frontend IDs to backend IDs
 

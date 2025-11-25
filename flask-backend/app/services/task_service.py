@@ -1,5 +1,5 @@
 from app import db
-from app.models import Task, Project, Technology
+from app.models import Task, Project, Technology, task_technologies
 from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
@@ -143,36 +143,57 @@ class TaskService:
 
     @staticmethod
     def get_completion_stats(group_by="both"):
-        query = db.session.query(
-            Task.project_id,
-            Task.technology_id,
-            func.count(Task.id).label('total_tasks'),
-            func.sum(Task.is_completed.cast(db.Integer)).label('completed_tasks')
-        ).group_by(Task.project_id, Task.technology_id)
+        """
+        Returns completion stats grouped by:
+            - "project"
+            - "technology"
+            - "both" (project + technology)
+        """
 
-        results = {}
+        # Base M2M join query
+        query = (
+            db.session.query(
+                Task.project_id,
+                task_technologies.c.technology_id.label("tech_id"),
+                func.count(Task.id).label("total_tasks"),
+                func.sum(Task.is_completed.cast(db.Integer)).label("completed_tasks")
+            )
+            .join(task_technologies, task_technologies.c.task_id == Task.id)
+            .group_by(Task.project_id, task_technologies.c.technology_id)
+        )
+
+        # Keep raw counts instead of percentages
+        stats = {}
 
         for row in query.all():
-            project_name = None
-            technology_name = None
 
-            if row.project_id:
-                project = Project.query.get(row.project_id)
-                project_name = project.name if project else "Unknown Project"
+            # Lookup names
+            project = Project.query.get(row.project_id) if row.project_id else None
+            tech = Technology.query.get(row.tech_id) if row.tech_id else None
 
-            if row.technology_id:
-                technology = Technology.query.get(row.technology_id)
-                technology_name = technology.name if technology else "Unknown Technology"
+            project_name = project.name if project else "Unknown Project"
+            tech_name = tech.name if tech else "Unknown Technology"
 
-            completion_percentage = (row.completed_tasks / row.total_tasks) * 100 if row.total_tasks > 0 else 0
+            # Generate group key depending on mode
+            if group_by == "project":
+                key = project_name
+            elif group_by == "technology":
+                key = tech_name
+            else:  # both
+                key = f"{project_name} - {tech_name}"
 
-            if group_by == "project" and project_name:
-                results[project_name] = completion_percentage
-            elif group_by == "technology" and technology_name:
-                results[technology_name] = completion_percentage
-            elif group_by == "both" and project_name and technology_name:
-                key = f"{project_name} - {technology_name}"
-                results[key] = completion_percentage
+            # Initialize
+            if key not in stats:
+                stats[key] = {"total": 0, "completed": 0}
+
+            # Aggregate raw task counts
+            stats[key]["total"] += row.total_tasks
+            stats[key]["completed"] += row.completed_tasks or 0
+
+        # Convert aggregate counts → percentages
+        results = {
+            key: (value["completed"] / value["total"]) * 100 if value["total"] > 0 else 0
+            for key, value in stats.items()
+        }
 
         return results
-
