@@ -16,7 +16,8 @@ import {
   mockStudyMaterials,
   mockSkills,
   mockLearningActivities,
-  mockNotes
+  mockNotes,
+  mockSkillsLMS
 } from '../../services/test.data';
 
 interface LibraryItem {
@@ -99,14 +100,9 @@ export class LmsPageComponent implements OnInit {
       }
 
       // Load skills
-      const skillsResult = (this.lmsService as any).getSkills();
-      if (skillsResult instanceof Promise) {
-        this.skills = await skillsResult;
-      } else {
-        skillsResult.subscribe((data: Skill[]) => {
-          this.skills = data;
-        });
-      }
+      this.skills = mockSkillsLMS;
+
+
 
       // Load recent activities
       const activitiesResult = (this.lmsService as any).getRecentActivities();
@@ -448,6 +444,12 @@ export class LmsPageComponent implements OnInit {
     this.router.navigate(['/lms/note/new']);
   }
 
+
+  navigateToSkillProgress(skillId: string)
+  {
+    this.router.navigate(['/skill-progress', skillId]);
+  }
+
   formatTime(dateString: string): string {
     const date = new Date(dateString);
     const now = new Date();
@@ -480,6 +482,17 @@ export class LmsPageComponent implements OnInit {
   }
 
   this.selectItem(item);
+}
+
+openActivity(activity: any) {
+  switch (activity.type) {
+    case 'resource':
+      this.navigateToResource(activity.id);
+      break;
+    case 'notes':
+      this.navigateToNote(activity.id);
+      break;
+  }
 }
 
 }
