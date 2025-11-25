@@ -899,7 +899,8 @@ export const mockLearningActivities: LearningActivity[] = [
     moduleName: 'Custom Hooks',
     completed: true,
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-    dateCreated: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
+    dateCreated: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+    type:"resource"
   },
   {
     id: 'activity-2',
@@ -907,7 +908,8 @@ export const mockLearningActivities: LearningActivity[] = [
     moduleName: 'Generics',
     completed: false,
     timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-    dateCreated: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+    dateCreated: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    type:"resource"
   },
   {
     id: 'activity-3',
@@ -915,8 +917,9 @@ export const mockLearningActivities: LearningActivity[] = [
     moduleName: 'Context API',
     completed: true,
     timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    dateCreated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-  }
+    dateCreated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    type:"notes"
+  },
 ];
 
 // ============= Trends Mock Data =============
@@ -1183,3 +1186,65 @@ export const mockJobMarketInsight: JobMarketInsight = {
   lastUpdated: new Date().toISOString(),
   dateCreated: new Date().toISOString()
 };
+
+export const mockSkillsLMS: Skill[] = [
+  {
+    id: 'skill-1',
+    name: 'JavaScript',
+    level: 65,
+    targetLevel: 85,
+    trend: 'up',
+    category: 'Programming',
+    relatedCourses: ['course-101', 'course-102'],
+    marketDemand: 90,
+    lastUpdated: '2024-11-10T10:00:00Z'
+  },
+  {
+    id: 'skill-2',
+
+    name: 'Angular',
+    level: 50,
+    targetLevel: 80,
+    trend: 'up',
+    category: 'Frontend',
+    relatedCourses: ['course-201'],
+    marketDemand: 88,
+    lastUpdated: '2024-11-05T12:15:00Z'
+  },
+  {
+    id: 'skill-3',
+
+    name: 'Python',
+    level: 72,
+    targetLevel: 90,
+    trend: 'neutral',
+    category: 'Backend',
+    relatedCourses: ['course-301', 'course-302'],
+    marketDemand: 95,
+    lastUpdated: '2024-10-18T08:40:00Z'
+  },
+  {
+    id: 'skill-4',
+
+    name: 'Docker',
+    level: 40,
+    targetLevel: 75,
+    trend: 'up',
+    category: 'DevOps',
+    relatedCourses: ['course-401'],
+    marketDemand: 85,
+    lastUpdated: '2024-10-01T15:00:00Z'
+  },
+  {
+    id: 'skill-5',
+    name: 'UI/UX Design',
+    level: 30,
+    targetLevel: 70,
+    trend: 'down',
+    category: 'Design',
+    relatedCourses: ['course-501'],
+    marketDemand: 60,
+    lastUpdated: '2024-09-12T07:20:00Z'
+  }
+];
+

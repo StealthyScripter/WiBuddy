@@ -29,6 +29,7 @@ import { RecommendationComponent } from './trends-page/recommendation/recommenda
 import { SkillNotificationComponent } from './trends-page/skill-notification/skill-notification.component';
 import { TrendNotificationComponent } from './trends-page/trend-notification/trend-notification.component';
 import { ResourceComponent } from './lms-page/resource/resource.component';
+import { SkillProgressComponent } from './lms-page/skill-progress/skill-progress.component';
 
 
 const routeConfig: Routes = [
@@ -83,7 +84,9 @@ const routeConfig: Routes = [
 
      {path: 'trend-notification/:id', component: TrendNotificationComponent},
 
-     {path: 'resource/:id', component: ResourceComponent}
+     {path: 'resource/:id', component: ResourceComponent},
+
+     {path: 'skill-progress/:id', component: SkillProgressComponent}
 
 ];
 

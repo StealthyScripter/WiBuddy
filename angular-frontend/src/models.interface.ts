@@ -344,6 +344,7 @@ export interface LearningActivity extends BaseEntity {
   moduleName: string;
   completed: boolean;
   timestamp: ISODateString;
+  type:"resource" | "notes";
 }
 
 // ============= Trends & Insights Models =============
