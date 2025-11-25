@@ -141,13 +141,26 @@ export class ProfilePageComponent implements OnInit {
      this.toggleSettingsMenu();
    }
 
-   logout() {
-     // Handle logout logic
-     console.log('Logout clicked');
-   }
+   getTechIcon(techName: string): string {
+      // Map technology names to Font Awesome icons
+      const iconMap: {[key: string]: string} = {
+        'React': 'fab fa-react',
+        'Node.js': 'fab fa-node-js',
+        'Python': 'fab fa-python',
+        'MongoDB': 'fas fa-database',
+        // Add more mappings as needed
+      };
+
+      return iconMap[techName] || 'fas fa-code'; // Default to code icon
+    }
 
    navigateToNote(noteId: string){
     this.router.navigate(['notes-details',noteId]);
   }
+
+  logout() {
+     // Handle logout logic
+     console.log('Logout clicked');
+   }
 
 }

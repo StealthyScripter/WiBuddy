@@ -119,23 +119,25 @@
       </div>
     </div>
 
-    <!-- Quick access to notes -->
-    <div class="section half-width">
-      <div class="section-header">
-        <h2>Recent Notes</h2>
-        <button class="view-all-btn">View All</button>
-      </div>
-      <div class="notes-list">
-        <div class="note-item" *ngFor="let note of recentNotes" (click)="navigateToNote(note.id)">
-          <div class="note-header">
-            <h3>{{ note.name }}</h3>
-            <span class="date">{{ note.date }}</span>
+
+  </div>
+
+  <!-- Quick access to tech stack -->
+    <div class="card tech-stack-section">
+      <h3 class="section-title">Technology Stack</h3>
+      <div class="tech-grid">
+        <div class="tech-card" *ngFor="let tech of technologies">
+          <div class="tech-icon">
+            <i [class]="getTechIcon(tech.name)"></i>
           </div>
-          <p class="note-preview">{{ note.preview }}</p>
+          <div class="tech-name">{{tech.name}}</div>
+          <div class="tech-count">{{tech.count}}</div>
+        </div>
+        <div *ngIf="technologies.length === 0" class="empty-state">
+          No technologies used
         </div>
       </div>
     </div>
-  </div>
 
   <!-- Upcoming deadlines -->
   <div class="section">

@@ -509,3 +509,67 @@ input:checked + .toggle-slider:before {
     grid-template-columns: 1fr;
   }
 }
+
+/* Technology Stack Section */
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.tech-stack-section {
+  padding: 1.25rem;
+  margin-bottom: var(--section-spacing);
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.tech-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--gray-100);
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+.tech-card:hover {
+  background-color: var(--gray-200);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.tech-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--primary-color-light);
+}
+
+.tech-icon i {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+
+.tech-name {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.tech-count {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}

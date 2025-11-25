@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router} from '@angular/router';
-import { Note } from '../../models.interface';
-import { mockNotes } from '../../services/test.data';
+import { Note } from '../../../models.interface';
+import { mockNotes } from '../../../services/test.data';
 
 @Component({
   selector: 'app-notes-page',

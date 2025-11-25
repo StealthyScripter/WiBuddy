@@ -2,8 +2,8 @@ import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Note, Attachment } from '../../../models.interface';
-import { mockNotes } from '../../../services/test.data';
+import { Note, Attachment } from '../../../../models.interface';
+import { mockNotes } from '../../../../services/test.data';
 
 
 @Component({
