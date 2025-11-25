@@ -12,7 +12,17 @@ import {
   Deadline,
   KeyTakeaway,
   Comment,
-  Attachment
+  Attachment,
+  Course,
+  StudyMaterial,
+  Skill,
+  LearningActivity,
+  TrendItem,
+  TechTrend,
+  StandoutSkill,
+  LearningRecommendation,
+  JobOpportunity,
+  JobMarketInsight
 } from '../models.interface';
 
 // =============================================================================
@@ -699,3 +709,452 @@ export class TestDataHelpers {
     return mockTasks.filter(task => task.completionStatus === status);
   }
 }
+
+
+// ============= LMS Mock Data =============
+
+export const mockCourses: Course[] = [
+  {
+    id: 'web-dev',
+    name: 'Web Development',
+    type: 'folder',
+    progress: 65,
+    modules: 0,
+    completedModules: 0,
+    dateCreated: new Date('2025-01-01').toISOString(),
+    children: [
+      {
+        id: 'react-basics',
+        name: 'React Fundamentals',
+        type: 'course',
+        progress: 80,
+        modules: 12,
+        completedModules: 9,
+        totalHours: 18,
+        category: 'Frontend',
+        parentId: 'web-dev',
+        dateCreated: new Date('2025-01-05').toISOString()
+      },
+      {
+        id: 'typescript',
+        name: 'TypeScript Mastery',
+        type: 'course',
+        progress: 45,
+        modules: 8,
+        completedModules: 3,
+        totalHours: 12,
+        category: 'Programming',
+        parentId: 'web-dev',
+        dateCreated: new Date('2025-01-10').toISOString()
+      }
+    ]
+  },
+  {
+    id: 'data-science',
+    name: 'Data Science',
+    type: 'folder',
+    progress: 30,
+    modules: 0,
+    completedModules: 0,
+    dateCreated: new Date('2025-01-15').toISOString(),
+    children: [
+      {
+        id: 'python-ml',
+        name: 'Python for ML',
+        type: 'course',
+        progress: 30,
+        modules: 15,
+        completedModules: 4,
+        totalHours: 24,
+        category: 'Machine Learning',
+        parentId: 'data-science',
+        dateCreated: new Date('2025-01-20').toISOString()
+      }
+    ]
+  }
+];
+
+export const mockStudyMaterials: StudyMaterial[] = [
+  {
+    id: 'material-1',
+    courseId: 'react-basics',
+    title: 'React Hooks Deep Dive',
+    type: 'notes',
+    items: 12,
+    lastModified: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+    dateCreated: new Date('2025-02-01').toISOString(),
+    content: [
+      'useState: Managing component state',
+      'useEffect: Side effects and lifecycle',
+      'useContext: Global state management',
+      'useReducer: Complex state logic',
+      'Custom hooks: Reusable logic'
+    ]
+  },
+  {
+    id: 'material-2',
+    courseId: 'react-basics',
+    title: 'TypeScript Types Quiz',
+    type: 'flashcards',
+    items: 45,
+    lastModified: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    dateCreated: new Date('2025-02-05').toISOString()
+  },
+  {
+    id: 'material-3',
+    courseId: 'react-basics',
+    title: 'Web Performance Articles',
+    type: 'resources',
+    items: 8,
+    lastModified: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    dateCreated: new Date('2025-02-10').toISOString()
+  },
+  {
+    id: 'material-4',
+    courseId: 'react-basics',
+    title: 'Coding Challenges',
+    type: 'practice',
+    items: 20,
+    lastModified: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    dateCreated: new Date('2025-02-15').toISOString()
+  }
+];
+
+export const mockSkills: Skill[] = [
+  {
+    id: 'skill-1',
+    name: 'React',
+    level: 80,
+    targetLevel: 90,
+    trend: 'up',
+    category: 'Frontend',
+    marketDemand: 95,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: 'skill-2',
+    name: 'TypeScript',
+    level: 65,
+    targetLevel: 85,
+    trend: 'up',
+    category: 'Programming',
+    marketDemand: 88,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: 'skill-3',
+    name: 'Python',
+    level: 45,
+    targetLevel: 70,
+    trend: 'neutral',
+    category: 'Programming',
+    marketDemand: 92,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: 'skill-4',
+    name: 'SQL',
+    level: 70,
+    targetLevel: 80,
+    trend: 'up',
+    category: 'Database',
+    marketDemand: 85,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2024-01-01').toISOString()
+  }
+];
+
+export const mockLearningActivities: LearningActivity[] = [
+  {
+    id: 'activity-1',
+    courseId: 'react-basics',
+    moduleName: 'Custom Hooks',
+    completed: true,
+    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+    dateCreated: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'activity-2',
+    courseId: 'typescript',
+    moduleName: 'Generics',
+    completed: false,
+    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    dateCreated: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'activity-3',
+    courseId: 'react-basics',
+    moduleName: 'Context API',
+    completed: true,
+    timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    dateCreated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+  }
+];
+
+// ============= Trends Mock Data =============
+
+export const mockTrendItems: TrendItem[] = [
+  {
+    id: 'trend-1',
+    title: 'React 19 Released with New Features',
+    source: 'React Blog',
+    sourceType: 'article',
+    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+    relevanceScore: 95,
+    category: 'Frontend',
+    summary: 'React 19 introduces major improvements including automatic batching, new hooks, and performance optimizations.',
+    tags: ['React', 'Frontend', 'JavaScript'],
+    link: 'https://react.dev/blog',
+    isStarred: true,
+    isRead: false,
+    dateCreated: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'trend-2',
+    title: 'TypeScript 5.4 Announcement',
+    source: 'TypeScript Docs',
+    sourceType: 'bulletin',
+    timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+    relevanceScore: 88,
+    category: 'Programming Languages',
+    summary: 'New type inference improvements and better error messages make TypeScript more developer-friendly.',
+    tags: ['TypeScript', 'Programming'],
+    link: 'https://devblogs.microsoft.com/typescript',
+    isStarred: false,
+    isRead: false,
+    dateCreated: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'trend-3',
+    title: 'AI in Healthcare: Latest Developments',
+    source: 'Healthcare Tech RSS',
+    sourceType: 'rss',
+    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    relevanceScore: 72,
+    category: 'AI/ML',
+    summary: 'Machine learning models are achieving breakthrough accuracy in medical diagnosis applications.',
+    tags: ['AI', 'Healthcare', 'Machine Learning'],
+    link: 'https://example.com',
+    isStarred: false,
+    isRead: true,
+    dateCreated: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'trend-4',
+    title: 'Job Market Update: Frontend Developers',
+    source: 'LinkedIn Newsletter',
+    sourceType: 'email',
+    timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    relevanceScore: 85,
+    category: 'Career',
+    summary: 'Demand for React and TypeScript developers increased 40% this quarter with remote opportunities growing.',
+    tags: ['Jobs', 'Frontend', 'Career'],
+    link: 'https://linkedin.com',
+    isStarred: true,
+    isRead: false,
+    dateCreated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+  }
+];
+
+export const mockTechTrends: TechTrend[] = [
+  {
+    id: 'tech-1',
+    name: 'React',
+    trend: 'rising',
+    demand: 'high',
+    marketLevel: 75,
+    jobCount: 1240,
+    growthRate: 15,
+    category: 'Frontend',
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'tech-2',
+    name: 'TypeScript',
+    trend: 'rising',
+    demand: 'high',
+    marketLevel: 70,
+    jobCount: 980,
+    growthRate: 23,
+    category: 'Programming',
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'tech-3',
+    name: 'Python',
+    trend: 'stable',
+    demand: 'high',
+    marketLevel: 65,
+    jobCount: 2100,
+    growthRate: 8,
+    category: 'Programming',
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'tech-4',
+    name: 'Docker',
+    trend: 'rising',
+    demand: 'medium',
+    marketLevel: 60,
+    jobCount: 750,
+    growthRate: 18,
+    category: 'DevOps',
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'tech-5',
+    name: 'Kubernetes',
+    trend: 'rising',
+    demand: 'high',
+    marketLevel: 55,
+    jobCount: 680,
+    growthRate: 25,
+    category: 'DevOps',
+    dateCreated: new Date().toISOString()
+  }
+];
+
+export const mockStandoutSkills: StandoutSkill[] = [
+  {
+    id: 'standout-1',
+    skillName: 'React',
+    strength: 'Expert',
+    description: 'Strong proficiency with hooks, context, and performance optimization',
+    marketPosition: 'Top 15%',
+    percentile: 85,
+    sourceCount: 1240,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'standout-2',
+    skillName: 'TypeScript',
+    strength: 'Advanced',
+    description: 'Excellent understanding of generics, utility types, and type inference',
+    marketPosition: 'Top 25%',
+    percentile: 75,
+    sourceCount: 980,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'standout-3',
+    skillName: 'System Design',
+    strength: 'Intermediate',
+    description: 'Good grasp of scalability patterns and microservices architecture',
+    marketPosition: 'Top 40%',
+    percentile: 60,
+    sourceCount: 450,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date().toISOString()
+  }
+];
+
+export const mockLearningRecommendations: LearningRecommendation[] = [
+  {
+    id: 'rec-1',
+    title: 'Container Orchestration with Kubernetes',
+    reason: 'High market demand + Large skill gap',
+    provider: 'Coursera',
+    duration: '6 weeks',
+    priority: 'high',
+    matchScore: 92,
+    skillsAddressed: ['Kubernetes', 'Docker', 'DevOps'],
+    link: 'https://coursera.org',
+    cost: 49,
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'rec-2',
+    title: 'Advanced Python for Data Science',
+    reason: 'Growing in your field + Career goal alignment',
+    provider: 'edX',
+    duration: '8 weeks',
+    priority: 'medium',
+    matchScore: 78,
+    skillsAddressed: ['Python', 'Data Science', 'ML'],
+    link: 'https://edx.org',
+    cost: 99,
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'rec-3',
+    title: 'TypeScript Design Patterns',
+    reason: 'Close to mastery + Job requirement',
+    provider: 'Udemy',
+    duration: '4 weeks',
+    priority: 'low',
+    matchScore: 65,
+    skillsAddressed: ['TypeScript', 'Design Patterns'],
+    link: 'https://udemy.com',
+    cost: 29,
+    dateCreated: new Date().toISOString()
+  }
+];
+
+export const mockJobOpportunities: JobOpportunity[] = [
+  {
+    id: 'job-1',
+    title: 'Senior React Developer',
+    company: 'Tech Corp',
+    location: 'Remote',
+    salary: '$120k - $160k',
+    description: 'Looking for experienced React developer with TypeScript expertise',
+    requiredSkills: ['React', 'TypeScript', 'Node.js', 'GraphQL'],
+    matchPercentage: 92,
+    postedDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    link: 'https://jobs.example.com/1',
+    isStarred: true,
+    applicationStatus: 'not_applied',
+    dateCreated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'job-2',
+    title: 'Full Stack Engineer',
+    company: 'Startup Inc',
+    location: 'New York, NY',
+    salary: '$100k - $140k',
+    description: 'Join our fast-growing startup building next-gen SaaS platform',
+    requiredSkills: ['React', 'Python', 'PostgreSQL', 'AWS'],
+    matchPercentage: 85,
+    postedDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    link: 'https://jobs.example.com/2',
+    isStarred: false,
+    applicationStatus: 'not_applied',
+    dateCreated: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'job-3',
+    title: 'Frontend Architect',
+    company: 'Big Tech Co',
+    location: 'San Francisco, CA',
+    salary: '$150k - $200k',
+    description: 'Lead frontend architecture for enterprise applications',
+    requiredSkills: ['React', 'TypeScript', 'System Design', 'Microservices'],
+    matchPercentage: 78,
+    postedDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    link: 'https://jobs.example.com/3',
+    isStarred: true,
+    applicationStatus: 'not_applied',
+    dateCreated: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
+  }
+];
+
+export const mockJobMarketInsight: JobMarketInsight = {
+  id: 'insight-1',
+  totalRelevantJobs: 847,
+  weeklyGrowth: 23,
+  topSkillsCombination: ['React', 'TypeScript', 'Node.js'],
+  averageSalary: '$130k - $170k',
+  hotSkills: [
+    { skill: 'React', growth: 23 },
+    { skill: 'TypeScript', growth: 18 },
+    { skill: 'Kubernetes', growth: 45 },
+    { skill: 'GraphQL', growth: 32 }
+  ],
+  lastUpdated: new Date().toISOString(),
+  dateCreated: new Date().toISOString()
+};

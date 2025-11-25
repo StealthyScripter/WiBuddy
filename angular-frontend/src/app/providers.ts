@@ -6,6 +6,8 @@ import { mockTasks, mockProjects } from '../services/test.data';
 import { BaseService } from '../services/base_service';
 import { Task, Project } from '../models.interface';
 import { AuthService } from '../services/auth_service';
+import { LMSServiceFactory } from '../services/lms_service';
+import { TrendsServiceFactory } from '../services/trends_service';
 
 export const appProviders = [
   AuthService,
@@ -34,5 +36,15 @@ export const appProviders = [
   {
     provide: 'AuthServiceToken',
     useValue: {} // Mock object for now
-  }
+  },
+  {
+  provide: 'LMSServiceToken',
+  useFactory: (http: HttpClient) => LMSServiceFactory.getService(http),
+  deps: [HttpClient]
+},
+{
+  provide: 'TrendsServiceToken',
+  useFactory: (http: HttpClient) => TrendsServiceFactory.getService(http),
+  deps: [HttpClient]
+}
 ];

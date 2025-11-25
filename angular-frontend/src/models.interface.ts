@@ -252,3 +252,206 @@ export interface KeyTakeaway {
   description: string;
 }
 
+// Add these interfaces to your existing models.interface.ts file
+
+// ============= LMS Models =============
+
+export interface Course extends BaseEntity {
+  name: string;
+  description?: string;
+  progress: number;
+  modules: number;
+  completedModules: number;
+  totalHours?: number;
+  category?: string;
+  parentId?: UUID; // For nested structure
+  type: 'folder' | 'course';
+  children?: Course[];
+  goal?: LearningGoal;
+}
+
+export interface LearningGoal extends BaseEntity {
+  courseId: UUID;
+  description: string;
+  targetDate?: ISODateString;
+  milestones: Milestone[];
+  isCompleted: boolean;
+}
+
+export interface Milestone extends BaseEntity {
+  goalId: UUID;
+  title: string;
+  description: string;
+  targetDate?: ISODateString;
+  isCompleted: boolean;
+  order: number;
+}
+
+export interface StudyMaterial extends BaseEntity {
+  courseId: UUID;
+  title: string;
+  type: 'notes' | 'flashcards' | 'resources' | 'practice' | 'quiz' | 'summary';
+  content?: string[];
+  items: number;
+  lastModified: ISODateString;
+  attachments?: Attachment[];
+}
+
+export interface Flashcard extends BaseEntity {
+  materialId: UUID;
+  question: string;
+  answer: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  lastReviewed?: ISODateString;
+  nextReview?: ISODateString;
+  reviewCount: number;
+}
+
+export interface Quiz extends BaseEntity {
+  materialId: UUID;
+  title: string;
+  questions: QuizQuestion[];
+  passingScore: number;
+  timeLimit?: number; // in minutes
+  attempts: QuizAttempt[];
+}
+
+export interface QuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswer: number; // index of correct option
+  explanation?: string;
+}
+
+export interface QuizAttempt extends BaseEntity {
+  quizId: UUID;
+  score: number;
+  completedAt: ISODateString;
+  answers: number[];
+}
+
+export interface Skill extends BaseEntity {
+  name: string;
+  level: number; // 0-100
+  targetLevel: number; // 0-100
+  trend: 'up' | 'down' | 'neutral';
+  category?: string;
+  relatedCourses?: UUID[];
+  marketDemand?: number; // 0-100
+  lastUpdated: ISODateString;
+}
+
+export interface LearningActivity extends BaseEntity {
+  courseId: UUID;
+  moduleName: string;
+  completed: boolean;
+  timestamp: ISODateString;
+}
+
+// ============= Trends & Insights Models =============
+
+export interface TrendItem extends BaseEntity {
+  title: string;
+  source: string;
+  sourceType: 'article' | 'bulletin' | 'rss' | 'email' | 'webinar' | 'publication';
+  timestamp: ISODateString;
+  relevanceScore: number; // 0-100
+  category: string;
+  summary: string;
+  content?: string; // Full content for reading
+  tags: string[];
+  link: string;
+  isStarred: boolean;
+  isRead: boolean;
+  aiGenerated?: boolean;
+}
+
+export interface TechTrend extends BaseEntity {
+  name: string;
+  trend: 'rising' | 'stable' | 'declining';
+  demand: 'high' | 'medium' | 'low';
+  marketLevel: number; // Average proficiency in market (0-100)
+  jobCount: number; // Number of job listings
+  growthRate?: number; // Percentage growth
+  category?: string;
+}
+
+export interface StandoutSkill extends BaseEntity {
+  skillName: string;
+  strength: 'Expert' | 'Advanced' | 'Intermediate' | 'Beginner';
+  description: string;
+  marketPosition: string; // e.g., "Top 15%"
+  percentile: number;
+  sourceCount: number; // How many job listings mention this
+  lastUpdated: ISODateString;
+}
+
+export interface LearningRecommendation extends BaseEntity {
+  title: string;
+  reason: string;
+  provider: string;
+  duration: string;
+  priority: 'high' | 'medium' | 'low';
+  matchScore: number; // 0-100
+  skillsAddressed: string[];
+  link?: string;
+  cost?: number;
+}
+
+export interface JobOpportunity extends BaseEntity {
+  title: string;
+  company: string;
+  location: string;
+  salary?: string;
+  description: string;
+  requiredSkills: string[];
+  matchPercentage: number; // How well user matches (0-100)
+  postedDate: ISODateString;
+  link: string;
+  isStarred: boolean;
+  applicationStatus?: 'not_applied' | 'applied' | 'interviewing' | 'rejected' | 'accepted';
+}
+
+export interface JobMarketInsight extends BaseEntity {
+  totalRelevantJobs: number;
+  weeklyGrowth: number; // Percentage
+  topSkillsCombination: string[];
+  averageSalary?: string;
+  hotSkills: Array<{
+    skill: string;
+    growth: number;
+  }>;
+  lastUpdated: ISODateString;
+}
+
+export interface CareerGoal extends BaseEntity {
+  title: string;
+  description: string;
+  targetDate?: ISODateString;
+  requiredSkills: string[];
+  currentProgress: number; // 0-100
+  milestones: string[];
+  isActive: boolean;
+}
+
+// ============= Filter Options =============
+
+export interface TrendFilterOptions {
+  sourceType?: 'article' | 'bulletin' | 'rss' | 'email' | 'webinar' | 'publication' | 'all' | 'starred';
+  category?: string;
+  minRelevanceScore?: number;
+  tags?: string[];
+  dateRange?: {
+    start: ISODateString;
+    end: ISODateString;
+  };
+  isRead?: boolean;
+}
+
+export interface CourseFilterOptions {
+  type?: 'folder' | 'course';
+  category?: string;
+  minProgress?: number;
+  hasGoal?: boolean;
+}

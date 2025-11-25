@@ -13,6 +13,10 @@ import { NewNotePageComponent } from './notes-page/new-note-page/new-note-page.c
 
 import { NotesDetailPageComponent } from './notes-page/notes-detail-page/notes-detail-page.component';
 
+import { LmsPageComponent } from './lms-page/lms-page.component';
+
+import { TrendsPageComponent } from './trends-page/trends-page.component';
+
 
 import { HomePageComponent } from './home-page/home-page.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -49,6 +53,10 @@ const routeConfig: Routes = [
      {path: 'notes-details/:noteId', component: NotesDetailPageComponent},
 
      {path: 'add-notes', component: NewNotePageComponent},
+
+     { path: 'lms', component: LmsPageComponent },
+
+     { path: 'trends', component: TrendsPageComponent },
 
 ];
 
