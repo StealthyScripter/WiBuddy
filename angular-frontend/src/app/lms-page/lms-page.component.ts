@@ -23,7 +23,7 @@ import {
 interface LibraryItem {
   id: string;
   name: string;
-  type: 'folder' | 'note' | 'course' | 'pdf' | 'image' | 'video' | 'audio' | 'ppt';
+  type: LibraryCreateType;
   parentId?: string;
   children?: LibraryItem[];
   dateCreated: string;
@@ -31,6 +31,9 @@ interface LibraryItem {
   size?: number;
   icon?: string;
 }
+
+type LibraryCreateType = 'resource' | 'folder' | 'note' | 'course' | 'pdf' | 'image' | 'video' | 'audio' | 'ppt';
+
 
 @Component({
   selector: 'app-lms-page',
@@ -73,7 +76,7 @@ export class LmsPageComponent implements OnInit {
 
   // Create/Edit modal state
   showCreateModal = false;
-  createModalType: 'folder' | 'note' = 'folder';
+  createModalType: LibraryCreateType = 'folder';
   editingItem: LibraryItem | null = null;
   modalItemName: string = '';
 
@@ -224,17 +227,18 @@ export class LmsPageComponent implements OnInit {
     );
   }
 
-  // Library operations
-  toggleFolder(folderId: string) {
-    if (this.expandedFolders.has(folderId)) {
-      this.expandedFolders.delete(folderId);
+  toggleFolder(item: any) {
+    if (item.type !== 'folder') return;
+
+    if (this.expandedFolders.has(item.id)) {
+      this.expandedFolders.delete(item.id);
     } else {
-      this.expandedFolders.add(folderId);
+      this.expandedFolders.add(item.id);
     }
   }
 
-  isExpanded(folderId: string): boolean {
-    return this.expandedFolders.has(folderId);
+  isExpanded(id: string): boolean {
+    return this.expandedFolders.has(id);
   }
 
   selectItem(item: LibraryItem) {
@@ -284,7 +288,7 @@ export class LmsPageComponent implements OnInit {
   }
 
   // CRUD operations
-  openCreateModal(type: 'folder' | 'note') {
+  openCreateModal(type: LibraryCreateType) {
     this.createModalType = type;
     this.modalItemName = '';
     this.editingItem = null;
@@ -331,13 +335,23 @@ export class LmsPageComponent implements OnInit {
           parent.children.push(newItem);
         }
       } else {
-        this.libraryItems[0].children?.push(newItem);
+        const root = this.findItemById('root');
+        if (root) {
+          if (!root.children) root.children = [];
+          root.children.push(newItem);
+        }
       }
 
       // Navigate to new note if it's a note
       if (this.createModalType === 'note') {
         this.navigateToNote(newItem.id);
       }
+
+       // Navigate to new course
+    if (this.createModalType === 'resource') {
+      this.navigateToResource(newItem.id);
+    }
+
     }
 
     this.closeModal();
@@ -441,7 +455,7 @@ export class LmsPageComponent implements OnInit {
   }
 
   navigateToNewNote() {
-    this.router.navigate(['/lms/note/new']);
+    this.router.navigate(['/add-notes']);
   }
 
 
@@ -472,28 +486,45 @@ export class LmsPageComponent implements OnInit {
   }
 
   handleItemClick(item: any) {
-    console.log("Handling item click")
-  if (item.type === 'folder') {
-    this.toggleFolder(item.id);
-  } else if (item.type === 'note') {
-    this.navigateToNote(item.id);
-  } else if (item.type === 'resource') {
-    this.navigateToResource(item.id);
+    if (item.type === 'folder') {
+      this.toggleFolder(item);
+      return;
+    }
+
+    if (item.type === 'note') {
+      this.navigateToNote(item.id);
+      return;
+    }
+
+    if (item.type === 'course') {
+      this.navigateToResource(item.id);
+      return;
+    }
+
+    console.warn("Unknown item type:", item);
   }
 
-  this.selectItem(item);
-}
 
-openActivity(activity: any) {
-  switch (activity.type) {
-    case 'resource':
-      this.navigateToResource(activity.id);
-      break;
-    case 'notes':
-      this.navigateToNote(activity.id);
-      break;
+  openActivity(activity: any) {
+    switch (activity.type) {
+      case 'resource':
+        this.navigateToResource(activity.id);
+        break;
+      case 'notes':
+        this.navigateToNote(activity.id);
+        break;
+    }
   }
-}
+  showCreateMenu = false;
+
+  toggleCreateMenu() {
+    this.showCreateMenu = !this.showCreateMenu;
+  }
+
+  selectCreateOption(type: LibraryCreateType) {
+    this.showCreateMenu = false;
+    this.openCreateModal(type);
+
 
 }
-
+}

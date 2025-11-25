@@ -71,41 +71,101 @@
             </div>
           </div>
 
-        <!-- Library Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-              </svg>
-              Library
-            </h2>
-            <div class="flex gap-2">
-              <button
-                (click)="openCreateModal('folder')"
-                class="px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Library Section -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-lg font-semibold flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
                   <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                 </svg>
-                New Folder
-              </button>
-              <button
-                (click)="openCreateModal('note')"
-                class="px-3 py-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                New Note
-              </button>
+                Library
+              </h2>
+              <div class="flex gap-2">
+                <button (click)="openCreateModal('folder')" class="px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  New Folder
+                </button>
+                <!-- <button (click)="openCreateModal('note')" class="px-3 py-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  Add New
+                </button> -->
+                <div class="relative" (clickOutside)="showCreateMenu = false">
+                  <button
+                    (click)="toggleCreateMenu()"
+                    class="px-3 py-1.5 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add New
+                  </button>
+
+                  <!-- Dropdown Menu -->
+                  <div
+                    *ngIf="showCreateMenu"
+                    class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 shadow-lg rounded-lg z-50">
+
+                    <button class="w-full text-left px-3 py-2 hover:bg-gray-100 text-sm"
+                            (click)="selectCreateOption('note')">
+                      📝 Create Note
+                    </button>
+
+                    <button class="w-full text-left px-3 py-2 hover:bg-gray-100 text-sm"
+                            (click)="selectCreateOption('resource')">
+                      📄 Add Resource
+                    </button>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Library Tree -->
+            <div class="space-y-1 max-h-96 overflow-y-auto">
+              <ng-container *ngTemplateOutlet="treeTemplate; context: {items: libraryItems, level: 0}"></ng-container>
             </div>
           </div>
 
-          <!-- Library Tree -->
-          <div class="space-y-1 max-h-96 overflow-y-auto">
-            <ng-container *ngTemplateOutlet="treeTemplate; context: {items: libraryItems, level: 0}"></ng-container>
-          </div>
-        </div>
+          <!-- Tree Template -->
+          <ng-template #treeTemplate let-items="items" let-level="level">
+            <div *ngFor="let item of items">
+              <div
+                class="flex items-center justify-between gap-2 p-2 rounded cursor-pointer transition-all hover:bg-gray-50 group"
+                [style.paddingLeft.px]="level * 24 + 12"
+                (click)="handleItemClick(item)"
+              >
+                <div class="flex items-center gap-2 flex-1 min-w-0">
+                  <!-- Folder expand/collapse icon -->
+                  <svg *ngIf="item.type === 'folder'"
+                      [class.rotate-90]="isExpanded(item.id)"
+                      class="transition-transform w-4 h-4 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+
+                  <!-- Item icon -->
+                  <span class="text-lg flex-shrink-0">
+                    {{ item.type === 'folder' ? '📁' : item.type === 'course' ? '📘' : '📝' }}
+                  </span>
+
+                  <!-- Item name -->
+                  <span class="flex-1 text-sm font-medium truncate">{{ item.name }}</span>
+                </div>
+              </div>
+
+              <!-- Children (expand/collapse) -->
+              <ng-container *ngIf="item.type === 'folder' && isExpanded(item.id)">
+                <ng-container *ngTemplateOutlet="treeTemplate; context: {items: item.children, level: level + 1}"></ng-container>
+              </ng-container>
+            </div>
+          </ng-template>
+
       </div>
 
       <!-- Right Column - Insights -->
