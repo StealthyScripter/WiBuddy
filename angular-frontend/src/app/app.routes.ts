@@ -22,6 +22,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { AffirmationsDetailsPageComponent } from './home-page/affirmations-details-page/affirmations-details-page.component';
 import { NewEventComponent } from './calendars-page/new-event/new-event.component';
 import { CalendarDayDetailComponent } from './calendars-page/calendar-day-detail/calendar-day-detail.component';
+import { EditProfileComponent } from './profile-page/edit-profile/edit-profile.component';
+import { TechStackPageComponent } from './profile-page/tech-stack-page/tech-stack-page.component';
 
 
 const routeConfig: Routes = [
@@ -62,7 +64,11 @@ const routeConfig: Routes = [
 
      {path: 'new-event', component: NewEventComponent},
 
-     {path: 'day/:date', component: CalendarDayDetailComponent}
+     {path: 'day/:date', component: CalendarDayDetailComponent},
+
+     {path: 'edit-profile', component: EditProfileComponent},
+
+     {path: 'techstack/:techId', component: TechStackPageComponent}
 
 ];
 

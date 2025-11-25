@@ -8,7 +8,7 @@ import { mockTasks, mockProjects, mockNotes, mockTechStack } from '../../service
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css'
 })
@@ -83,31 +83,6 @@ export class ProfilePageComponent implements OnInit {
      }
    ];
 
-   // Upcoming Deadlines
-   upcomingDeadlines: Deadline[] = [
-     {
-       day: '25',
-       month: 'Apr',
-       title: 'Backend Integration',
-       project: 'Website Redesign',
-       priority: 'high'
-     },
-     {
-       day: '30',
-       month: 'Apr',
-       title: 'User Testing',
-       project: 'Mobile App',
-       priority: 'medium'
-     },
-     {
-       day: '5',
-       month: 'May',
-       title: 'Final Presentation',
-       project: 'Client Project',
-       priority: 'low'
-     }
-   ];
-
    constructor(private router:Router){}
 
    ngOnInit() {
@@ -135,12 +110,6 @@ export class ProfilePageComponent implements OnInit {
      // In a real app, you'd update the theme in a theme service
    }
 
-   editProfile() {
-     // Navigate to edit profile page or show modal
-     console.log('Edit profile clicked');
-     this.toggleSettingsMenu();
-   }
-
    getTechIcon(techName: string): string {
       // Map technology names to Font Awesome icons
       const iconMap: {[key: string]: string} = {
@@ -155,11 +124,19 @@ export class ProfilePageComponent implements OnInit {
     }
 
    navigateToNote(noteId: string){
-    this.router.navigate(['notes-details',noteId]);
+    this.router.navigate(['/notes-details',noteId]);
+  }
+
+  navigateToTechstack(techId: string) {
+    this.router.navigate(['/techstack', techId])
+  }
+
+  navigateToEditProfile(){
+    this.router.navigate(['edit-profile']);
   }
 
   logout() {
-     // Handle logout logic
+     //TODO: Handle logout logic
      console.log('Logout clicked');
    }
 

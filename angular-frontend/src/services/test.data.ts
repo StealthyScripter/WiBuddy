@@ -576,6 +576,27 @@ export const mockUpcomingDeadlines: Deadline[] = [
     title: 'Security Audit',
     project: 'Platform Security',
     priority: 'low'
+  },
+  {
+    day: '25',
+    month: 'Apr',
+    title: 'Backend Integration',
+    project: 'Website Redesign',
+    priority: 'high'
+  },
+  {
+    day: '30',
+    month: 'Apr',
+    title: 'User Testing',
+    project: 'Mobile App',
+    priority: 'medium'
+  },
+  {
+    day: '5',
+    month: 'May',
+    title: 'Final Presentation',
+    project: 'Client Project',
+    priority: 'low'
   }
 ];
 
