@@ -2,10 +2,10 @@
   <section class="section2">
     <section class="introduction">
       <section class="affirmation">
-        <div>
-            {{ '"' + dailyAffirmation.quote +'"' }}
+        <div (click)="navigateToAffirmations(Affirmation.id)" class="affirmation-clickable">
+            {{ '"' + Affirmation.quote +'"' }}
             <br>
-            {{ dailyAffirmation.author }}
+            {{ Affirmation.author }}
         </div>
 
       </section>

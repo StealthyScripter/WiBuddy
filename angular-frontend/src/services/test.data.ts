@@ -4,7 +4,7 @@ import {
   Note,
   CalendarEvent,
   Technology,
-  DailyAffirmation,
+  Affirmation,
   TaskStatus,
   Priority,  TaskCategory,
   TimelineActivity,
@@ -628,22 +628,26 @@ export const mockComments: Comment[] = [
 // =============================================================================
 // DAILY AFFIRMATION TEST DATA
 // =============================================================================
-export const mockDailyAffirmation: DailyAffirmation = {
+export const mockDailyAffirmation: Affirmation = {
+  id:'1',
   quote: "Engineering problems are under-defined; there are many solutions, good, bad, and indifferent. The art is to arrive at a good solution.",
   author: "Richard James"
 };
 
 // Alternative affirmations for rotation
-export const mockDailyAffirmations: DailyAffirmation[] = [
+export const mockDailyAffirmations: Affirmation[] = [
   {
+    id:'2',
     quote: "The best way to predict the future is to create it.",
     author: "Peter Drucker"
   },
   {
+    id:'3',
     quote: "Quality is not an act, it is a habit.",
     author: "Aristotle"
   },
   {
+    id:'4',
     quote: "Innovation distinguishes between a leader and a follower.",
     author: "Steve Jobs"
   },

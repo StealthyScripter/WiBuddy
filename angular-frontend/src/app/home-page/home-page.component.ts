@@ -2,7 +2,7 @@ import { Component, NgModule, OnInit, Inject } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Task, Project, DailyAffirmation, TaskStatus, Priority, TaskCategory, Note } from '../../models.interface';
+import { Task, Project, Affirmation, TaskStatus, Priority, TaskCategory, Note } from '../../models.interface';
 import { DueDateComponent } from './due-date/due-date.component';
 import { HomePageCalendarComponent } from './home-page-calendar/home-page-calendar.component';
 import { RelativeTimePipe } from '../pipes/relative-time.pipe';
@@ -25,7 +25,7 @@ export class HomePageComponent implements OnInit {
   username: string | null = null;
   newTaskText = '';
   priorityEnum = Priority;
-  dailyAffirmation: DailyAffirmation = mockDailyAffirmation;
+  Affirmation: Affirmation = mockDailyAffirmation;
 
   tasks: Task[] = mockTasks;
   projects: Project[] = mockProjects;
@@ -172,6 +172,10 @@ export class HomePageComponent implements OnInit {
 
   navigateToNewNote() {
     this.router.navigate(['add-notes']);
+  }
+
+  navigateToAffirmations(affirmationsId: string){
+    this.router.navigate(['affirmations', affirmationsId]);
   }
 
 }

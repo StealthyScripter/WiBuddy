@@ -20,6 +20,7 @@ import { TrendsPageComponent } from './trends-page/trends-page.component';
 
 import { HomePageComponent } from './home-page/home-page.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AffirmationsDetailsPageComponent } from './home-page/affirmations-details-page/affirmations-details-page.component';
 
 
 const routeConfig: Routes = [
@@ -57,6 +58,8 @@ const routeConfig: Routes = [
      { path: 'lms', component: LmsPageComponent },
 
      { path: 'trends', component: TrendsPageComponent },
+
+     {path: 'affirmations/:id', component: AffirmationsDetailsPageComponent}
 
 ];
 

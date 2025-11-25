@@ -111,9 +111,11 @@ export interface Technology extends BaseEntity {
 
 // Affirmation Interface
 export interface Affirmation extends BaseEntity {
-  content: string;
+  id:string;
+  quote: string;
   dailyGoals?: string[];
   userId?: UUID;
+  author:string;
   tags?: string[];
   reminderTime?: ISODateString;
   isActive?: boolean;
@@ -167,11 +169,6 @@ export interface Note {
   items?: string[];  // For list-type notes
   aiSummary?: string;
   attachments?:Attachment[];
-}
-
-export interface DailyAffirmation {
-  quote: string;
-  author: string;
 }
 
 export interface CalendarEvent {
