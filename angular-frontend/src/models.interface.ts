@@ -349,6 +349,7 @@ export interface LearningActivity extends BaseEntity {
 // ============= Trends & Insights Models =============
 
 export interface TrendItem extends BaseEntity {
+  id:string;
   title: string;
   source: string;
   sourceType: 'article' | 'bulletin' | 'rss' | 'email' | 'webinar' | 'publication';
@@ -375,6 +376,7 @@ export interface TechTrend extends BaseEntity {
 }
 
 export interface StandoutSkill extends BaseEntity {
+  id: string;
   skillName: string;
   strength: 'Expert' | 'Advanced' | 'Intermediate' | 'Beginner';
   description: string;
@@ -416,6 +418,7 @@ export interface JobMarketInsight extends BaseEntity {
   topSkillsCombination: string[];
   averageSalary?: string;
   hotSkills: Array<{
+    id:string;
     skill: string;
     growth: number;
   }>;

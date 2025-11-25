@@ -1175,10 +1175,10 @@ export const mockJobMarketInsight: JobMarketInsight = {
   topSkillsCombination: ['React', 'TypeScript', 'Node.js'],
   averageSalary: '$130k - $170k',
   hotSkills: [
-    { skill: 'React', growth: 23 },
-    { skill: 'TypeScript', growth: 18 },
-    { skill: 'Kubernetes', growth: 45 },
-    { skill: 'GraphQL', growth: 32 }
+    { id: '1', skill: 'React', growth: 23 },
+    { id: '2', skill: 'TypeScript', growth: 18 },
+    { id: '3', skill: 'Kubernetes', growth: 45 },
+    { id: '4', skill: 'GraphQL', growth: 32 }
   ],
   lastUpdated: new Date().toISOString(),
   dateCreated: new Date().toISOString()

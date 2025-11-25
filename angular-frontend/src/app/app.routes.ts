@@ -24,6 +24,10 @@ import { NewEventComponent } from './calendars-page/new-event/new-event.componen
 import { CalendarDayDetailComponent } from './calendars-page/calendar-day-detail/calendar-day-detail.component';
 import { EditProfileComponent } from './profile-page/edit-profile/edit-profile.component';
 import { TechStackPageComponent } from './profile-page/tech-stack-page/tech-stack-page.component';
+import { MarketInsightComponent } from './trends-page/market-insight/market-insight.component';
+import { RecommendationComponent } from './trends-page/recommendation/recommendation.component';
+import { SkillNotificationComponent } from './trends-page/skill-notification/skill-notification.component';
+import { TrendNotificationComponent } from './trends-page/trend-notification/trend-notification.component';
 
 
 const routeConfig: Routes = [
@@ -68,7 +72,15 @@ const routeConfig: Routes = [
 
      {path: 'edit-profile', component: EditProfileComponent},
 
-     {path: 'techstack/:techId', component: TechStackPageComponent}
+     {path: 'techstack/:techId', component: TechStackPageComponent},
+
+     {path: 'market-insight', component: MarketInsightComponent},
+
+     {path: 'recommendation/:id', component: RecommendationComponent},
+
+     {path: 'skill-notification/:id', component: SkillNotificationComponent},
+
+     {path: 'trend-notification/:id', component: TrendNotificationComponent}
 
 ];
 

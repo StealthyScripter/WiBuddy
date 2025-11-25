@@ -203,6 +203,7 @@ export class TrendsPageComponent implements OnInit {
         await result.toPromise();
       }
       await this.loadTrendItems();
+      this.navigateToTrendNotification(trendId);
     } catch (error) {
       console.error('Failed to mark as read:', error);
     }
@@ -231,9 +232,26 @@ export class TrendsPageComponent implements OnInit {
     return trend; // Will use this in template
   }
 
-  viewJobOpportunities() {
-    // Navigate to dedicated job opportunities page (to be implemented)
-    this.router.navigate(['/trends/jobs']);
+  navigateToTrendNotification(trendId: string) {
+    this.router.navigate(['/trend-notification', trendId])
   }
+
+  navigateToSkillNotification(id: string) {
+    this.router.navigate(['/skill-notification', id])
+  }
+
+  navigateToRecommendation(id: string){
+    this.router.navigate(['/recommendation', id])
+  }
+
+  navigateToMarketInsight() {
+    this.router.navigate(['/market-insight'])
+  }
+
 }
+
+
+
+
+
 
