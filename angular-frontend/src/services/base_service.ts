@@ -1,4 +1,3 @@
-// src/services/base_service.ts
 import { Observable } from 'rxjs';
 import { UtilityService } from './utility_service';
 

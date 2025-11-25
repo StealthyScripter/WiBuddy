@@ -101,7 +101,7 @@ export class HomePageComponent implements OnInit {
     if (!notes || notes.length === 0) return '';
 
     // Get the first content item and split
-    const content = notes[0] || '';
+    const content = notes[0];
     const words = content.split(' ');
     const baseWordCount = 10;
 

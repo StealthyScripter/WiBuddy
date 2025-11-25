@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { TaskStatus, Task, Project, Note, Technology, TimelineActivity, RecentNote, Deadline } from '../../models.interface';
-import { mockTasks, mockProjects, mockNotes, mockTech } from '../../services/test.data';
+import { mockTasks, mockProjects, mockNotes, mockTechStack } from '../../services/test.data';
 
 @Component({
   selector: 'app-profile-page',
@@ -37,7 +37,7 @@ export class ProfilePageComponent implements OnInit {
    showSettingsMenu: boolean = false;
 
    // Technologies/Skills
-   technologies = mockTech;
+   technologies = mockTechStack;
 
    // Recent Activities
    recentActivities: TimelineActivity[] = [
