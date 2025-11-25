@@ -2,11 +2,10 @@ import { Component, NgModule, OnInit, Inject } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Task, Project, Affirmation, TaskStatus, Priority, TaskCategory, Note } from '../../models.interface';
+import { Task, Project, Affirmation, TaskStatus, Priority, Note } from '../../models.interface';
 import { DueDateComponent } from './due-date/due-date.component';
-import { HomePageCalendarComponent } from './home-page-calendar/home-page-calendar.component';
 import { RelativeTimePipe } from '../pipes/relative-time.pipe';
-import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation } from '../../services/test.data';
+import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation, mockUpcomingDeadlines } from '../../services/test.data';
 import { AuthService } from '../../services/auth_service';
 import { BaseService } from '../../services/base_service';
 import { Observable } from 'rxjs';
@@ -14,7 +13,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, DueDateComponent, NgFor, NgIf, HomePageCalendarComponent, RelativeTimePipe],
+  imports: [CommonModule, RouterModule, FormsModule, DueDateComponent, NgFor, NgIf, RelativeTimePipe],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
@@ -34,6 +33,7 @@ export class HomePageComponent implements OnInit {
   upcomingProjects: Project[] = [];
   notes: Note[] = mockNotes;
   loading = true;
+  upcomingDeadlines = mockUpcomingDeadlines;
 
   constructor(
     private router: Router,

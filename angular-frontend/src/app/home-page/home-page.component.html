@@ -96,10 +96,25 @@
   </section>
 
   <section class="section4">
-    <div class="calendar-container">
-      <app-home-page-calendar />
+    <!-- Upcoming deadlines -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Upcoming Deadlines</h2>
+      </div>
+      <div class="deadlines-grid">
+        <div class="deadline-card" *ngFor="let deadline of upcomingDeadlines">
+          <div class="deadline-date">
+            <span class="day">{{ deadline.day }}</span>
+            <span class="month">{{ deadline.month }}</span>
+          </div>
+          <div class="deadline-info">
+            <h3>{{ deadline.title }}</h3>
+            <p>{{ deadline.project }}</p>
+          </div>
+          <div class="deadline-priority" [ngClass]="deadline.priority"></div>
+        </div>
+      </div>
     </div>
-
     <div class="notes-container">
       <div class="sect3-title">
         <h3>Notes</h3>
