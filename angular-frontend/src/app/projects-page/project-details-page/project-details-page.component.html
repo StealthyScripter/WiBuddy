@@ -79,19 +79,6 @@
         </div>
         <div class="detail-item">
           <label>Team Members</label>
-          <div class="team-members">
-            <div class="member-avatars" *ngIf="selectedProject.teamMembers && selectedProject.teamMembers.length > 0">
-              <div class="avatar" *ngFor="let member of selectedProject.teamMembers.slice(0, 3); let i = index">
-                <span>{{ i + 1 }}</span>
-              </div>
-              <div class="avatar more-members" *ngIf="(selectedProject.teamMembers?.length || 0) > 3">
-                +{{ (selectedProject.teamMembers.length || 0) - 3 }}
-              </div>
-            </div>
-            <p *ngIf="!selectedProject.teamMembers || selectedProject.teamMembers.length === 0">
-              No members assigned
-            </p>
-          </div>
         </div>
       </div>
     </div>

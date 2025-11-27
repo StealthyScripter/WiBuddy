@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Task, Project, Affirmation, TaskStatus, Priority, Note } from '../../models.interface';
 import { DueDateComponent } from './due-date/due-date.component';
 import { RelativeTimePipe } from '../pipes/relative-time.pipe';
-import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation, mockUpcomingDeadlines } from '../../services/test.data';
+import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation } from '../../services/test.data';
 import { AuthService } from '../../services/auth_service';
 import { BaseService } from '../../services/base_service';
 import { Observable } from 'rxjs';
@@ -33,7 +33,7 @@ export class HomePageComponent implements OnInit {
   upcomingProjects: Project[] = [];
   notes: Note[] = mockNotes;
   loading = true;
-  upcomingDeadlines = mockUpcomingDeadlines;
+  upcomingDeadlines = '';
 
   constructor(
     private router: Router,

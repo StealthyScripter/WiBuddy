@@ -151,7 +151,7 @@
 
                   <!-- Item icon -->
                   <span class="text-lg flex-shrink-0">
-                    {{ item.type === 'folder' ? '📁' : item.type === 'course' ? '📘' : '📝' }}
+                    {{ item.type === 'folder' ? '📁' : item.type === 'resource' ? '📘' : '📝' }}
                   </span>
 
                   <!-- Item name -->
@@ -180,7 +180,7 @@
               class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg"
               (click)="openActivity(activity)">
               <svg
-                *ngIf="activity.completed"
+                *ngIf="activity.isCompleted"
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -195,7 +195,7 @@
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
               </svg>
               <svg
-                *ngIf="!activity.completed"
+                *ngIf="!activity.isCompleted"
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -209,11 +209,6 @@
                 <circle cx="12" cy="12" r="10"></circle>
                 <polygon points="10 8 16 12 10 16 10 8"></polygon>
               </svg>
-              <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium truncate">{{ activity.moduleName }}</p>
-                <p class="text-xs text-gray-600">{{ activity.courseId }}</p>
-              </div>
-              <span class="text-xs text-gray-500 flex-shrink-0">{{ formatTime(activity.timestamp) }}</span>
             </div>
           </div>
         </div>

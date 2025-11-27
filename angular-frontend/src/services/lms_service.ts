@@ -4,16 +4,9 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import {
-  Course,
-  StudyMaterial,
+  Resource,
   Skill,
-  LearningActivity,
-  LearningGoal,
-  Milestone,
-  Flashcard,
-  Quiz,
-  QuizAttempt,
-  CourseFilterOptions
+  Task
 } from '../models.interface';
 import { BaseHttpService, BaseMockService, BaseService } from './base_service';
 import { UtilityService } from './utility_service';
@@ -24,44 +17,21 @@ import { UtilityService } from './utility_service';
 @Injectable({
   providedIn: 'root'
 })
-export class LMSService extends BaseHttpService<Course> {
+export class LMSService extends BaseHttpService<Resource> {
   constructor(private httpClient: HttpClient) {
     super(`${environment.apiUrl}/lms/courses`, httpClient);
   }
 
   /**
-   * Get courses with optional filtering
-   */
-  getCourses(options: CourseFilterOptions = {}): Observable<any> {
-    let params = new HttpParams();
-
-    if (options.type) {
-      params = params.set('type', options.type);
-    }
-    if (options.category) {
-      params = params.set('category', options.category);
-    }
-    if (options.minProgress !== undefined) {
-      params = params.set('min_progress', options.minProgress.toString());
-    }
-    if (options.hasGoal !== undefined) {
-      params = params.set('has_goal', options.hasGoal.toString());
-    }
-
-    return this.http.get(this.apiUrl, { params })
-      .pipe(catchError(error => UtilityService.handleError(error, 'Failed to fetch courses')));
-  }
-
-  /**
-   * Get course tree structure
+   * Get resource tree structure
    */
   getCourseTree(): Observable<any> {
     return this.http.get(`${this.apiUrl}/tree`)
-      .pipe(catchError(error => UtilityService.handleError(error, 'Failed to fetch course tree')));
+      .pipe(catchError(error => UtilityService.handleError(error, 'Failed to fetch resource tree')));
   }
 
   /**
-   * Get study materials for a course
+   * Get study materials for a resource
    */
   getStudyMaterials(courseId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${courseId}/materials`)
@@ -71,7 +41,7 @@ export class LMSService extends BaseHttpService<Course> {
   /**
    * Create study material
    */
-  createStudyMaterial(courseId: string, material: Partial<StudyMaterial>): Observable<any> {
+  createStudyMaterial(courseId: string, material: Partial<Resource>): Observable<any> {
     return this.http.post(`${this.apiUrl}/${courseId}/materials`, material)
       .pipe(catchError(error => UtilityService.handleError(error, 'Failed to create study material')));
   }
@@ -101,9 +71,9 @@ export class LMSService extends BaseHttpService<Course> {
   }
 
   /**
-   * Set learning goal for course
+   * Set learning goal for resource
    */
-  setLearningGoal(courseId: string, goal: Partial<LearningGoal>): Observable<any> {
+  setLearningGoal(courseId: string, goal: Partial<any>): Observable<any> {
     return this.http.post(`${this.apiUrl}/${courseId}/goal`, goal)
       .pipe(catchError(error => UtilityService.handleError(error, 'Failed to set learning goal')));
   }
@@ -147,20 +117,20 @@ export class LMSService extends BaseHttpService<Course> {
 @Injectable({
   providedIn: 'root'
 })
-export class MockLMSService extends BaseMockService<Course> {
-  private studyMaterials: StudyMaterial[] = [];
+export class MockLMSService extends BaseMockService<Resource> {
+  private studyMaterials: Resource[] = [];
   private skills: Skill[] = [];
-  private activities: LearningActivity[] = [];
+  private activities: Task[] = [];
 
   constructor() {
     super([]);
   }
 
-  setCourses(mockCourses: Course[]) {
+  setCourses(mockCourses: Resource[]) {
     this.data = [...mockCourses];
   }
 
-  setStudyMaterials(materials: StudyMaterial[]) {
+  setStudyMaterials(materials: Resource[]) {
     this.studyMaterials = [...materials];
   }
 
@@ -168,38 +138,39 @@ export class MockLMSService extends BaseMockService<Course> {
     this.skills = [...skills];
   }
 
-  setActivities(activities: LearningActivity[]) {
+  setActivities(activities: Task[]) {
     this.activities = [...activities];
   }
 
-  async getCourseTree(): Promise<Course> {
+  async getCourseTree(): Promise<Resource> {
     await UtilityService.simulateDelay();
     // Build tree structure from flat data
     const courses = [...this.data];
-    const root: Course = {
+    const root: Resource = {
       id: 'root',
       name: 'My Learning',
       type: 'folder',
       progress: 0,
       modules: 0,
       completedModules: 0,
+      content: ['string'],
       children: []
     };
 
     // Simple tree building - in real implementation, handle nesting better
-    courses.forEach(course => {
-      if (!course.parentId) {
+    courses.forEach(resource => {
+      if (!resource.parentId) {
         root.children = root.children || [];
-        root.children.push(course);
+        root.children.push(resource);
       }
     });
 
     return root;
   }
 
-  async getStudyMaterials(courseId: string): Promise<StudyMaterial[]> {
+  async getStudyMaterials(courseId: string): Promise<Resource[]> {
     await UtilityService.simulateDelay();
-    return this.studyMaterials.filter(m => m.courseId === courseId);
+    return this.studyMaterials.filter(m => m.id === courseId);
   }
 
   async getSkills(): Promise<Skill[]> {
@@ -207,11 +178,9 @@ export class MockLMSService extends BaseMockService<Course> {
     return [...this.skills];
   }
 
-  async getRecentActivities(limit: number = 10): Promise<LearningActivity[]> {
+  async getRecentActivities(limit: number = 10): Promise<Task[]> {
     await UtilityService.simulateDelay();
-    return this.activities
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-      .slice(0, limit);
+    return this.activities;
   }
 
   async updateSkillLevel(skillId: string, level: number): Promise<Skill | undefined> {
@@ -236,7 +205,7 @@ export class MockLMSService extends BaseMockService<Course> {
   providedIn: 'root'
 })
 export class LMSServiceFactory {
-  static getService(http?: HttpClient): BaseService<Course> {
+  static getService(http?: HttpClient): BaseService<Resource> {
     if (environment.production && http) {
       return new LMSService(http);
     } else {

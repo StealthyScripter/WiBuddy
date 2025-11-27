@@ -3,19 +3,15 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {
-  Course,
-  StudyMaterial,
+  Resource,
   Skill,
-  LearningActivity,
-  Note
+  Note,
+  Task
 } from '../../models.interface';
 import { BaseService } from '../../services/base_service';
 import { MockLMSService } from '../../services/lms_service';
 import {
-  mockCourses,
-  mockStudyMaterials,
   mockSkills,
-  mockLearningActivities,
   mockNotes,
   mockSkillsLMS
 } from '../../services/test.data';
@@ -32,7 +28,7 @@ interface LibraryItem {
   icon?: string;
 }
 
-type LibraryCreateType = 'resource' | 'folder' | 'note' | 'course' | 'pdf' | 'image' | 'video' | 'audio' | 'ppt';
+type LibraryCreateType = 'resource' | 'folder' | 'note' | 'resource' | 'pdf' | 'image' | 'video' | 'audio' | 'ppt';
 
 
 @Component({
@@ -56,7 +52,7 @@ export class LmsPageComponent implements OnInit {
 
   // Data
   skills: Skill[] = [];
-  recentActivities: LearningActivity[] = [];
+  recentActivities: Task[] = [];
   notes: Note[] = [];
 
   // Stats (derived from actual data)
@@ -82,7 +78,7 @@ export class LmsPageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    @Inject('LMSServiceToken') private lmsService: BaseService<Course>
+    @Inject('LMSServiceToken') private lmsService: BaseService<Resource>
   ) {}
 
   ngOnInit() {
@@ -94,14 +90,6 @@ export class LmsPageComponent implements OnInit {
     this.loading = true;
 
     try {
-      // Initialize mock service with data if using mock
-      if (this.lmsService instanceof MockLMSService) {
-        (this.lmsService as MockLMSService).setCourses(mockCourses);
-        (this.lmsService as MockLMSService).setStudyMaterials(mockStudyMaterials);
-        (this.lmsService as MockLMSService).setSkills(mockSkills);
-        (this.lmsService as MockLMSService).setActivities(mockLearningActivities);
-      }
-
       // Load skills
       this.skills = mockSkillsLMS;
 
@@ -112,7 +100,7 @@ export class LmsPageComponent implements OnInit {
       if (activitiesResult instanceof Promise) {
         this.recentActivities = await activitiesResult;
       } else {
-        activitiesResult.subscribe((data: LearningActivity[]) => {
+        activitiesResult.subscribe((data: Task[]) => {
           this.recentActivities = data;
         });
       }
@@ -147,20 +135,6 @@ export class LmsPageComponent implements OnInit {
   buildLibraryTree(): LibraryItem[] {
     const items: LibraryItem[] = [];
 
-    // Add courses from mock data
-    mockCourses.forEach(course => {
-      if (course.type === 'folder' && !course.parentId) {
-        items.push({
-          id: course.id,
-          name: course.name,
-          type: 'folder',
-          dateCreated: course.dateCreated || new Date().toISOString(),
-          lastModified: new Date().toISOString(),
-          children: this.buildCourseChildren(course)
-        });
-      }
-    });
-
     // Add notes from mock data
     mockNotes.forEach(note => {
       items.push({
@@ -176,20 +150,20 @@ export class LmsPageComponent implements OnInit {
     return items;
   }
 
-  buildCourseChildren(course: Course): LibraryItem[] {
+  buildCourseChildren(resource: Resource): LibraryItem[] {
     const children: LibraryItem[] = [];
 
     // Add child courses/folders
-    if (course.children) {
-      course.children.forEach(child => {
+    if (resource.children) {
+      resource.children.forEach(child => {
         children.push({
           id: child.id,
           name: child.name,
-          type: child.type === 'folder' ? 'folder' : 'course',
-          parentId: course.id,
+          type: child.type === 'folder' ? 'folder' : 'resource',
+          parentId: resource.id,
           dateCreated: child.dateCreated || new Date().toISOString(),
           lastModified: new Date().toISOString(),
-          icon: child.type === 'course' ? '📚' : '📁'
+          icon: child.type === 'resource' ? '📚' : '📁'
         });
       });
     }
@@ -198,33 +172,7 @@ export class LmsPageComponent implements OnInit {
   }
 
   calculateStats() {
-    // Active courses - courses with progress > 0 and < 100
-    this.activeCourses = mockCourses.filter(c =>
-      c.type === 'course' && c.progress > 0 && c.progress < 100
-    ).length;
 
-    // Total study hours from courses
-    this.studyHours = mockCourses
-      .filter(c => c.type === 'course')
-      .reduce((sum, c) => sum + (c.totalHours || 0) * (c.progress / 100), 0);
-    this.studyHours = Math.round(this.studyHours);
-
-    // Skills mastered - skills at or above target level
-    this.skillsMastered = this.skills.filter(s => s.level >= s.targetLevel).length;
-
-    // Average progress across all courses
-    const courses = mockCourses.filter(c => c.type === 'course');
-    if (courses.length > 0) {
-      this.avgProgress = Math.round(
-        courses.reduce((sum, c) => sum + c.progress, 0) / courses.length
-      );
-    }
-
-    // Total notes and attachments
-    this.totalNotes = mockNotes.length;
-    this.totalAttachments = mockNotes.reduce((sum, note) =>
-      sum + (note.attachments?.length || 0), 0
-    );
   }
 
   toggleFolder(item: any) {
@@ -247,7 +195,7 @@ export class LmsPageComponent implements OnInit {
     if (item.type === 'folder') {
       this.toggleFolder(item.id);
       this.currentFolderId = item.id;
-    } else if (item.type === 'course') {
+    } else if (item.type === 'resource') {
       this.navigateToResource(item.id);
     } else if (item.type === 'note') {
       this.navigateToNote(item.id);
@@ -258,7 +206,7 @@ export class LmsPageComponent implements OnInit {
     const icons: {[key: string]: string} = {
       'folder': '📁',
       'note': '📝',
-      'course': '📚',
+      'resource': '📚',
       'pdf': '📄',
       'image': '🖼️',
       'video': '🎥',
@@ -347,7 +295,7 @@ export class LmsPageComponent implements OnInit {
         this.navigateToNote(newItem.id);
       }
 
-       // Navigate to new course
+       // Navigate to new resource
     if (this.createModalType === 'resource') {
       this.navigateToResource(newItem.id);
     }
@@ -496,7 +444,7 @@ export class LmsPageComponent implements OnInit {
       return;
     }
 
-    if (item.type === 'course') {
+    if (item.type === 'resource') {
       this.navigateToResource(item.id);
       return;
     }

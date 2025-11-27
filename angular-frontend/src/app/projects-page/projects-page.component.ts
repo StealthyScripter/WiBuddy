@@ -3,7 +3,7 @@ import { Project, TaskStatus, Priority, Task } from '../../models.interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-import { ProjectStats, FilterOptions } from '../../models.interface';
+import { FilterOptions } from '../../models.interface';
 import { ProjectService } from '../../services/project_service';
 import { mockProjects, mockTasks } from '../../services/test.data';
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-import { TaskStatus, Task, Project, Note, Technology, TimelineActivity, RecentNote, Deadline } from '../../models.interface';
+import { TaskStatus, Task, Project, Note, Technology } from '../../models.interface';
 import { mockTasks, mockProjects, mockNotes, mockTechStack } from '../../services/test.data';
 
 @Component({
@@ -39,46 +39,31 @@ export class ProfilePageComponent implements OnInit {
    // Technologies/Skills
    technologies = mockTechStack;
 
-   // Recent Activities
-   recentActivities: TimelineActivity[] = [
-     {
-       type: 'task',
-       title: 'Completed Frontend Design',
-       description: 'Finalized the UI components for the dashboard',
-       time: '2 hours ago'
-     },
-     {
-       type: 'project',
-       title: 'Created New Project',
-       description: 'Started Mobile App Development project',
-       time: 'Yesterday'
-     },
-     {
-       type: 'note',
-       title: 'Added Meeting Notes',
-       description: 'Documented requirements from client meeting',
-       time: '3 days ago'
-     }
-   ];
 
    // Recent Notes
-   recentNotes: RecentNote[] = [
+   recentNotes: Note[] = [
      {
        name: 'API Integration Plan',
+       content: ['API Integration Plan'],
+       dateCreated: 'Jan 26',
        preview: 'Steps for connecting the frontend to backend services...',
-       date: 'Apr 15',
+       lastModified: 'Apr 15',
        id:'5'
      },
      {
        name: 'Client Feedback',
+       content: [],
+       dateCreated: 'March 10',
        preview: 'Notes from the latest client review session...',
-       date: 'Apr 10',
+       lastModified: 'Apr 10',
        id:'6'
      },
      {
        name: 'Design System',
+       content: [],
+       dateCreated: 'Apr 1',
        preview: 'Component standards and color palette...',
-       date: 'Apr 5',
+       lastModified: 'Apr 5',
        id:'7'
      }
    ];

@@ -103,15 +103,7 @@
       </div>
       <div class="deadlines-grid">
         <div class="deadline-card" *ngFor="let deadline of upcomingDeadlines">
-          <div class="deadline-date">
-            <span class="day">{{ deadline.day }}</span>
-            <span class="month">{{ deadline.month }}</span>
-          </div>
-          <div class="deadline-info">
-            <h3>{{ deadline.title }}</h3>
-            <p>{{ deadline.project }}</p>
-          </div>
-          <div class="deadline-priority" [ngClass]="deadline.priority"></div>
+          <div>{{deadline}}</div>
         </div>
       </div>
     </div>

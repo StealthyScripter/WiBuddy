@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
-import { Task, TaskStatus, Priority, TaskCategory, Comment } from '../../../models.interface';
+import { Task, TaskStatus, Priority, TaskCategory} from '../../../models.interface';
 import { BaseService } from '../../../services/base_service';
 import { TaskService, MockTaskService } from '../../../services/task_service';
 import { AuthService } from '../../../services/auth_service';
@@ -29,15 +29,6 @@ export class TaskDetailPageComponent implements OnInit {
   prerequisites: string[] = [
     'Database Schema Design',
     'Authentication System Setup'
-  ];
-
-  comments: Comment[] = [
-    {
-      id: 'comment-1',
-      author: 'John Doe',
-      content: 'Let\'s make sure we follow the API documentation carefully.',
-      timestamp: new Date(Date.now() - 7200000).toISOString() // 2 hours ago
-    }
   ];
 
   constructor(
@@ -118,20 +109,6 @@ export class TaskDetailPageComponent implements OnInit {
           url: '#'
         }
       ];
-    }
-  }
-
-  addComment() {
-    if (this.newComment.trim()) {
-      const newComment: Comment = {
-        id: `comment-${Date.now()}`,
-        author: 'Current User', // TODO: Get from auth service
-        content: this.newComment,
-        timestamp: new Date().toISOString()
-      };
-
-      this.comments.unshift(newComment);
-      this.newComment = '';
     }
   }
 
