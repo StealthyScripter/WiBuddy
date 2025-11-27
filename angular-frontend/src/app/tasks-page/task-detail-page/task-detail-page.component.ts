@@ -1,57 +1,90 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
-import { Task, TaskStatus, Priority, TaskCategory} from '../../../models.interface';
+import { Task, UUID } from '../../../models.interface';
 import { BaseService } from '../../../services/base_service';
-import { TaskService, MockTaskService } from '../../../services/task_service';
-import { AuthService } from '../../../services/auth_service';
-import { mockTasks, mockProjects } from '../../../services/test.data';
-
-
+import { TaskService } from '../../../services/task_service';
+import { mockProjects } from '../../../services/test.data';
 
 @Component({
   selector: 'app-task-detail-page',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './task-detail-page.component.html',
-  styleUrl: './task-detail-page.component.css'
+  styleUrls: ['./task-detail-page.component.css']
 })
 export class TaskDetailPageComponent implements OnInit {
   taskId: string | null = '';
   selectedTask: Task | undefined;
-  loading =false;
-  error='';
-  newComment = '';
-
-  // Sample prerequisites
-  prerequisites: string[] = [
-    'Database Schema Design',
-    'Authentication System Setup'
-  ];
+  loading = false;
+  error = '';
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     @Inject('TaskServiceToken') private taskServiceBase: BaseService<Task>,
-    private taskService: TaskService,
-    @Inject('AuthServiceToken') private authService: AuthService
-  ) {
-  }
+    private taskService: TaskService
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.taskId = params.get('taskId');
-      if (this.taskId) {
-        this.loadTask();
-      }
+      if (this.taskId) this.loadTask();
     });
-
   }
 
+  // ----------------------------
+  // Navigate back to task list
+  // ----------------------------
+  onBack() {
+    this.router.navigate(['/tasks']);
+  }
+
+  // ----------------------------
+  // Edit the task by navigating to "new task" page with pre-filled data
+  // ----------------------------
+  onEdit() {
+    if (!this.selectedTask) return;
+
+    this.router.navigate(['/tasks/new'], {
+      state: { task: this.selectedTask },
+      queryParams: {edit: this.selectedTask.id}
+    });
+  }
+
+  // ----------------------------
+  // Delete the selected task
+  // ----------------------------
+  async onDelete() {
+    if (!this.selectedTask) return;
+
+    const confirmed = confirm(`Are you sure you want to delete task "${this.selectedTask.name}"?`);
+    if (!confirmed) return;
+
+    try {
+      const result = this.taskServiceBase.delete(this.selectedTask.id);
+
+      if (result instanceof Promise) {
+        await result;
+      } else {
+        await result.toPromise();
+      }
+
+      alert('Task deleted successfully');
+      this.router.navigate(['/tasks']);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to delete task');
+    }
+  }
+
+  // ----------------------------
+  // Load Task Data
+  // ----------------------------
   loadTask() {
     this.loading = true;
-
     if (!this.taskId) {
       this.error = 'Task ID is missing';
       this.loading = false;
@@ -61,24 +94,22 @@ export class TaskDetailPageComponent implements OnInit {
     const result = this.taskServiceBase.getById(this.taskId);
 
     if (result instanceof Promise) {
-      // Mock service
-      result.then(task => {
-        this.selectedTask = task;
-        this.loadTaskDetails();
-        this.loading = false;
-      }).catch(error => {
-        this.error = 'Failed to load task';
-        this.loading = false;
-      });
+      result
+        .then(task => {
+          this.selectedTask = task;
+          this.loading = false;
+        })
+        .catch(() => {
+          this.error = 'Failed to load task';
+          this.loading = false;
+        });
     } else {
-      // HTTP service
       result.subscribe({
         next: (response: any) => {
           this.selectedTask = response.task || response;
-          this.loadTaskDetails();
           this.loading = false;
         },
-        error: (error) => {
+        error: () => {
           this.error = 'Failed to load task';
           this.loading = false;
         }
@@ -86,61 +117,12 @@ export class TaskDetailPageComponent implements OnInit {
     }
   }
 
-  loadTaskDetails() {
-    // This would fetch additional details like comments, prerequisites, etc.
-    // For now we're using mock data
-
-    if (this.selectedTask && !this.selectedTask.tags) {
-      this.selectedTask.tags = ['Frontend', 'Priority', 'Q2'];
-    }
-
-    if (this.selectedTask && !this.selectedTask.attachments) {
-      this.selectedTask.attachments = [
-        {
-          id: '1',
-          type: 'document',
-          name: 'Requirements.docx',
-          url: '#'
-        },
-        {
-          id: '2',
-          type: 'image',
-          name: 'Mockup.png',
-          url: '#'
-        }
-      ];
-    }
-  }
-
-  getProjectName(projectId: string | undefined): string {
+  // ----------------------------
+  // Utility: Get project name from ID
+  // ----------------------------
+  getProjectName(projectId: UUID) {
     if (!projectId) return 'Not assigned';
-
-    // Use the imported mock projects data
     const project = mockProjects.find(p => p.id === projectId);
     return project ? project.name : 'Unknown Project';
-  }
-
-  getAssigneeName(assigneeId: string | undefined): string {
-    if (!assigneeId) return 'Unassigned';
-
-    // This would normally fetch from user data
-    // Mock assignee names for demo purposes
-    const assignees: {[key: string]: string} = {
-      'user-1': 'John Smith',
-      'user-2': 'Emily Johnson',
-      'user-3': 'Michael Chen'
-    };
-
-    return assignees[assigneeId] || 'Unknown User';
-  }
-
-  getPriorityClass(priority: Priority | undefined): string {
-    if (!priority) return '';
-    return priority.toLowerCase();
-  }
-
-  getStatusClass(status: TaskStatus | undefined): string {
-    if (!status) return '';
-    return status.toLowerCase().replace(/_/g, '-');
   }
 }

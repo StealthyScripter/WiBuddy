@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Project, Technology } from '../../../models.interface';
+import { Project, Technology, Task } from '../../../models.interface';
 import { mockProjects, mockTechStack } from '../../../services/test.data';
 import { TaskService } from '../../../services/task_service';
 import { Observable } from 'rxjs';
@@ -14,8 +14,9 @@ import { Observable } from 'rxjs';
   templateUrl: 'new-task-page.component.html',
   styleUrls: ['new-task-page.component.css']
 })
-export class NewTaskPageComponent {
+export class NewTaskPageComponent implements OnInit{
   taskForm: FormGroup;
+  taskToEdit: Task | undefined;
 
   projects: Project[] = mockProjects;
   technologies: Technology[] = mockTechStack;
@@ -35,6 +36,23 @@ export class NewTaskPageComponent {
       technology: [null, Validators.required],
       isMilestone: [false]
     });
+  }
+
+  ngOnInit(): void {
+    const state = history.state;
+    if (state && state.task){
+      this.taskToEdit = state.task as Task;
+
+      this.taskForm.patchValue({
+      taskName: this.taskToEdit.name,
+      description: this.taskToEdit.description,
+      dueDate: this.taskToEdit.dueDate || '',
+      duration: this.taskToEdit.estimatedDuration || 0,
+      project: this.taskToEdit.projectId || null,
+      technology: this.taskToEdit.technologyId || null,
+      isMilestone: this.taskToEdit.isMilestone || false
+    });
+    }
   }
 
   // Submit handler

@@ -128,7 +128,7 @@ export class TasksPageComponent implements OnInit {
   }
 
   addTask() {
-    this.router.navigate(['/add-task'])
+    this.router.navigate(['/tasks/new'])
   }
 
   navigateToTask(taskId: string) {
