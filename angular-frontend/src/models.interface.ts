@@ -2,7 +2,7 @@ import { DurationUnit } from "date-fns";
 
 // Common Types
 type ISODateString = string;
-type UUID = string;
+export type UUID = string;
 
 // Status and Priority Enums
 export enum TaskStatus {
@@ -87,7 +87,7 @@ export interface Technology extends BaseEntity {
 
 // Affirmation Interface
 export interface Affirmation extends BaseEntity {
-  id:string;
+  id:UUID;
   quote: string;
   dailyGoals?: string[];
   author:string;
@@ -97,7 +97,7 @@ export interface Affirmation extends BaseEntity {
 }
 
 export interface Attachment {
-  id: string;
+  id: UUID;
   type: string;
   name?: string;
   url?: string;
@@ -105,7 +105,7 @@ export interface Attachment {
 }
 
 export interface Note {
-  id: string;
+  id: UUID;
   name: string;
   content: string[];
   dateCreated: string | null;
@@ -119,7 +119,7 @@ export interface Note {
 }
 
 export interface CalendarEvent {
-  id: number;
+  id: UUID;
   name: string;
   date: Date;
   startDate?: Date;
@@ -142,7 +142,7 @@ export interface CalendarDay {
   dayName: string;
   isToday: boolean;
   items: Array<{
-    id: string;
+    id: UUID;
     name: string;
     type: 'task' | 'project';
     priority: Priority;
@@ -194,7 +194,7 @@ export interface MarketInsight extends BaseEntity {
   link?:string;
   sourceType?: string;
   hotSkills?: Array<{
-    id:string;
+    id:UUID;
     skill: string;
     growth: number;
   }>;
@@ -225,6 +225,20 @@ export interface JobOpportunity extends BaseEntity {
   link: string;
   isStarred: boolean;
   applicationStatus?: string;
+}
+
+export type LibraryCreateType = 'resource' | 'folder' | 'note' | 'resource' | 'pdf' | 'image' | 'video' | 'audio' | 'ppt';
+
+export interface LibraryItem {
+  id: UUID;
+  name: string;
+  type: LibraryCreateType;
+  parentId?: string;
+  children?: LibraryItem[];
+  dateCreated: string;
+  lastModified: string;
+  size?: number;
+  icon?: string;
 }
 
 // ============= Filter Options =============

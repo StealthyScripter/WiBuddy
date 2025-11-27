@@ -6,7 +6,9 @@ import {
   Resource,
   Skill,
   Note,
-  Task
+  Task,
+  LibraryItem,
+  LibraryCreateType
 } from '../../models.interface';
 import { BaseService } from '../../services/base_service';
 import { MockLMSService } from '../../services/lms_service';
@@ -15,21 +17,6 @@ import {
   mockNotes,
   mockSkillsLMS
 } from '../../services/test.data';
-
-interface LibraryItem {
-  id: string;
-  name: string;
-  type: LibraryCreateType;
-  parentId?: string;
-  children?: LibraryItem[];
-  dateCreated: string;
-  lastModified: string;
-  size?: number;
-  icon?: string;
-}
-
-type LibraryCreateType = 'resource' | 'folder' | 'note' | 'resource' | 'pdf' | 'image' | 'video' | 'audio' | 'ppt';
-
 
 @Component({
   selector: 'app-lms-page',

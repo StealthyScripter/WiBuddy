@@ -80,6 +80,6 @@ export class ProjectDetailsPageComponent implements OnInit {
   }
 
   addNewTask() {
-    this.router.navigate(['/add-task'])
+    this.router.navigate(['/tasks/new'])
   }
 }

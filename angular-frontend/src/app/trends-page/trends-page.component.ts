@@ -9,7 +9,6 @@ import {
   Skill
 } from '../../models.interface';
 import { BaseService } from '../../services/base_service';
-import { MockTrendsService } from '../../services/trends_service';
 import {
   mockTechTrends,
   mockLearningRecommendations,
@@ -69,16 +68,6 @@ export class TrendsPageComponent implements OnInit {
     this.loading = true;
 
     try {
-      // Initialize mock service with data if using mock
-      if (this.trendsService instanceof MockTrendsService) {
-        (this.trendsService as MockTrendsService).setTrendItems(mockTrendItems);
-        (this.trendsService as MockTrendsService).setTechTrends(mockTechTrends);
-        (this.trendsService as MockTrendsService).setStandoutSkills(mockStandoutSkills);
-        (this.trendsService as MockTrendsService).setRecommendations(mockLearningRecommendations);
-        (this.trendsService as MockTrendsService).setJobOpportunities(mockJobOpportunities);
-        (this.trendsService as MockTrendsService).setJobMarketInsight(mockJobMarketInsight);
-      }
-
       // Load trend items
       await this.loadTrendItems();
 

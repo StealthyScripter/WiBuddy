@@ -318,7 +318,7 @@ export const mockNotes: Note[] = [
 // =============================================================================
 export const mockCalendarEvents: CalendarEvent[] = [
   {
-    id: 1,
+    id: '1',
     name: 'Weekly Team Standup',
     date: new Date(2025, 1, 18, 10, 0),
     endDate: new Date(2025, 1, 18, 10, 30),
@@ -327,7 +327,7 @@ export const mockCalendarEvents: CalendarEvent[] = [
     description: 'Daily standup to discuss progress and blockers'
   },
   {
-    id: 2,
+    id: '2',
     name: 'Website Redesign Deadline',
     date: new Date(2025, 3, 15),
     type: 'deadline',
@@ -336,7 +336,7 @@ export const mockCalendarEvents: CalendarEvent[] = [
     description: 'Final deadline for website redesign project'
   },
   {
-    id: 3,
+    id: '3',
     name: 'Client Requirements Review',
     date: new Date(2025, 1, 20, 14, 0),
     endDate: new Date(2025, 1, 20, 15, 30),
@@ -345,7 +345,7 @@ export const mockCalendarEvents: CalendarEvent[] = [
     description: 'Review updated requirements with client stakeholders'
   },
   {
-    id: 4,
+    id: '4',
     name: 'Design System Presentation',
     date: new Date(2025, 1, 22, 13, 0),
     endDate: new Date(2025, 1, 22, 14, 30),
@@ -355,7 +355,7 @@ export const mockCalendarEvents: CalendarEvent[] = [
     description: 'Present new design system to leadership team'
   },
   {
-    id: 5,
+    id: '5',
     name: 'ML Model Training Complete',
     date: new Date(2025, 3, 30),
     type: 'deadline',

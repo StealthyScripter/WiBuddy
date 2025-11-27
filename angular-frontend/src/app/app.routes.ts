@@ -44,7 +44,7 @@ const routeConfig: Routes = [
 
      {path: 'task-details/:taskId', component: TaskDetailPageComponent},
 
-     {path: 'add-task', component: NewTaskPageComponent},
+     {path: 'tasks/new', component: NewTaskPageComponent},
 
      {path: 'projects', component: ProjectsPageComponent},
 
