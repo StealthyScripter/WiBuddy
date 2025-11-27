@@ -818,3 +818,121 @@ export const mockSkillsLMS: Skill[] = [
   }
 ];
 
+export const mockTrendItems: MarketInsight[] = [
+  {
+    id: 'insight-1',
+    name: 'AI Engineering Demand Surge',
+    trend: 'upward',
+    demand: Priority.HIGH,
+    marketLevel: 88,
+    jobListingCount: 12500,
+    growthRate: 14.2,
+    category: 'AI',
+    totalRelevantJobs: 45000,
+    weeklyGrowth: 3.1,
+    topSkillsCombination: ['LLM Ops', 'Prompt Engineering', 'Python'],
+    averageSalary: '$148k',
+    hotSkills: [
+      { id: 'hs1', skill: 'AI Model Integration', growth: 22 },
+      { id: 'hs2', skill: 'Vector Databases', growth: 18 }
+    ],
+    lastUpdated: '2025-01-03'
+  },
+  {
+    id: 'insight-2',
+    name: 'Cloud Cost Optimization Roles Rising',
+    trend: 'upward',
+    demand: Priority.MEDIUM,
+    marketLevel: 74,
+    jobListingCount: 6300,
+    growthRate: 9.1,
+    category: 'Cloud',
+    totalRelevantJobs: 23000,
+    weeklyGrowth: 1.6,
+    topSkillsCombination: ['FinOps', 'Kubernetes', 'Automation'],
+    averageSalary: '$132k',
+    hotSkills: [
+      { id: 'hs3', skill: 'FinOps Analysis', growth: 16 },
+      { id: 'hs4', skill: 'Cloud Monitoring', growth: 12 }
+    ],
+    lastUpdated: '2025-01-02'
+  },
+  {
+    id: 'insight-3',
+    name: 'JavaScript Ecosystem Expanding Again',
+    trend: 'neutral',
+    demand: Priority.LOW,
+    marketLevel: 61,
+    jobListingCount: 15800,
+    growthRate: 4.5,
+    category: 'Frontend',
+    totalRelevantJobs: 52000,
+    weeklyGrowth: 0.4,
+    topSkillsCombination: ['TypeScript', 'React', 'Bun'],
+    averageSalary: '$118k',
+
+    hotSkills: [
+      { id: 'hs5', skill: 'TypeScript Patterns', growth: 8 },
+      { id: 'hs6', skill: 'Bun Runtime', growth: 7 }
+    ],
+    lastUpdated: '2025-01-01'
+  }
+];
+
+export const mockStandoutSkills: Skill[] = [
+  {
+    id: 'skill-1',
+    name: 'Prompt Engineering',
+    level: 65,
+    targetLevel: 90,
+    category: 'AI',
+    relatedCourses: ['course-101', 'course-102'],
+    marketDemand: 94,
+    lastUpdated: '2025-01-03'
+  },
+  {
+    id: 'skill-2',
+    name: 'FinOps Cloud Optimization',
+    level: 40,
+    targetLevel: 80,
+    category: 'Cloud',
+    relatedCourses: ['course-201'],
+    marketDemand: 82,
+    lastUpdated: '2025-01-03'
+  },
+  {
+    id: 'skill-3',
+    name: 'TypeScript Mastery',
+    level: 80,
+    targetLevel: 95,
+    category: 'Frontend',
+    relatedCourses: ['course-300', 'course-301'],
+    marketDemand: 70,
+    lastUpdated: '2025-01-02'
+  }
+];
+
+export const mockJobMarketInsight: MarketInsight = {
+  id: 'market-insight-2025',
+  name: '2025 Global Software Engineering Job Market Overview',
+  trend: 'upward',
+  demand: Priority.HIGH,
+  marketLevel: 91,
+  jobListingCount: 185000,
+  growthRate: 15.4,
+  category: 'Software Engineering',
+  totalRelevantJobs: 820000,
+  weeklyGrowth: 2.9,
+  topSkillsCombination: [
+    'AI-Augmented Development',
+    'Cloud Automation',
+    'Secure Coding'
+  ],
+  averageSalary: '$142k',
+  hotSkills: [
+    { id: 'hs10', skill: 'AI Code Assistants', growth: 28 },
+    { id: 'hs11', skill: 'Cloud Security Automation', growth: 21 },
+    { id: 'hs12', skill: 'Rust for Backend Systems', growth: 19 }
+  ],
+  lastUpdated: '2025-01-04'
+};

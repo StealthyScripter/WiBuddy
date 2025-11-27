@@ -84,7 +84,7 @@
                   </div>
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 mb-1">
-                      <h3 class="font-semibold text-gray-900 truncate">{{ item.title }}</h3>
+                      <h3 class="font-semibold text-gray-900 truncate">title</h3>
                       <svg
                         *ngIf="item.isStarred"
                         xmlns="http://www.w3.org/2000/svg"
@@ -101,24 +101,20 @@
                       </svg>
                     </div>
                     <div class="flex items-center gap-2 text-sm text-gray-600">
-                      <span>{{ item.resource }}</span>
+                      <span>resource</span>
                       <span>•</span>
-                      <span>{{ item.timestamp | date:'short' }}</span>
+                      <span>date:'short'</span>
                     </div>
                   </div>
                 </div>
-                <span [ngClass]="getRelevanceColor(item.relevanceScore)" class="px-2 py-1 rounded text-xs font-medium">
-                  {{ item.relevanceScore }}% match
-                </span>
+
               </div>
 
-              <p class="text-sm text-gray-700 mb-3">{{ item.summary }}</p>
+              <p class="text-sm text-gray-700 mb-3">summary </p>
 
               <div class="flex items-center justify-between">
                 <div class="flex gap-2 flex-wrap">
-                  <span *ngFor="let tag of item.tags" class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
-                    {{ tag }}
-                  </span>
+
                 </div>
                 <div class="flex gap-2">
                   <button
@@ -132,8 +128,7 @@
                   </button>
                   <button
                     class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                    title="Star"
-                    (click)="$event.stopPropagation(); toggleStar(item.id, item.isStarred)">
+                    title="Star">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -194,20 +189,20 @@
               class="p-3 rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100"
               (click)="navigateToSkillNotification(skill.id)">
               <div class="flex justify-between items-start mb-2">
-                <span class="font-medium text-sm">{{ skill.skillName }}</span>
-                <span class="text-xs px-2 py-1 bg-white rounded font-medium text-indigo-600">{{ skill.strength }}</span>
+                <span class="font-medium text-sm">{{ skill.name }}</span>
+                <span class="text-xs px-2 py-1 bg-white rounded font-medium text-indigo-600">{{ skill.marketDemand }}</span>
               </div>
-              <p class="text-xs text-gray-700 mb-2">{{ skill.description }}</p>
+              <p class="text-xs text-gray-700 mb-2">{{ skill.name }}</p>
               <div class="flex items-center gap-2">
                 <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                   <div
                     class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
-                    [style.width.%]="skill.percentile">
+                    [style.width.%]="skill">
                   </div>
                 </div>
-                <span class="text-xs text-gray-600 font-medium">{{ skill.marketPosition }}</span>
+                <span class="text-xs text-gray-600 font-medium">{{ skill }}</span>
               </div>
-              <p class="text-xs text-gray-500 mt-1">{{ skill.sourceCount }} job listings</p>
+              <p class="text-xs text-gray-500 mt-1"> job listings</p>
             </div>
           </div>
         </div>
@@ -242,7 +237,7 @@
                     <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
                     <polyline points="17 6 23 6 23 12"></polyline>
                   </svg>
-                  <span class="text-xs text-gray-600">{{ tech.jobCount }} jobs</span>
+                  <span class="text-xs text-gray-600">{{ tech.jobListingCount }} jobs</span>
                 </div>
               </div>
               <div class="mb-1">
@@ -305,7 +300,7 @@
           </div>
           <p class="text-sm text-indigo-100 mb-3">
             Based on your skills, {{ jobMarketInsight.totalRelevantJobs }} relevant jobs posted this week.
-            {{ jobMarketInsight.topSkillsCombination.join(' + ') }} roles increased {{ jobMarketInsight.weeklyGrowth }}%.
+            {{ jobMarketInsight.topSkillsCombination?.join(' + ') }} roles increased {{ jobMarketInsight.weeklyGrowth }}%.
           </p>
           <br/>
           <button

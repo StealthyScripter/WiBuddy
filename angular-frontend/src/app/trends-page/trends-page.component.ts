@@ -2,22 +2,20 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import {
-  TrendItem,
-  TechTrend,
-  StandoutSkill,
   LearningRecommendation,
   JobOpportunity,
-  JobMarketInsight,
-  TrendFilterOptions
+  MarketInsight,
+  TrendFilterOptions,
+  Skill
 } from '../../models.interface';
 import { BaseService } from '../../services/base_service';
 import { MockTrendsService } from '../../services/trends_service';
 import {
-  mockTrendItems,
   mockTechTrends,
-  mockStandoutSkills,
   mockLearningRecommendations,
   mockJobOpportunities,
+  mockTrendItems,
+  mockStandoutSkills,
   mockJobMarketInsight
 } from '../../services/test.data';
 
@@ -38,14 +36,14 @@ export type TrendFilter =
 })
 export class TrendsPageComponent implements OnInit {
   selectedFilter: TrendFilter = 'all';
-  selectedTrend: TrendItem | null = null;
+  selectedTrend: MarketInsight | null = null;
 
-  trendItems: TrendItem[] = [];
-  techTrends: TechTrend[] = [];
-  standoutSkills: StandoutSkill[] = [];
+  trendItems: MarketInsight[] = [];
+  techTrends: MarketInsight[] = [];
+  standoutSkills: Skill[] = [];
   learningRecommendations: LearningRecommendation[] = [];
   jobOpportunities: JobOpportunity[] = [];
-  jobMarketInsight: JobMarketInsight | null = null;
+  jobMarketInsight: MarketInsight | null = null;
 
   loading = false;
 
@@ -60,7 +58,7 @@ export class TrendsPageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    @Inject('TrendsServiceToken') private trendsService: BaseService<TrendItem>
+    @Inject('TrendsServiceToken') private trendsService: BaseService<MarketInsight>
   ) {}
 
   ngOnInit() {
@@ -89,7 +87,7 @@ export class TrendsPageComponent implements OnInit {
       if (techResult instanceof Promise) {
         this.techTrends = await techResult;
       } else {
-        techResult.subscribe((data: TechTrend[]) => {
+        techResult.subscribe((data: MarketInsight[]) => {
           this.techTrends = data;
         });
       }
@@ -99,7 +97,7 @@ export class TrendsPageComponent implements OnInit {
       if (skillsResult instanceof Promise) {
         this.standoutSkills = await skillsResult;
       } else {
-        skillsResult.subscribe((data: StandoutSkill[]) => {
+        skillsResult.subscribe((data: Skill[]) => {
           this.standoutSkills = data;
         });
       }
@@ -129,7 +127,7 @@ export class TrendsPageComponent implements OnInit {
       if (insightResult instanceof Promise) {
         this.jobMarketInsight = await insightResult;
       } else {
-        insightResult.subscribe((data: JobMarketInsight) => {
+        insightResult.subscribe((data: MarketInsight) => {
           this.jobMarketInsight = data;
         });
       }
@@ -152,7 +150,7 @@ export class TrendsPageComponent implements OnInit {
     if (result instanceof Promise) {
       this.trendItems = await result;
     } else {
-      result.subscribe((data: TrendItem[]) => {
+      result.subscribe((data: MarketInsight[]) => {
         this.trendItems = data;
       });
     }

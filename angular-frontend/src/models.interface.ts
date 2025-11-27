@@ -72,13 +72,6 @@ export interface Project extends BaseEntity {
   milestones?:string;
 }
 
-// Project Methods Interface (Separate from data interface)
-export interface ProjectMethods {
-  getProjectMilestones(projectId: UUID): Promise<Task[]>;
-  calculateProjectProgress(projectId: UUID): Promise<number>;
-  getTechnologiesUsed(projectId: UUID): Promise<Technology[]>;
-}
-
 // Technology Interface
 export interface Technology extends BaseEntity {
   name: string;
@@ -196,6 +189,10 @@ export interface MarketInsight extends BaseEntity {
   weeklyGrowth?: number; // Percentage
   topSkillsCombination?: string[];
   averageSalary?: string;
+  isStarred?:boolean | undefined;
+  relevanceScore?:number;
+  link?:string;
+  sourceType?: string;
   hotSkills?: Array<{
     id:string;
     skill: string;
@@ -227,7 +224,7 @@ export interface JobOpportunity extends BaseEntity {
   postedDate: ISODateString;
   link: string;
   isStarred: boolean;
-  applicationStatus?: 'not_applied' | 'applied' | 'interviewing' | 'rejected' | 'accepted';
+  applicationStatus?: string;
 }
 
 // ============= Filter Options =============
