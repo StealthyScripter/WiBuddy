@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router'; // needed for navigation
+import { RouterModule, Router } from '@angular/router';
+import { Project } from '../../../models.interface';
 
 @Component({
   selector: 'app-new-project-page',
@@ -14,8 +15,9 @@ import { RouterModule, Router } from '@angular/router'; // needed for navigation
   templateUrl: './new-project-page.component.html',
   styleUrls: ['./new-project-page.component.css']
 })
-export class NewProjectPageComponent {
+export class NewProjectPageComponent implements OnInit{
   projectForm: FormGroup;
+  projectToEdit: Project | undefined;
   taskCategories: string[] = [
     'Development', 'Design', 'Marketing', 'Research',
     'Testing', 'Documentation', 'Planning', 'Operations'
@@ -30,6 +32,23 @@ export class NewProjectPageComponent {
       category: ['', Validators.required],
       completionStatus: ['ongoing', Validators.required]
     });
+  }
+
+  ngOnInit(): void {
+    const state = history.state;
+    if (state && state.project) {
+      this.projectToEdit = state.project as Project;
+
+      // pre-fill form
+    this.projectForm.patchValue({
+      name: this.projectToEdit.name,
+      description: this.projectToEdit.description,
+      startDate: this.projectToEdit.startDate,
+      dueDate: this.projectToEdit.dueDate,
+      completionStatus: this.projectToEdit.completionStatus
+    });
+
+    }
   }
 
   onSubmit() {

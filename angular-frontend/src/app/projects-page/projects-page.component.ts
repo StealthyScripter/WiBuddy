@@ -81,7 +81,7 @@ export class ProjectsPageComponent implements OnInit {
   }
 
   addProject(){
-    this.router.navigate(['/add-project'])
+    this.router.navigate(['/projects/new'])
   }
 
   // Show tasks count per project

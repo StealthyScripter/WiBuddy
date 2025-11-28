@@ -70,6 +70,8 @@ export interface Project extends BaseEntity {
   department?: string;
   progress:number;
   milestones?:string;
+  startDate?: Date;
+  comments?:Comment[];
 }
 
 // Technology Interface
@@ -253,6 +255,15 @@ export interface TrendFilterOptions {
     end: ISODateString;
   };
   isRead?: boolean;
+}
+
+export interface Comment{
+  authorId?: UUID;
+  name?: string;
+  content?: string;
+  dateCreated?: ISODateString;
+  projectId?: UUID;
+  attachments?: Attachment[];
 }
 
 

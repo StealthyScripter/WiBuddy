@@ -37,6 +37,6 @@ export class NotesPageComponent{
     }
 
     navigateToNewNote() {
-      this.router.navigate(['add-notes']);
+      this.router.navigate(['notes/new']);
     }
   }

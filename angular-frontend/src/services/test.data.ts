@@ -158,7 +158,8 @@ export const mockProjects: Project[] = [
     dateCreated: new Date('2025-01-10').toISOString(),
     lastModified: new Date('2025-02-15').toISOString(),
     ownerId: 'owner-1',
-    milestones: 'Design Complete, Development 75%, Testing Pending'
+    milestones: 'Design Complete, Development 75%, Testing Pending',
+    comments: [{name:'Great progress so far!'}, {name:'Need to finalize the color scheme.'}, {name:'Client feedback incorporated.'}],
   },
   {
     id: 'uuid-2',

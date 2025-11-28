@@ -390,7 +390,7 @@ export class LmsPageComponent implements OnInit {
   }
 
   navigateToNewNote() {
-    this.router.navigate(['/add-notes']);
+    this.router.navigate(['/notes/new']);
   }
 
 

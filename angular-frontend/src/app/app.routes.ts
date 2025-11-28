@@ -50,7 +50,7 @@ const routeConfig: Routes = [
 
      {path: 'project-details/:projectId', component: ProjectDetailsPageComponent},
 
-     {path: 'add-project', component: NewProjectPageComponent},
+     {path: 'projects/new', component: NewProjectPageComponent},
 
      {path: 'profile', component: ProfilePageComponent},
 
@@ -60,7 +60,7 @@ const routeConfig: Routes = [
 
      {path: 'notes-details/:noteId', component: NotesDetailPageComponent},
 
-     {path: 'add-notes', component: NewNotePageComponent},
+     {path: 'notes/new', component: NewNotePageComponent},
 
      { path: 'lms', component: LmsPageComponent },
 
