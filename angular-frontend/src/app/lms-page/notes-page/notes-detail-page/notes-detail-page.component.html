@@ -1,93 +1,178 @@
 <div class="note-container">
+  <!-- Minimal Header -->
   <div class="note-header">
-    <div class="header-actions">
-      <button class="icon-button" (click)="onBack()">
-        <i class="fas fa-arrow-left"></i> Back
+    <div class="header-left">
+      <button class="header-btn back-btn" (click)="onBack()" title="Go back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
       </button>
-      <div class="header-right">
-        <button class="icon-button" [class.active]="isEditing" (click)="toggleEdit()">
-          <i class="fas fa-edit"></i> {{ isEditing ? 'Save' : 'Edit' }}
-        </button>
-        <button class="icon-button danger" (click)="confirmDelete()">
-          <i class="fas fa-trash"></i> Delete
-        </button>
-      </div>
     </div>
 
-    <div class="title-container">
-      <h2 *ngIf="!isEditing" class="note-title">{{ note.name }}</h2>
+    <div class="header-center">
+      <h1 *ngIf="!isEditing" class="note-title">{{ note.name }}</h1>
       <input
         *ngIf="isEditing"
         type="text"
         class="title-input"
         [(ngModel)]="editedNote.name"
+        placeholder="Note title"
       />
+      <p class="last-modified">Last modified {{ getLastModifiedDate() }}</p>
     </div>
 
-    <div class="note-metrics">
-      <span class="metric">
-        <i class="fas fa-calendar-plus"></i> Created: {{ note.dateCreated | date:'medium' }}
-      </span>
-      <span class="metric">
-        <i class="fas fa-calendar-check"></i> Modified: {{ note.lastModified | date:'medium' }}
-      </span>
-      <button
-        class="ai-button"
-        [class.has-summary]="note.aiSummary"
-        (click)="generateAISummary()"
-      >
-        <i class="fas fa-robot"></i> {{ note.aiSummary ? 'View AI Summary' : 'Generate AI Summary' }}
+    <div class="header-right">
+      <button class="header-btn edit-btn" [class.active]="isEditing" (click)="toggleEdit()" [title]="isEditing ? 'Save' : 'Edit'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+      </button>
+      <button class="header-btn delete-btn" (click)="confirmDelete()" title="Delete note">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+        </svg>
       </button>
     </div>
   </div>
 
+  <!-- Main Content Area -->
   <div class="note-body">
-    <div class="content-container">
-      <div *ngIf="!isEditing" class="content-lines">
-        <p *ngFor="let line of note.content" class="content-line">{{ line }}</p>
-      </div>
-      <div *ngIf="isEditing" class="edit-lines">
-        <div class="notebook-line" *ngFor="let line of editedNote.content; let i = index">
-          <input
-            type="text"
-            class="line-input"
-            [(ngModel)]="editedNote.content[i]"
-          />
-          <div class="line-actions">
-            <button class="small-icon-button" (click)="removeLine(i)">
-              <i class="fas fa-times"></i>
+    <!-- Edit Mode -->
+    <div *ngIf="isEditing" class="edit-area">
+      <div class="content-editor">
+        <div class="editor-lines">
+          <div class="editor-line" *ngFor="let line of editedNote.content; let i = index">
+            <textarea
+              class="line-textarea"
+              [(ngModel)]="editedNote.content[i]"
+              placeholder="Add text..."
+              rows="2">
+            </textarea>
+            <button class="line-remove-btn" (click)="removeLine(i)" *ngIf="editedNote.content.length > 1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
             </button>
           </div>
         </div>
-        <button class="add-line-button" (click)="addLine()">
-          <i class="fas fa-plus"></i> Add line
+        <button class="add-line-btn" (click)="addLine()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add line
         </button>
       </div>
     </div>
 
-    <div *ngIf="note.attachments && note.attachments.length" class="attachments-container">
-      <h3 class="attachments-title">Attachments</h3>
-      <div class="attachment-grid">
-        <div *ngFor="let attachment of note.attachments" class="attachment-item" (click)="openAttachment(attachment)">
-          <div class="attachment-thumbnail" [ngClass]="'type-' + attachment.type">
-            <i *ngIf="attachment.type === 'document'" class="fas fa-file-alt"></i>
-            <i *ngIf="attachment.type === 'link'" class="fas fa-link"></i>
-            <i *ngIf="attachment.type === 'github'" class="fab fa-github"></i>
-            <img *ngIf="attachment.type === 'image'" [src]="attachment.thumbnail || attachment.url" alt="attachment" />
-          </div>
-          <div class="attachment-name">{{ attachment.name }}</div>
+    <!-- View Mode -->
+    <div *ngIf="!isEditing" class="view-area">
+      <div class="content-display">
+        <div *ngFor="let line of note.content" class="content-line">
+          {{ line }}
+        </div>
+        <div *ngIf="note.content.length === 0" class="empty-content">
+          No content yet. Click Edit to add content.
         </div>
       </div>
     </div>
+  </div>
 
-    <div *ngIf="showAISummary && note.aiSummary" class="ai-summary">
-      <div class="summary-header">
-        <h3>AI Summary</h3>
-        <button class="icon-button small" (click)="showAISummary = false">
-          <i class="fas fa-times"></i>
+  <!-- Attachments Section -->
+  <div class="attachments-section">
+    <div class="attachments-header">
+      <h3>Attachments & Links</h3>
+      <button
+        *ngIf="isEditing"
+        class="import-link-btn"
+        (click)="openImportDialog()"
+        title="Import a link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        </svg>
+        Import Link
+      </button>
+    </div>
+
+    <div
+      *ngIf="editedNote.attachments && editedNote.attachments.length > 0"
+      class="attachment-grid">
+      <div
+        *ngFor="let attachment of editedNote.attachments; let i = index"
+        class="attachment-card"
+        [class.editable]="isEditing">
+        <div class="attachment-content" (click)="!isEditing && openAttachment(attachment)">
+          <div [class]="'attachment-icon type-' + attachment.type">
+            <svg *ngIf="attachment.type === 'link'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <svg *ngIf="attachment.type === 'document'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+              <polyline points="13 2 13 9 20 9"/>
+            </svg>
+            <svg *ngIf="attachment.type === 'code'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <div class="attachment-info">
+            <p class="attachment-name">{{ attachment.name }}</p>
+            <p class="attachment-type">{{ attachment.type }}</p>
+          </div>
+        </div>
+        <button
+          *ngIf="isEditing"
+          class="attachment-delete-btn"
+          (click)="removeAttachment(i)"
+          title="Remove attachment">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
         </button>
       </div>
-      <p>{{ note.aiSummary }}</p>
+    </div>
+
+    <div *ngIf="!editedNote.attachments || editedNote.attachments.length === 0" class="empty-attachments">
+      <p>No attachments or links yet</p>
+      <p class="hint" *ngIf="isEditing">Click "Import Link" to add resources</p>
     </div>
   </div>
 </div>
+
+<!-- Import Link Dialog -->
+<div *ngIf="showImportDialog" class="modal-overlay" (click)="closeImportDialog()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Import Link</h2>
+      <button class="modal-close-btn" (click)="closeImportDialog()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label class="form-label">Link URL</label>
+      <input
+        type="url"
+        class="form-input"
+        [(ngModel)]="importUrl"
+        (keyup.enter)="importLink()"
+        placeholder="https://example.com"
+        autofocus>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeImportDialog()">Cancel</button>
+      <button class="btn-import" (click)="importLink()" [disabled]="!importUrl.trim()">
+        Import
+      </button>
+    </div>
+  </div>
+</div>
+
