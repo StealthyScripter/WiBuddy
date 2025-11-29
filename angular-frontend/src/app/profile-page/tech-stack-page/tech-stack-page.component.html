@@ -1,1 +1,224 @@
-<p>tech-stack-page works!</p>
+<div class="max-w-6xl mx-auto p-6" *ngIf="!loading && techDetail; else loadingState">
+  <!-- Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+    <button
+      (click)="goBack()"
+      class="mb-4 text-gray-600 hover:text-gray-900 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      Back to Profile
+    </button>
+
+    <div class="flex justify-between items-start">
+      <div class="flex-1">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ techDetail.tech.name }}</h1>
+        <p class="text-gray-600 text-lg">{{ techDetail.tech.description }}</p>
+        <div class="flex items-center gap-3 mt-3 flex-wrap">
+          <span *ngIf="techDetail.tech.category" class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">
+            {{ techDetail.tech.category }}
+          </span>
+          <span class="text-sm text-gray-500">{{ techDetail.tech.count | number }} jobs available</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Metrics Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 class="text-sm text-gray-600 mb-2 font-medium">Your Proficiency</h3>
+      <div class="text-3xl font-bold mb-2" [class]="getProficiencyColor(techDetail.proficiency)">
+        {{ techDetail.proficiency }}%
+      </div>
+      <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div
+          class="h-full bg-gradient-to-r from-blue-500 to-indigo-500"
+          [style.width.%]="techDetail.proficiency">
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 class="text-sm text-gray-600 mb-2 font-medium">Market Demand</h3>
+      <div class="text-3xl font-bold text-green-600 mb-2">{{ techDetail.jobDemand }}%</div>
+      <p class="text-xs text-gray-500">Industry average</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 class="text-sm text-gray-600 mb-2 font-medium">Avg. Salary</h3>
+      <div class="text-2xl font-bold text-gray-900">{{ techDetail.averageSalary }}</div>
+      <p class="text-xs text-gray-500">Market range</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 class="text-sm text-gray-600 mb-2 font-medium">Job Growth</h3>
+      <div class="text-3xl font-bold text-green-600 mb-2">+24%</div>
+      <p class="text-xs text-gray-500">Year-over-year</p>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Left Column -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Skills Mastery -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-600">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Skills Mastery Level
+        </h2>
+        <div class="space-y-4">
+          <div class="p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg border border-indigo-100">
+            <div class="flex justify-between items-center mb-3">
+              <span class="font-medium text-gray-900">Core Competency</span>
+              <span class="text-sm font-bold text-indigo-600">{{ techDetail.proficiency }}%</span>
+            </div>
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-full bg-gradient-to-r from-indigo-500 to-blue-500"
+                [style.width.%]="techDetail.proficiency">
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-medium text-gray-700">Industry Benchmark</span>
+              <span class="text-sm text-gray-500">65% average</span>
+            </div>
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-full bg-gray-400"
+                style="width: 65%">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Skills -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h2 class="text-xl font-semibold mb-4">Related Skills</h2>
+        <div class="space-y-2">
+          <div
+            *ngFor="let skill of techDetail.relatedSkills"
+            (click)="navigateToSkill(skill.id)"
+            class="p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer border border-gray-200">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-medium text-gray-900">{{ skill.name }}</h3>
+              <span class="text-sm font-bold text-indigo-600">{{ skill.level }}%</span>
+            </div>
+            <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                class="h-full bg-indigo-500"
+                [style.width.%]="skill.level">
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 mt-2">
+              Target: {{ skill.targetLevel }}%
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Learning Resources -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h2 class="text-xl font-semibold mb-4">Learning Resources</h2>
+        <div class="space-y-3">
+          <div
+            *ngFor="let resource of techDetail.learningResources"
+            class="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-medium text-gray-900">{{ resource.title }}</h3>
+              <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded font-medium">
+                {{ resource.level }}
+              </span>
+            </div>
+            <div class="flex items-center gap-4 text-sm text-gray-600">
+              <span>{{ resource.provider }}</span>
+              <span>•</span>
+              <span>{{ resource.duration }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column - Insights -->
+    <div class="space-y-6">
+      <!-- Market Overview -->
+      <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg shadow-sm border border-green-200 p-6">
+        <h3 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-600">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline points="17 6 23 6 23 12"></polyline>
+          </svg>
+          Market Status
+        </h3>
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-gray-700">Demand Level</span>
+            <span class="font-bold text-green-600">{{ techDetail.jobDemand }}%</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-700">Job Growth</span>
+            <span class="font-bold text-green-600">+24%</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-700">Companies Hiring</span>
+            <span class="font-bold text-green-600">2,847</span>
+          </div>
+          <div class="pt-3 border-t border-green-200">
+            <p class="text-sm text-green-800">High demand with strong growth trajectory</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certification -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 class="font-semibold text-gray-900 mb-4">Certifications</h3>
+        <div class="space-y-2">
+          <div class="p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <p class="text-sm font-medium text-gray-900">Official {{ techDetail.tech.name }} Certification</p>
+            <p class="text-xs text-gray-600 mt-1">Validates proficiency and improves job prospects</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="bg-indigo-50 rounded-lg shadow-sm border border-indigo-200 p-6">
+        <h3 class="font-semibold text-gray-900 mb-4">Next Steps</h3>
+        <ol class="space-y-3 text-sm">
+          <li class="flex gap-3">
+            <span class="font-bold text-indigo-600 flex-shrink-0">1</span>
+            <span class="text-gray-700">Complete intermediate course</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="font-bold text-indigo-600 flex-shrink-0">2</span>
+            <span class="text-gray-700">Build 2-3 production projects</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="font-bold text-indigo-600 flex-shrink-0">3</span>
+            <span class="text-gray-700">Obtain industry certification</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="font-bold text-indigo-600 flex-shrink-0">4</span>
+            <span class="text-gray-700">Target roles in your field</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingState>
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="text-center">
+      <div class="animate-spin h-12 w-12 rounded-full border-b-2 border-indigo-600 mx-auto mb-4"></div>
+      <p class="text-gray-600">Loading technology details...</p>
+    </div>
+  </div>
+</ng-template>

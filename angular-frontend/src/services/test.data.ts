@@ -13,7 +13,8 @@ import {
   Skill,
   LearningRecommendation,
   JobOpportunity,
-  MarketInsight
+  MarketInsight,
+  UUID
 } from '../models.interface';
 
 // =============================================================================
@@ -937,3 +938,271 @@ export const mockJobMarketInsight: MarketInsight = {
   ],
   lastUpdated: '2025-01-04'
 };
+
+export const mockCalendarEventsExtended: CalendarEvent[] = [
+  {
+    id: '1',
+    name: 'Weekly Team Standup',
+    date: new Date(2025, 1, 18, 10, 0),
+    startDate: new Date(2025, 1, 18, 10, 0),
+    endDate: new Date(2025, 1, 18, 10, 30),
+    type: 'meeting',
+    color: '#4f46e5',
+    description: 'Daily standup to discuss progress and blockers'
+  },
+  {
+    id: '2',
+    name: 'Website Redesign Deadline',
+    date: new Date(2025, 3, 15),
+    type: 'deadline',
+    projectId: 1,
+    color: '#ef4444',
+    description: 'Final deadline for website redesign project'
+  },
+  {
+    id: '3',
+    name: 'Client Requirements Review',
+    date: new Date(2025, 1, 20, 14, 0),
+    startDate: new Date(2025, 1, 20, 14, 0),
+    endDate: new Date(2025, 1, 20, 15, 30),
+    type: 'meeting',
+    color: '#0ea5e9',
+    description: 'Review updated requirements with client stakeholders'
+  },
+  {
+    id: '4',
+    name: 'Design System Presentation',
+    date: new Date(2025, 1, 22, 13, 0),
+    startDate: new Date(2025, 1, 22, 13, 0),
+    endDate: new Date(2025, 1, 22, 14, 30),
+    type: 'meeting',
+    projectId: 1,
+    color: '#8b5cf6',
+    description: 'Present new design system to leadership team'
+  },
+  {
+    id: '5',
+    name: 'ML Model Training Complete',
+    date: new Date(2025, 3, 30),
+    type: 'deadline',
+    projectId: 2,
+    color: '#10b981',
+    description: 'Machine learning model training milestone'
+  },
+  {
+    id: '6',
+    name: 'Sprint Planning Meeting',
+    date: new Date(2025, 1, 24, 11, 0),
+    startDate: new Date(2025, 1, 24, 11, 0),
+    endDate: new Date(2025, 1, 24, 12, 30),
+    type: 'meeting',
+    color: '#f59e0b',
+    description: 'Plan tasks for next sprint'
+  }
+];
+
+// ENHANCED RESOURCES DATA
+export const mockResourcesData: Resource[] = [
+  {
+    id: 'resource-101',
+    name: 'Introduction to Web Development',
+    description: 'Complete guide to HTML, CSS, and JavaScript',
+    content: ['HTML Fundamentals', 'CSS Styling', 'JavaScript Basics', 'DOM Manipulation'],
+    progress: 45,
+    modules: 8,
+    completedModules: 3,
+    totalHours: 40,
+    category: 'Programming',
+    type: 'course',
+    dateCreated: new Date('2024-01-15').toISOString()
+  },
+  {
+    id: 'resource-102',
+    name: 'Advanced React Patterns',
+    description: 'Master advanced React concepts and best practices',
+    content: ['Hooks', 'Context API', 'Performance Optimization', 'Testing'],
+    progress: 62,
+    modules: 6,
+    completedModules: 4,
+    totalHours: 30,
+    category: 'Frontend',
+    type: 'course',
+    dateCreated: new Date('2024-02-01').toISOString()
+  },
+  {
+    id: 'resource-201',
+    name: 'Angular Mastery Course',
+    description: 'From basics to advanced Angular development',
+    content: ['Components', 'Services', 'Routing', 'State Management'],
+    progress: 35,
+    modules: 10,
+    completedModules: 3,
+    totalHours: 50,
+    category: 'Frontend',
+    type: 'course',
+    dateCreated: new Date('2024-02-15').toISOString()
+  },
+  {
+    id: 'resource-301',
+    name: 'Python for Data Science',
+    description: 'Learn Python with focus on data analysis',
+    content: ['NumPy', 'Pandas', 'Matplotlib', 'Scikit-learn'],
+    progress: 28,
+    modules: 12,
+    completedModules: 3,
+    totalHours: 60,
+    category: 'Backend',
+    type: 'course',
+    dateCreated: new Date('2024-03-01').toISOString()
+  },
+  {
+    id: 'resource-401',
+    name: 'Docker & Kubernetes',
+    description: 'Containerization and orchestration mastery',
+    content: ['Docker Basics', 'Container Networking', 'Kubernetes Fundamentals', 'Helm Charts'],
+    progress: 18,
+    modules: 9,
+    completedModules: 1,
+    totalHours: 45,
+    category: 'DevOps',
+    type: 'course',
+    dateCreated: new Date('2024-03-15').toISOString()
+  }
+];
+
+// ENHANCED TECHNOLOGY STACK
+export const mockTechStackExtended: Technology[] = [
+  ...mockTechStack,
+  {
+    id: 'tech-7',
+    name: 'GraphQL',
+    description: 'Query language for APIs',
+    version: '3.5',
+    category: 'Backend',
+    documentationUrl: 'https://graphql.org/',
+    proficiency: 60,
+    count: 4,
+    icon: '🔷',
+    dateCreated: new Date('2024-03-10').toISOString()
+  },
+  {
+    id: 'tech-8',
+    name: 'PostgreSQL',
+    description: 'Relational database',
+    version: '15.x',
+    category: 'Database',
+    documentationUrl: 'https://postgresql.org/',
+    proficiency: 72,
+    count: 6,
+    icon: '🐘',
+    dateCreated: new Date('2024-03-05').toISOString()
+  }
+];
+
+// COMPREHENSIVE TRENDS PAGE DATA
+export const mockTrendsPageData = {
+  standoutSkills: mockStandoutSkills,
+  trendInsights: mockTrendItems,
+  learningRecommendations: mockLearningRecommendations,
+  jobOpportunities: mockJobOpportunities.slice(0, 5),
+  marketInsight: mockJobMarketInsight,
+  statistics: {
+    totalSkillsTracking: 12,
+    skillsInProgress: 7,
+    jobListingsTracked: 50000,
+    recommendationsAvailable: 8,
+    certificationsEarned: 3
+  }
+};
+
+// =============================================================================
+// NEW EVENT FORM DEFAULT DATA
+// =============================================================================
+export const mockEventTemplates = {
+  meeting: {
+    name: 'Team Meeting',
+    type: 'meeting',
+    duration: 60,
+    color: '#4f46e5'
+  },
+  deadline: {
+    name: 'Project Deadline',
+    type: 'deadline',
+    duration: 1440, // All day
+    color: '#ef4444'
+  },
+  milestone: {
+    name: 'Project Milestone',
+    type: 'milestone',
+    duration: 1440,
+    color: '#10b981'
+  },
+  reminder: {
+    name: 'Reminder',
+    type: 'reminder',
+    duration: 30,
+    color: '#f59e0b'
+  }
+};
+
+// =============================================================================
+// SKILLS WITH DETAILED PROGRESSION DATA
+// =============================================================================
+export const mockSkillsDetailed: Skill[] = [
+  {
+    id: 'skill-detail-1',
+    name: 'React',
+    level: 82,
+    targetLevel: 95,
+    category: 'Frontend',
+    relatedCourses: ['resource-102'],
+    marketDemand: 92,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: 'skill-detail-2',
+    name: 'Angular',
+    level: 56,
+    targetLevel: 85,
+    category: 'Frontend',
+    relatedCourses: ['resource-201'],
+    marketDemand: 78,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: 'skill-detail-3',
+    name: 'Python',
+    level: 68,
+    targetLevel: 90,
+    category: 'Backend',
+    relatedCourses: ['resource-301'],
+    marketDemand: 95,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: 'skill-detail-4',
+    name: 'Kubernetes',
+    level: 42,
+    targetLevel: 80,
+    category: 'DevOps',
+    relatedCourses: ['resource-401'],
+    marketDemand: 88,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: 'skill-detail-5',
+    name: 'GraphQL',
+    level: 35,
+    targetLevel: 75,
+    category: 'Backend',
+    relatedCourses: [],
+    marketDemand: 82,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2024-01-01').toISOString()
+  }
+];
+
