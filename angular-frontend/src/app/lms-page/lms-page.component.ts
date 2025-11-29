@@ -11,11 +11,11 @@ import {
   LibraryCreateType
 } from '../../models.interface';
 import { BaseService } from '../../services/base_service';
-import { MockLMSService } from '../../services/lms_service';
 import {
-  mockSkills,
+  mockSkillsLMS,
   mockNotes,
-  mockSkillsLMS
+  mockResourcesData,
+  mockRecentActivities
 } from '../../services/test.data';
 
 @Component({
@@ -34,7 +34,7 @@ export class LmsPageComponent implements OnInit {
 
   // AI Chat state
   aiPrompt: string = '';
-  aiConversation: Array<{role: 'user' | 'assistant', content: string}> = [];
+  aiConversation: Array<{ role: 'user' | 'assistant'; content: string }> = [];
   isAiLoading: boolean = false;
 
   // Data
@@ -62,6 +62,7 @@ export class LmsPageComponent implements OnInit {
   createModalType: LibraryCreateType = 'folder';
   editingItem: LibraryItem | null = null;
   modalItemName: string = '';
+  showCreateMenu = false;
 
   constructor(
     private router: Router,
@@ -80,24 +81,15 @@ export class LmsPageComponent implements OnInit {
       // Load skills
       this.skills = mockSkillsLMS;
 
-
-
       // Load recent activities
-      const activitiesResult = (this.lmsService as any).getRecentActivities();
-      if (activitiesResult instanceof Promise) {
-        this.recentActivities = await activitiesResult;
-      } else {
-        activitiesResult.subscribe((data: Task[]) => {
-          this.recentActivities = data;
-        });
-      }
+      const activitiesResult = mockRecentActivities;
+      this.recentActivities = activitiesResult;
 
       // Load notes
       this.notes = mockNotes;
 
       // Calculate stats from actual data
       this.calculateStats();
-
     } catch (error) {
       console.error('Failed to load LMS data:', error);
     } finally {
@@ -106,7 +98,7 @@ export class LmsPageComponent implements OnInit {
   }
 
   initializeLibrary() {
-    // Initialize library with courses and notes
+    // Initialize library with resource folders and notes
     this.libraryItems = [
       {
         id: 'root',
@@ -122,7 +114,35 @@ export class LmsPageComponent implements OnInit {
   buildLibraryTree(): LibraryItem[] {
     const items: LibraryItem[] = [];
 
-    // Add notes from mock data
+    // Add resource folders with their children
+    mockResourcesData.forEach(resource => {
+      const folderItem: LibraryItem = {
+        id: resource.id,
+        name: resource.name,
+        type: 'folder',
+        dateCreated: resource.dateCreated || new Date().toISOString(),
+        lastModified: new Date().toISOString(),
+        icon: '📁',
+        children: []
+      };
+
+      // Add resource children as library items
+      if (resource.children) {
+        folderItem.children = resource.children.map(child => ({
+          id: child.id,
+          name: child.name,
+          type: 'resource' as LibraryCreateType,
+          parentId: resource.id,
+          dateCreated: child.dateCreated || new Date().toISOString(),
+          lastModified: new Date().toISOString(),
+          icon: '📚'
+        }));
+      }
+
+      items.push(folderItem);
+    });
+
+    // Add notes as separate items
     mockNotes.forEach(note => {
       items.push({
         id: note.id,
@@ -137,29 +157,42 @@ export class LmsPageComponent implements OnInit {
     return items;
   }
 
-  buildCourseChildren(resource: Resource): LibraryItem[] {
-    const children: LibraryItem[] = [];
+  calculateStats() {
+    // Calculate active courses from resources
+    this.activeCourses = mockResourcesData.reduce(
+      (count, resource) => count + (resource.children?.length || 0),
+      0
+    );
 
-    // Add child courses/folders
-    if (resource.children) {
-      resource.children.forEach(child => {
-        children.push({
-          id: child.id,
-          name: child.name,
-          type: child.type === 'folder' ? 'folder' : 'resource',
-          parentId: resource.id,
-          dateCreated: child.dateCreated || new Date().toISOString(),
-          lastModified: new Date().toISOString(),
-          icon: child.type === 'resource' ? '📚' : '📁'
-        });
-      });
+    // Calculate total study hours from resources
+    this.studyHours = mockResourcesData.reduce((total, resource) => {
+      const resourceHours = resource.children?.reduce(
+        (sum, child) => sum + (child.totalHours || 0),
+        0
+      ) || 0;
+      return total + resourceHours;
+    }, 0);
+
+    // Calculate skills mastered (level >= 75)
+    this.skillsMastered = this.skills.filter(skill => skill.level >= 75).length;
+
+    // Calculate average progress across all courses
+    const allCourses = mockResourcesData.flatMap(r => r.children || []);
+    if (allCourses.length > 0) {
+      this.avgProgress = Math.round(
+        allCourses.reduce((sum, course) => sum + course.progress, 0) /
+          allCourses.length
+      );
     }
 
-    return children;
-  }
+    // Calculate total notes
+    this.totalNotes = this.notes.length;
 
-  calculateStats() {
-
+    // Calculate total attachments across all notes
+    this.totalAttachments = this.notes.reduce(
+      (total, note) => total + (note.attachments?.length || 0),
+      0
+    );
   }
 
   toggleFolder(item: any) {
@@ -180,7 +213,7 @@ export class LmsPageComponent implements OnInit {
     this.selectedLibraryItem = item;
 
     if (item.type === 'folder') {
-      this.toggleFolder(item.id);
+      this.toggleFolder(item);
       this.currentFolderId = item.id;
     } else if (item.type === 'resource') {
       this.navigateToResource(item.id);
@@ -190,15 +223,15 @@ export class LmsPageComponent implements OnInit {
   }
 
   getItemIcon(type: string): string {
-    const icons: {[key: string]: string} = {
-      'folder': '📁',
-      'note': '📝',
-      'resource': '📚',
-      'pdf': '📄',
-      'image': '🖼️',
-      'video': '🎥',
-      'audio': '🎵',
-      'ppt': '📊'
+    const icons: { [key: string]: string } = {
+      folder: '📁',
+      note: '📝',
+      resource: '📚',
+      pdf: '📄',
+      image: '🖼️',
+      video: '🎥',
+      audio: '🎵',
+      ppt: '📊'
     };
     return icons[type] || '📄';
   }
@@ -207,7 +240,6 @@ export class LmsPageComponent implements OnInit {
     return `${level * 20 + 8}px`;
   }
 
-  // Context menu
   showItemContextMenu(event: MouseEvent, item: LibraryItem) {
     event.preventDefault();
     event.stopPropagation();
@@ -222,7 +254,6 @@ export class LmsPageComponent implements OnInit {
     this.contextMenuItem = null;
   }
 
-  // CRUD operations
   openCreateModal(type: LibraryCreateType) {
     this.createModalType = type;
     this.modalItemName = '';
@@ -248,11 +279,9 @@ export class LmsPageComponent implements OnInit {
     if (!this.modalItemName.trim()) return;
 
     if (this.editingItem) {
-      // Edit existing item
       this.editingItem.name = this.modalItemName;
       this.editingItem.lastModified = new Date().toISOString();
     } else {
-      // Create new item
       const newItem: LibraryItem = {
         id: `item-${Date.now()}`,
         name: this.modalItemName,
@@ -262,7 +291,6 @@ export class LmsPageComponent implements OnInit {
         lastModified: new Date().toISOString()
       };
 
-      // Add to library
       if (this.currentFolderId) {
         const parent = this.findItemById(this.currentFolderId);
         if (parent) {
@@ -277,16 +305,11 @@ export class LmsPageComponent implements OnInit {
         }
       }
 
-      // Navigate to new note if it's a note
       if (this.createModalType === 'note') {
         this.navigateToNote(newItem.id);
+      } else if (this.createModalType === 'resource') {
+        this.navigateToResource(newItem.id);
       }
-
-       // Navigate to new resource
-    if (this.createModalType === 'resource') {
-      this.navigateToResource(newItem.id);
-    }
-
     }
 
     this.closeModal();
@@ -295,7 +318,6 @@ export class LmsPageComponent implements OnInit {
   deleteItem(item: LibraryItem) {
     if (!confirm(`Are you sure you want to delete "${item.name}"?`)) return;
 
-    // Find and remove item from library
     this.removeItemFromLibrary(item.id);
     this.hideContextMenu();
   }
@@ -309,7 +331,6 @@ export class LmsPageComponent implements OnInit {
       lastModified: new Date().toISOString()
     };
 
-    // Add duplicate next to original
     const parent = this.findParentItem(item.id);
     if (parent?.children) {
       parent.children.push(duplicate);
@@ -318,7 +339,10 @@ export class LmsPageComponent implements OnInit {
     this.hideContextMenu();
   }
 
-  findItemById(id: string, items: LibraryItem[] = this.libraryItems): LibraryItem | null {
+  findItemById(
+    id: string,
+    items: LibraryItem[] = this.libraryItems
+  ): LibraryItem | null {
     for (const item of items) {
       if (item.id === id) return item;
       if (item.children) {
@@ -329,7 +353,10 @@ export class LmsPageComponent implements OnInit {
     return null;
   }
 
-  findParentItem(childId: string, items: LibraryItem[] = this.libraryItems): LibraryItem | null {
+  findParentItem(
+    childId: string,
+    items: LibraryItem[] = this.libraryItems
+  ): LibraryItem | null {
     for (const item of items) {
       if (item.children?.some(child => child.id === childId)) {
         return item;
@@ -357,7 +384,6 @@ export class LmsPageComponent implements OnInit {
     return false;
   }
 
-  // AI Chat
   async sendAIMessage() {
     if (!this.aiPrompt.trim() || this.isAiLoading) return;
 
@@ -366,11 +392,10 @@ export class LmsPageComponent implements OnInit {
     this.aiPrompt = '';
     this.isAiLoading = true;
 
-    // Simulate AI response (replace with actual API call)
     setTimeout(() => {
       this.aiConversation.push({
         role: 'assistant',
-        content: `I received your message: "${userMessage}". This is a simulated response. In production, this would connect to an AI service.`
+        content: `I received your message: "${userMessage}". This is a simulated response.`
       });
       this.isAiLoading = false;
     }, 1000);
@@ -380,7 +405,6 @@ export class LmsPageComponent implements OnInit {
     this.aiConversation = [];
   }
 
-  // Navigation
   navigateToResource(courseId: string) {
     this.router.navigate(['/resource', courseId]);
   }
@@ -393,9 +417,7 @@ export class LmsPageComponent implements OnInit {
     this.router.navigate(['/notes/new']);
   }
 
-
-  navigateToSkillProgress(skillId: string)
-  {
+  navigateToSkillProgress(skillId: string) {
     this.router.navigate(['/skill-progress', skillId]);
   }
 
@@ -436,9 +458,8 @@ export class LmsPageComponent implements OnInit {
       return;
     }
 
-    console.warn("Unknown item type:", item);
+    console.warn('Unknown item type:', item);
   }
-
 
   openActivity(activity: any) {
     switch (activity.type) {
@@ -450,7 +471,6 @@ export class LmsPageComponent implements OnInit {
         break;
     }
   }
-  showCreateMenu = false;
 
   toggleCreateMenu() {
     this.showCreateMenu = !this.showCreateMenu;
@@ -459,7 +479,5 @@ export class LmsPageComponent implements OnInit {
   selectCreateOption(type: LibraryCreateType) {
     this.showCreateMenu = false;
     this.openCreateModal(type);
-
-
-}
+  }
 }

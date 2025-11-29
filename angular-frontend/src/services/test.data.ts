@@ -226,96 +226,6 @@ export const mockProjects: Project[] = [
 ];
 
 // =============================================================================
-// NOTE TEST DATA
-// =============================================================================
-export const mockNotes: Note[] = [
-  {
-    id: 'note-1',
-    name: 'Make measurements of the model',
-    content: [
-      'Calipers will be provided by the dean',
-      'Measurements should be taken at room temperature',
-      'Record all dimensions in millimeters',
-      'Take photos of the measurement process for documentation'
-    ],
-    dateCreated: new Date('2025-01-13').toISOString(),
-    lastModified: new Date('2025-02-01').toISOString(),
-    tags: ['measurements', 'equipment', 'documentation'],
-    attachments: [
-      {
-        id: 'att-note-1',
-        type: 'image',
-        name: 'measurement_setup.jpg',
-        url: '/assets/measurement-setup.jpg',
-        thumbnail: '/assets/measurement-setup-thumb.jpg'
-      },
-      {
-        id: 'att-note-2',
-        type: 'document',
-        name: 'measurement_guide.pdf',
-        url: '/assets/measurement-guide.pdf'
-      }
-    ]
-  },
-  {
-    id: 'note-2',
-    name: 'Project Requirements Analysis',
-    content: [
-      'Stakeholder interviews completed last week',
-      'Key requirements identified: scalability, security, user experience',
-      'Technical constraints: budget limitations, timeline pressure',
-      'Next steps: create technical specification document'
-    ],
-    dateCreated: new Date('2025-01-10').toISOString(),
-    lastModified: new Date('2025-02-03').toISOString(),
-    tags: ['requirements', 'analysis', 'stakeholders'],
-    attachments: [
-      {
-        id: 'att-note-3',
-        type: 'link',
-        name: 'Project Requirements Doc',
-        url: 'https://docs.company.com/requirements'
-      }
-    ],
-    aiSummary: 'Requirements analysis for the project including stakeholder input, key requirements (scalability, security, UX), technical constraints, and next steps for technical specification.'
-  },
-  {
-    id: 'note-3',
-    name: 'Weekly Team Meeting Notes',
-    content: [
-      'Team velocity is improving - completed 23 story points last sprint',
-      'Blocker identified: waiting for design approval from client',
-      'New team member Sarah starts Monday',
-      'Sprint review scheduled for Friday 2 PM'
-    ],
-    dateCreated: new Date('2025-02-15').toISOString(),
-    lastModified: new Date('2025-02-15').toISOString(),
-    tags: ['meeting', 'team', 'sprint', 'velocity']
-  },
-  {
-    id: 'note-4',
-    name: 'Technical Architecture Decision',
-    content: [
-      'Evaluated three options: microservices, monolith, serverless',
-      'Decision: Go with microservices for better scalability',
-      'Trade-offs: Increased complexity but better maintainability',
-      'Implementation timeline: 2 months for initial setup'
-    ],
-    dateCreated: new Date('2025-01-20').toISOString(),
-    lastModified: new Date('2025-01-25').toISOString(),
-    tags: ['architecture', 'technical', 'decision', 'microservices'],
-    attachments: [
-      {
-        id: 'att-note-4',
-        type: 'github',
-        name: 'Architecture Repository',
-        url: 'https://github.com/company/architecture-docs'
-      }
-    ]
-  }
-];
-
-// =============================================================================
 // CALENDAR EVENT TEST DATA
 // =============================================================================
 export const mockCalendarEvents: CalendarEvent[] = [
@@ -648,62 +558,6 @@ export const mockSkills: Skill[] = [
 
 // ============= Trends Mock Data =============
 
-export const mockSkillsLMS: Skill[] = [
-  {
-    id: 'skill-1',
-    name: 'JavaScript',
-    level: 65,
-    targetLevel: 85,
-    category: 'Programming',
-    relatedCourses: ['resource-101', 'resource-102'],
-    marketDemand: 90,
-    lastUpdated: '2024-11-10T10:00:00Z'
-  },
-  {
-    id: 'skill-2',
-
-    name: 'Angular',
-    level: 50,
-    targetLevel: 80,
-    category: 'Frontend',
-    relatedCourses: ['resource-201'],
-    marketDemand: 88,
-    lastUpdated: '2024-11-05T12:15:00Z'
-  },
-  {
-    id: 'skill-3',
-
-    name: 'Python',
-    level: 72,
-    targetLevel: 90,
-    category: 'Backend',
-    relatedCourses: ['resource-301', 'resource-302'],
-    marketDemand: 95,
-    lastUpdated: '2024-10-18T08:40:00Z'
-  },
-  {
-    id: 'skill-4',
-
-    name: 'Docker',
-    level: 40,
-    targetLevel: 75,
-    category: 'DevOps',
-    relatedCourses: ['resource-401'],
-    marketDemand: 85,
-    lastUpdated: '2024-10-01T15:00:00Z'
-  },
-  {
-    id: 'skill-5',
-    name: 'UI/UX Design',
-    level: 30,
-    targetLevel: 70,
-    category: 'Design',
-    relatedCourses: ['resource-501'],
-    marketDemand: 60,
-    lastUpdated: '2024-09-12T07:20:00Z'
-  }
-];
-
 export const mockCalendarEventsExtended: CalendarEvent[] = [
   {
     id: '1',
@@ -763,75 +617,6 @@ export const mockCalendarEventsExtended: CalendarEvent[] = [
     type: 'meeting',
     color: '#f59e0b',
     description: 'Plan tasks for next sprint'
-  }
-];
-
-// ENHANCED RESOURCES DATA
-export const mockResourcesData: Resource[] = [
-  {
-    id: 'resource-101',
-    name: 'Introduction to Web Development',
-    description: 'Complete guide to HTML, CSS, and JavaScript',
-    content: ['HTML Fundamentals', 'CSS Styling', 'JavaScript Basics', 'DOM Manipulation'],
-    progress: 45,
-    modules: 8,
-    completedModules: 3,
-    totalHours: 40,
-    category: 'Programming',
-    type: 'course',
-    dateCreated: new Date('2024-01-15').toISOString()
-  },
-  {
-    id: 'resource-102',
-    name: 'Advanced React Patterns',
-    description: 'Master advanced React concepts and best practices',
-    content: ['Hooks', 'Context API', 'Performance Optimization', 'Testing'],
-    progress: 62,
-    modules: 6,
-    completedModules: 4,
-    totalHours: 30,
-    category: 'Frontend',
-    type: 'course',
-    dateCreated: new Date('2024-02-01').toISOString()
-  },
-  {
-    id: 'resource-201',
-    name: 'Angular Mastery Course',
-    description: 'From basics to advanced Angular development',
-    content: ['Components', 'Services', 'Routing', 'State Management'],
-    progress: 35,
-    modules: 10,
-    completedModules: 3,
-    totalHours: 50,
-    category: 'Frontend',
-    type: 'course',
-    dateCreated: new Date('2024-02-15').toISOString()
-  },
-  {
-    id: 'resource-301',
-    name: 'Python for Data Science',
-    description: 'Learn Python with focus on data analysis',
-    content: ['NumPy', 'Pandas', 'Matplotlib', 'Scikit-learn'],
-    progress: 28,
-    modules: 12,
-    completedModules: 3,
-    totalHours: 60,
-    category: 'Backend',
-    type: 'course',
-    dateCreated: new Date('2024-03-01').toISOString()
-  },
-  {
-    id: 'resource-401',
-    name: 'Docker & Kubernetes',
-    description: 'Containerization and orchestration mastery',
-    content: ['Docker Basics', 'Container Networking', 'Kubernetes Fundamentals', 'Helm Charts'],
-    progress: 18,
-    modules: 9,
-    completedModules: 1,
-    totalHours: 45,
-    category: 'DevOps',
-    type: 'course',
-    dateCreated: new Date('2024-03-15').toISOString()
   }
 ];
 
@@ -1222,3 +1007,354 @@ export const mockJobMarketInsight: MarketInsight = {
     { id: 'hs12', skill: 'Rust for Backend Systems', growth: 19 }
   ]
 };
+
+// ============================================================================
+// ENHANCED TEST DATA FOR LMS - test.data.ts
+// ============================================================================
+
+import {
+  LibraryItem,
+} from '../models.interface';
+
+// Enhanced Skills with more data points
+export const mockSkillsLMS: Skill[] = [
+  {
+    id: 'skill-1',
+    name: 'JavaScript',
+    level: 65,
+    targetLevel: 85,
+    category: 'Programming',
+    relatedCourses: ['resource-101', 'resource-102'],
+    marketDemand: 90,
+    lastUpdated: '2024-11-10T10:00:00Z',
+    dateCreated: '2024-01-15T00:00:00Z'
+  },
+  {
+    id: 'skill-2',
+    name: 'Angular',
+    level: 50,
+    targetLevel: 80,
+    category: 'Frontend',
+    relatedCourses: ['resource-201'],
+    marketDemand: 88,
+    lastUpdated: '2024-11-05T12:15:00Z',
+    dateCreated: '2024-02-20T00:00:00Z'
+  },
+  {
+    id: 'skill-3',
+    name: 'Python',
+    level: 72,
+    targetLevel: 90,
+    category: 'Backend',
+    relatedCourses: ['resource-301', 'resource-302'],
+    marketDemand: 95,
+    lastUpdated: '2024-10-18T08:40:00Z',
+    dateCreated: '2024-01-10T00:00:00Z'
+  },
+  {
+    id: 'skill-4',
+    name: 'Docker',
+    level: 40,
+    targetLevel: 75,
+    category: 'DevOps',
+    relatedCourses: ['resource-401'],
+    marketDemand: 85,
+    lastUpdated: '2024-10-01T15:00:00Z',
+    dateCreated: '2024-03-05T00:00:00Z'
+  },
+  {
+    id: 'skill-5',
+    name: 'TypeScript',
+    level: 78,
+    targetLevel: 95,
+    category: 'Programming',
+    relatedCourses: ['resource-102', 'resource-201'],
+    marketDemand: 92,
+    lastUpdated: '2024-11-12T09:30:00Z',
+    dateCreated: '2024-01-20T00:00:00Z'
+  }
+];
+
+// Enhanced Resources with proper nesting
+export const mockResourcesData: Resource[] = [
+  {
+    id: 'resource-root-1',
+    name: 'Frontend Development',
+    description: 'Complete frontend path',
+    content: [],
+    progress: 52,
+    modules: 3,
+    completedModules: 1,
+    totalHours: 120,
+    category: 'Frontend',
+    type: 'folder',
+    dateCreated: new Date('2024-01-15').toISOString(),
+    children: [
+      {
+        id: 'resource-101',
+        name: 'JavaScript Fundamentals',
+        description: 'Core JavaScript concepts',
+        content: ['Variables', 'Functions', 'Async/Await', 'Promises'],
+        progress: 45,
+        modules: 8,
+        completedModules: 3,
+        totalHours: 40,
+        category: 'Frontend',
+        type: 'course',
+        dateCreated: new Date('2024-01-15').toISOString()
+      },
+      {
+        id: 'resource-102',
+        name: 'Advanced React Patterns',
+        description: 'Master React concepts',
+        content: ['Hooks', 'Context API', 'Performance', 'Testing'],
+        progress: 62,
+        modules: 6,
+        completedModules: 4,
+        totalHours: 30,
+        category: 'Frontend',
+        type: 'course',
+        dateCreated: new Date('2024-02-01').toISOString()
+      },
+      {
+        id: 'resource-201',
+        name: 'Angular Mastery Course',
+        description: 'Comprehensive Angular guide',
+        content: ['Components', 'Services', 'Routing', 'RxJS'],
+        progress: 35,
+        modules: 10,
+        completedModules: 3,
+        totalHours: 50,
+        category: 'Frontend',
+        type: 'course',
+        dateCreated: new Date('2024-02-15').toISOString()
+      }
+    ]
+  },
+  {
+    id: 'resource-root-2',
+    name: 'Backend Development',
+    description: 'Backend specialization path',
+    content: [],
+    progress: 45,
+    modules: 3,
+    completedModules: 1,
+    totalHours: 150,
+    category: 'Backend',
+    type: 'folder',
+    dateCreated: new Date('2024-01-20').toISOString(),
+    children: [
+      {
+        id: 'resource-301',
+        name: 'Python for Data Science',
+        description: 'Data analysis with Python',
+        content: ['NumPy', 'Pandas', 'Matplotlib', 'Scikit-learn'],
+        progress: 28,
+        modules: 12,
+        completedModules: 3,
+        totalHours: 60,
+        category: 'Backend',
+        type: 'course',
+        dateCreated: new Date('2024-03-01').toISOString()
+      },
+      {
+        id: 'resource-302',
+        name: 'FastAPI Backend Development',
+        description: 'Build modern APIs',
+        content: ['REST APIs', 'Database Integration', 'Authentication', 'Testing'],
+        progress: 55,
+        modules: 8,
+        completedModules: 4,
+        totalHours: 40,
+        category: 'Backend',
+        type: 'course',
+        dateCreated: new Date('2024-03-15').toISOString()
+      }
+    ]
+  },
+  {
+    id: 'resource-root-3',
+    name: 'DevOps & Infrastructure',
+    description: 'DevOps specialization',
+    content: [],
+    progress: 18,
+    modules: 3,
+    completedModules: 0,
+    totalHours: 120,
+    category: 'DevOps',
+    type: 'folder',
+    dateCreated: new Date('2024-02-10').toISOString(),
+    children: [
+      {
+        id: 'resource-401',
+        name: 'Docker & Kubernetes',
+        description: 'Container orchestration mastery',
+        content: ['Docker Basics', 'Kubernetes', 'Helm', 'Deployment'],
+        progress: 18,
+        modules: 9,
+        completedModules: 1,
+        totalHours: 45,
+        category: 'DevOps',
+        type: 'course',
+        dateCreated: new Date('2024-03-15').toISOString()
+      },
+      {
+        id: 'resource-402',
+        name: 'CI/CD Pipelines',
+        description: 'Automated deployment strategies',
+        content: ['GitHub Actions', 'Jenkins', 'GitLab CI', 'ArgoCD'],
+        progress: 0,
+        modules: 7,
+        completedModules: 0,
+        totalHours: 35,
+        category: 'DevOps',
+        type: 'course',
+        dateCreated: new Date('2024-04-01').toISOString()
+      }
+    ]
+  }
+];
+
+// Enhanced Notes with better structure
+export const mockNotes: Note[] = [
+  {
+    id: 'note-1',
+    name: 'JavaScript Async Patterns',
+    content: [
+      'Promises provide a cleaner alternative to callbacks',
+      'Async/await syntax makes asynchronous code look synchronous',
+      'Error handling with try/catch blocks',
+      'Promise.all() for parallel operations'
+    ],
+    dateCreated: new Date('2025-01-13').toISOString(),
+    lastModified: new Date('2025-02-01').toISOString(),
+    tags: ['javascript', 'async', 'promises'],
+    attachments: [
+      {
+        id: 'att-note-1',
+        type: 'code',
+        name: 'async_examples.js',
+        url: '/assets/async-examples.js'
+      }
+    ]
+  },
+  {
+    id: 'note-2',
+    name: 'React Hooks Study Guide',
+    content: [
+      'useState for managing component state',
+      'useEffect for side effects and lifecycle',
+      'useContext for prop drilling elimination',
+      'Custom hooks for reusable logic'
+    ],
+    dateCreated: new Date('2025-01-10').toISOString(),
+    lastModified: new Date('2025-02-03').toISOString(),
+    tags: ['react', 'hooks', 'frontend'],
+    attachments: [
+      {
+        id: 'att-note-2',
+        type: 'document',
+        name: 'hooks_reference.pdf',
+        url: '/assets/hooks-reference.pdf'
+      }
+    ]
+  },
+  {
+    id: 'note-3',
+    name: 'Docker Container Basics',
+    content: [
+      'Docker images are blueprints for containers',
+      'Dockerfile specifies image construction steps',
+      'Volumes enable persistent data storage',
+      'Networks connect multiple containers'
+    ],
+    dateCreated: new Date('2025-01-20').toISOString(),
+    lastModified: new Date('2025-02-15').toISOString(),
+    tags: ['docker', 'devops', 'containers'],
+    attachments: []
+  },
+  {
+    id: 'note-4',
+    name: 'Python Best Practices',
+    content: [
+      'Use virtual environments for project isolation',
+      'Follow PEP 8 style guide',
+      'Write type hints for clarity',
+      'Document with docstrings'
+    ],
+    dateCreated: new Date('2025-02-05').toISOString(),
+    lastModified: new Date('2025-02-10').toISOString(),
+    tags: ['python', 'best-practices', 'code-quality'],
+    attachments: []
+  }
+];
+
+// Enhanced Recent Activities with proper task data
+export const mockRecentActivities: Task[] = [
+  {
+    id: 'activity-1',
+    name: 'Complete React Hooks Module',
+    description: 'Finish the useContext and useReducer sections',
+    completionStatus: TaskStatus.IN_PROGRESS,
+    dueDate: '2025-03-20',
+    isCompleted: false,
+    dateCreated: new Date('2025-02-15').toISOString(),
+    lastModified: new Date('2025-02-20').toISOString(),
+    priority: Priority.HIGH,
+    estimatedDuration: 12,
+    tags: ['react', 'frontend', 'learning']
+  },
+  {
+    id: 'activity-2',
+    name: 'Docker Containerization Project',
+    description: 'Containerize the FastAPI application',
+    completionStatus: TaskStatus.IN_PROGRESS,
+    dueDate: '2025-03-25',
+    isCompleted: false,
+    dateCreated: new Date('2025-02-10').toISOString(),
+    lastModified: new Date('2025-02-18').toISOString(),
+    priority: Priority.MEDIUM,
+    estimatedDuration: 20,
+    tags: ['docker', 'devops', 'project']
+  },
+  {
+    id: 'activity-3',
+    name: 'Complete Python Data Science Fundamentals',
+    description: 'Finish Pandas and NumPy modules',
+    completionStatus: TaskStatus.COMPLETED,
+    dueDate: '2025-02-14',
+    isCompleted: true,
+    dateCreated: new Date('2025-01-20').toISOString(),
+    lastModified: new Date('2025-02-14').toISOString(),
+    completionDate: new Date('2025-02-14').toISOString(),
+    priority: Priority.HIGH,
+    estimatedDuration: 15,
+    tags: ['python', 'data-science']
+  },
+  {
+    id: 'activity-4',
+    name: 'Angular Components Review',
+    description: 'Review component lifecycle and change detection',
+    completionStatus: TaskStatus.NOT_STARTED,
+    dueDate: '2025-03-10',
+    isCompleted: false,
+    dateCreated: new Date('2025-02-16').toISOString(),
+    lastModified: new Date('2025-02-16').toISOString(),
+    priority: Priority.MEDIUM,
+    estimatedDuration: 8,
+    tags: ['angular', 'frontend']
+  },
+  {
+    id: 'activity-5',
+    name: 'Create study notes on TypeScript generics',
+    description: 'Document generic types and constraints',
+    completionStatus: TaskStatus.IN_PROGRESS,
+    dueDate: '2025-03-05',
+    isCompleted: false,
+    dateCreated: new Date('2025-02-12').toISOString(),
+    lastModified: new Date('2025-02-19').toISOString(),
+    priority: Priority.LOW,
+    estimatedDuration: 5,
+    tags: ['typescript', 'documentation']
+  }
+];
