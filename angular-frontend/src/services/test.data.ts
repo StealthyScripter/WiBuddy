@@ -647,122 +647,6 @@ export const mockSkills: Skill[] = [
 ];
 
 // ============= Trends Mock Data =============
-export const mockTechTrends: MarketInsight[] = [
-  {
-    id: 'tech-2',
-    name: 'TypeScript',
-    trend: 'rising',
-    demand: Priority.HIGH,
-    marketLevel: 70,
-    jobListingCount: 980,
-    growthRate: 23,
-    category: 'Programming',
-    dateCreated: new Date().toISOString(),
-    lastUpdated: 'Feb 15'
-  },
-  {
-    id: 'tech-3',
-    name: 'Python',
-    trend: 'stable',
-    demand: Priority.HIGH,
-    marketLevel: 65,
-    jobListingCount: 2100,
-    growthRate: 8,
-    category: 'Programming',
-    dateCreated: new Date().toISOString(),
-    lastUpdated:'Dec 01'
-  }
-];
-
-export const mockLearningRecommendations: LearningRecommendation[] = [
-  {
-    id: 'rec-1',
-    title: 'Container Orchestration with Kubernetes',
-    reason: 'High market demand + Large skill gap',
-    provider: 'Coursera',
-    duration: '6 weeks',
-    priority: Priority.HIGH,
-    matchScore: 92,
-    skillsAddressed: ['Kubernetes', 'Docker', 'DevOps'],
-    link: 'https://coursera.org',
-    cost: 49,
-    dateCreated: new Date().toISOString()
-  },
-  {
-    id: 'rec-2',
-    title: 'Advanced Python for Data Science',
-    reason: 'Growing in your field + Career goal alignment',
-    provider: 'edX',
-    duration: '8 weeks',
-    priority: Priority.MEDIUM,
-    matchScore: 78,
-    skillsAddressed: ['Python', 'Data Science', 'ML'],
-    link: 'https://edx.org',
-    cost: 99,
-    dateCreated: new Date().toISOString()
-  },
-  {
-    id: 'rec-3',
-    title: 'TypeScript Design Patterns',
-    reason: 'Close to mastery + Job requirement',
-    provider: 'Udemy',
-    duration: '4 weeks',
-    priority: Priority.LOW,
-    matchScore: 65,
-    skillsAddressed: ['TypeScript', 'Design Patterns'],
-    link: 'https://udemy.com',
-    cost: 29,
-    dateCreated: new Date().toISOString()
-  }
-];
-
-export const mockJobOpportunities: JobOpportunity[] = [
-  {
-    id: 'job-1',
-    title: 'Senior React Developer',
-    company: 'Tech Corp',
-    location: 'Remote',
-    salary: '$120k - $160k',
-    description: 'Looking for experienced React developer with TypeScript expertise',
-    requiredSkills: ['React', 'TypeScript', 'Node.js', 'GraphQL'],
-    matchPercentage: 92,
-    postedDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    link: 'https://jobs.example.com/1',
-    isStarred: true,
-    applicationStatus: 'not_applied',
-    dateCreated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-  },
-  {
-    id: 'job-2',
-    title: 'Full Stack Engineer',
-    company: 'Startup Inc',
-    location: 'New York, NY',
-    salary: '$100k - $140k',
-    description: 'Join our fast-growing startup building next-gen SaaS platform',
-    requiredSkills: ['React', 'Python', 'PostgreSQL', 'AWS'],
-    matchPercentage: 85,
-    postedDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    link: 'https://jobs.example.com/2',
-    isStarred: false,
-    applicationStatus: 'not_applied',
-    dateCreated: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
-  },
-  {
-    id: 'job-3',
-    title: 'Frontend Architect',
-    company: 'Big Tech Co',
-    location: 'San Francisco, CA',
-    salary: '$150k - $200k',
-    description: 'Lead frontend architecture for enterprise applications',
-    requiredSkills: ['React', 'TypeScript', 'System Design', 'Microservices'],
-    matchPercentage: 78,
-    postedDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    link: 'https://jobs.example.com/3',
-    isStarred: true,
-    applicationStatus: 'not_applied',
-    dateCreated: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
-  }
-];
 
 export const mockSkillsLMS: Skill[] = [
   {
@@ -819,125 +703,6 @@ export const mockSkillsLMS: Skill[] = [
     lastUpdated: '2024-09-12T07:20:00Z'
   }
 ];
-
-export const mockTrendItems: MarketInsight[] = [
-  {
-    id: 'insight-1',
-    name: 'AI Engineering Demand Surge',
-    trend: 'upward',
-    demand: Priority.HIGH,
-    marketLevel: 88,
-    jobListingCount: 12500,
-    growthRate: 14.2,
-    category: 'AI',
-    totalRelevantJobs: 45000,
-    weeklyGrowth: 3.1,
-    topSkillsCombination: ['LLM Ops', 'Prompt Engineering', 'Python'],
-    averageSalary: '$148k',
-    hotSkills: [
-      { id: 'hs1', skill: 'AI Model Integration', growth: 22 },
-      { id: 'hs2', skill: 'Vector Databases', growth: 18 }
-    ],
-    lastUpdated: '2025-01-03'
-  },
-  {
-    id: 'insight-2',
-    name: 'Cloud Cost Optimization Roles Rising',
-    trend: 'upward',
-    demand: Priority.MEDIUM,
-    marketLevel: 74,
-    jobListingCount: 6300,
-    growthRate: 9.1,
-    category: 'Cloud',
-    totalRelevantJobs: 23000,
-    weeklyGrowth: 1.6,
-    topSkillsCombination: ['FinOps', 'Kubernetes', 'Automation'],
-    averageSalary: '$132k',
-    hotSkills: [
-      { id: 'hs3', skill: 'FinOps Analysis', growth: 16 },
-      { id: 'hs4', skill: 'Cloud Monitoring', growth: 12 }
-    ],
-    lastUpdated: '2025-01-02'
-  },
-  {
-    id: 'insight-3',
-    name: 'JavaScript Ecosystem Expanding Again',
-    trend: 'neutral',
-    demand: Priority.LOW,
-    marketLevel: 61,
-    jobListingCount: 15800,
-    growthRate: 4.5,
-    category: 'Frontend',
-    totalRelevantJobs: 52000,
-    weeklyGrowth: 0.4,
-    topSkillsCombination: ['TypeScript', 'React', 'Bun'],
-    averageSalary: '$118k',
-
-    hotSkills: [
-      { id: 'hs5', skill: 'TypeScript Patterns', growth: 8 },
-      { id: 'hs6', skill: 'Bun Runtime', growth: 7 }
-    ],
-    lastUpdated: '2025-01-01'
-  }
-];
-
-export const mockStandoutSkills: Skill[] = [
-  {
-    id: 'skill-1',
-    name: 'Prompt Engineering',
-    level: 65,
-    targetLevel: 90,
-    category: 'AI',
-    relatedCourses: ['course-101', 'course-102'],
-    marketDemand: 94,
-    lastUpdated: '2025-01-03'
-  },
-  {
-    id: 'skill-2',
-    name: 'FinOps Cloud Optimization',
-    level: 40,
-    targetLevel: 80,
-    category: 'Cloud',
-    relatedCourses: ['course-201'],
-    marketDemand: 82,
-    lastUpdated: '2025-01-03'
-  },
-  {
-    id: 'skill-3',
-    name: 'TypeScript Mastery',
-    level: 80,
-    targetLevel: 95,
-    category: 'Frontend',
-    relatedCourses: ['course-300', 'course-301'],
-    marketDemand: 70,
-    lastUpdated: '2025-01-02'
-  }
-];
-
-export const mockJobMarketInsight: MarketInsight = {
-  id: 'market-insight-2025',
-  name: '2025 Global Software Engineering Job Market Overview',
-  trend: 'upward',
-  demand: Priority.HIGH,
-  marketLevel: 91,
-  jobListingCount: 185000,
-  growthRate: 15.4,
-  category: 'Software Engineering',
-  totalRelevantJobs: 820000,
-  weeklyGrowth: 2.9,
-  topSkillsCombination: [
-    'AI-Augmented Development',
-    'Cloud Automation',
-    'Secure Coding'
-  ],
-  averageSalary: '$142k',
-  hotSkills: [
-    { id: 'hs10', skill: 'AI Code Assistants', growth: 28 },
-    { id: 'hs11', skill: 'Cloud Security Automation', growth: 21 },
-    { id: 'hs12', skill: 'Rust for Backend Systems', growth: 19 }
-  ],
-  lastUpdated: '2025-01-04'
-};
 
 export const mockCalendarEventsExtended: CalendarEvent[] = [
   {
@@ -1098,23 +863,6 @@ export const mockTechStackExtended: Technology[] = [
     dateCreated: new Date('2024-03-05').toISOString()
   }
 ];
-
-// COMPREHENSIVE TRENDS PAGE DATA
-export const mockTrendsPageData = {
-  standoutSkills: mockStandoutSkills,
-  trendInsights: mockTrendItems,
-  learningRecommendations: mockLearningRecommendations,
-  jobOpportunities: mockJobOpportunities.slice(0, 5),
-  marketInsight: mockJobMarketInsight,
-  statistics: {
-    totalSkillsTracking: 12,
-    skillsInProgress: 7,
-    jobListingsTracked: 50000,
-    recommendationsAvailable: 8,
-    certificationsEarned: 3
-  }
-};
-
 // =============================================================================
 // NEW EVENT FORM DEFAULT DATA
 // =============================================================================
@@ -1206,3 +954,271 @@ export const mockSkillsDetailed: Skill[] = [
   }
 ];
 
+// =============================================================================
+// PROJECT TEST DATA
+// =============================================================================
+// Enhanced mock trend items with all required template properties
+export const mockTrendItems: MarketInsight[] = [
+  {
+    id: 'insight-1',
+    name: 'React 19 Released with New Features',
+    trend: 'upward',
+    demand: Priority.HIGH,
+    marketLevel: 88,
+    jobListingCount: 12500,
+    growthRate: 14.2,
+    category: 'AI',
+    totalRelevantJobs: 45000,
+    weeklyGrowth: 3.1,
+    topSkillsCombination: ['LLM Ops', 'Prompt Engineering', 'Python'],
+    averageSalary: '$148k',
+    sourceType: 'article',
+    relevanceScore: 95,
+    isStarred: true,
+    link: 'https://react.dev/blog',
+    lastUpdated: '2 hours ago',
+    hotSkills: [
+      { id: 'hs1', skill: 'AI Model Integration', growth: 22 },
+      { id: 'hs2', skill: 'Vector Databases', growth: 18 }
+    ]
+  },
+  {
+    id: 'insight-2',
+    name: 'TypeScript 5.4 Announcement',
+    trend: 'stable',
+    demand: Priority.HIGH,
+    marketLevel: 74,
+    jobListingCount: 6300,
+    growthRate: 9.1,
+    category: 'Cloud',
+    totalRelevantJobs: 23000,
+    weeklyGrowth: 1.6,
+    topSkillsCombination: ['FinOps', 'Kubernetes', 'Automation'],
+    averageSalary: '$132k',
+    sourceType: 'bulletin',
+    relevanceScore: 88,
+    isStarred: false,
+    link: 'https://typescript.org',
+    lastUpdated: '5 hours ago',
+    hotSkills: [
+      { id: 'hs3', skill: 'FinOps Analysis', growth: 16 },
+      { id: 'hs4', skill: 'Cloud Monitoring', growth: 12 }
+    ]
+  },
+  {
+    id: 'insight-3',
+    name: 'AI in Healthcare: Latest Developments',
+    trend: 'upward',
+    demand: Priority.MEDIUM,
+    marketLevel: 61,
+    jobListingCount: 15800,
+    growthRate: 4.5,
+    category: 'Frontend',
+    totalRelevantJobs: 52000,
+    weeklyGrowth: 0.4,
+    topSkillsCombination: ['TypeScript', 'React', 'Bun'],
+    averageSalary: '$118k',
+    sourceType: 'rss',
+    relevanceScore: 72,
+    isStarred: false,
+    link: 'https://healthtech.news',
+    lastUpdated: '1 day ago',
+    hotSkills: [
+      { id: 'hs5', skill: 'TypeScript Patterns', growth: 8 },
+      { id: 'hs6', skill: 'Bun Runtime', growth: 7 }
+    ]
+  }
+];
+
+// Enhanced tech trends with better formatting
+export const mockTechTrends: MarketInsight[] = [
+  {
+    id: 'tech-2',
+    name: 'TypeScript',
+    trend: 'rising',
+    demand: Priority.HIGH,
+    marketLevel: 70,
+    jobListingCount: 980,
+    growthRate: 23,
+    category: 'Programming',
+    sourceType: 'article',
+    relevanceScore: 85,
+    link: 'https://typescript.org',
+    lastUpdated: 'Feb 15',
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'tech-3',
+    name: 'Python',
+    trend: 'stable',
+    demand: Priority.HIGH,
+    marketLevel: 65,
+    jobListingCount: 2100,
+    growthRate: 8,
+    category: 'Programming',
+    sourceType: 'bulletin',
+    relevanceScore: 92,
+    link: 'https://python.org',
+    lastUpdated: 'Dec 01',
+    dateCreated: new Date().toISOString()
+  }
+];
+
+// Standout skills with enhanced properties
+export const mockStandoutSkills: Skill[] = [
+  {
+    id: 'skill-1',
+    name: 'Prompt Engineering',
+    level: 65,
+    targetLevel: 90,
+    category: 'AI',
+    relatedCourses: ['course-101', 'course-102'],
+    marketDemand: 94,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2025-01-03').toISOString()
+  },
+  {
+    id: 'skill-2',
+    name: 'FinOps Cloud Optimization',
+    level: 40,
+    targetLevel: 80,
+    category: 'Cloud',
+    relatedCourses: ['course-201'],
+    marketDemand: 82,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2025-01-03').toISOString()
+  },
+  {
+    id: 'skill-3',
+    name: 'TypeScript Mastery',
+    level: 80,
+    targetLevel: 95,
+    category: 'Frontend',
+    relatedCourses: ['course-300', 'course-301'],
+    marketDemand: 70,
+    lastUpdated: new Date().toISOString(),
+    dateCreated: new Date('2025-01-02').toISOString()
+  }
+];
+
+// Learning recommendations with enhanced details
+export const mockLearningRecommendations: LearningRecommendation[] = [
+  {
+    id: 'rec-1',
+    title: 'Container Orchestration with Kubernetes',
+    reason: 'High market demand + Large skill gap',
+    provider: 'Coursera',
+    duration: '6 weeks',
+    priority: Priority.HIGH,
+    matchScore: 92,
+    skillsAddressed: ['Kubernetes', 'Docker', 'DevOps'],
+    link: 'https://coursera.org',
+    cost: 49,
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'rec-2',
+    title: 'Advanced Python for Data Science',
+    reason: 'Growing in your field + Career goal alignment',
+    provider: 'edX',
+    duration: '8 weeks',
+    priority: Priority.MEDIUM,
+    matchScore: 78,
+    skillsAddressed: ['Python', 'Data Science', 'ML'],
+    link: 'https://edx.org',
+    cost: 99,
+    dateCreated: new Date().toISOString()
+  },
+  {
+    id: 'rec-3',
+    title: 'TypeScript Design Patterns',
+    reason: 'Close to mastery + Job requirement',
+    provider: 'Udemy',
+    duration: '4 weeks',
+    priority: Priority.LOW,
+    matchScore: 65,
+    skillsAddressed: ['TypeScript', 'Design Patterns'],
+    link: 'https://udemy.com',
+    cost: 29,
+    dateCreated: new Date().toISOString()
+  }
+];
+
+// Job opportunities
+export const mockJobOpportunities: JobOpportunity[] = [
+  {
+    id: 'job-1',
+    title: 'Senior React Developer',
+    company: 'Tech Corp',
+    location: 'Remote',
+    salary: '$120k - $160k',
+    description: 'Looking for experienced React developer with TypeScript expertise',
+    requiredSkills: ['React', 'TypeScript', 'Node.js', 'GraphQL'],
+    matchPercentage: 92,
+    postedDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    link: 'https://jobs.example.com/1',
+    isStarred: true,
+    applicationStatus: 'not_applied',
+    dateCreated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'job-2',
+    title: 'Full Stack Engineer',
+    company: 'Startup Inc',
+    location: 'New York, NY',
+    salary: '$100k - $140k',
+    description: 'Join our fast-growing startup building next-gen SaaS platform',
+    requiredSkills: ['React', 'Python', 'PostgreSQL', 'AWS'],
+    matchPercentage: 85,
+    postedDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    link: 'https://jobs.example.com/2',
+    isStarred: false,
+    applicationStatus: 'not_applied',
+    dateCreated: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'job-3',
+    title: 'Frontend Architect',
+    company: 'Big Tech Co',
+    location: 'San Francisco, CA',
+    salary: '$150k - $200k',
+    description: 'Lead frontend architecture for enterprise applications',
+    requiredSkills: ['React', 'TypeScript', 'System Design', 'Microservices'],
+    matchPercentage: 78,
+    postedDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    link: 'https://jobs.example.com/3',
+    isStarred: true,
+    applicationStatus: 'not_applied',
+    dateCreated: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
+  }
+];
+
+// Overall job market insight
+export const mockJobMarketInsight: MarketInsight = {
+  id: 'market-insight-2025',
+  name: '2025 Global Software Engineering Job Market Overview',
+  trend: 'upward',
+  demand: Priority.HIGH,
+  marketLevel: 91,
+  jobListingCount: 185000,
+  growthRate: 15.4,
+  category: 'Software Engineering',
+  totalRelevantJobs: 820000,
+  weeklyGrowth: 2.9,
+  topSkillsCombination: [
+    'AI-Augmented Development',
+    'Cloud Automation',
+    'Secure Coding'
+  ],
+  averageSalary: '$142k',
+  sourceType: 'article',
+  relevanceScore: 88,
+  link: 'https://market-report.example.com',
+  lastUpdated: '2025-01-04',
+  dateCreated: new Date().toISOString(),
+  hotSkills: [
+    { id: 'hs10', skill: 'AI Code Assistants', growth: 28 },
+    { id: 'hs11', skill: 'Cloud Security Automation', growth: 21 },
+    { id: 'hs12', skill: 'Rust for Backend Systems', growth: 19 }
+  ]
+};

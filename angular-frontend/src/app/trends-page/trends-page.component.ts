@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import {
@@ -37,12 +37,12 @@ export class TrendsPageComponent implements OnInit {
   selectedFilter: TrendFilter = 'all';
   selectedTrend: MarketInsight | null = null;
 
-  trendItems: MarketInsight[] = [];
-  techTrends: MarketInsight[] = [];
-  standoutSkills: Skill[] = [];
-  learningRecommendations: LearningRecommendation[] = [];
-  jobOpportunities: JobOpportunity[] = [];
-  jobMarketInsight: MarketInsight | null = null;
+  trendItems: MarketInsight[] = mockTrendItems;
+  techTrends: MarketInsight[] = mockTechTrends;
+  standoutSkills: Skill[] = mockStandoutSkills;
+  learningRecommendations: LearningRecommendation[] = mockLearningRecommendations;
+  jobOpportunities: JobOpportunity[] = mockJobOpportunities;
+  jobMarketInsight: MarketInsight | null = mockJobMarketInsight;
 
   loading = false;
 
@@ -57,7 +57,7 @@ export class TrendsPageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    @Inject('TrendsServiceToken') private trendsService: BaseService<MarketInsight>
+    @Optional() @Inject('TrendsServiceToken') private trendsService?: BaseService<MarketInsight>
   ) {}
 
   ngOnInit() {
@@ -68,63 +68,74 @@ export class TrendsPageComponent implements OnInit {
     this.loading = true;
 
     try {
-      // Load trend items
-      await this.loadTrendItems();
-
-      // Load tech trends
-      const techResult = (this.trendsService as any).getTechTrends();
-      if (techResult instanceof Promise) {
-        this.techTrends = await techResult;
-      } else {
-        techResult.subscribe((data: MarketInsight[]) => {
-          this.techTrends = data;
-        });
+      // Use mock data if service is not available
+      if (!this.trendsService) {
+        this.loadMockData();
+        return;
       }
 
-      // Load standout skills
-      const skillsResult = (this.trendsService as any).getStandoutSkills();
-      if (skillsResult instanceof Promise) {
-        this.standoutSkills = await skillsResult;
-      } else {
-        skillsResult.subscribe((data: Skill[]) => {
-          this.standoutSkills = data;
-        });
-      }
-
-      // Load recommendations
-      const recsResult = (this.trendsService as any).getLearningRecommendations();
-      if (recsResult instanceof Promise) {
-        this.learningRecommendations = await recsResult;
-      } else {
-        recsResult.subscribe((data: LearningRecommendation[]) => {
-          this.learningRecommendations = data;
-        });
-      }
-
-      // Load job opportunities
-      const jobsResult = (this.trendsService as any).getJobOpportunities({ minMatch: 70 });
-      if (jobsResult instanceof Promise) {
-        this.jobOpportunities = await jobsResult;
-      } else {
-        jobsResult.subscribe((data: JobOpportunity[]) => {
-          this.jobOpportunities = data;
-        });
-      }
-
-      // Load job market insight
-      const insightResult = (this.trendsService as any).getJobMarketInsight();
-      if (insightResult instanceof Promise) {
-        this.jobMarketInsight = await insightResult;
-      } else {
-        insightResult.subscribe((data: MarketInsight) => {
-          this.jobMarketInsight = data;
-        });
-      }
+      // Load from service with fallback to mock data
+      await this.loadFromService();
 
     } catch (error) {
-      console.error('Failed to load trends data:', error);
+      console.error('Failed to load trends data from service, using mock data:', error);
+      this.loadMockData();
     } finally {
       this.loading = false;
+    }
+  }
+
+  private loadMockData() {
+    this.trendItems = mockTrendItems;
+    this.techTrends = mockTechTrends;
+    this.standoutSkills = mockStandoutSkills;
+    this.learningRecommendations = mockLearningRecommendations;
+    this.jobOpportunities = mockJobOpportunities;
+    this.jobMarketInsight = mockJobMarketInsight;
+  }
+
+  private async loadFromService() {
+    // Load trend items
+    await this.loadTrendItems();
+
+    // Load tech trends
+    const techResult = (this.trendsService as any).getTechTrends();
+    if (techResult instanceof Promise) {
+      this.techTrends = await techResult;
+    } else {
+      this.techTrends = await techResult.toPromise();
+    }
+
+    // Load standout skills
+    const skillsResult = (this.trendsService as any).getStandoutSkills();
+    if (skillsResult instanceof Promise) {
+      this.standoutSkills = await skillsResult;
+    } else {
+      this.standoutSkills = await skillsResult.toPromise();
+    }
+
+    // Load recommendations
+    const recsResult = (this.trendsService as any).getLearningRecommendations();
+    if (recsResult instanceof Promise) {
+      this.learningRecommendations = await recsResult;
+    } else {
+      this.learningRecommendations = await recsResult.toPromise();
+    }
+
+    // Load job opportunities
+    const jobsResult = (this.trendsService as any).getJobOpportunities({ minMatch: 70 });
+    if (jobsResult instanceof Promise) {
+      this.jobOpportunities = await jobsResult;
+    } else {
+      this.jobOpportunities = await jobsResult.toPromise();
+    }
+
+    // Load job market insight
+    const insightResult = (this.trendsService as any).getJobMarketInsight();
+    if (insightResult instanceof Promise) {
+      this.jobMarketInsight = await insightResult;
+    } else {
+      this.jobMarketInsight = await insightResult.toPromise();
     }
   }
 
@@ -135,13 +146,23 @@ export class TrendsPageComponent implements OnInit {
       options.sourceType = this.selectedFilter;
     }
 
+    // If service is unavailable, filter mock data
+    if (!this.trendsService) {
+      if (this.selectedFilter === 'all') {
+        this.trendItems = mockTrendItems;
+      } else {
+        this.trendItems = mockTrendItems.filter(
+          item => item.trend === this.selectedFilter
+        );
+      }
+      return;
+    }
+
     const result = (this.trendsService as any).getTrendItems(options);
     if (result instanceof Promise) {
       this.trendItems = await result;
     } else {
-      result.subscribe((data: MarketInsight[]) => {
-        this.trendItems = data;
-      });
+      this.trendItems = await result.toPromise();
     }
   }
 
@@ -153,11 +174,13 @@ export class TrendsPageComponent implements OnInit {
   async refreshFeed() {
     this.loading = true;
     try {
-      const result = (this.trendsService as any).refreshFeed();
-      if (result instanceof Promise) {
-        await result;
-      } else {
-        await result.toPromise();
+      if (this.trendsService) {
+        const result = (this.trendsService as any).refreshFeed();
+        if (result instanceof Promise) {
+          await result;
+        } else {
+          await result.toPromise();
+        }
       }
       await this.loadTrendItems();
     } catch (error) {
@@ -169,11 +192,19 @@ export class TrendsPageComponent implements OnInit {
 
   async toggleStar(trendId: string, currentState: boolean) {
     try {
-      const result = (this.trendsService as any).toggleStar(trendId, !currentState);
-      if (result instanceof Promise) {
-        await result;
+      if (this.trendsService) {
+        const result = (this.trendsService as any).toggleStar(trendId, !currentState);
+        if (result instanceof Promise) {
+          await result;
+        } else {
+          await result.toPromise();
+        }
       } else {
-        await result.toPromise();
+        // Update mock data directly
+        const trend = this.trendItems.find(t => t.id === trendId);
+        if (trend) {
+          trend.isStarred = !currentState;
+        }
       }
       await this.loadTrendItems();
     } catch (error) {
@@ -181,13 +212,17 @@ export class TrendsPageComponent implements OnInit {
     }
   }
 
-  async markAsRead(trendId: string) {
+  async handleTrendClick(trendId: string) {
+    console.log('Navigating to trend notification for:', trendId);
+    this.router.navigate(['/trend-notification', trendId]);
     try {
-      const result = (this.trendsService as any).markAsRead(trendId);
-      if (result instanceof Promise) {
-        await result;
-      } else {
-        await result.toPromise();
+      if (this.trendsService) {
+        const result = (this.trendsService as any).markAsRead(trendId);
+        if (result instanceof Promise) {
+          await result;
+        } else {
+          await result.toPromise();
+        }
       }
       await this.loadTrendItems();
       this.navigateToTrendNotification(trendId);
@@ -234,11 +269,4 @@ export class TrendsPageComponent implements OnInit {
   navigateToMarketInsight() {
     this.router.navigate(['/market-insight'])
   }
-
 }
-
-
-
-
-
-

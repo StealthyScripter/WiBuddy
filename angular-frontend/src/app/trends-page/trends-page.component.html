@@ -50,93 +50,111 @@
         <div class="space-y-4">
           <div
             *ngFor="let item of trendItems"
-            class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all cursor-pointer"
-            (click)="selectedTrend = item; markAsRead(item.id)">
-            <div class="p-4">
-              <div class="flex items-start justify-between mb-3">
-                <div class="flex items-start gap-3 flex-1">
-                  <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <!-- Dynamic Icon Based on Source Type -->
-                    <svg *ngIf="item.sourceType === 'article'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                      <polyline points="14 2 14 8 20 8"></polyline>
-                      <line x1="16" y1="13" x2="8" y2="13"></line>
-                      <line x1="16" y1="17" x2="8" y2="17"></line>
-                    </svg>
-                    <svg *ngIf="item.sourceType === 'bulletin'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <line x1="12" y1="8" x2="12" y2="12"></line>
-                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                    <svg *ngIf="item.sourceType === 'rss'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-                      <path d="M4 11a9 9 0 0 1 9 9"></path>
-                      <path d="M4 4a16 16 0 0 1 16 16"></path>
-                      <circle cx="5" cy="19" r="1"></circle>
-                    </svg>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2 mb-1">
-                      <h3 class="font-semibold text-gray-900 truncate">{{ item.name }}</h3>
-                      <svg
-                        *ngIf="item.isStarred"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        class="text-yellow-500 flex-shrink-0">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                      </svg>
-                    </div>
-                    <div class="flex items-center gap-2 text-sm text-gray-600">
-                      <span>{{ item.category }}</span>
-                      <span>•</span>
-                      <span>{{ item.lastUpdated }}</span>
-                    </div>
-                  </div>
+            class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all cursor-pointer p-4"
+            (click)="selectedTrend = item; handleTrendClick(item.id)">
+
+            <!-- Header Section -->
+            <div class="flex items-start gap-3 mb-3">
+              <!-- Icon -->
+              <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg *ngIf="item.sourceType === 'article'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+                <svg *ngIf="item.sourceType === 'bulletin'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <svg *ngIf="item.sourceType === 'rss'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                  <path d="M4 11a9 9 0 0 1 9 9"></path>
+                  <path d="M4 4a16 16 0 0 1 16 16"></path>
+                  <circle cx="5" cy="19" r="1"></circle>
+                </svg>
+              </div>
+
+              <!-- Title and Meta -->
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-gray-900">{{ item.name }}</h3>
+                  <svg
+                    *ngIf="item.isStarred"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="text-yellow-500 flex-shrink-0">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-600">
+                  <span class="font-medium">{{ item.category }}</span>
+                  <span>•</span>
+                  <span>{{ item.lastUpdated }}</span>
                 </div>
               </div>
 
-              <div class="flex items-center justify-between">
-                <div class="flex gap-2 flex-wrap">
-                  <span *ngIf="item.relevanceScore" class="text-xs px-2 py-1 rounded" [ngClass]="getRelevanceColor(item.relevanceScore)">
-                    {{ item.relevanceScore }}% match
-                  </span>
-                </div>
-                <div class="flex gap-2">
-                  <button
-                    (click)="toggleStar(item.id, item.isStarred || false); $event.stopPropagation()"
-                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                    title="Star">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      [attr.fill]="item.isStarred ? 'currentColor' : 'none'"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      [class.text-yellow-500]="item.isStarred"
-                      [class.text-gray-400]="!item.isStarred">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                  </button>
-                  <a
-                    *ngIf="item.link"
-                    [href]="item.link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                    (click)="$event.stopPropagation()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-400">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                  </a>
-                </div>
+              <!-- Match Score -->
+              <div class="text-right flex-shrink-0">
+                <span *ngIf="item.relevanceScore" class="text-sm px-2 py-1 rounded font-medium text-green-600 bg-green-50">
+                  {{ item.relevanceScore }}% match
+                </span>
+              </div>
+            </div>
+
+            <!-- Description/Preview Text -->
+            <p class="text-gray-700 text-sm mb-3 leading-relaxed">
+              {{ item.name | titlecase }} introduces major improvements including automatic batching, new hooks, and performance optimizations.
+            </p>
+
+            <!-- Tags -->
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">{{ item.category }}</span>
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">Frontend</span>
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">JavaScript</span>
+            </div>
+
+            <!-- Footer with Actions -->
+            <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+              <div class="text-xs text-gray-500">
+                Source: {{ item.category }}
+              </div>
+              <div class="flex gap-2">
+                <button
+                  (click)="toggleStar(item.id, item.isStarred || false); $event.stopPropagation()"
+                  class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  title="Star">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    [attr.fill]="item.isStarred ? 'currentColor' : 'none'"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    [class.text-yellow-500]="item.isStarred"
+                    [class.text-gray-400]="!item.isStarred">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </button>
+                <a
+                  *ngIf="item.link"
+                  [href]="item.link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  (click)="$event.stopPropagation()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-400">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
