@@ -1,7 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import {
   Resource,
   Skill,
@@ -10,13 +12,15 @@ import {
   LibraryItem,
   LibraryCreateType
 } from '../../models.interface';
-import { BaseService } from '../../services/base_service';
 import {
   mockSkillsLMS,
   mockNotes,
   mockResourcesData,
   mockRecentActivities
 } from '../../services/test.data';
+import { SkillService } from '../../services/skill.service';
+import { NoteService } from '../../services/notes.service';
+import { ResourceService } from '../../services/resource.service';
 
 @Component({
   selector: 'app-lms-page',
@@ -25,7 +29,7 @@ import {
   templateUrl: './lms-page.component.html',
   styleUrls: ['./lms-page.component.css']
 })
-export class LmsPageComponent implements OnInit {
+export class LmsPageComponent implements OnInit, OnDestroy {
   // Library state
   libraryItems: LibraryItem[] = [];
   selectedLibraryItem: LibraryItem | null = null;
@@ -64,9 +68,13 @@ export class LmsPageComponent implements OnInit {
   modalItemName: string = '';
   showCreateMenu = false;
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private router: Router,
-    @Inject('LMSServiceToken') private lmsService: BaseService<Resource>
+    private skillService: SkillService,
+    private noteService: NoteService,
+    private resourceService: ResourceService
   ) {}
 
   ngOnInit() {
@@ -74,31 +82,52 @@ export class LmsPageComponent implements OnInit {
     this.initializeLibrary();
   }
 
-  async loadLMSData() {
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  loadLMSData() {
     this.loading = true;
 
-    try {
-      // Load skills
-      this.skills = mockSkillsLMS;
+    // Load skills
+    this.skillService.getAllSkills()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (skills) => {
+          this.skills = skills;
+        },
+        error: (err) => console.error('Failed to load skills:', err)
+      });
 
-      // Load recent activities
-      const activitiesResult = mockRecentActivities;
-      this.recentActivities = activitiesResult;
+    // Load notes
+    this.noteService.getAllNotes()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (notes) => {
+          this.notes = notes;
+          this.totalNotes = notes.length;
+          this.totalAttachments = notes.reduce((total, note) => total + (note.attachments?.length || 0), 0);
+        },
+        error: (err) => console.error('Failed to load notes:', err)
+      });
 
-      // Load notes
-      this.notes = mockNotes;
-
-      // Calculate stats from actual data
-      this.calculateStats();
-    } catch (error) {
-      console.error('Failed to load LMS data:', error);
-    } finally {
-      this.loading = false;
-    }
+    // Load resources
+    this.resourceService.getAllResources()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (resources) => {
+          this.calculateStats();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Failed to load resources:', err);
+          this.loading = false;
+        }
+      });
   }
 
   initializeLibrary() {
-    // Initialize library with resource folders and notes
     this.libraryItems = [
       {
         id: 'root',
@@ -114,7 +143,6 @@ export class LmsPageComponent implements OnInit {
   buildLibraryTree(): LibraryItem[] {
     const items: LibraryItem[] = [];
 
-    // Add resource folders with their children
     mockResourcesData.forEach(resource => {
       const folderItem: LibraryItem = {
         id: resource.id,
@@ -126,7 +154,6 @@ export class LmsPageComponent implements OnInit {
         children: []
       };
 
-      // Add resource children as library items
       if (resource.children) {
         folderItem.children = resource.children.map(child => ({
           id: child.id,
@@ -142,7 +169,6 @@ export class LmsPageComponent implements OnInit {
       items.push(folderItem);
     });
 
-    // Add notes as separate items
     mockNotes.forEach(note => {
       items.push({
         id: note.id,
@@ -158,13 +184,11 @@ export class LmsPageComponent implements OnInit {
   }
 
   calculateStats() {
-    // Calculate active courses from resources
     this.activeCourses = mockResourcesData.reduce(
       (count, resource) => count + (resource.children?.length || 0),
       0
     );
 
-    // Calculate total study hours from resources
     this.studyHours = mockResourcesData.reduce((total, resource) => {
       const resourceHours = resource.children?.reduce(
         (sum, child) => sum + (child.totalHours || 0),
@@ -173,31 +197,18 @@ export class LmsPageComponent implements OnInit {
       return total + resourceHours;
     }, 0);
 
-    // Calculate skills mastered (level >= 75)
     this.skillsMastered = this.skills.filter(skill => skill.level >= 75).length;
 
-    // Calculate average progress across all courses
     const allCourses = mockResourcesData.flatMap(r => r.children || []);
     if (allCourses.length > 0) {
       this.avgProgress = Math.round(
-        allCourses.reduce((sum, course) => sum + course.progress, 0) /
-          allCourses.length
+        allCourses.reduce((sum, course) => sum + course.progress, 0) / allCourses.length
       );
     }
-
-    // Calculate total notes
-    this.totalNotes = this.notes.length;
-
-    // Calculate total attachments across all notes
-    this.totalAttachments = this.notes.reduce(
-      (total, note) => total + (note.attachments?.length || 0),
-      0
-    );
   }
 
   toggleFolder(item: any) {
     if (item.type !== 'folder') return;
-
     if (this.expandedFolders.has(item.id)) {
       this.expandedFolders.delete(item.id);
     } else {
@@ -243,7 +254,6 @@ export class LmsPageComponent implements OnInit {
   showItemContextMenu(event: MouseEvent, item: LibraryItem) {
     event.preventDefault();
     event.stopPropagation();
-
     this.contextMenuPosition = { x: event.clientX, y: event.clientY };
     this.contextMenuItem = item;
     this.showContextMenu = true;
@@ -317,7 +327,6 @@ export class LmsPageComponent implements OnInit {
 
   deleteItem(item: LibraryItem) {
     if (!confirm(`Are you sure you want to delete "${item.name}"?`)) return;
-
     this.removeItemFromLibrary(item.id);
     this.hideContextMenu();
   }
@@ -339,10 +348,7 @@ export class LmsPageComponent implements OnInit {
     this.hideContextMenu();
   }
 
-  findItemById(
-    id: string,
-    items: LibraryItem[] = this.libraryItems
-  ): LibraryItem | null {
+  findItemById(id: string, items: LibraryItem[] = this.libraryItems): LibraryItem | null {
     for (const item of items) {
       if (item.id === id) return item;
       if (item.children) {
@@ -353,10 +359,7 @@ export class LmsPageComponent implements OnInit {
     return null;
   }
 
-  findParentItem(
-    childId: string,
-    items: LibraryItem[] = this.libraryItems
-  ): LibraryItem | null {
+  findParentItem(childId: string, items: LibraryItem[] = this.libraryItems): LibraryItem | null {
     for (const item of items) {
       if (item.children?.some(child => child.id === childId)) {
         return item;
@@ -481,3 +484,4 @@ export class LmsPageComponent implements OnInit {
     this.openCreateModal(type);
   }
 }
+

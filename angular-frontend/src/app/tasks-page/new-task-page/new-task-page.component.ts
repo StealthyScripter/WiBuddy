@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Project, Technology, Task } from '../../../models.interface';
 import { mockProjects, mockTechStack } from '../../../services/test.data';
-import { TaskService } from '../../../services/task_service';
+import { TaskService } from '../../../services/task.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -81,7 +81,7 @@ export class NewTaskPageComponent implements OnInit{
         console.log('Task created successfully:', payload);
         this.router.navigate(['/tasks']);
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Task creation failed:', err);
       }
     });

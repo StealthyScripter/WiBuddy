@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-import { Task, TaskStatus, Priority, TaskCategory } from '../../models.interface';
-import { BaseService } from '../../services/base_service';
-import { mockTasks } from '../../services/test.data';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Task, TaskStatus, Priority } from '../../models.interface';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-tasks-page',
@@ -13,44 +14,52 @@ import { mockTasks } from '../../services/test.data';
   templateUrl: './tasks-page.component.html',
   styleUrl: './tasks-page.component.css'
 })
-export class TasksPageComponent implements OnInit {
+export class TasksPageComponent implements OnInit, OnDestroy {
   searchQuery = '';
   sortCriteria: 'priority' | 'date' | 'completionStatus' = 'priority';
-  TaskStatus = TaskStatus; // Make enum available in template
+  TaskStatus = TaskStatus;
 
-  tasks: Task[] = mockTasks; // Use mockTasks directly
+  tasks: Task[] = [];
   filteredTasks: Task[] = [];
   loading = false;
   error = '';
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private router: Router,
-    @Inject('TaskServiceToken') private taskService: BaseService<Task>
+    private taskService: TaskService
   ) {}
 
   ngOnInit() {
     this.loadTasks();
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   loadTasks() {
     this.loading = true;
+    this.error = '';
 
-    const result = this.taskService.getAll();
-
-    if (result instanceof Promise) {
-      result.then(tasks => {
-        this.tasks = tasks;
-        this.filteredTasks = [...tasks];
-        this.loading = false;
+    this.taskService.getAllTasks()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (tasks) => {
+          this.tasks = tasks;
+          this.filteredTasks = [...tasks];
+          this.sortTasks();
+          this.loading = false;
+        },
+        error: (err: any) => {
+          console.error('Failed to load tasks:', err);
+          this.error = 'Failed to load tasks';
+          this.loading = false;
+        }
       });
-    } else {
-      result.subscribe(response => {
-        this.tasks = response.tasks || response;
-        this.filteredTasks = [...this.tasks];
-        this.loading = false;
-      });
-    }
-  };
+  }
 
   filterTasks() {
     this.filteredTasks = this.tasks.filter(task =>
@@ -70,30 +79,24 @@ export class TasksPageComponent implements OnInit {
             [Priority.MEDIUM]: 2,
             [Priority.LOW]: 3
           };
-          // Handle undefined priorities
           const aPriority = a.priority || Priority.LOW;
           const bPriority = b.priority || Priority.LOW;
           return priorityOrder[aPriority] - priorityOrder[bPriority];
         });
         break;
       case 'date':
-        const today = new Date();
         this.filteredTasks.sort((a, b) => {
-          // Check if tasks are completed or cancelled
-          const aCompleted = a.completionStatus === 'COMPLETED' || a.completionStatus === 'CANCELLED';
-          const bCompleted = b.completionStatus === 'COMPLETED' || b.completionStatus === 'CANCELLED';
+          const aCompleted = a.completionStatus === TaskStatus.COMPLETED || a.completionStatus === TaskStatus.CANCELLED;
+          const bCompleted = b.completionStatus === TaskStatus.COMPLETED || b.completionStatus === TaskStatus.CANCELLED;
 
-          // Put completed/cancelled tasks at the bottom
           if (aCompleted && !bCompleted) return 1;
           if (!aCompleted && bCompleted) return -1;
 
-          // If both completed or both not completed, sort by due date
           const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
           const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
 
-          // For tasks with overdue date, put them at the top
-          const aOverdue = a.completionStatus === 'OVERDUE';
-          const bOverdue = b.completionStatus === 'OVERDUE';
+          const aOverdue = a.completionStatus === TaskStatus.OVERDUE;
+          const bOverdue = b.completionStatus === TaskStatus.OVERDUE;
 
           if (aOverdue && !bOverdue) return -1;
           if (!aOverdue && bOverdue) return 1;
@@ -103,21 +106,17 @@ export class TasksPageComponent implements OnInit {
         break;
       case 'completionStatus':
         this.filteredTasks.sort((a, b) => {
-          // Type-safe version of the status order
           const statusOrder: Record<string, number> = {
             'OVERDUE': 0,
             'IN_PROGRESS': 1,
             'NOT_STARTED': 2,
-            'BLOCKED': 3,
-            'COMPLETED': 4,
-            'CANCELLED': 5
+            'COMPLETED': 3,
+            'CANCELLED': 4
           };
 
-          // Default to a safe value if completionStatus is undefined
-          const aStatus = a.completionStatus || 'NOT_STARTED';
-          const bStatus = b.completionStatus || 'NOT_STARTED';
+          const aStatus = a.completionStatus || TaskStatus.NOT_STARTED;
+          const bStatus = b.completionStatus || TaskStatus.NOT_STARTED;
 
-          // Check if the status is a valid key
           const aValue = statusOrder[aStatus] !== undefined ? statusOrder[aStatus] : statusOrder['NOT_STARTED'];
           const bValue = statusOrder[bStatus] !== undefined ? statusOrder[bStatus] : statusOrder['NOT_STARTED'];
 
@@ -128,7 +127,7 @@ export class TasksPageComponent implements OnInit {
   }
 
   addTask() {
-    this.router.navigate(['/tasks/new'])
+    this.router.navigate(['/tasks/new']);
   }
 
   navigateToTask(taskId: string) {
@@ -151,14 +150,11 @@ export class TasksPageComponent implements OnInit {
   }
 
   toggleTaskComplete(task: Task) {
-    const result = this.taskService.update(task.id, {
-      isCompleted: !task.isCompleted
-    });
-
-    if (result instanceof Promise) {
-      result.then(() => this.loadTasks());
-    } else {
-      result.subscribe(() => this.loadTasks());
-    }
+    this.taskService.markTaskComplete(task.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => this.loadTasks(),
+        error: (err: any) => console.error('Failed to update task:', err)
+      });
   }
 }

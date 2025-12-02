@@ -18,7 +18,6 @@ import { TrendsPageComponent } from './trends-page/trends-page.component';
 
 
 import { HomePageComponent } from './home-page/home-page.component';
-import { AuthGuard } from './guards/auth.guard';
 import { AffirmationsDetailsPageComponent } from './home-page/affirmations-details-page/affirmations-details-page.component';
 import { NewEventComponent } from './calendars-page/new-event/new-event.component';
 import { CalendarDayDetailComponent } from './calendars-page/calendar-day-detail/calendar-day-detail.component';

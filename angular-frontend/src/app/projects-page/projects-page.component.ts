@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { FilterOptions } from '../../models.interface';
-import { ProjectService } from '../../services/project_service';
+import { ProjectService } from '../../services/project.service';
 import { mockProjects, mockTasks } from '../../services/test.data';
 
 @Component({
@@ -53,17 +53,10 @@ export class ProjectsPageComponent implements OnInit {
 
    // In task form, load projects for dropdown
   loadProjects() {
-    const result = this.projectService.getAll();
-
-    if (result instanceof Promise) {
-      result.then(projects => {
-        this.projects = projects;
-      });
-    } else {
-      result.subscribe(response => {
-        this.projects = response.projects || response;
-      });
-    }
+    this.projectService.getAllProjects().subscribe(projects => {
+      this.projects = projects;
+      this.filterProjects();
+    });
   }
 
   filterProjects() {

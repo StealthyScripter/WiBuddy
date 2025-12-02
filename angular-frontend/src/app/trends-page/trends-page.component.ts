@@ -8,7 +8,6 @@ import {
   TrendFilterOptions,
   Skill
 } from '../../models.interface';
-import { BaseService } from '../../services/base_service';
 import {
   mockTechTrends,
   mockLearningRecommendations,
@@ -57,7 +56,7 @@ export class TrendsPageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    @Optional() @Inject('TrendsServiceToken') private trendsService?: BaseService<MarketInsight>
+    @Optional() @Inject('TrendsServiceToken') private trendsService?: any
   ) {}
 
   ngOnInit() {
