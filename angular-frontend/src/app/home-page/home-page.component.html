@@ -1,131 +1,96 @@
-<section class="container">
-  <section class="section2">
-    <section class="introduction">
-      <section class="affirmation">
-        <div (click)="navigateToAffirmations(Affirmation.id)" class="affirmation-clickable">
-            {{ '"' + Affirmation.quote +'"' }}
-            <br>
-            {{ Affirmation.author }}
-        </div>
+<section class="home-container">
 
-      </section>
-      <section class="intro">
-        <h2>Hello Brian?</h2>
-        <p>Ready to make today productive?
-        </p>
-        <form class="prompt">
-            <input type="text" id="prompt" name="prompt" placeholder="What's on your mind?">
-            <button disabled>send</button>
-        </form>
-      </section>
-    </section>
+  <!-- Greeting + Affirmation -->
+  <section class="welcome-card">
+    <h2>Hello Brian 👋</h2>
+    <p class="subtext">Hope you're ready to make today meaningful.</p>
+
+    <div class="affirmation-box" (click)="navigateToAffirmations(Affirmation.id)">
+      “{{ Affirmation.quote }}”
+      <div class="author">— {{ Affirmation.author }}</div>
+    </div>
+
+    <form class="prompt">
+      <input type="text" placeholder="What's on your mind?" />
+      <button disabled>Send</button>
+    </form>
   </section>
 
 
-  <section class="section3">
+  <!-- Today's Tasks -->
+  <section class="section-card">
+    <div class="section-header">
+      <h3>Today's Tasks</h3>
+      <button (click)="navigateToTasks()">
+        {{ tasksInProgress().length }} Active
+      </button>
+    </div>
 
-    <table class="tasks">
-      <thead class="sect3-title">
-        <tr>
-          <th><h3>Today's tasks</h3></th>
-          <th class="active-count"><button (click)="navigateToTasks()">{{tasksInProgress().length}} active</button></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="tasksInProgress().length === 0">
-          <td colspan="4" class="text-centre
-          "> No tasks in Progress</td>
-        </tr>
-        <tr id="homepage-task" *ngFor="let task of tasksInProgress()" (click)="navigateToTask(task.id)" class="clickable-field">
-          <td>
-            <input type="checkbox" (click)="$event.stopPropagation()">
-          </td>
-          <td>{{ task.name }}</td>
-          <td>
-            <span class="priority-dot"></span>
-          </td>
-          <td>
-            <app-due-date [dueDate]="task.dueDate  ?? 'No Due Today'"></app-due-date>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div *ngIf="tasksInProgress().length === 0" class="empty-state">
+      No tasks for today 🎉
+    </div>
 
-    <div class="projects">
-      <div class="sect3-title">
-          <h3>Ongoing Projects</h3>
-            <button (click)="navigateToProjects()" class="active-count">{{ getOngoingProjects().length}} active</button>
-        </div>
-      <ul>
-          <ng-container *ngIf="ongoingProjects.length === 0"            class="text-centre">
-            <li> No Ongoing Projects </li>
-          </ng-container>
-            <li *ngFor="let ongoingProject of ongoingProjects"
-            (click)="navigateToProject(ongoingProject.id)"
-            class="clickable-field">
-              <span class="project-name">{{ ongoingProject.name }}</span>
-              <span class="progress-percentage">{{ ongoingProject.progress }}</span>
-              <div class="progress-bar" >
-                <div class="progress-bar-fill" [style.width]="ongoingProject.progress + '%'"></div>
-              </div>
-            </li>
+    <div class="task-item"
+         *ngFor="let task of tasksInProgress().slice(0, 3)"
+         (click)="navigateToTask(task.id)">
+      <input type="checkbox" (click)="$event.stopPropagation()">
+      <span>{{ task.name }}</span>
+      <app-due-date [dueDate]="task.dueDate"></app-due-date>
+    </div>
 
-        </ul>
-      </div>
-
-    <table class="upcoming">
-      <thead class="sect3-title">
-        <tr style="justify-content: space-between;">
-          <th><h3>Upcoming Projects</h3></th>
-          <th class="active-count" (click)="navigateToProjects()"><img src="icons8-calendar-new.png"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="upcomingProjects.length === 0">
-          <td colspan="4" class="text-centre
-          "> No upcoming Projects</td>
-        </tr>
-        @for (upcomingProject of upcomingProjects; track upcomingProject) {
-        <tr (click)="navigateToProject(upcomingProject.id)" class="clickable-field">
-          <td><app-due-date [dueDate]="upcomingProject.dueDate"></app-due-date></td>
-          <td><p>{{ upcomingProject.name }}</p></td>
-        </tr>
-      }
-      </tbody>
-    </table>
+    <button class="see-all" (click)="navigateToTasks()">See all tasks</button>
   </section>
 
-  <section class="section4">
-    <!-- Upcoming deadlines -->
-    <div class="section">
-      <div class="section-header">
-        <h2>Upcoming Deadlines</h2>
-      </div>
-      <div class="deadlines-grid">
-        <div class="deadline-card" *ngFor="let deadline of upcomingDeadlines">
-          <div>{{deadline}}</div>
+
+  <!-- Ongoing Projects -->
+  <section class="section-card">
+    <div class="section-header">
+      <h3>Ongoing Projects</h3>
+      <button (click)="navigateToProjects()">
+        {{ getOngoingProjects().length }} Active
+      </button>
+    </div>
+
+    <div *ngIf="ongoingProjects.length === 0" class="empty-state">
+      No ongoing projects yet.
+    </div>
+
+    <div class="project-item"
+        *ngFor="let p of ongoingProjects.slice(0, 2)"
+        (click)="navigateToProject(p.id)">
+      <div>
+        <div class="project-name">{{ p.name }}</div>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width]="p.progress + '%'"></div>
         </div>
+      </div>
+      <span class="progress-percent">{{ p.progress }}%</span>
+    </div>
+
+    <button class="see-all" (click)="navigateToProjects()">See all projects</button>
+  </section>
+
+
+  <!-- Notes preview -->
+  <section class="section-card">
+    <div class="section-header">
+      <h3>Your Notes</h3>
+      <img src="icons8-plus%20sign.png" (click)="navigateToNewNote()"/>
+    </div>
+
+    <div *ngIf="notes.length === 0" class="empty-state">
+      No notes yet.
+    </div>
+
+    <div class="note-item" *ngFor="let note of notes.slice(0, 3)"
+         (click)="navigateToNote(note.id)">
+      <div class="note-title">{{ note.name }}</div>
+      <div class="note-preview">
+        {{ getNotesPreview(note.content) }}
       </div>
     </div>
-    <div class="notes-container">
-      <div class="sect3-title">
-        <h3>Notes</h3>
-        <img src="icons8-plus%20sign.png" (click)="navigateToNewNote()" alt="Add Note">
-      </div>
-      <div *ngIf="notes.length === 0">Notes List Empty</div>
-      <div class="note-list">
-        <div *ngFor="let note of notes; let i = index" class="notes clickable-field" (click)="navigateToNote(note.id)">
-          <div class="note-header">
-            <span class="note-title">{{ note.name }}</span>
-            <span class="note-date">{{ note.dateCreated | relativeTime }}</span>
-          </div>
-          <div class="note-preview" >
-            {{ getNotesPreview(note.content) }}
-          </div>
-        </div>
-      </div>
-    </div>
+
+    <button class="see-all" (click)="navigateToProjects()">See all notes</button>
   </section>
+
 </section>
-
-

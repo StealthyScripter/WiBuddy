@@ -1,18 +1,21 @@
 :root {
-  /* Color palette */
+  /* Light Mode - Default */
+
+  /* Primary Colors */
   --primary-color: #0f172a;
   --primary-hover: #1e293b;
   --primary-light: #e0e7ff;
   --primary-dark: #4338ca;
   --primary-color-light: rgba(79, 70, 229, 0.1);
+
+  /* Secondary Colors */
   --secondary-color: #64748b;
   --success: #10b981;
   --warning: #f59e0b;
   --danger: #ef4444;
-  --light: #f9fafb;
-  --dark: #111827;
 
-  /* Gray scale */
+  /* Neutral Grays */
+  --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
   --gray-300: #d1d5db;
@@ -21,15 +24,18 @@
   --gray-600: #4b5563;
   --gray-700: #374151;
   --gray-800: #1f2937;
+  --gray-900: #111827;
 
-  /* Background and text colors */
+  /* Backgrounds & Text (Light Mode) */
   --background-color: #f8f9fa;
   --card-background: #ffffff;
   --text-primary: #1a1a1a;
   --text-secondary: #4b5563;
   --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --hover-bg: #f3f4f6;
 
-  /* Status colors */
+  /* Status Colors */
   --status-inprogress-bg: #dfeaf5;
   --status-inprogress-text: #0c6dc2;
   --status-completed-bg: #f0fdf4;
@@ -41,23 +47,76 @@
   --status-blocked-bg: #fef2f2;
   --status-blocked-text: #8e0b0b;
 
-  /* Spacing */
-  --container-padding: 20px;
-  --section-spacing: 24px;
-  --item-spacing: 16px;
-
-  /* UI Elements */
-  --radius-sm: 0.25rem;
-  --radius: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
+  /* Shadows (Light) */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --transition: all 0.2s ease;
 
-  /* Layout constraints */
+  /* Spacing & Layout */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --container-padding: 20px;
+  --section-spacing: 24px;
+  --item-spacing: 16px;
+  --transition: all 0.2s ease;
   --max-width: 1400px;
   --header-height: 60px;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  /* Primary Colors - Adjusted for dark mode */
+  --primary-color: #4f46e5;
+  --primary-hover: #6366f1;
+  --primary-light: #312e81;
+  --primary-dark: #818cf8;
+  --primary-color-light: rgba(79, 70, 229, 0.15);
+
+  /* Secondary Colors */
+  --secondary-color: #94a3b8;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  /* Neutral Grays - Dark Mode */
+  --gray-50: #1f2937;
+  --gray-100: #111827;
+  --gray-200: #0f172a;
+  --gray-300: #1e293b;
+  --gray-400: #334155;
+  --gray-500: #64748b;
+  --gray-600: #78828f;
+  --gray-700: #9ca3af;
+  --gray-800: #cbd5e1;
+  --gray-900: #f1f5f9;
+
+  /* Backgrounds & Text (Dark Mode) */
+  --background-color: #0f172a;
+  --card-background: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --hover-bg: #334155;
+
+  /* Status Colors - Dark Mode */
+  --status-inprogress-bg: #1e3a5f;
+  --status-inprogress-text: #60a5fa;
+  --status-completed-bg: #064e3b;
+  --status-completed-text: #86efac;
+  --status-notstarted-bg: #2d3748;
+  --status-notstarted-text: #e2e8f0;
+  --status-overdue-bg: #7f1d1d;
+  --status-overdue-text: #fca5a5;
+  --status-blocked-bg: #7f1d1d;
+  --status-blocked-text: #fca5a5;
+
+  /* Shadows (Dark) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
 }

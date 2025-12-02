@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { TaskStatus, Task, Project, Note, Technology } from '../../models.interface';
 import { mockTasks, mockProjects, mockNotes, mockTechStack } from '../../services/test.data';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -39,6 +40,8 @@ export class ProfilePageComponent implements OnInit {
    // Technologies/Skills
    technologies = mockTechStack;
 
+   darkmodeEnabled: boolean = false;
+
 
    // Recent Notes
    recentNotes: Note[] = [
@@ -68,10 +71,20 @@ export class ProfilePageComponent implements OnInit {
      }
    ];
 
-   constructor(private router:Router){}
+   constructor(
+    private router:Router,
+    private themeService:ThemeService
+  ){
+    this.darkmodeEnabled = this.themeService.getCurrentTheme() === 'dark';
+  }
 
    ngOnInit() {
      this.calculateStats();
+   }
+
+   toggleDarkMode(): void {
+    this.themeService.toggleTheme();
+    this.darkmodeEnabled = this.themeService.getCurrentTheme() === 'dark';
    }
 
    private calculateStats() {
@@ -88,11 +101,6 @@ export class ProfilePageComponent implements OnInit {
 
    toggleSettingsMenu() {
      this.showSettingsMenu = !this.showSettingsMenu;
-   }
-
-   toggleDarkMode() {
-     this.darkMode = !this.darkMode;
-     // In a real app, you'd update the theme in a theme service
    }
 
    getTechIcon(techName: string): string {
