@@ -4,6 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Smooth transition when switching themes */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 /* Global resets */
 * {
   padding: 0;
@@ -23,11 +32,12 @@ body {
 button, input, select, textarea {
   font-family: inherit;
   font-size: inherit;
+  color: var(--text-primary);
 }
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
-  color: var(--gray-800);
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -38,7 +48,7 @@ a {
 
 /* Global utility classes */
 .card {
-  background-color: white;
+  background-color: var(--card-background);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 1.5rem;
@@ -62,6 +72,20 @@ a {
   color: white;
 }
 
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--gray-100);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--hover-bg);
+}
+
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -82,29 +106,35 @@ a {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  color: var(--gray-800);
-  background-color: white;
-  border: 1px solid var(--gray-300);
+  color: var(--text-primary);
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius);
   transition: var(--transition);
 }
 
-/* Global responsive breakpoints */
-@media (max-width: 1024px) {
-  /* Global 1024px breakpoint styles */
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
-@media (max-width: 768px) {
-  /* Global 768px breakpoint styles */
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-@media (max-width: 640px) {
-  /* Global 640px breakpoint styles */
+::-webkit-scrollbar-track {
+  background: var(--background-color);
 }
 
-@media print {
-  /* Print styles */
-  body {
-    background-color: white !important;
-  }
+::-webkit-scrollbar-thumb {
+  background: var(--gray-400);
+  border-radius: 4px;
 }
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
+}
+

@@ -4,7 +4,6 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Task, Project, Affirmation, TaskStatus, Priority, Note } from '../../models.interface';
 import { DueDateComponent } from './due-date/due-date.component';
-import { RelativeTimePipe } from '../pipes/relative-time.pipe';
 import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation } from '../../services/test.data';
 import { Observable } from 'rxjs';
 import { TaskService } from '../../services/task.service';
@@ -20,7 +19,6 @@ import { ProjectService } from '../../services/project.service';
     DueDateComponent,
     NgFor,
     NgIf,
-    RelativeTimePipe
   ],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']

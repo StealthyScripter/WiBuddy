@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,13 @@ export class AppComponent implements OnInit {
   mobileMenuOpen = false;
   isMobile = false;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private themeService: ThemeService) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.isMobile = window.innerWidth < 768;
     }
+    this.themeService.initSystemThemeListener();
   }
 
   toggleMobileMenu() {
