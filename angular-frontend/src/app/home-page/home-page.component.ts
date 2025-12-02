@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -6,14 +6,22 @@ import { Task, Project, Affirmation, TaskStatus, Priority, Note } from '../../mo
 import { DueDateComponent } from './due-date/due-date.component';
 import { RelativeTimePipe } from '../pipes/relative-time.pipe';
 import { mockTasks, mockProjects, mockNotes, mockDailyAffirmation } from '../../services/test.data';
-import { AuthService } from '../../services/auth_service';
-import { BaseService } from '../../services/base_service';
 import { Observable } from 'rxjs';
+import { TaskService } from '../../services/task.service';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, DueDateComponent, NgFor, NgIf, RelativeTimePipe],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    DueDateComponent,
+    NgFor,
+    NgIf,
+    RelativeTimePipe
+  ],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
@@ -37,98 +45,87 @@ export class HomePageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
-    @Inject('TaskServiceToken') private taskService: BaseService<Task>,
-    @Inject('ProjectServiceToken') private projectService: BaseService<Project>
-    ) {}
+    private taskService: TaskService,
+    private projectService: ProjectService
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.loadDashboardData();
   }
 
   async loadDashboardData() {
     try {
-      // Load tasks
-      const taskResult = this.taskService.getAll();
-      const projectResult = this.projectService.getAll();
+      const taskResult = this.taskService.getAllTasks();
+      const projectResult = this.projectService.getAllProjects();
 
       if (taskResult instanceof Promise) {
         this.tasks = await taskResult;
-        this.projects = await projectResult as Project[];
+        this.projects = projectResult as unknown as Project[];
       } else {
-        taskResult.subscribe(response => {
+        taskResult.subscribe((response: any) => {
           this.tasks = response.tasks || response;
         });
-        (projectResult as Observable<any>).subscribe(response => {
+
+        (projectResult as Observable<any>).subscribe((response: any) => {
           this.projects = response.projects || response;
         });
       }
+
       this.todaysTasks = this.getTasksForDay();
       this.ongoingProjects = this.getOngoingProjects();
       this.upcomingProjects = this.getUpcomingProjects();
 
-      } catch (error) {
-        console.error('Failed to load dashboard data:', error);
-      } finally {
-        this.loading = false;
-      }
+    } catch (error) {
+      console.error('Failed to load dashboard data:', error);
+    } finally {
+      this.loading = false;
     }
+  }
 
-    // Key dashboard metrics
-    tasksInProgress(): Task[] {
-      return this.tasks.filter(task =>
-        !task.isCompleted && task.completionStatus !== TaskStatus.CANCELLED
-      );
-    }
+  // ---- Dashboard Metrics ----
 
-    get overdueTasksCount(): number {
-      const today = new Date();
-      return this.tasks.filter(task =>
-        !task.isCompleted &&
-        task.dueDate &&
-        new Date(task.dueDate) < today
-      ).length;
-    }
+  tasksInProgress(): Task[] {
+    return this.tasks.filter(task =>
+      !task.isCompleted && task.completionStatus !== TaskStatus.CANCELLED
+    );
+  }
 
-    get completionRate(): number {
-      if (this.tasks.length === 0) return 0;
-      const completed = this.tasks.filter(task => task.isCompleted).length;
-      return Math.round((completed / this.tasks.length) * 100);
-    }
+  get overdueTasksCount(): number {
+    const today = new Date();
+    return this.tasks.filter(task =>
+      !task.isCompleted &&
+      task.dueDate &&
+      new Date(task.dueDate) < today
+    ).length;
+  }
 
+  get completionRate(): number {
+    if (this.tasks.length === 0) return 0;
+    const completed = this.tasks.filter(task => task.isCompleted).length;
+    return Math.round((completed / this.tasks.length) * 100);
+  }
+
+  // ---- Helpers ----
 
   getNotesPreview(notes: string[]): string {
-    if (!notes || notes.length === 0) return '';
-
-    // Get the first content item and split
-    const content = notes[0];
-    const words = content.split(' ');
-    const baseWordCount = 10;
-
-    if (words.length > baseWordCount) {
-      return words.slice(0, baseWordCount).join(' ') + '...';
-    }
-
-    return content;
+    if (!notes?.length) return '';
+    const words = notes[0].split(' ');
+    return words.length > 10
+      ? words.slice(0, 10).join(' ') + '...'
+      : notes[0];
   }
 
   getTasksForDay() {
-    return this.tasks.filter(task => {
-      return !task.isCompleted;
-    });
+    return this.tasks.filter(task => !task.isCompleted);
   }
 
-  getUpcomingProjects(){
-    return this.projects.filter(project => {
-      return project.progress === 0;
-    });
-  };
+  getUpcomingProjects() {
+    return this.projects.filter(project => project.progress === 0);
+  }
 
-  getOngoingProjects(){
-    return this.projects.filter(project => {
-      return project.progress > 0;
-    });
-  };
+  getOngoingProjects() {
+    return this.projects.filter(project => project.progress > 0);
+  }
 
   getPriorityColor(priority: Priority): string {
     const colors = {
@@ -150,7 +147,9 @@ export class HomePageComponent implements OnInit {
     return parseFloat(value);
   }
 
-  navigateToTasks(){
+  // ---- Navigation ----
+
+  navigateToTasks() {
     this.router.navigate(['/tasks']);
   }
 
@@ -162,20 +161,19 @@ export class HomePageComponent implements OnInit {
     this.router.navigate(['/task-details', taskId]);
   }
 
-  navigateToProject(projectId: string){
+  navigateToProject(projectId: string) {
     this.router.navigate(['/project-details', projectId]);
   }
 
-  navigateToNote(noteId: string){
-    this.router.navigate(['notes-details',noteId]);
+  navigateToNote(noteId: string) {
+    this.router.navigate(['notes-details', noteId]);
   }
 
   navigateToNewNote() {
     this.router.navigate(['/notes/new']);
   }
 
-  navigateToAffirmations(affirmationsId: string){
+  navigateToAffirmations(affirmationsId: string) {
     this.router.navigate(['affirmations', affirmationsId]);
   }
-
 }
