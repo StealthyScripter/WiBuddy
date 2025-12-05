@@ -64,10 +64,18 @@
 
 /* Section Cards */
 .section-card {
-  background: white;
+  background: var(--card-background);
+  color: var(--text-primary);
   padding: 1.5rem;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.section-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
 }
 
 /* Section header */
@@ -78,18 +86,31 @@
   margin-bottom: 1rem;
 }
 
+.section-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
 .section-header button {
-  background: var(--primary-color-light);
+  background: var(--primary-light);
+  color: var(--primary-color);
   border-radius: 8px;
   padding: 0.25rem .75rem;
   border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.section-header button:hover {
+  background: var(--primary-color);
+  color: white;
 }
 
 /* Empty state */
 .empty-state {
   text-align: center;
   padding: 1rem;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 /* Task items */
@@ -97,15 +118,23 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #f9fafb;
+  background: var(--hover-bg);
   padding: 0.75rem;
   border-radius: var(--radius-sm);
   margin-bottom: 0.5rem;
   cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
 }
 
 .task-item:hover {
-  background: #eef2ff;
+  background: var(--primary-light);
+  border-color: var(--primary-color);
+}
+
+.task-item input {
+  cursor: pointer;
+  accent-color: var(--primary-color);
 }
 
 /* Projects */
@@ -113,17 +142,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f9fafb;
+  background: var(--hover-bg);
   padding: 0.75rem;
   border-radius: var(--radius-sm);
   margin-bottom: 0.5rem;
   cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+}
+
+.project-item:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-color);
+}
+
+.project-name {
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .progress-bar {
   width: 150px;
   height: 5px;
-  background: #e5e7eb;
+  background: var(--border-color);
   border-radius: 4px;
 }
 
@@ -133,19 +174,34 @@
   border-radius: 4px;
 }
 
+.progress-percent {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
 /* Notes */
 .note-item {
   padding: 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
   cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-primary);
 }
 
 .note-item:hover {
-  background: #eef2ff;
+  background: var(--hover-bg);
+  border-radius: var(--radius-sm);
+}
+
+.note-title {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
 }
 
 .note-preview {
-  color: #6b7280;
+  color: var(--text-muted);
+  font-size: 0.875rem;
 }
 
 /* Buttons */
@@ -156,4 +212,12 @@
   color: var(--primary-color);
   cursor: pointer;
   text-align: left;
+  transition: var(--transition);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.see-all:hover {
+  background: var(--hover-bg);
+  color: var(--primary-hover);
 }

@@ -3,6 +3,7 @@
   flex-direction: column;
   background-color: var(--card-background);
   border-radius: var(--radius);
+  border: 1px solid var(--border-color);
   padding: 1.5rem;
   box-shadow: var(--shadow);
   height: 100%;
@@ -34,13 +35,18 @@
 .title-input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 var(--input-focus-ring) var(--input-focus-ring-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.title-input::placeholder {
+  color: var(--text-muted);
 }
 
 .notebook-container {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 1.5rem;
+  padding-right: 0.5rem;
 }
 
 .notebook-line {
@@ -120,6 +126,7 @@
 .action-button:hover {
   background-color: var(--border-color);
   color: var(--text-primary);
+  border-color: var(--primary-color);
 }
 
 .ai-button {
@@ -142,4 +149,3 @@
   background-color: var(--primary-color);
   color: white;
 }
-

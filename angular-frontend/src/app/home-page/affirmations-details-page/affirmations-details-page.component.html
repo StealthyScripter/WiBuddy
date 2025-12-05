@@ -1,44 +1,40 @@
-<div class="min-h-screen py-12 px-4" *ngIf="!loading; else loadingState">
+<div class="affirmations-container" *ngIf="!loading; else loadingState">
   <!-- Decorative Background -->
-  <div class="fixed top-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-  <div class="fixed bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
+  <div class="decorative-bg-top"></div>
+  <div class="decorative-bg-bottom"></div>
 
-  <div class="max-w-7xl mx-auto relative z-10">
+  <div class="content-wrapper">
     <!-- Header -->
-    <div class="text-center mb-12">
-      <div class="flex items-center justify-center gap-3 mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-yellow-300">
+    <div class="header-section">
+      <div class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
-        <h1 class="text-5xl md:text-6xl font-bold text-white">Daily Affirmations</h1>
+        <h1 class="header-title">Daily Affirmations</h1>
       </div>
-      <p class="text-xl text-purple-200 mb-2">Empower yourself with daily inspiration</p>
-      <p class="text-purple-300">Browse, share, and set reminders for affirmations that resonate with you</p>
+      <p class="header-subtitle">Empower yourself with daily inspiration</p>
+      <p class="header-description">Browse, share, and set reminders for affirmations that resonate with you</p>
     </div>
 
     <!-- Search and Filters Section -->
-    <div class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl border border-white/20 p-6 mb-8">
+    <div class="search-filters-container">
       <!-- Search Bar -->
-      <div class="mb-6">
-        <div class="relative">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="absolute left-4 top-3.5 text-white/40">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-          <input
-            [(ngModel)]="searchQuery"
-            (ngModelChange)="onSearchChange()"
-            type="text"
-            placeholder="Search affirmations or authors..."
-            class="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/50 focus:outline-none focus:border-white/40 transition-colors">
-        </div>
+      <div class="search-bar-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="onSearchChange()"
+          type="text"
+          placeholder="Search affirmations or authors..."
+          class="search-input">
       </div>
 
       <!-- Clear Filters -->
-      <div *ngIf="selectedTag || searchQuery" class="flex justify-end">
-        <button
-          (click)="clearFilters()"
-          class="text-sm text-purple-200 hover:text-white transition-colors flex items-center gap-1">
+      <div class="clear-filters-wrapper" *ngIf="selectedTag || searchQuery">
+        <button (click)="clearFilters()" class="clear-filters-btn">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="3 6 5 6 21 6"></polyline>
             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -49,137 +45,122 @@
     </div>
 
     <!-- Results Info -->
-    <div class="text-white/70 text-sm mb-6">
+    <div class="results-info">
       Showing {{ filteredAffirmations.length }} of {{ affirmations.length }} affirmations
     </div>
 
     <!-- Affirmations Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" *ngIf="filteredAffirmations.length > 0; else emptyState">
+    <div class="affirmations-grid" *ngIf="filteredAffirmations.length > 0; else emptyState">
       <div
         *ngFor="let affirmation of filteredAffirmations"
         (click)="navigateToAffirmation(affirmation.id)"
-        class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105"
+        class="affirmation-card"
         [ngClass]="'bg-gradient-to-br ' + getGradientClass(affirmation.tags)">
 
         <!-- Card Background Pattern -->
-        <div class="absolute inset-0 opacity-10">
-          <div class="absolute top-0 right-0 w-40 h-40 bg-white rounded-full -translate-y-1/2 translate-x-1/2"></div>
-          <div class="absolute bottom-0 left-0 w-32 h-32 bg-white rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        <div class="affirmation-card-pattern">
+          <div class="affirmation-card-pattern-top"></div>
+          <div class="affirmation-card-pattern-bottom"></div>
         </div>
 
         <!-- Card Content -->
-        <div class="relative p-6 h-full flex flex-col">
+        <div class="affirmation-card-content">
           <!-- Top Actions -->
-          <div class="flex justify-between items-start mb-4">
-            <span class="px-3 py-1 bg-white/20 backdrop-blur text-white text-xs font-semibold rounded-full">
+          <div class="card-top-actions">
+            <span class="card-tag">
               {{ affirmation.tags?.[0] | titlecase }}
             </span>
             <button
               (click)="toggleFavorite(affirmation, $event)"
-              class="p-2 rounded-full hover:bg-white/20 transition-colors backdrop-blur">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                [attr.fill]="affirmation.isFavorited ? 'currentColor' : 'none'"
-                stroke="currentColor"
-                stroke-width="2"
-                [class.text-yellow-300]="affirmation.isFavorited"
-                [class.text-white]="!affirmation.isFavorited">
+              class="favorite-btn"
+              [class.favorited]="affirmation.isFavorited">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" [attr.fill]="affirmation.isFavorited ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
               </svg>
             </button>
           </div>
 
           <!-- Quote -->
-          <blockquote class="flex-1 mb-4">
-            <p class="text-white text-lg md:text-xl font-bold leading-snug">
-              "{{ affirmation.quote }}"
-            </p>
-          </blockquote>
+          <div class="card-quote">
+            <p class="card-quote-text">{{ affirmation.quote }}</p>
+          </div>
 
           <!-- Author -->
-          <p class="text-white/90 text-sm font-semibold mb-4">— {{ affirmation.author }}</p>
+          <p class="card-author">— {{ affirmation.author }}</p>
 
           <!-- Tags -->
-          <div class="flex flex-wrap gap-2 mb-4">
+          <div class="card-tags">
             <span
               *ngFor="let tag of affirmation.tags"
-              class="px-2 py-1 bg-white/10 backdrop-blur text-white text-xs rounded-full border border-white/20">
+              class="tag-item">
               #{{ tag }}
             </span>
           </div>
 
           <!-- Divider -->
-          <div class="border-t border-white/20 my-3"></div>
+          <div class="card-divider"></div>
 
           <!-- Stats and Actions -->
-          <div class="space-y-3">
-            <!-- View Count -->
-            <div class="flex items-center gap-2 text-sm text-white/80">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-              {{ affirmation.viewCount | number }} views
-            </div>
+          <div class="card-stats">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            {{ affirmation.viewCount | number }} views
+          </div>
 
-            <!-- Action Buttons -->
-            <div class="flex gap-2">
-              <button
-                (click)="shareAffirmation(affirmation, $event)"
-                class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-sm font-medium transition-colors backdrop-blur">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="18" cy="5" r="3"></circle>
-                  <circle cx="6" cy="12" r="3"></circle>
-                  <circle cx="18" cy="19" r="3"></circle>
-                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                </svg>
-                Share
-              </button>
-              <button
-                (click)="setReminder(affirmation, $event)"
-                class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-sm font-medium transition-colors backdrop-blur">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                {{ affirmation.reminderTime?.substring(0, 5) }}
-              </button>
-            </div>
-
-            <!-- View Details Button -->
+          <!-- Action Buttons -->
+          <div class="card-actions">
             <button
-              (click)="navigateToAffirmation(affirmation.id)"
-              class="w-full py-2 bg-white/30 hover:bg-white/40 text-white rounded-lg font-semibold transition-colors backdrop-blur border border-white/20">
-              Read More →
+              (click)="shareAffirmation(affirmation, $event)"
+              class="action-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              Share
+            </button>
+            <button
+              (click)="setReminder(affirmation, $event)"
+              class="action-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              {{ affirmation.reminderTime?.substring(0, 5) }}
             </button>
           </div>
+
+          <!-- View Details Button -->
+          <button
+            (click)="navigateToAffirmation(affirmation.id)"
+            class="read-more-btn">
+            Read More →
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Empty State -->
     <ng-template #emptyState>
-      <div class="text-center py-20">
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="text-white/30 mx-auto mb-4">
+      <div class="empty-state-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="empty-state-icon">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
-        <h3 class="text-2xl font-bold text-white mb-2">No Affirmations Found</h3>
-        <p class="text-white/60 mb-6">Try adjusting your search or filters to find what you're looking for.</p>
-        <button
-          (click)="clearFilters()"
-          class="px-6 py-3 bg-white text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-colors">
+        <h3 class="empty-state-title">No Affirmations Found</h3>
+        <p class="empty-state-description">Try adjusting your search or filters to find what you're looking for.</p>
+        <button (click)="clearFilters()" class="empty-state-btn">
           Clear Filters
         </button>
       </div>
     </ng-template>
 
     <!-- Footer Info -->
-    <div class="mt-16 text-center">
-      <p class="text-white/60 text-sm">
+    <div class="footer-info">
+      <p class="footer-text">
         Refresh your mind daily. Choose an affirmation that resonates with you and make it your mantra.
       </p>
     </div>
@@ -188,10 +169,10 @@
 
 <!-- Loading State -->
 <ng-template #loadingState>
-  <div class="min-h-screen flex items-center justify-center">
+  <div class="loading-container">
     <div class="text-center">
-      <div class="animate-spin h-16 w-16 rounded-full border-4 border-white/30 border-t-white mx-auto mb-4"></div>
-      <p class="text-white text-xl">Loading affirmations...</p>
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Loading affirmations...</p>
     </div>
   </div>
 </ng-template>
