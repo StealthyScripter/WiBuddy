@@ -1,142 +1,132 @@
-<div class="max-w-6xl mx-auto p-6">
-      <!-- Header -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-        <button
-          (click)="goBack()"
-          class="mb-4 text-gray-600 hover:text-gray-900 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          Back to Library
-        </button>
+<div class="resource-container">
+  <!-- Header -->
+  <div class="resource-header">
+    <button (click)="goBack()" class="back-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      Back to Library
+    </button>
 
-        <div class="flex justify-between items-start">
-          <div>
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ resourceTitle }}</h1>
-            <p class="text-gray-600">{{ resourceCategory }}</p>
-          </div>
-
-          <div class="text-right">
-            <div class="text-sm text-gray-600 mb-1">Progress</div>
-            <div class="text-2xl font-bold text-indigo-600">{{ progress }}%</div>
-          </div>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="mt-4">
-          <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              class="h-full bg-indigo-600 rounded-full transition-all"
-              [style.width.%]="progress">
-            </div>
-          </div>
-        </div>
+    <div class="header-content">
+      <div>
+        <h1 class="resource-title">{{ resourceTitle }}</h1>
+        <p class="resource-category">{{ resourceCategory }}</p>
       </div>
 
-      <!-- Content Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-6">
-          <!-- Modules -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 class="text-xl font-semibold mb-4">Course Modules</h2>
-
-            <div class="space-y-3">
-              <div *ngFor="let module of modules; let i = index"
-                   class="p-4 border rounded-lg hover:border-indigo-300 transition-colors cursor-pointer"
-                   [class.bg-gray-50]="module.completed">
-                <div class="flex items-start gap-3">
-                  <div class="mt-1">
-                    <svg *ngIf="module.completed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                    <svg *ngIf="!module.completed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
-                      <circle cx="12" cy="12" r="10"></circle>
-                    </svg>
-                  </div>
-
-                  <div class="flex-1">
-                    <h3 class="font-medium mb-1">Module {{ i + 1 }}: {{ module.title }}</h3>
-                    <p class="text-sm text-gray-600">{{ module.duration }}</p>
-                  </div>
-
-                  <button class="text-indigo-600 hover:text-indigo-700">
-                    {{ module.completed ? 'Review' : 'Start' }}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Study Notes -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 class="text-xl font-semibold mb-4">My Notes</h2>
-
-            <textarea
-              [(ngModel)]="notes"
-              placeholder="Take notes while you learn..."
-              rows="6"
-              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            </textarea>
-
-            <button class="mt-3 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-              Save Notes
-            </button>
-          </div>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-          <!-- Quick Stats -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 class="font-semibold mb-4">Quick Stats</h3>
-
-            <div class="space-y-3">
-              <div class="flex justify-between">
-                <span class="text-gray-600">Modules</span>
-                <span class="font-medium">{{ completedModules }}/{{ totalModules }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-600">Time Spent</span>
-                <span class="font-medium">{{ timeSpent }}h</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-600">Last Activity</span>
-                <span class="font-medium">{{ lastActivity }}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Resources -->
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 class="font-semibold mb-4">Resources</h3>
-
-            <div class="space-y-2">
-              <a href="#" class="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-700">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                </svg>
-                Course Syllabus
-              </a>
-              <a href="#" class="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-700">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                </svg>
-                Reading Materials
-              </a>
-              <a href="#" class="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-700">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                  <polygon points="14 12 7 17 7 7 14 12"></polygon>
-                </svg>
-                Video Lectures
-              </a>
-            </div>
-          </div>
-        </div>
+      <div class="progress-section">
+        <div class="progress-label">Progress</div>
+        <div class="progress-value">{{ progress }}%</div>
       </div>
     </div>
 
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="progress"></div>
+    </div>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="resource-grid">
+    <!-- Main Content -->
+    <div class="content-main">
+      <!-- Modules -->
+      <div class="card">
+        <h2 class="card-title">Course Modules</h2>
+
+        <div class="modules-list">
+          <div *ngFor="let module of modules; let i = index"
+               class="module-item"
+               [class.completed]="module.completed">
+            <div class="module-check">
+              <svg *ngIf="module.completed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <svg *ngIf="!module.completed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="circle-icon">
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+            </div>
+
+            <div class="module-content">
+              <h3 class="module-title">Module {{ i + 1 }}: {{ module.title }}</h3>
+              <p class="module-duration">{{ module.duration }}</p>
+            </div>
+
+            <button class="module-action">
+              {{ module.completed ? 'Review' : 'Start' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Study Notes -->
+      <div class="card">
+        <h2 class="card-title">My Notes</h2>
+
+        <textarea
+          [(ngModel)]="notes"
+          placeholder="Take notes while you learn..."
+          rows="6"
+          class="notes-textarea">
+        </textarea>
+
+        <button class="btn btn-primary">
+          Save Notes
+        </button>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="content-sidebar">
+      <!-- Quick Stats -->
+      <div class="card">
+        <h3 class="card-title">Quick Stats</h3>
+
+        <div class="stats-list">
+          <div class="stat-item">
+            <span class="stat-label">Modules</span>
+            <span class="stat-value">{{ completedModules }}/{{ totalModules }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Time Spent</span>
+            <span class="stat-value">{{ timeSpent }}h</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Last Activity</span>
+            <span class="stat-value">{{ lastActivity }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resources -->
+      <div class="card">
+        <h3 class="card-title">Resources</h3>
+
+        <div class="resources-list">
+          <a href="#" class="resource-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            Course Syllabus
+          </a>
+          <a href="#" class="resource-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            Reading Materials
+          </a>
+          <a href="#" class="resource-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"></polygon>
+              <polygon points="14 12 7 17 7 7 14 12"></polygon>
+            </svg>
+            Video Lectures
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

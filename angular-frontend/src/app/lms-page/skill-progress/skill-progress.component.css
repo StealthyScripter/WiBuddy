@@ -1,0 +1,449 @@
+.skill-progress-container {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  padding: 1.5rem;
+  transition: var(--transition);
+}
+
+/* Header */
+.skill-header {
+  background-color: var(--card-background);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: var(--transition);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.back-button:hover {
+  background-color: var(--hover-bg);
+  color: var(--text-primary);
+}
+
+.back-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.skill-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.skill-category {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.market-demand {
+  text-align: right;
+}
+
+.demand-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.demand-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* Progress Cards */
+.progress-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background-color: var(--card-background);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-primary-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0.5rem 0;
+}
+
+.stat-primary-value.target {
+  color: var(--primary-color);
+}
+
+.stat-primary-value.gap {
+  color: var(--warning);
+}
+
+.stat-description {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Card Component */
+.card {
+  background-color: var(--card-background);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1.5rem 0;
+}
+
+/* Progress Tracker */
+.progress-tracker {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.label-text {
+  color: var(--text-secondary);
+}
+
+.label-value {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.progress-bar-container {
+  position: relative;
+}
+
+.progress-bar-background {
+  position: relative;
+  height: 24px;
+  background-color: var(--hover-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+  border-radius: var(--radius);
+  transition: width 0.3s ease;
+}
+
+.progress-target-line {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-right: 4px dashed var(--border-color);
+  cursor: pointer;
+}
+
+.progress-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Learning Path */
+.learning-path {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.learning-card {
+  padding: 1.25rem;
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--border-color);
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+.learning-card.recommended {
+  border-left-color: var(--success);
+  background-color: var(--status-completed-bg);
+}
+
+.learning-card.next {
+  border-left-color: var(--primary-color);
+  background-color: var(--primary-light);
+}
+
+.learning-card.locked {
+  border-left-color: var(--border-color);
+  background-color: var(--hover-bg);
+  opacity: 0.6;
+}
+
+.learning-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.learning-title {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.learning-description {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.badge-recommended,
+.badge-next,
+.badge-locked {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.badge-recommended {
+  background-color: var(--success);
+  color: white;
+}
+
+.badge-next {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.badge-locked {
+  background-color: var(--text-muted);
+  color: white;
+}
+
+.learning-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Milestones */
+.milestones-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.milestone-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+.milestone-item.completed {
+  background-color: var(--status-completed-bg);
+  border-color: var(--success);
+}
+
+.milestone-item.in-progress {
+  background-color: var(--status-inprogress-bg);
+  border-color: var(--primary-color);
+}
+
+.milestone-item.locked {
+  background-color: var(--hover-bg);
+  border-color: var(--border-color);
+  opacity: 0.6;
+}
+
+.milestone-check {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+
+.milestone-item.completed .milestone-check {
+  background-color: var(--success);
+  color: white;
+}
+
+.milestone-item.in-progress .milestone-check {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.milestone-item.locked .milestone-check {
+  background-color: var(--border-color);
+  color: var(--text-muted);
+}
+
+.milestone-content {
+  flex: 1;
+}
+
+.milestone-title {
+  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.milestone-description {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Not Found */
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1.5rem;
+  background-color: var(--background-color);
+}
+
+.not-found h2 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .progress-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .market-demand {
+    text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .skill-progress-container {
+    padding: 1rem;
+  }
+
+  .skill-header {
+    padding: 1rem;
+  }
+
+  .skill-title {
+    font-size: 1.5rem;
+  }
+
+  .demand-value {
+    font-size: 1.5rem;
+  }
+
+  .progress-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+}
