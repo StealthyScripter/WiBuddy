@@ -1,54 +1,95 @@
-<div class="note-container">
-  <h2 class="note-title">Add Note</h2>
+<div class="note-editor-container">
+  <h2 class="editor-title">Add Note</h2>
 
-  <div class="title-input-container">
+  <div class="title-input-wrapper">
     <input
       type="text"
-      class="title-input"
+      class="note-title-input"
       placeholder="Note Title"
     />
   </div>
 
-  <div class="notebook-container">
-    <div class="notebook-line" *ngFor="let line of notebookLines; let i = index">
-      <input
-        type="text"
-        class="line-input"
-        [placeholder]="i === 0 ? 'Start typing your note here...' : ''"
-      />
-      <div class="line-actions">
-        <button class="icon-button">
-          <i class="fas fa-camera"></i>
-        </button>
-        <button class="icon-button">
-          <i class="fas fa-upload"></i>
-        </button>
-        <button class="icon-button">
-          <i class="fas fa-file"></i>
-        </button>
+  <div class="notebook-area">
+    <div class="notebook-lines">
+      <div class="notebook-line" *ngFor="let line of notebookLines; let i = index">
+        <input
+          type="text"
+          class="line-input"
+          [placeholder]="i === 0 ? 'Start typing your note here...' : ''"
+        />
+        <div class="line-actions">
+          <button class="icon-button" title="Add image">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </button>
+          <button class="icon-button" title="Upload file">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </button>
+          <button class="icon-button" title="Add attachment">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="footer">
-    <div class="footer-actions">
-      <button class="action-button">
-        <i class="fas fa-image"></i> Photos
+  <div class="note-footer">
+    <div class="action-buttons">
+      <button class="action-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        Photos
       </button>
-      <button class="action-button">
-        <i class="fas fa-file-alt"></i> Documents
+      <button class="action-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+          <polyline points="13 2 13 9 20 9"></polyline>
+        </svg>
+        Documents
       </button>
-      <button class="action-button">
-        <i class="fas fa-link"></i> Links
+      <button class="action-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+        </svg>
+        Links
       </button>
-      <button class="action-button">
-        <i class="fab fa-github"></i> GitHub
+      <button class="action-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+          <line x1="9" y1="9" x2="9.01" y2="9"></line>
+          <line x1="15" y1="9" x2="15.01" y2="9"></line>
+        </svg>
+        GitHub
       </button>
-      <button class="action-button ai-button">
-        <i class="fas fa-robot"></i> AI Summary
+      <button class="action-btn ai-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="1"></circle>
+          <path d="M12 1v6m0 6v6"></path>
+          <path d="M4.22 4.22l4.24 4.24m2.12 2.12l4.24 4.24"></path>
+          <path d="M1 12h6m6 0h6"></path>
+          <path d="M4.22 19.78l4.24-4.24m2.12-2.12l4.24-4.24"></path>
+        </svg>
+        AI Summary
       </button>
-      <button class="action-button attachments-button">
-        <i class="fas fa-paperclip"></i> Attachments
+      <button class="action-btn attachments-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+        </svg>
+        Attachments
       </button>
     </div>
   </div>
