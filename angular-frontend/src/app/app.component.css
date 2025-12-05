@@ -1,4 +1,3 @@
-/* Main container */
 .main {
   max-width: var(--max-width);
   margin: 0 auto;
@@ -6,24 +5,26 @@
   box-sizing: border-box;
   overflow-x: hidden;
   background-color: var(--background-color);
+  color: var(--text-primary);
 }
 
-/* Content area where components are rendered */
 .content-wrapper {
   max-width: var(--max-width);
   width: 100%;
   margin: 0 auto;
   padding: 1rem;
+  background-color: var(--background-color);
 }
 
 /* Navigation bar */
 .main-menu {
-  background-color: white;
+  background-color: var(--card-background);
   box-shadow: var(--shadow);
   height: var(--header-height);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: var(--z-dropdown);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .main-menu .main {
@@ -32,12 +33,13 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  background-color: var(--card-background);
 }
 
 /* Logo styling */
 .logo {
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: var(--primary-color);
   text-decoration: none;
 }
@@ -60,23 +62,23 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--gray-700);
+  color: var(--text-secondary);
   text-decoration: none;
   padding: 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: var(--radius-sm);
   transition: var(--transition);
 }
 
 /* Highlight active link */
 .main-menu .main ul li a.active {
   color: var(--primary-color);
-  background-color: var(--primary-color-light);
+  background-color: var(--primary-light);
 }
 
 /* Hover effect */
 .main-menu .main ul li a:hover {
   color: var(--primary-color);
-  background-color: var(--gray-100);
+  background-color: var(--hover-bg);
 }
 
 /* Profile section */
@@ -85,7 +87,7 @@
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
-  color: var(--gray-800);
+  color: var(--text-primary);
 }
 
 .profile img {
@@ -100,7 +102,7 @@
   display: none;
   background: none;
   border: none;
-  color: var(--gray-700);
+  color: var(--text-secondary);
   font-size: 1.25rem;
   cursor: pointer;
 }
@@ -116,7 +118,7 @@
     top: var(--header-height);
     left: 0;
     right: 0;
-    background-color: white;
+    background-color: var(--card-background);
     flex-direction: column;
     padding: 1rem;
     box-shadow: var(--shadow);
@@ -124,6 +126,8 @@
     opacity: 0;
     visibility: hidden;
     transition: var(--transition);
+    z-index: var(--z-dropdown);
+    border-bottom: 1px solid var(--border-color);
   }
 
   .main-menu .main ul.mobile-open {
@@ -136,3 +140,4 @@
     padding: 0.75rem 0.5rem;
   }
 }
+

@@ -1,58 +1,75 @@
 .note-container {
   display: flex;
   flex-direction: column;
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background-color: var(--card-background);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
   height: 100%;
+  max-width: 100%;
 }
 
 .note-title {
   font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
 }
 
 .title-input-container {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .title-input {
   width: 100%;
-  padding: 12px;
+  padding: 0.75rem;
   font-size: 1.2rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
   outline: none;
+  background-color: var(--card-background);
+  color: var(--text-primary);
+  transition: var(--transition);
+}
+
+.title-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 var(--input-focus-ring) var(--input-focus-ring-color);
 }
 
 .notebook-container {
   flex: 1;
   overflow-y: auto;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .notebook-line {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 0.75rem;
   position: relative;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
 }
 
 .line-input {
   flex: 1;
-  padding: 2px 0;
+  padding: 0.5rem;
   border: none;
   outline: none;
   font-size: 1rem;
+  background-color: var(--card-background);
+  color: var(--text-primary);
+}
+
+.line-input::placeholder {
+  color: var(--text-muted);
 }
 
 .line-actions {
   display: flex;
   visibility: hidden;
+  gap: 0.25rem;
 }
 
 .notebook-line:hover .line-actions {
@@ -63,61 +80,66 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #666;
-  margin-left: 5px;
+  color: var(--text-secondary);
+  margin-left: 0.25rem;
   font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
 }
 
 .icon-button:hover {
-  color: #6c5ce7;
+  color: var(--primary-color);
+  background-color: var(--hover-bg);
 }
 
 .footer {
-  border-top: 1px solid #eee;
-  padding-top: 15px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
 }
 
 .footer-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.75rem;
 }
 
 .action-button {
   display: flex;
   align-items: center;
-  background-color: #f5f5f5;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 12px;
+  background-color: var(--hover-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
   cursor: pointer;
-  font-size: 0.9rem;
-  color: #555;
-  transition: all 0.2s;
-}
-
-.action-button i {
-  margin-right: 5px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  transition: var(--transition);
 }
 
 .action-button:hover {
-  background-color: #e0e0e0;
+  background-color: var(--border-color);
+  color: var(--text-primary);
 }
 
 .ai-button {
-  background-color: #6c5ce7;
+  background-color: var(--primary-color);
   color: white;
+  border: none;
 }
 
 .ai-button:hover {
-  background-color: #5b4bc9;
+  background-color: var(--primary-hover);
 }
 
 .attachments-button {
-  background-color: #74b9ff;
-  color: white;
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 
 .attachments-button:hover {
-  background-color: #5fa8f0;
+  background-color: var(--primary-color);
+  color: white;
 }
+
