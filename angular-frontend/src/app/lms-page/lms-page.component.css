@@ -1,3 +1,123 @@
-body{
-  width:100%
+body {
+  width: 100%;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.card {
+  background-color: var(--card-background);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.section-header h2 {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn:hover {
+  background-color: var(--primary-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--hover-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--border-color);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--badge-padding);
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border-radius: 9999px;
+  font-size: var(--badge-font-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.priority-badge {
+  padding: var(--badge-padding);
+  border-radius: var(--radius-sm);
+  font-size: var(--badge-font-size);
+  font-weight: var(--font-weight-medium);
+}
+
+.priority-badge.CRITICAL {
+  background-color: var(--status-overdue-bg);
+  color: var(--status-overdue-text);
+}
+
+.priority-badge.HIGH {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+.priority-badge.MEDIUM {
+  background-color: rgba(250, 204, 21, 0.1);
+  color: #ca8a04;
+}
+
+.priority-badge.LOW {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }

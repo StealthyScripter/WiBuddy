@@ -1,5 +1,5 @@
 .dashboard {
-  background: #f5f5f5;
+  background: var(--background-color);
 }
 
 .page-header {
@@ -11,109 +11,143 @@
 
 .page-title {
   font-size: 1.75rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   margin: 0;
-
 }
 
+/* Tabs Navigation */
 .tabs {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .tabs button {
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 4px;
-  background: white;
+  border-radius: var(--radius);
+  background: var(--card-background);
+  color: var(--text-primary);
   cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
 }
 
 .tabs button.active {
-  background: #1a1a1a;
+  background: var(--primary-color);
   color: white;
+  border-color: var(--primary-color);
 }
 
+/* Search Container */
 .search-container {
   margin-left: auto;
 }
 
 .search-container input {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
   width: 200px;
+  background-color: var(--card-background);
+  color: var(--text-primary);
 }
 
 #add-project-btn {
-  background-color: #0f172a;
+  background-color: var(--primary-color);
   color: white;
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   margin: 0px 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: var(--transition);
+  font-weight: var(--font-weight-medium);
 }
 
 #add-project-btn:hover {
-  background-color: #1e293b;
+  background-color: var(--primary-hover);
+  box-shadow: var(--shadow-md);
 }
 
+/* Projects Grid */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  gap: var(--section-spacing);
 }
 
+/* Project Card */
 .project-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--card-background);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
 }
 
+.project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
+}
+
+/* Project Header */
 .project-header {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
   margin-bottom: 10px;
 }
 
-.status-badge {
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+.project-header h2 {
+  font-size: 1.125rem;
+  margin: 0;
+  color: var(--text-primary);
 }
 
-.active {
-  background: #e3f2fd;
-  color: #1565c0;
-}
-.upcoming {
-  background: #f5f5f5;
-  color: #616161;
-}
-.completed {
-  background: #e8f5e9;
-  color: #2e7d32;
+.completionStatus-badge {
+  padding: var(--badge-padding);
+  border-radius: var(--radius-sm);
+  font-size: var(--badge-font-size);
+  font-weight: var(--font-weight-medium);
 }
 
+.completionStatus-badge.in_progress {
+  background-color: var(--status-inprogress-bg);
+  color: var(--status-inprogress-text);
+}
+
+.completionStatus-badge.completed {
+  background-color: var(--status-completed-bg);
+  color: var(--status-completed-text);
+}
+
+.completionStatus-badge.not_started {
+  background-color: var(--status-notstarted-bg);
+  color: var(--status-notstarted-text);
+}
+
+/* Department */
 .department {
-  color: #666;
-  font-size: 14px;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
   margin-bottom: 10px;
 }
 
+/* Description */
 .description {
   margin-bottom: 15px;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 0.875rem;
+  line-height: var(--line-height-normal);
+  color: var(--text-secondary);
 }
 
+/* Progress Section */
 .progress-section {
   margin-bottom: 15px;
 }
@@ -122,44 +156,62 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
-  font-size: 14px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
 .progress-bar {
   height: 8px;
-  background: #eee;
-  border-radius: 4px;
+  background: var(--hover-bg);
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: #1976d2;
+  background: var(--primary-color);
   transition: width 0.3s ease;
+  border-radius: var(--radius);
 }
 
+/* Project Footer */
 .project-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 15px;
-}
-
-.team-members {
-  display: flex;
-  gap: 5px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-color);
 }
 
 .milestones {
-  font-size: 14px;
-  color: #666;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
-.clickable-field {
-  cursor: pointer;
-  transition: filter 0.3s ease;
+/* Responsive */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-container {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .search-container input {
+    width: 100%;
+  }
+
+  .tabs {
+    width: 100%;
+  }
 }
 
-.clickable-field:hover {
-  filter: brightness(85%) contrast(110%);
+@media (max-width: 480px) {
+  #add-project-btn {
+    width: 100%;
+    margin: 10px 0;
+  }
 }

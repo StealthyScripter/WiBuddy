@@ -1,10 +1,8 @@
-/* General page container */
 .page-container {
   max-width: var(--max-width);
   margin: 0 auto;
 }
 
-/* Header and title */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -14,13 +12,12 @@
 
 .page-title {
   font-size: 1.75rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   margin: 0;
-
 }
 
-/* Search and action bar styles */
+/* Search and Actions Bar */
 .search-actions {
   display: flex;
   flex-wrap: wrap;
@@ -39,6 +36,18 @@
 .search-container input {
   padding-right: 2.5rem;
   width: 100%;
+  background-color: var(--card-background);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  transition: var(--transition);
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 var(--input-focus-ring) var(--input-focus-ring-color);
 }
 
 .search-icon {
@@ -46,7 +55,7 @@
   right: 0.5rem;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--gray-500);
+  color: var(--text-muted);
   background: none;
   border: none;
   padding: 0.5rem;
@@ -61,28 +70,36 @@
 
 .sort-select {
   min-width: 150px;
+  background-color: var(--card-background);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  transition: var(--transition);
+  cursor: pointer;
 }
 
-.btn svg {
-  margin-right: 0.5rem;
+.sort-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
 }
 
-/* Task grid layout */
+/* Task Grid */
 .tasks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: var(--section-spacing);
 }
 
-/* Task card styles */
+/* Task Card */
 .task-card {
-  background-color: var(--card-background, white);
+  background-color: var(--card-background);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: var(--transition);
   border-top: 4px solid var(--gray-300);
 }
 
@@ -111,7 +128,7 @@
   border-top-color: var(--secondary-color);
 }
 
-/* Task header */
+/* Task Header */
 .task-header {
   display: flex;
   justify-content: space-between;
@@ -121,52 +138,52 @@
 
 .task-title {
   font-size: 1.125rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin: 0;
-  color: var(--gray-800);
+  color: var(--text-primary);
 }
 
-/* Status badge styles */
+/* Status Badge */
 .status-badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.75rem;
+  padding: var(--badge-padding);
   border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--badge-font-size);
+  font-weight: var(--font-weight-medium);
   white-space: nowrap;
 }
 
 .status-in-progress {
-  background-color: var(--primary-light);
-  color: var(--primary-color);
+  background-color: var(--status-inprogress-bg);
+  color: var(--status-inprogress-text);
 }
 
 .status-completed {
-  background-color: #ecfdf5;
-  color: var(--success);
+  background-color: var(--status-completed-bg);
+  color: var(--status-completed-text);
 }
 
 .status-not-started {
-  background-color: var(--gray-100);
-  color: var(--gray-600);
+  background-color: var(--status-notstarted-bg);
+  color: var(--status-notstarted-text);
 }
 
 .status-overdue {
-  background-color: #fef2f2;
-  color: var(--danger);
+  background-color: var(--status-overdue-bg);
+  color: var(--status-overdue-text);
 }
 
 .status-blocked {
-  background-color: #f8fafc;
-  color: var(--secondary-color);
+  background-color: var(--status-blocked-bg);
+  color: var(--status-blocked-text);
 }
 
-/* Task description */
+/* Task Description */
 .task-description {
-  color: var(--gray-600);
+  color: var(--text-secondary);
   font-size: 0.875rem;
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
   margin-bottom: 1rem;
   flex: 1;
   overflow: hidden;
@@ -175,29 +192,35 @@
   -webkit-box-orient: vertical;
 }
 
-/* Task footer */
+/* Task Footer */
 .task-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
   font-size: 0.75rem;
-  color: var(--gray-500);
+  color: var(--text-muted);
 }
 
-.task-due-date, .task-category {
+.task-due-date,
+.task-category {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
 .task-category {
-  background-color: var(--gray-100);
+  background-color: var(--hover-bg);
   padding: 0.25rem 0.5rem;
   border-radius: var(--radius-sm);
 }
 
-/* Empty state when no tasks are available */
+.task-due-date.overdue {
+  color: var(--danger);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Empty State */
 .empty-state {
   grid-column: 1 / -1;
   display: flex;
@@ -205,11 +228,11 @@
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  background-color: white;
+  background-color: var(--card-background);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   text-align: center;
-  color: var(--gray-500);
+  color: var(--text-muted);
 }
 
 .empty-state svg {
@@ -222,7 +245,7 @@
   font-size: 1.125rem;
 }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
   .search-actions {
     flex-direction: column;
@@ -249,7 +272,8 @@
     align-items: stretch;
   }
 
-  .sort-select, .btn {
+  .sort-select,
+  .btn {
     width: 100%;
   }
 }

@@ -40,7 +40,7 @@ export class ProfilePageComponent implements OnInit {
    // Technologies/Skills
    technologies = mockTechStack;
 
-   darkmodeEnabled: boolean = false;
+   darkmodeEnabled: boolean = true;
 
 
    // Recent Notes
