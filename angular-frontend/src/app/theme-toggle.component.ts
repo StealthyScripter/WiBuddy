@@ -84,11 +84,15 @@ import { ThemeService, type Theme } from '../services/theme.service';
   `]
 })
 export class ThemeToggleComponent implements OnInit {
-  currentTheme: Theme = 'light';
+  currentTheme: Theme;
 
-  constructor(private themeService: ThemeService) {}
+  constructor(private themeService: ThemeService) {
+    // Initialize with the actual current theme from service
+    this.currentTheme = this.themeService.getCurrentTheme();
+  }
 
   ngOnInit(): void {
+    // Subscribe to theme changes
     this.themeService.theme$.subscribe(theme => {
       this.currentTheme = theme;
     });

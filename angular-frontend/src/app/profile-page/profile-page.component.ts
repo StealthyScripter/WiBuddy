@@ -40,9 +40,6 @@ export class ProfilePageComponent implements OnInit {
    // Technologies/Skills
    technologies = mockTechStack;
 
-   darkmodeEnabled: boolean = true;
-
-
    // Recent Notes
    recentNotes: Note[] = [
      {
@@ -72,19 +69,24 @@ export class ProfilePageComponent implements OnInit {
    ];
 
    constructor(
-    private router:Router,
-    private themeService:ThemeService
-  ){
-    this.darkmodeEnabled = this.themeService.getCurrentTheme() === 'dark';
+    private router: Router,
+    private themeService: ThemeService
+  ) {
+    // Initialize darkMode with the actual current theme from service
+    this.darkMode = this.themeService.getCurrentTheme() === 'dark';
   }
 
    ngOnInit() {
      this.calculateStats();
+
+     // Subscribe to theme changes to keep toggle in sync
+     this.themeService.theme$.subscribe(theme => {
+       this.darkMode = theme === 'dark';
+     });
    }
 
    toggleDarkMode(): void {
     this.themeService.toggleTheme();
-    this.darkmodeEnabled = this.themeService.getCurrentTheme() === 'dark';
    }
 
    private calculateStats() {
@@ -117,7 +119,7 @@ export class ProfilePageComponent implements OnInit {
     }
 
    navigateToNote(noteId: string){
-    this.router.navigate(['/notes-details',noteId]);
+    this.router.navigate(['/notes-details', noteId]);
   }
 
   navigateToTechstack(techId: string) {
@@ -132,5 +134,4 @@ export class ProfilePageComponent implements OnInit {
      //TODO: Handle logout logic
      console.log('Logout clicked');
    }
-
 }

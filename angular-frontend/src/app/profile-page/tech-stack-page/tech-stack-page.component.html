@@ -1,328 +1,286 @@
-<div class="min-h-screen bg-gray-50">
+<div class="tech-stack-container" *ngIf="!loading && !error && techDetail; else loadingOrError">
+  <!-- Header Section -->
+  <div class="tech-detail-header">
+    <button (click)="goBack()" class="tech-detail-back-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>Back to Profile</span>
+    </button>
 
-  <!-- Loading State -->
-  <div *ngIf="loading" class="flex items-center justify-center min-h-screen">
-    <div class="text-center">
-      <div class="animate-spin h-12 w-12 rounded-full border-4 border-gray-200 border-b-indigo-600 mx-auto mb-4"></div>
-      <p class="text-gray-600 font-medium">Loading technology details...</p>
+    <div class="tech-detail-header-content">
+      <div class="tech-detail-header-left">
+        <h1 class="tech-detail-title">{{ techDetail.tech.name }}</h1>
+        <p class="tech-detail-description">{{ techDetail.tech.description }}</p>
+        <div class="tech-detail-tags">
+          <span *ngIf="techDetail.tech.category" class="tech-detail-category-badge">
+            {{ techDetail.tech.category }}
+          </span>
+          <span class="tech-detail-jobs-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tech-detail-jobs-icon">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            {{ techDetail.tech.count | number }} job openings
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Key Metrics Grid -->
+  <div class="tech-metrics-grid">
+    <!-- Proficiency Card -->
+    <div class="metric-card">
+      <div class="metric-card-header">
+        <h3 class="metric-card-title">Your Proficiency</h3>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="metric-card-icon">
+          <path d="M12 2L15.09 8.26H22L17.55 12.83L19.64 19.09L12 14.55L4.36 19.09L6.45 12.83L2 8.26H8.91L12 2Z"></path>
+        </svg>
+      </div>
+      <div class="metric-card-value" [ngClass]="getProficiencyColor(techDetail.proficiency)">
+        {{ techDetail.proficiency }}%
+      </div>
+      <div class="metric-card-progress">
+        <div class="metric-card-progress-fill" [style.width.%]="techDetail.proficiency"></div>
+      </div>
+    </div>
+
+    <!-- Market Demand Card -->
+    <div class="metric-card">
+      <div class="metric-card-header">
+        <h3 class="metric-card-title">Market Demand</h3>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="metric-card-icon success">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+          <polyline points="17 6 23 6 23 12"></polyline>
+        </svg>
+      </div>
+      <div class="metric-card-value success">{{ techDetail.jobDemand }}%</div>
+      <p class="metric-card-subtext">Industry average demand</p>
+    </div>
+
+    <!-- Salary Card -->
+    <div class="metric-card">
+      <div class="metric-card-header">
+        <h3 class="metric-card-title">Avg. Salary</h3>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="metric-card-icon blue">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+      </div>
+      <div class="metric-card-value blue">{{ techDetail.averageSalary }}</div>
+      <p class="metric-card-subtext">Based on market data</p>
+    </div>
+
+    <!-- Growth Card -->
+    <div class="metric-card">
+      <div class="metric-card-header">
+        <h3 class="metric-card-title">Job Growth</h3>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="metric-card-icon purple">
+          <path d="M21 21H3V3"></path>
+          <path d="M3 18l4-4 4 4 4-6 5 5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </div>
+      <div class="metric-card-value purple">+24%</div>
+      <p class="metric-card-subtext">Year-over-year growth</p>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="tech-content-grid">
+    <!-- Left Column -->
+    <div class="tech-content-left">
+      <!-- Skills Mastery Section -->
+      <div class="skills-mastery-card">
+        <div class="skills-mastery-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="skills-mastery-header-icon">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <h2 class="skills-mastery-header-title">Skills Mastery Level</h2>
+        </div>
+
+        <div class="skills-mastery-item skills-mastery-current">
+          <div class="skills-mastery-item-header">
+            <span class="skills-mastery-item-label">Core Competency</span>
+            <span class="skills-mastery-item-percentage">{{ techDetail.proficiency }}%</span>
+          </div>
+          <div class="skills-mastery-progress">
+            <div class="skills-mastery-progress-fill" [style.width.%]="techDetail.proficiency"></div>
+          </div>
+        </div>
+
+        <div class="skills-mastery-item skills-mastery-benchmark">
+          <div class="skills-mastery-item-header">
+            <span class="skills-mastery-item-label">Industry Benchmark</span>
+            <span class="skills-mastery-item-percentage">65%</span>
+          </div>
+          <div class="skills-mastery-progress">
+            <div class="skills-mastery-progress-fill" style="width: 65%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Skills Section -->
+      <div class="related-skills-card">
+        <div class="related-skills-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="related-skills-header-icon">
+            <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"></path>
+            <path d="M8 12h8M12 8v8"></path>
+          </svg>
+          <h2 class="related-skills-header-title">Related Skills</h2>
+        </div>
+
+        <div class="related-skills-list">
+          <div *ngFor="let skill of techDetail.relatedSkills"
+               (click)="navigateToSkill(skill.id)"
+               class="skill-item">
+            <div class="skill-item-header">
+              <h3 class="skill-item-name">{{ skill.name }}</h3>
+              <span class="skill-item-level">{{ skill.level }}%</span>
+            </div>
+            <div class="skill-item-progress">
+              <div class="skill-item-progress-fill" [style.width.%]="skill.level"></div>
+            </div>
+            <div class="skill-item-target">Target: {{ skill.targetLevel }}%</div>
+          </div>
+
+          <div *ngIf="techDetail.relatedSkills.length === 0" class="related-skills-empty">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="related-skills-empty-icon">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <p class="related-skills-empty-text">No related skills found</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Learning Resources Section -->
+      <div class="learning-resources-card">
+        <div class="learning-resources-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="learning-resources-header-icon">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <h2 class="learning-resources-header-title">Learning Resources</h2>
+        </div>
+
+        <div class="learning-resources-list">
+          <div *ngFor="let resource of techDetail.learningResources" class="resource-item">
+            <div class="resource-item-header">
+              <h3 class="resource-item-title">{{ resource.title }}</h3>
+              <span class="resource-item-level">{{ resource.level }}</span>
+            </div>
+            <div class="resource-item-meta">
+              <span class="resource-item-provider">{{ resource.provider }}</span>
+              <span>•</span>
+              <span class="resource-item-duration">{{ resource.duration }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="tech-content-right">
+      <!-- Market Status Card -->
+      <div class="market-status-card">
+        <div class="market-status-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="market-status-header-icon">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline points="17 6 23 6 23 12"></polyline>
+          </svg>
+          <h3 class="market-status-header-title">Market Status</h3>
+        </div>
+
+        <div class="market-status-content">
+          <div class="market-status-item">
+            <span class="market-status-item-label">Demand Level</span>
+            <span class="market-status-item-value">{{ techDetail.jobDemand }}%</span>
+          </div>
+          <div class="market-status-divider"></div>
+          <div class="market-status-item">
+            <span class="market-status-item-label">Job Growth</span>
+            <span class="market-status-item-value">+24%</span>
+          </div>
+          <div class="market-status-divider"></div>
+          <div class="market-status-item">
+            <span class="market-status-item-label">Companies Hiring</span>
+            <span class="market-status-item-value">2,847</span>
+          </div>
+          <div class="market-status-footer">✓ High demand with strong growth trajectory</div>
+        </div>
+      </div>
+
+      <!-- Certifications Card -->
+      <div class="certifications-card">
+        <div class="certifications-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="certifications-header-icon">
+            <circle cx="12" cy="8" r="7"></circle>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+          </svg>
+          <h3 class="certifications-header-title">Certifications</h3>
+        </div>
+
+        <div class="certifications-list">
+          <div class="certification-item">
+            <p class="certification-item-title">Official {{ techDetail.tech.name }} Certification</p>
+            <p class="certification-item-description">Validates your proficiency and significantly improves job prospects</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next Steps Card -->
+      <div class="next-steps-card">
+        <div class="next-steps-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="next-steps-header-icon">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <h3 class="next-steps-header-title">Next Steps</h3>
+        </div>
+
+        <ol class="next-steps-list">
+          <li class="next-step-item">
+            <span class="next-step-number">1</span>
+            <span class="next-step-text">Complete intermediate course</span>
+          </li>
+          <li class="next-step-item">
+            <span class="next-step-number">2</span>
+            <span class="next-step-text">Build 2-3 production projects</span>
+          </li>
+          <li class="next-step-item">
+            <span class="next-step-number">3</span>
+            <span class="next-step-text">Obtain industry certification</span>
+          </li>
+          <li class="next-step-item">
+            <span class="next-step-number">4</span>
+            <span class="next-step-text">Target senior roles in your field</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading/Error State -->
+<ng-template #loadingOrError>
+  <!-- Loading State -->
+  <div *ngIf="loading" class="tech-stack-loading">
+    <div class="tech-stack-loading-spinner"></div>
+    <p class="tech-stack-loading-text">Loading technology details...</p>
+  </div>
+
   <!-- Error State -->
-  <div *ngIf="error && !loading" class="flex items-center justify-center min-h-screen">
-    <div class="text-center bg-white p-8 rounded-lg shadow-lg">
-      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-red-600 mx-auto mb-4">
+  <div *ngIf="error && !loading" class="tech-stack-error">
+    <div class="tech-stack-error-card">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tech-stack-error-icon">
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="12" y1="8" x2="12" y2="12"></line>
         <line x1="12" y1="16" x2="12.01" y2="16"></line>
       </svg>
-      <h2 class="text-2xl font-bold text-gray-900 mb-2">Technology Not Found</h2>
-      <p class="text-gray-600 mb-6">The technology you're looking for doesn't exist or couldn't be loaded.</p>
-      <button
-        (click)="goBack()"
-        class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
-        Back to Profile
-      </button>
+      <h2 class="tech-stack-error-title">Technology Not Found</h2>
+      <p class="tech-stack-error-message">The technology you're looking for doesn't exist or couldn't be loaded.</p>
+      <button (click)="goBack()" class="btn btn-primary">Back to Profile</button>
     </div>
   </div>
-
-  <!-- Main Content -->
-  <div *ngIf="!loading && !error && techDetail" class="max-w-6xl mx-auto p-6">
-
-    <!-- Header Section -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-      <button
-        (click)="goBack()"
-        class="mb-6 text-gray-600 hover:text-gray-900 flex items-center gap-2 transition-colors hover:bg-gray-100 px-3 py-2 rounded-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        <span>Back to Profile</span>
-      </button>
-
-      <div class="flex justify-between items-start">
-        <div class="flex-1">
-          <h1 class="text-4xl font-bold text-gray-900 mb-3">{{ techDetail.tech.name }}</h1>
-          <p class="text-gray-600 text-lg mb-4">{{ techDetail.tech.description }}</p>
-          <div class="flex items-center gap-3 flex-wrap">
-            <span *ngIf="techDetail.tech.category" class="inline-flex items-center px-4 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-semibold">
-              {{ techDetail.tech.category }}
-            </span>
-            <span class="inline-flex items-center gap-1 text-sm text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-              </svg>
-              {{ techDetail.tech.count | number }} job openings
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Key Metrics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-
-      <!-- Proficiency Card -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-gray-700">Your Proficiency</h3>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-600">
-            <path d="M12 2L15.09 8.26H22L17.55 12.83L19.64 19.09L12 14.55L4.36 19.09L6.45 12.83L2 8.26H8.91L12 2Z"></path>
-          </svg>
-        </div>
-        <div class="text-3xl font-bold mb-3" [ngClass]="getProficiencyColor(techDetail.proficiency)">
-          {{ techDetail.proficiency }}%
-        </div>
-        <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-          <div
-            class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
-            [style.width.%]="techDetail.proficiency">
-          </div>
-        </div>
-      </div>
-
-      <!-- Market Demand Card -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-gray-700">Market Demand</h3>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-600">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-            <polyline points="17 6 23 6 23 12"></polyline>
-          </svg>
-        </div>
-        <div class="text-3xl font-bold text-green-600 mb-3">{{ techDetail.jobDemand }}%</div>
-        <p class="text-xs text-gray-600">Industry average demand</p>
-      </div>
-
-      <!-- Salary Card -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-gray-700">Avg. Salary</h3>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-blue-600">
-            <line x1="12" y1="1" x2="12" y2="23"></line>
-            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-          </svg>
-        </div>
-        <div class="text-2xl font-bold text-gray-900 mb-1">{{ techDetail.averageSalary }}</div>
-        <p class="text-xs text-gray-600">Based on market data</p>
-      </div>
-
-      <!-- Growth Card -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-gray-700">Job Growth</h3>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-purple-600">
-            <path d="M21 21H3V3"></path>
-            <path d="M3 18l4-4 4 4 4-6 5 5" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </div>
-        <div class="text-3xl font-bold text-purple-600 mb-3">+24%</div>
-        <p class="text-xs text-gray-600">Year-over-year growth</p>
-      </div>
-    </div>
-
-    <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-      <!-- Left Column (2/3 width) -->
-      <div class="lg:col-span-2 space-y-6">
-
-        <!-- Skills Mastery Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center gap-3 mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-600">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            <h2 class="text-xl font-semibold text-gray-900">Skills Mastery Level</h2>
-          </div>
-
-          <div class="space-y-4">
-            <!-- Current Proficiency -->
-            <div class="p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg border border-indigo-100">
-              <div class="flex justify-between items-center mb-3">
-                <span class="font-semibold text-gray-900">Core Competency</span>
-                <span class="text-sm font-bold text-indigo-600">{{ techDetail.proficiency }}%</span>
-              </div>
-              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  class="h-full bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full"
-                  [style.width.%]="techDetail.proficiency">
-                </div>
-              </div>
-            </div>
-
-            <!-- Industry Benchmark -->
-            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <div class="flex justify-between items-center mb-2">
-                <span class="font-semibold text-gray-900">Industry Benchmark</span>
-                <span class="text-sm text-gray-600">65% average</span>
-              </div>
-              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div class="h-full bg-gray-400 rounded-full" style="width: 65%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Related Skills Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center gap-3 mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-600">
-              <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"></path>
-              <path d="M8 12h8M12 8v8"></path>
-            </svg>
-            <h2 class="text-xl font-semibold text-gray-900">Related Skills</h2>
-          </div>
-
-          <div class="space-y-3">
-            <div
-              *ngFor="let skill of techDetail.relatedSkills"
-              (click)="navigateToSkill(skill.id)"
-              class="p-4 rounded-lg bg-gray-50 hover:bg-indigo-50 hover:border-indigo-200 transition-all cursor-pointer border border-gray-200 group">
-              <div class="flex items-center justify-between mb-3">
-                <h3 class="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">{{ skill.name }}</h3>
-                <span class="text-sm font-bold text-indigo-600">{{ skill.level }}%</span>
-              </div>
-              <div class="h-1.5 bg-gray-200 rounded-full overflow-hidden mb-2">
-                <div
-                  class="h-full bg-indigo-500 rounded-full"
-                  [style.width.%]="skill.level">
-                </div>
-              </div>
-              <div class="text-xs text-gray-500">
-                Target: {{ skill.targetLevel }}%
-              </div>
-            </div>
-
-            <div *ngIf="techDetail.relatedSkills.length === 0" class="text-center py-8">
-              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-300 mx-auto mb-2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-              </svg>
-              <p class="text-gray-500 font-medium">No related skills found</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Learning Resources Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center gap-3 mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-600">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-            <h2 class="text-xl font-semibold text-gray-900">Learning Resources</h2>
-          </div>
-
-          <div class="space-y-3">
-            <div
-              *ngFor="let resource of techDetail.learningResources"
-              class="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all group">
-              <div class="flex justify-between items-start mb-3">
-                <h3 class="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">{{ resource.title }}</h3>
-                <span class="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-semibold">
-                  {{ resource.level }}
-                </span>
-              </div>
-              <div class="flex items-center gap-3 text-sm text-gray-600">
-                <span class="font-medium">{{ resource.provider }}</span>
-                <span class="text-gray-400">•</span>
-                <span>{{ resource.duration }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Right Column (1/3 width) -->
-      <div class="space-y-6">
-
-        <!-- Market Status Card -->
-        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg shadow-sm border border-green-200 p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-600">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-              <polyline points="17 6 23 6 23 12"></polyline>
-            </svg>
-            <h3 class="font-semibold text-gray-900">Market Status</h3>
-          </div>
-
-          <div class="space-y-4">
-            <div class="flex justify-between items-center">
-              <span class="text-gray-700 font-medium">Demand Level</span>
-              <span class="font-bold text-green-600">{{ techDetail.jobDemand }}%</span>
-            </div>
-            <div class="h-px bg-green-200"></div>
-            <div class="flex justify-between items-center">
-              <span class="text-gray-700 font-medium">Job Growth</span>
-              <span class="font-bold text-green-600">+24%</span>
-            </div>
-            <div class="h-px bg-green-200"></div>
-            <div class="flex justify-between items-center">
-              <span class="text-gray-700 font-medium">Companies Hiring</span>
-              <span class="font-bold text-green-600">2,847</span>
-            </div>
-            <div class="pt-3 border-t border-green-300">
-              <p class="text-sm text-green-800 font-medium">✓ High demand with strong growth trajectory</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Certifications Card -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-600">
-              <circle cx="12" cy="8" r="7"></circle>
-              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-            </svg>
-            <h3 class="font-semibold text-gray-900">Certifications</h3>
-          </div>
-
-          <div class="space-y-3">
-            <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <p class="text-sm font-semibold text-gray-900">Official {{ techDetail.tech.name }} Certification</p>
-              <p class="text-xs text-gray-600 mt-2">Validates your proficiency and significantly improves job prospects</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Next Steps Card -->
-        <div class="bg-indigo-50 rounded-lg shadow-sm border border-indigo-200 p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-600">
-              <path d="M9 11l3 3L22 4"></path>
-              <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <h3 class="font-semibold text-gray-900">Next Steps</h3>
-          </div>
-
-          <ol class="space-y-3">
-            <li class="flex gap-3 text-sm">
-              <span class="font-bold text-indigo-600 flex-shrink-0 bg-white rounded-full w-6 h-6 flex items-center justify-center">1</span>
-              <span class="text-gray-700 pt-0.5">Complete intermediate course</span>
-            </li>
-            <li class="flex gap-3 text-sm">
-              <span class="font-bold text-indigo-600 flex-shrink-0 bg-white rounded-full w-6 h-6 flex items-center justify-center">2</span>
-              <span class="text-gray-700 pt-0.5">Build 2-3 production projects</span>
-            </li>
-            <li class="flex gap-3 text-sm">
-              <span class="font-bold text-indigo-600 flex-shrink-0 bg-white rounded-full w-6 h-6 flex items-center justify-center">3</span>
-              <span class="text-gray-700 pt-0.5">Obtain industry certification</span>
-            </li>
-            <li class="flex gap-3 text-sm">
-              <span class="font-bold text-indigo-600 flex-shrink-0 bg-white rounded-full w-6 h-6 flex items-center justify-center">4</span>
-              <span class="text-gray-700 pt-0.5">Target senior roles in your field</span>
-            </li>
-          </ol>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
+</ng-template>
