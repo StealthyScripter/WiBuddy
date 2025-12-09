@@ -10,14 +10,7 @@ import { mockTrendItems } from '../../../services/test.data';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './trend-notification.component.html',
-  styles: [`
-    :host {
-      display: block;
-      min-height: 100vh;
-      background-color: #f9fafb;
-      padding: 2rem 0;
-    }
-  `]
+  styleUrls: ['./trend-notification.component.css']
 })
 export class TrendNotificationComponent implements OnInit {
   trend: MarketInsight | undefined;

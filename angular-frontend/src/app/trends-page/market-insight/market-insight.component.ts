@@ -21,13 +21,7 @@ interface MarketData {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './market-insight.component.html',
-  styles: [`
-    :host {
-      display: block;
-      min-height: 100vh;
-      background-color: #f9fafb;
-    }
-  `]
+  styleUrls: ['./market-insight.component.css']
 })
 export class MarketInsightComponent implements OnInit {
   marketData: MarketData | undefined;

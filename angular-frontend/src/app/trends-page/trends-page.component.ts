@@ -233,7 +233,7 @@ export class TrendsPageComponent implements OnInit {
   getRelevanceColor(score: number): string {
     if (score >= 80) return 'text-green-600 bg-green-50';
     if (score >= 60) return 'text-yellow-600 bg-yellow-50';
-    return 'text-gray-600 bg-gray-50';
+    return 'text-gray-600 background-color: var(--hover-bg)';
   }
 
   getSourceIcon(type: string): string {

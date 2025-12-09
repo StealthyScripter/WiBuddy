@@ -9,14 +9,7 @@ import { mockStandoutSkills, mockSkillsLMS } from '../../../services/test.data';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './skill-notification.component.html',
-  styles: [`
-    :host {
-      display: block;
-      min-height: 100vh;
-      background-color: #f9fafb;
-      padding: 2rem 0;
-    }
-  `]
+  styleUrls: ['./skill-notification.component.css']
 })
 export class SkillNotificationComponent implements OnInit {
   skill: Skill | undefined;

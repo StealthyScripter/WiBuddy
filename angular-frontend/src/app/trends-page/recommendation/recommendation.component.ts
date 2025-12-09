@@ -9,14 +9,7 @@ import { mockLearningRecommendations } from '../../../services/test.data';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './recommendation.component.html',
-  styles: [`
-    :host {
-      display: block;
-      min-height: 100vh;
-      background-color: #f9fafb;
-      padding: 2rem 0;
-    }
-  `]
+  styleUrls: ['./recommendation.component.css'],
 })
 export class RecommendationComponent implements OnInit {
   recommendation: LearningRecommendation | undefined;
