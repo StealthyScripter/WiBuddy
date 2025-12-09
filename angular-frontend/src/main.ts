@@ -12,10 +12,9 @@ bootstrapApplication(AppComponent, {
   ...appConfig,
   providers:[
     provideHttpClient(),
-
-  provideRouter(routeConfig),
-  ...appProviders,
-  ...(appConfig.providers || []),
+    provideRouter(routeConfig),
+    ...appProviders,
+    ...(appConfig.providers || []),
 
 ]
 }).catch((err) => console.error(err));
