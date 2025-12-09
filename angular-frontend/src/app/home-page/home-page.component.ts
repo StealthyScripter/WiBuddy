@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Task, Project, Affirmation, TaskStatus, Priority, Note } from '../../models.interface';
@@ -13,13 +13,10 @@ import { ProjectService } from '../../services/project.service';
   selector: 'app-home-page',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     FormsModule,
-    DueDateComponent,
-    NgFor,
-    NgIf,
-  ],
+    DueDateComponent
+],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })

@@ -16,48 +16,62 @@
   </div>
 
   <!-- Tasks Section -->
-  <div class="section-card" *ngIf="tasks.length > 0">
-    <h2 class="section-title">Tasks</h2>
-    <div class="tasks-list">
-      <div *ngFor="let task of tasks"
-           (click)="navigateToTask(task.id)"
-           class="task-item">
-        <div class="task-header">
-          <h3 class="task-name">{{ task.name }}</h3>
-          <span class="task-status" [ngClass]="task.isCompleted ? 'status-completed' : 'status-pending'">
-            {{ task.isCompleted ? 'Completed' : 'Pending' }}
-          </span>
-        </div>
-        <p class="task-description" *ngIf="task.description">{{ task.description }}</p>
+  @if (tasks.length > 0) {
+    <div class="section-card">
+      <h2 class="section-title">Tasks</h2>
+      <div class="tasks-list">
+        @for (task of tasks; track task) {
+          <div
+            (click)="navigateToTask(task.id)"
+            class="task-item">
+            <div class="task-header">
+              <h3 class="task-name">{{ task.name }}</h3>
+              <span class="task-status" [ngClass]="task.isCompleted ? 'status-completed' : 'status-pending'">
+                {{ task.isCompleted ? 'Completed' : 'Pending' }}
+              </span>
+            </div>
+            @if (task.description) {
+              <p class="task-description">{{ task.description }}</p>
+            }
+          </div>
+        }
       </div>
     </div>
-  </div>
+  }
 
   <!-- Events Section -->
-  <div class="section-card" *ngIf="events.length > 0">
-    <h2 class="section-title">Events</h2>
-    <div class="events-list">
-      <div *ngFor="let event of events"
-           class="event-item"
-           [style.--event-color]="event.color">
-        <div class="event-header">
-          <h3 class="event-name">{{ event.name }}</h3>
-          <span class="event-time">{{ event.date | date:'shortTime' }}</span>
-        </div>
-        <p class="event-description" *ngIf="event.description">{{ event.description }}</p>
+  @if (events.length > 0) {
+    <div class="section-card">
+      <h2 class="section-title">Events</h2>
+      <div class="events-list">
+        @for (event of events; track event) {
+          <div
+            class="event-item"
+            [style.--event-color]="event.color">
+            <div class="event-header">
+              <h3 class="event-name">{{ event.name }}</h3>
+              <span class="event-time">{{ event.date | date:'shortTime' }}</span>
+            </div>
+            @if (event.description) {
+              <p class="event-description">{{ event.description }}</p>
+            }
+          </div>
+        }
       </div>
     </div>
-  </div>
+  }
 
   <!-- Empty State -->
-  <div *ngIf="tasks.length === 0 && events.length === 0"
-       class="empty-state">
-    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="empty-state-icon">
-      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-      <line x1="16" y1="2" x2="16" y2="6"></line>
-      <line x1="8" y1="2" x2="8" y2="6"></line>
-      <line x1="3" y1="10" x2="21" y2="10"></line>
-    </svg>
-    <p class="empty-state-text">No tasks or events scheduled for this day</p>
-  </div>
+  @if (tasks.length === 0 && events.length === 0) {
+    <div
+      class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="empty-state-icon">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      <p class="empty-state-text">No tasks or events scheduled for this day</p>
+    </div>
+  }
 </div>

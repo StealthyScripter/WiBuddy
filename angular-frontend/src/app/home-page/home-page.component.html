@@ -26,17 +26,20 @@
       </button>
     </div>
 
-    <div *ngIf="tasksInProgress().length === 0" class="empty-state">
-      No tasks for today 🎉
-    </div>
+    @if (tasksInProgress().length === 0) {
+      <div class="empty-state">
+        No tasks for today 🎉
+      </div>
+    }
 
-    <div class="task-item"
-         *ngFor="let task of tasksInProgress().slice(0, 3)"
-         (click)="navigateToTask(task.id)">
-      <input type="checkbox" (click)="$event.stopPropagation()">
-      <span>{{ task.name }}</span>
-      <app-due-date [dueDate]="task.dueDate"></app-due-date>
-    </div>
+    @for (task of tasksInProgress().slice(0, 3); track task) {
+      <div class="task-item"
+        (click)="navigateToTask(task.id)">
+        <input type="checkbox" (click)="$event.stopPropagation()">
+        <span>{{ task.name }}</span>
+        <app-due-date [dueDate]="task.dueDate"></app-due-date>
+      </div>
+    }
 
     <button class="see-all" (click)="navigateToTasks()">See all tasks</button>
   </section>
@@ -51,21 +54,24 @@
       </button>
     </div>
 
-    <div *ngIf="ongoingProjects.length === 0" class="empty-state">
-      No ongoing projects yet.
-    </div>
-
-    <div class="project-item"
-        *ngFor="let p of ongoingProjects.slice(0, 2)"
-        (click)="navigateToProject(p.id)">
-      <div>
-        <div class="project-name">{{ p.name }}</div>
-        <div class="progress-bar">
-          <div class="progress-fill" [style.width]="p.progress + '%'"></div>
-        </div>
+    @if (ongoingProjects.length === 0) {
+      <div class="empty-state">
+        No ongoing projects yet.
       </div>
-      <span class="progress-percent">{{ p.progress }}%</span>
-    </div>
+    }
+
+    @for (p of ongoingProjects.slice(0, 2); track p) {
+      <div class="project-item"
+        (click)="navigateToProject(p.id)">
+        <div>
+          <div class="project-name">{{ p.name }}</div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width]="p.progress + '%'"></div>
+          </div>
+        </div>
+        <span class="progress-percent">{{ p.progress }}%</span>
+      </div>
+    }
 
     <button class="see-all" (click)="navigateToProjects()">See all projects</button>
   </section>
@@ -78,17 +84,21 @@
       <img src="icons8-plus%20sign.png" (click)="navigateToNewNote()"/>
     </div>
 
-    <div *ngIf="notes.length === 0" class="empty-state">
-      No notes yet.
-    </div>
-
-    <div class="note-item" *ngFor="let note of notes.slice(0, 3)"
-         (click)="navigateToNote(note.id)">
-      <div class="note-title">{{ note.name }}</div>
-      <div class="note-preview">
-        {{ getNotesPreview(note.content) }}
+    @if (notes.length === 0) {
+      <div class="empty-state">
+        No notes yet.
       </div>
-    </div>
+    }
+
+    @for (note of notes.slice(0, 3); track note) {
+      <div class="note-item"
+        (click)="navigateToNote(note.id)">
+        <div class="note-title">{{ note.name }}</div>
+        <div class="note-preview">
+          {{ getNotesPreview(note.content) }}
+        </div>
+      </div>
+    }
 
     <button class="see-all" (click)="navigateToProjects()">See all notes</button>
   </section>

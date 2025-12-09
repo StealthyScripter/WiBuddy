@@ -30,135 +30,143 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="filter-icon">
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
           </svg>
-          <button
-            *ngFor="let filter of filters"
-            (click)="setFilter(filter)"
-            [class.active]="selectedFilter === filter"
-            class="filter-button">
-            {{ filter | titlecase }}
-          </button>
+          @for (filter of filters; track filter) {
+            <button
+              (click)="setFilter(filter)"
+              [class.active]="selectedFilter === filter"
+              class="filter-button">
+              {{ filter | titlecase }}
+            </button>
+          }
         </div>
 
         <!-- Trends List -->
         <div class="trends-list">
-          <div
-            *ngFor="let item of trendItems"
-            class="trend-item"
-            (click)="selectedTrend = item; handleTrendClick(item.id)">
-
-            <!-- Header Section -->
-            <div class="trend-header">
-              <!-- Icon -->
-              <div class="trend-icon-container">
-                <svg *ngIf="item.sourceType === 'article'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trend-icon">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                </svg>
-                <svg *ngIf="item.sourceType === 'bulletin'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trend-icon">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-                <svg *ngIf="item.sourceType === 'rss'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trend-icon">
-                  <path d="M4 11a9 9 0 0 1 9 9"></path>
-                  <path d="M4 4a16 16 0 0 1 16 16"></path>
-                  <circle cx="5" cy="19" r="1"></circle>
-                </svg>
-              </div>
-
-              <!-- Title and Meta -->
-              <div class="trend-title-section">
-                <div class="trend-title-header">
-                  <h3 class="trend-title">{{ item.name }}</h3>
-                  <svg
-                    *ngIf="item.isStarred"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    class="starred-icon">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>
+          @for (item of trendItems; track item) {
+            <div
+              class="trend-item"
+              (click)="selectedTrend = item; handleTrendClick(item.id)">
+              <!-- Header Section -->
+              <div class="trend-header">
+                <!-- Icon -->
+                <div class="trend-icon-container">
+                  @if (item.sourceType === 'article') {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trend-icon">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                  }
+                  @if (item.sourceType === 'bulletin') {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trend-icon">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                  }
+                  @if (item.sourceType === 'rss') {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trend-icon">
+                      <path d="M4 11a9 9 0 0 1 9 9"></path>
+                      <path d="M4 4a16 16 0 0 1 16 16"></path>
+                      <circle cx="5" cy="19" r="1"></circle>
+                    </svg>
+                  }
                 </div>
-                <div class="trend-meta">
-                  <span class="trend-category">{{ item.category }}</span>
-                  <span class="meta-separator">•</span>
-                  <span class="trend-date">{{ item.lastUpdated }}</span>
+                <!-- Title and Meta -->
+                <div class="trend-title-section">
+                  <div class="trend-title-header">
+                    <h3 class="trend-title">{{ item.name }}</h3>
+                    @if (item.isStarred) {
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        class="starred-icon">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                    }
+                  </div>
+                  <div class="trend-meta">
+                    <span class="trend-category">{{ item.category }}</span>
+                    <span class="meta-separator">•</span>
+                    <span class="trend-date">{{ item.lastUpdated }}</span>
+                  </div>
+                </div>
+                <!-- Match Score -->
+                <div class="match-score-container">
+                  @if (item.relevanceScore) {
+                    <span class="match-score">
+                      {{ item.relevanceScore }}% match
+                    </span>
+                  }
                 </div>
               </div>
-
-              <!-- Match Score -->
-              <div class="match-score-container">
-                <span *ngIf="item.relevanceScore" class="match-score">
-                  {{ item.relevanceScore }}% match
-                </span>
+              <!-- Description/Preview Text -->
+              <p class="trend-description">
+                {{ item.name | titlecase }} introduces major improvements including automatic batching, new hooks, and performance optimizations.
+              </p>
+              <!-- Tags -->
+              <div class="trend-tags">
+                <span class="trend-tag">{{ item.category }}</span>
+                <span class="trend-tag">Frontend</span>
+                <span class="trend-tag">JavaScript</span>
+              </div>
+              <!-- Footer with Actions -->
+              <div class="trend-footer">
+                <div class="trend-source">
+                  Source: {{ item.category }}
+                </div>
+                <div class="trend-actions">
+                  <button
+                    (click)="toggleStar(item.id, item.isStarred || false); $event.stopPropagation()"
+                    class="action-button"
+                    title="Star">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      [attr.fill]="item.isStarred ? 'currentColor' : 'none'"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      [class.starred]="item.isStarred">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                  </button>
+                  @if (item.link) {
+                    <a
+                      [href]="item.link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="action-button"
+                      (click)="$event.stopPropagation()">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                    </a>
+                  }
+                </div>
               </div>
             </div>
-
-            <!-- Description/Preview Text -->
-            <p class="trend-description">
-              {{ item.name | titlecase }} introduces major improvements including automatic batching, new hooks, and performance optimizations.
-            </p>
-
-            <!-- Tags -->
-            <div class="trend-tags">
-              <span class="trend-tag">{{ item.category }}</span>
-              <span class="trend-tag">Frontend</span>
-              <span class="trend-tag">JavaScript</span>
-            </div>
-
-            <!-- Footer with Actions -->
-            <div class="trend-footer">
-              <div class="trend-source">
-                Source: {{ item.category }}
-              </div>
-              <div class="trend-actions">
-                <button
-                  (click)="toggleStar(item.id, item.isStarred || false); $event.stopPropagation()"
-                  class="action-button"
-                  title="Star">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    [attr.fill]="item.isStarred ? 'currentColor' : 'none'"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    [class.starred]="item.isStarred">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>
-                </button>
-                <a
-                  *ngIf="item.link"
-                  [href]="item.link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="action-button"
-                  (click)="$event.stopPropagation()">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
+          }
 
           <!-- Empty State -->
-          <div *ngIf="trendItems.length === 0" class="empty-state">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="empty-icon">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-              <polyline points="17 6 23 6 23 12"></polyline>
-            </svg>
-            <p class="empty-text">No trends found for selected filter</p>
-          </div>
+          @if (trendItems.length === 0) {
+            <div class="empty-state">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="empty-icon">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+              <p class="empty-text">No trends found for selected filter</p>
+            </div>
+          }
         </div>
       </div>
 
@@ -174,22 +182,23 @@
             Standout Skills
           </h2>
           <div class="skills-container">
-            <div
-              *ngFor="let skill of standoutSkills"
-              class="skill-item"
-              (click)="navigateToSkillNotification(skill.id)">
-              <div class="skill-header">
-                <span class="skill-name">{{ skill.name }}</span>
-                <span class="skill-badge">{{ skill.marketDemand }}%</span>
-              </div>
-              <div class="skill-bar">
-                <div
-                  class="skill-fill"
-                  [style.width.%]="skill.level">
+            @for (skill of standoutSkills; track skill) {
+              <div
+                class="skill-item"
+                (click)="navigateToSkillNotification(skill.id)">
+                <div class="skill-header">
+                  <span class="skill-name">{{ skill.name }}</span>
+                  <span class="skill-badge">{{ skill.marketDemand }}%</span>
                 </div>
+                <div class="skill-bar">
+                  <div
+                    class="skill-fill"
+                    [style.width.%]="skill.level">
+                  </div>
+                </div>
+                <div class="skill-info">{{ skill.level }}%</div>
               </div>
-              <div class="skill-info">{{ skill.level }}%</div>
-            </div>
+            }
           </div>
         </div>
 
@@ -203,41 +212,45 @@
             Tech Stack Trends
           </h2>
           <div class="tech-list">
-            <div *ngFor="let tech of techTrends"
-                 class="tech-item"
-                 (click)="navigateToSkillNotification(tech.id)">
-              <div class="tech-header">
-                <span class="tech-name">{{ tech.name }}</span>
-                <div class="tech-meta">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    [class.rising]="tech.trend === 'rising'">
-                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                    <polyline points="17 6 23 6 23 12"></polyline>
-                  </svg>
-                  <span class="job-count">{{ tech.jobListingCount }} jobs</span>
-                </div>
-              </div>
-              <div class="tech-progress">
-                <div class="tech-label">Market Average</div>
-                <div class="progress-bar">
-                  <div
-                    class="progress-fill"
-                    [style.width.%]="tech.marketLevel">
+            @for (tech of techTrends; track tech) {
+              <div
+                class="tech-item"
+                (click)="navigateToSkillNotification(tech.id)">
+                <div class="tech-header">
+                  <span class="tech-name">{{ tech.name }}</span>
+                  <div class="tech-meta">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      [class.rising]="tech.trend === 'rising'">
+                      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                      <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                    <span class="job-count">{{ tech.jobListingCount }} jobs</span>
                   </div>
                 </div>
-                <div class="tech-value">{{ tech.marketLevel }}% proficiency</div>
+                <div class="tech-progress">
+                  <div class="tech-label">Market Average</div>
+                  <div class="progress-bar">
+                    <div
+                      class="progress-fill"
+                      [style.width.%]="tech.marketLevel">
+                    </div>
+                  </div>
+                  <div class="tech-value">{{ tech.marketLevel }}% proficiency</div>
+                </div>
+                @if (tech.growthRate) {
+                  <div class="growth-indicator">
+                    +{{ tech.growthRate }}% growth
+                  </div>
+                }
               </div>
-              <div *ngIf="tech.growthRate" class="growth-indicator">
-                +{{ tech.growthRate }}% growth
-              </div>
-            </div>
+            }
           </div>
         </div>
 
@@ -252,46 +265,51 @@
             What to Learn Next
           </h2>
           <div class="recommendations-list">
-            <div
-              *ngFor="let rec of learningRecommendations"
-              class="recommendation-item"
-              (click)="navigateToRecommendation(rec.id)">
-              <h4 class="rec-title">{{ rec.title }}</h4>
-              <p class="rec-reason">{{ rec.reason }}</p>
-              <div class="rec-footer">
-                <span class="rec-meta">{{ rec.provider }} • {{ rec.duration }}</span>
-                <span
-                  [ngClass]="getPriorityClass(rec.priority)"
-                  class="priority-label">
-                  {{ rec.priority }}
-                </span>
+            @for (rec of learningRecommendations; track rec) {
+              <div
+                class="recommendation-item"
+                (click)="navigateToRecommendation(rec.id)">
+                <h4 class="rec-title">{{ rec.title }}</h4>
+                <p class="rec-reason">{{ rec.reason }}</p>
+                <div class="rec-footer">
+                  <span class="rec-meta">{{ rec.provider }} • {{ rec.duration }}</span>
+                  <span
+                    [ngClass]="getPriorityClass(rec.priority)"
+                    class="priority-label">
+                    {{ rec.priority }}
+                  </span>
+                </div>
+                <div class="rec-skills">
+                  <span class="skills-label">Skills:</span> {{ rec.skillsAddressed.join(', ') }}
+                </div>
               </div>
-              <div class="rec-skills">
-                <span class="skills-label">Skills:</span> {{ rec.skillsAddressed.join(', ') }}
-              </div>
-            </div>
+            }
           </div>
         </div>
 
         <!-- Job Market Insights -->
-        <div class="market-card" *ngIf="jobMarketInsight">
-          <div class="market-header">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="market-icon">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-            </svg>
-            <h3 class="market-title">Job Market Insight</h3>
+        @if (jobMarketInsight) {
+          <div class="market-card">
+            <div class="market-header">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="market-icon">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <h3 class="market-title">Job Market Insight</h3>
+            </div>
+            <p class="market-text">
+              Based on your skills, {{ jobMarketInsight.totalRelevantJobs }} relevant jobs posted this week.
+              @if (jobMarketInsight.topSkillsCombination) {
+                <span>{{ jobMarketInsight.topSkillsCombination.join(' + ') }} roles increased {{ jobMarketInsight.weeklyGrowth }}%.</span>
+              }
+            </p>
+            <button
+              (click)="navigateToMarketInsight()"
+              class="market-button">
+              View {{ jobOpportunities.length }} Opportunities
+            </button>
           </div>
-          <p class="market-text">
-            Based on your skills, {{ jobMarketInsight.totalRelevantJobs }} relevant jobs posted this week.
-            <span *ngIf="jobMarketInsight.topSkillsCombination">{{ jobMarketInsight.topSkillsCombination.join(' + ') }} roles increased {{ jobMarketInsight.weeklyGrowth }}%.</span>
-          </p>
-          <button
-            (click)="navigateToMarketInsight()"
-            class="market-button">
-            View {{ jobOpportunities.length }} Opportunities
-          </button>
-        </div>
+        }
       </div>
     </div>
   </div>

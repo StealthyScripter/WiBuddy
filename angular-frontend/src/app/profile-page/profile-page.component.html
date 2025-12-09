@@ -63,25 +63,26 @@
     </div>
 
     <div class="stat-card"><div class="stat-label">Notes Created</div>
-      <div class="stat-number">{{ notesCreated }}</div>
+    <div class="stat-number">{{ notesCreated }}</div>
 
-      <div class="stat-growth" [ngClass]="{'positive': notesGrowth > 0, 'negative': notesGrowth < 0}">
-        <span class="arrow">{{ notesGrowth > 0 ? '↑' : '↓' }}</span>
-        <span>{{ Math.abs(notesGrowth) }}% from last month</span>
-      </div>
+    <div class="stat-growth" [ngClass]="{'positive': notesGrowth > 0, 'negative': notesGrowth < 0}">
+      <span class="arrow">{{ notesGrowth > 0 ? '↑' : '↓' }}</span>
+      <span>{{ Math.abs(notesGrowth) }}% from last month</span>
     </div>
   </div>
+</div>
 
 
-  <!-- Two-column section -->
-  <div class="dual-section">
-    <!-- Progress on skills -->
-    <div class="section half-width">
-      <div class="section-header">
-        <h2>Skills Progress</h2>
-      </div>
-      <div class="skills-list">
-        <div class="skill-item" *ngFor="let tech of technologies">
+<!-- Two-column section -->
+<div class="dual-section">
+  <!-- Progress on skills -->
+  <div class="section half-width">
+    <div class="section-header">
+      <h2>Skills Progress</h2>
+    </div>
+    <div class="skills-list">
+      @for (tech of technologies; track tech) {
+        <div class="skill-item">
           <div class="skill-header">
             <span>{{tech.name}}</span>
             <span>{{tech.proficiency}}%</span>
@@ -90,28 +91,33 @@
             <div class="progress" [style.width.%]="tech.proficiency"></div>
           </div>
         </div>
-      </div>
+      }
     </div>
-
-
   </div>
 
-  <!-- Quick access to tech stack -->
-    <div class="card tech-stack-section">
-      <h3 class="section-title">Technology Stack</h3>
-      <div class="tech-grid">
-        <div class="tech-card" *ngFor="let tech of technologies" (click)="navigateToTechstack(tech.id)">
-          <div class="tech-icon">
-            <i [class]="getTechIcon(tech.name)"></i>
-          </div>
-          <div class="tech-name">{{tech.name}}</div>
-          <div class="tech-count">{{tech.count}}</div>
+
+</div>
+
+<!-- Quick access to tech stack -->
+<div class="card tech-stack-section">
+  <h3 class="section-title">Technology Stack</h3>
+  <div class="tech-grid">
+    @for (tech of technologies; track tech) {
+      <div class="tech-card" (click)="navigateToTechstack(tech.id)">
+        <div class="tech-icon">
+          <i [class]="getTechIcon(tech.name)"></i>
         </div>
-        <div *ngIf="technologies.length === 0" class="empty-state">
-          No technologies used
-        </div>
+        <div class="tech-name">{{tech.name}}</div>
+        <div class="tech-count">{{tech.count}}</div>
       </div>
-    </div>
+    }
+    @if (technologies.length === 0) {
+      <div class="empty-state">
+        No technologies used
+      </div>
+    }
+  </div>
+</div>
 
 
 </div>

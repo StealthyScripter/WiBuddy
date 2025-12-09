@@ -1,153 +1,143 @@
-<div class="skill-progress-container" *ngIf="skill; else notFound">
-  <!-- Header -->
-  <div class="skill-header">
-    <button (click)="goBack()" class="back-button">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-      Back to LMS
-    </button>
-
-    <div class="header-content">
-      <div>
-        <h1 class="skill-title">{{ skill.name }}</h1>
-        <p class="skill-category">{{ skill.category }}</p>
-      </div>
-      <div class="market-demand">
-        <div class="demand-label">Market Demand</div>
-        <div class="demand-value">{{ skill.marketDemand }}%</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Progress Overview Cards -->
-  <div class="progress-cards">
-    <div class="stat-card">
-      <h3 class="stat-label">Current Level</h3>
-      <div class="stat-primary-value">{{ skill.level }}%</div>
-      <p class="stat-description">of mastery achieved</p>
-    </div>
-
-    <div class="stat-card">
-      <h3 class="stat-label">Target Level</h3>
-      <div class="stat-primary-value target">{{ skill.targetLevel }}%</div>
-      <p class="stat-description">goal to achieve</p>
-    </div>
-
-    <div class="stat-card">
-      <h3 class="stat-label">Gap to Close</h3>
-      <div class="stat-primary-value gap">{{ skill.targetLevel - skill.level }}%</div>
-      <p class="stat-description">remaining progress</p>
-    </div>
-  </div>
-
-  <!-- Progress Bar Section -->
-  <div class="card">
-    <h2 class="card-title">Progress Tracker</h2>
-    <div class="progress-tracker">
-      <div class="progress-labels">
-        <span class="label-text">Your Progress</span>
-        <span class="label-value">{{ skill.level }}% / {{ skill.targetLevel }}%</span>
-      </div>
-      <div class="progress-bar-container">
-        <div class="progress-bar-background">
-          <div class="progress-bar-fill" [style.width.%]="skill.level"></div>
-          <div class="progress-target-line" [style.left.%]="skill.targetLevel" title="Target Level"></div>
+@if (skill) {
+  <div class="skill-progress-container">
+    <!-- Header -->
+    <div class="skill-header">
+      <button (click)="goBack()" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back to LMS
+      </button>
+      <div class="header-content">
+        <div>
+          <h1 class="skill-title">{{ skill.name }}</h1>
+          <p class="skill-category">{{ skill.category }}</p>
+        </div>
+        <div class="market-demand">
+          <div class="demand-label">Market Demand</div>
+          <div class="demand-value">{{ skill.marketDemand }}%</div>
         </div>
       </div>
-      <div class="progress-scale">
-        <span>Beginner (0%)</span>
-        <span>Intermediate (50%)</span>
-        <span>Expert (100%)</span>
+    </div>
+    <!-- Progress Overview Cards -->
+    <div class="progress-cards">
+      <div class="stat-card">
+        <h3 class="stat-label">Current Level</h3>
+        <div class="stat-primary-value">{{ skill.level }}%</div>
+        <p class="stat-description">of mastery achieved</p>
+      </div>
+      <div class="stat-card">
+        <h3 class="stat-label">Target Level</h3>
+        <div class="stat-primary-value target">{{ skill.targetLevel }}%</div>
+        <p class="stat-description">goal to achieve</p>
+      </div>
+      <div class="stat-card">
+        <h3 class="stat-label">Gap to Close</h3>
+        <div class="stat-primary-value gap">{{ skill.targetLevel - skill.level }}%</div>
+        <p class="stat-description">remaining progress</p>
       </div>
     </div>
-  </div>
-
-  <!-- Learning Path -->
-  <div class="card">
-    <h2 class="card-title">Recommended Learning Path</h2>
-    <div class="learning-path">
-      <div class="learning-card recommended">
-        <div class="learning-header">
-          <div>
-            <h3 class="learning-title">Foundation Course</h3>
-            <p class="learning-description">Master the fundamentals and core concepts</p>
+    <!-- Progress Bar Section -->
+    <div class="card">
+      <h2 class="card-title">Progress Tracker</h2>
+      <div class="progress-tracker">
+        <div class="progress-labels">
+          <span class="label-text">Your Progress</span>
+          <span class="label-value">{{ skill.level }}% / {{ skill.targetLevel }}%</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-background">
+            <div class="progress-bar-fill" [style.width.%]="skill.level"></div>
+            <div class="progress-target-line" [style.left.%]="skill.targetLevel" title="Target Level"></div>
           </div>
-          <span class="badge-recommended">Recommended</span>
         </div>
-        <div class="learning-meta">
-          <span>⏱️ 4-6 weeks</span>
-          <span>💰 Free</span>
-          <span>📚 12 modules</span>
-        </div>
-      </div>
-
-      <div class="learning-card next">
-        <div class="learning-header">
-          <div>
-            <h3 class="learning-title">Intermediate Practice</h3>
-            <p class="learning-description">Hands-on projects and real-world scenarios</p>
-          </div>
-          <span class="badge-next">Next</span>
-        </div>
-        <div class="learning-meta">
-          <span>⏱️ 6-8 weeks</span>
-          <span>💰 $49</span>
-          <span>📚 18 modules</span>
+        <div class="progress-scale">
+          <span>Beginner (0%)</span>
+          <span>Intermediate (50%)</span>
+          <span>Expert (100%)</span>
         </div>
       </div>
-
-      <div class="learning-card locked">
-        <div class="learning-header">
-          <div>
-            <h3 class="learning-title">Advanced Mastery</h3>
-            <p class="learning-description">Expert-level techniques and optimization</p>
+    </div>
+    <!-- Learning Path -->
+    <div class="card">
+      <h2 class="card-title">Recommended Learning Path</h2>
+      <div class="learning-path">
+        <div class="learning-card recommended">
+          <div class="learning-header">
+            <div>
+              <h3 class="learning-title">Foundation Course</h3>
+              <p class="learning-description">Master the fundamentals and core concepts</p>
+            </div>
+            <span class="badge-recommended">Recommended</span>
           </div>
-          <span class="badge-locked">Locked</span>
+          <div class="learning-meta">
+            <span>⏱️ 4-6 weeks</span>
+            <span>💰 Free</span>
+            <span>📚 12 modules</span>
+          </div>
         </div>
-        <div class="learning-meta">
-          <span>⏱️ 8-10 weeks</span>
-          <span>💰 $99</span>
-          <span>📚 24 modules</span>
+        <div class="learning-card next">
+          <div class="learning-header">
+            <div>
+              <h3 class="learning-title">Intermediate Practice</h3>
+              <p class="learning-description">Hands-on projects and real-world scenarios</p>
+            </div>
+            <span class="badge-next">Next</span>
+          </div>
+          <div class="learning-meta">
+            <span>⏱️ 6-8 weeks</span>
+            <span>💰 $49</span>
+            <span>📚 18 modules</span>
+          </div>
+        </div>
+        <div class="learning-card locked">
+          <div class="learning-header">
+            <div>
+              <h3 class="learning-title">Advanced Mastery</h3>
+              <p class="learning-description">Expert-level techniques and optimization</p>
+            </div>
+            <span class="badge-locked">Locked</span>
+          </div>
+          <div class="learning-meta">
+            <span>⏱️ 8-10 weeks</span>
+            <span>💰 $99</span>
+            <span>📚 24 modules</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Milestones -->
+    <div class="card">
+      <h2 class="card-title">Milestones</h2>
+      <div class="milestones-list">
+        <div class="milestone-item completed">
+          <div class="milestone-check">✓</div>
+          <div class="milestone-content">
+            <h4 class="milestone-title">Completed Foundation</h4>
+            <p class="milestone-description">Reached 25% proficiency</p>
+          </div>
+        </div>
+        <div class="milestone-item in-progress">
+          <div class="milestone-check">→</div>
+          <div class="milestone-content">
+            <h4 class="milestone-title">Build 3 Projects</h4>
+            <p class="milestone-description">Apply skills in real scenarios ({{ skill.level >= 50 ? 'In Progress' : 'Not Started' }})</p>
+          </div>
+        </div>
+        <div class="milestone-item locked">
+          <div class="milestone-check">🔒</div>
+          <div class="milestone-content">
+            <h4 class="milestone-title">Certification</h4>
+            <p class="milestone-description">Achieve 75% proficiency to unlock</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Milestones -->
-  <div class="card">
-    <h2 class="card-title">Milestones</h2>
-    <div class="milestones-list">
-      <div class="milestone-item completed">
-        <div class="milestone-check">✓</div>
-        <div class="milestone-content">
-          <h4 class="milestone-title">Completed Foundation</h4>
-          <p class="milestone-description">Reached 25% proficiency</p>
-        </div>
-      </div>
-
-      <div class="milestone-item in-progress">
-        <div class="milestone-check">→</div>
-        <div class="milestone-content">
-          <h4 class="milestone-title">Build 3 Projects</h4>
-          <p class="milestone-description">Apply skills in real scenarios ({{ skill.level >= 50 ? 'In Progress' : 'Not Started' }})</p>
-        </div>
-      </div>
-
-      <div class="milestone-item locked">
-        <div class="milestone-check">🔒</div>
-        <div class="milestone-content">
-          <h4 class="milestone-title">Certification</h4>
-          <p class="milestone-description">Achieve 75% proficiency to unlock</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<ng-template #notFound>
+} @else {
   <div class="not-found">
     <h2>Skill Not Found</h2>
     <button (click)="goBack()" class="btn btn-primary">Return to LMS</button>
   </div>
-</ng-template>
+}
+

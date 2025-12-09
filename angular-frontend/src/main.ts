@@ -15,6 +15,5 @@ bootstrapApplication(AppComponent, {
     provideRouter(routeConfig),
     ...appProviders,
     ...(appConfig.providers || []),
-
-]
-}).catch((err) => console.error(err));
+  ]
+}).catch((err: Error) => console.error(err));

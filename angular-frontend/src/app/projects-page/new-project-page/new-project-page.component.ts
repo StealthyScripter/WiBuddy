@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { Project } from '../../../models.interface';
@@ -8,10 +8,9 @@ import { Project } from '../../../models.interface';
   selector: 'app-new-project-page',
   standalone: true,
   imports: [
-    CommonModule,
-    ReactiveFormsModule, // <-- required for [formGroup]
-    RouterModule         // <-- required for this.router.navigate()
-  ],
+    ReactiveFormsModule,
+    RouterModule
+],
   templateUrl: './new-project-page.component.html',
   styleUrls: ['./new-project-page.component.css']
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { Skill, LearningRecommendation } from '../../../models.interface';
 import { mockSkillsLMS, mockLearningRecommendations } from '../../../services/test.data';
@@ -24,7 +24,7 @@ interface LearningPath {
 @Component({
   selector: 'app-skill-progress',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './skill-progress.component.html',
   styleUrls: ['./skill-progress.component.css']
 })

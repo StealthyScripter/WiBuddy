@@ -11,8 +11,10 @@
         formControlName="name"
         placeholder="Enter event name"
         class="form-input">
-      <small *ngIf="eventForm.get('name')?.touched && eventForm.get('name')?.invalid"
-             class="form-error">Event name is required</small>
+      @if (eventForm.get('name')?.touched && eventForm.get('name')?.invalid) {
+        <small
+        class="form-error">Event name is required</small>
+      }
     </div>
 
     <!-- Description -->
@@ -23,7 +25,7 @@
         formControlName="description"
         placeholder="Enter event description"
         rows="3"
-        class="form-textarea"></textarea>
+      class="form-textarea"></textarea>
     </div>
 
     <!-- Date -->
@@ -34,8 +36,10 @@
         type="date"
         formControlName="date"
         class="form-input">
-      <small *ngIf="eventForm.get('date')?.touched && eventForm.get('date')?.invalid"
-             class="form-error">Date is required</small>
+      @if (eventForm.get('date')?.touched && eventForm.get('date')?.invalid) {
+        <small
+        class="form-error">Date is required</small>
+      }
     </div>
 
     <!-- Time Range -->

@@ -10,14 +10,17 @@
     </div>
 
     <div class="header-center">
-      <h1 *ngIf="!isEditing" class="note-title">{{ note.name }}</h1>
-      <input
-        *ngIf="isEditing"
-        type="text"
-        class="title-input"
-        [(ngModel)]="editedNote.name"
-        placeholder="Note title"
-      />
+      @if (!isEditing) {
+        <h1 class="note-title">{{ note.name }}</h1>
+      }
+      @if (isEditing) {
+        <input
+          type="text"
+          class="title-input"
+          [(ngModel)]="editedNote.name"
+          placeholder="Note title"
+          />
+      }
       <p class="last-modified">Last modified {{ getLastModifiedDate() }}</p>
     </div>
 
@@ -40,138 +43,166 @@
   <!-- Main Content Area -->
   <div class="note-body">
     <!-- Edit Mode -->
-    <div *ngIf="isEditing" class="edit-area">
-      <div class="content-editor">
-        <div class="editor-lines">
-          <div class="editor-line" *ngFor="let line of editedNote.content; let i = index">
-            <textarea
-              class="line-textarea"
-              [(ngModel)]="editedNote.content[i]"
-              placeholder="Add text..."
-              rows="2">
-            </textarea>
-            <button class="line-remove-btn" (click)="removeLine(i)" *ngIf="editedNote.content.length > 1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"/>
-                <line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
-            </button>
+    @if (isEditing) {
+      <div class="edit-area">
+        <div class="content-editor">
+          <div class="editor-lines">
+            @for (line of editedNote.content; track line; let i = $index) {
+              <div class="editor-line">
+                <textarea
+                  class="line-textarea"
+                  [(ngModel)]="editedNote.content[i]"
+                  placeholder="Add text..."
+                  rows="2">
+                </textarea>
+                @if (editedNote.content.length > 1) {
+                  <button class="line-remove-btn" (click)="removeLine(i)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"/>
+                      <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                  </button>
+                }
+              </div>
+            }
           </div>
+          <button class="add-line-btn" (click)="addLine()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add line
+          </button>
         </div>
-        <button class="add-line-btn" (click)="addLine()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-          Add line
-        </button>
       </div>
-    </div>
+    }
 
     <!-- View Mode -->
-    <div *ngIf="!isEditing" class="view-area">
-      <div class="content-display">
-        <div *ngFor="let line of note.content" class="content-line">
-          {{ line }}
-        </div>
-        <div *ngIf="note.content.length === 0" class="empty-content">
-          No content yet. Click Edit to add content.
+    @if (!isEditing) {
+      <div class="view-area">
+        <div class="content-display">
+          @for (line of note.content; track line) {
+            <div class="content-line">
+              {{ line }}
+            </div>
+          }
+          @if (note.content.length === 0) {
+            <div class="empty-content">
+              No content yet. Click Edit to add content.
+            </div>
+          }
         </div>
       </div>
-    </div>
+    }
   </div>
 
   <!-- Attachments Section -->
   <div class="attachments-section">
     <div class="attachments-header">
       <h3>Attachments & Links</h3>
-      <button
-        *ngIf="isEditing"
-        class="import-link-btn"
-        (click)="openImportDialog()"
-        title="Import a link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-        </svg>
-        Import Link
-      </button>
+      @if (isEditing) {
+        <button
+          class="import-link-btn"
+          (click)="openImportDialog()"
+          title="Import a link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          Import Link
+        </button>
+      }
     </div>
 
-    <div
-      *ngIf="editedNote.attachments && editedNote.attachments.length > 0"
-      class="attachment-grid">
+    @if (editedNote.attachments && editedNote.attachments.length > 0) {
       <div
-        *ngFor="let attachment of editedNote.attachments; let i = index"
-        class="attachment-card"
-        [class.editable]="isEditing">
-        <div class="attachment-content" (click)="!isEditing && openAttachment(attachment)">
-          <div [class]="'attachment-icon type-' + attachment.type">
-            <svg *ngIf="attachment.type === 'link'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-            </svg>
-            <svg *ngIf="attachment.type === 'document'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
-              <polyline points="13 2 13 9 20 9"/>
-            </svg>
-            <svg *ngIf="attachment.type === 'code'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="16 18 22 12 16 6"/>
-              <polyline points="8 6 2 12 8 18"/>
-            </svg>
+        class="attachment-grid">
+        @for (attachment of editedNote.attachments; track attachment; let i = $index) {
+          <div
+            class="attachment-card"
+            [class.editable]="isEditing">
+            <div class="attachment-content" (click)="!isEditing && openAttachment(attachment)">
+              <div [class]="'attachment-icon type-' + attachment.type">
+                @if (attachment.type === 'link') {
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                  </svg>
+                }
+                @if (attachment.type === 'document') {
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                    <polyline points="13 2 13 9 20 9"/>
+                  </svg>
+                }
+                @if (attachment.type === 'code') {
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 18 22 12 16 6"/>
+                    <polyline points="8 6 2 12 8 18"/>
+                  </svg>
+                }
+              </div>
+              <div class="attachment-info">
+                <p class="attachment-name">{{ attachment.name }}</p>
+                <p class="attachment-type">{{ attachment.type }}</p>
+              </div>
+            </div>
+            @if (isEditing) {
+              <button
+                class="attachment-delete-btn"
+                (click)="removeAttachment(i)"
+                title="Remove attachment">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            }
           </div>
-          <div class="attachment-info">
-            <p class="attachment-name">{{ attachment.name }}</p>
-            <p class="attachment-type">{{ attachment.type }}</p>
-          </div>
-        </div>
-        <button
-          *ngIf="isEditing"
-          class="attachment-delete-btn"
-          (click)="removeAttachment(i)"
-          title="Remove attachment">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        }
+      </div>
+    }
+
+    @if (!editedNote.attachments || editedNote.attachments.length === 0) {
+      <div class="empty-attachments">
+        <p>No attachments or links yet</p>
+        @if (isEditing) {
+          <p class="hint">Click "Import Link" to add resources</p>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Import Link Dialog -->
+@if (showImportDialog) {
+  <div class="modal-overlay" (click)="closeImportDialog()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Import Link</h2>
+        <button class="modal-close-btn" (click)="closeImportDialog()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"/>
             <line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
         </button>
       </div>
-    </div>
-
-    <div *ngIf="!editedNote.attachments || editedNote.attachments.length === 0" class="empty-attachments">
-      <p>No attachments or links yet</p>
-      <p class="hint" *ngIf="isEditing">Click "Import Link" to add resources</p>
-    </div>
-  </div>
-</div>
-
-<!-- Import Link Dialog -->
-<div *ngIf="showImportDialog" class="modal-overlay" (click)="closeImportDialog()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h2>Import Link</h2>
-      <button class="modal-close-btn" (click)="closeImportDialog()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </div>
-    <div class="modal-body">
-      <label class="form-label">Link URL</label>
-      <input
-        type="url"
-        class="form-input"
-        [(ngModel)]="importUrl"
-        (keyup.enter)="importLink()"
-        placeholder="https://example.com"
-        autofocus>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" (click)="closeImportDialog()">Cancel</button>
-      <button class="btn-import" (click)="importLink()" [disabled]="!importUrl.trim()">
-        Import
-      </button>
+      <div class="modal-body">
+        <label class="form-label">Link URL</label>
+        <input
+          type="url"
+          class="form-input"
+          [(ngModel)]="importUrl"
+          (keyup.enter)="importLink()"
+          placeholder="https://example.com"
+          autofocus>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeImportDialog()">Cancel</button>
+        <button class="btn-import" (click)="importLink()" [disabled]="!importUrl.trim()">
+          Import
+        </button>
+      </div>
     </div>
   </div>
-</div>
+}

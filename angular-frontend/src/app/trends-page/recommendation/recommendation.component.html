@@ -1,170 +1,167 @@
-<div class="max-w-4xl mx-auto p-6" *ngIf="recommendation; else notFound">
-  <!-- Header -->
-  <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6 mb-6">
-    <button
-      (click)="goBack()"
-      style="color: var(--text-secondary);"
-      class="mb-4 hover:opacity-80 flex items-center gap-2 transition">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-      Back to Trends
-    </button>
-
-    <div class="flex items-start justify-between mb-4">
-      <div class="flex-1">
-        <h1 style="color: var(--text-primary);" class="text-3xl font-bold mb-2">{{ recommendation.title }}</h1>
-        <div style="color: var(--text-secondary);" class="flex items-center gap-3 text-sm">
-          <span class="flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            {{ recommendation.duration }}
-          </span>
-          <span class="flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            {{ recommendation.provider }}
-          </span>
-          <span [ngClass]="getPriorityClass(recommendation.priority)" class="px-2 py-1 rounded-full text-xs font-medium">
-            {{ recommendation.priority }} Priority
-          </span>
+@if (recommendation) {
+  <div class="max-w-4xl mx-auto p-6">
+    <!-- Header -->
+    <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6 mb-6">
+      <button
+        (click)="goBack()"
+        style="color: var(--text-secondary);"
+        class="mb-4 hover:opacity-80 flex items-center gap-2 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back to Trends
+      </button>
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex-1">
+          <h1 style="color: var(--text-primary);" class="text-3xl font-bold mb-2">{{ recommendation.title }}</h1>
+          <div style="color: var(--text-secondary);" class="flex items-center gap-3 text-sm">
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              {{ recommendation.duration }}
+            </span>
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              {{ recommendation.provider }}
+            </span>
+            <span [ngClass]="getPriorityClass(recommendation.priority)" class="px-2 py-1 rounded-full text-xs font-medium">
+              {{ recommendation.priority }} Priority
+            </span>
+          </div>
+        </div>
+        <div style="color: var(--text-secondary);" class="text-right">
+          <div class="text-sm mb-1">Match Score</div>
+          <div style="color: var(--primary-color);" class="text-3xl font-bold">{{ recommendation.matchScore }}%</div>
         </div>
       </div>
-
-      <div style="color: var(--text-secondary);" class="text-right">
-        <div class="text-sm mb-1">Match Score</div>
-        <div style="color: var(--primary-color);" class="text-3xl font-bold">{{ recommendation.matchScore }}%</div>
+      <!-- Match Bar -->
+      <div style="background-color: var(--border-color);" class="h-2 rounded-full overflow-hidden">
+        <div
+          class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all"
+          [style.width.%]="recommendation.matchScore">
+        </div>
       </div>
     </div>
-
-    <!-- Match Bar -->
-    <div style="background-color: var(--border-color);" class="h-2 rounded-full overflow-hidden">
-      <div
-        class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all"
-        [style.width.%]="recommendation.matchScore">
-      </div>
-    </div>
-  </div>
-
-  <!-- Why Recommended -->
-  <div style="background-color: var(--primary-light); border: 1px solid var(--primary-color);" class="rounded-lg p-6 mb-6">
-    <h2 style="color: var(--text-primary);" class="text-lg font-semibold mb-2 flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-color);">
-        <circle cx="12" cy="12" r="10"></circle>
-        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-        <line x1="12" y1="17" x2="12.01" y2="17"></line>
-      </svg>
-      Why This Course?
-    </h2>
-    <p style="color: var(--text-primary);">{{ recommendation.reason }}</p>
-  </div>
-
-  <!-- Course Details -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-    <!-- Skills Addressed -->
-    <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6">
-      <h3 style="color: var(--text-primary);" class="font-semibold mb-4 flex items-center gap-2">
+    <!-- Why Recommended -->
+    <div style="background-color: var(--primary-light); border: 1px solid var(--primary-color);" class="rounded-lg p-6 mb-6">
+      <h2 style="color: var(--text-primary);" class="text-lg font-semibold mb-2 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-color);">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
         </svg>
-        Skills You'll Gain
-      </h3>
-      <div class="flex flex-wrap gap-2">
-        <span *ngFor="let skill of recommendation.skillsAddressed"
+        Why This Course?
+      </h2>
+      <p style="color: var(--text-primary);">{{ recommendation.reason }}</p>
+    </div>
+    <!-- Course Details -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <!-- Skills Addressed -->
+      <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6">
+        <h3 style="color: var(--text-primary);" class="font-semibold mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-color);">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          Skills You'll Gain
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          @for (skill of recommendation.skillsAddressed; track skill) {
+            <span
               style="background-color: var(--primary-light); color: var(--primary-color);"
               class="px-3 py-1 rounded-full text-sm font-medium">
-          {{ skill }}
-        </span>
+              {{ skill }}
+            </span>
+          }
+        </div>
+      </div>
+      <!-- Investment -->
+      <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6">
+        <h3 style="color: var(--text-primary);" class="font-semibold mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          Investment Required
+        </h3>
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <span style="color: var(--text-secondary);">Cost</span>
+            <span style="color: var(--text-primary);" class="text-xl font-bold">${{ recommendation.cost }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span style="color: var(--text-secondary);">Time Commitment</span>
+            <span style="color: var(--text-primary);" class="font-medium">{{ recommendation.duration }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span style="color: var(--text-secondary);">ROI Estimate</span>
+            <span class="font-medium text-green-600">High</span>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Investment -->
-    <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6">
-      <h3 style="color: var(--text-primary);" class="font-semibold mb-4 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
-          <line x1="12" y1="1" x2="12" y2="23"></line>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-        </svg>
-        Investment Required
-      </h3>
+    <!-- Course Outline -->
+    <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6 mb-6">
+      <h3 style="color: var(--text-primary);" class="font-semibold mb-4">What You'll Learn</h3>
       <div class="space-y-3">
-        <div class="flex justify-between items-center">
-          <span style="color: var(--text-secondary);">Cost</span>
-          <span style="color: var(--text-primary);" class="text-xl font-bold">${{ recommendation.cost }}</span>
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 flex-shrink-0 mt-0.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <p style="color: var(--text-primary);">Core concepts and fundamentals</p>
         </div>
-        <div class="flex justify-between items-center">
-          <span style="color: var(--text-secondary);">Time Commitment</span>
-          <span style="color: var(--text-primary);" class="font-medium">{{ recommendation.duration }}</span>
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 flex-shrink-0 mt-0.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <p style="color: var(--text-primary);">Hands-on projects and practical applications</p>
         </div>
-        <div class="flex justify-between items-center">
-          <span style="color: var(--text-secondary);">ROI Estimate</span>
-          <span class="font-medium text-green-600">High</span>
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 flex-shrink-0 mt-0.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <p style="color: var(--text-primary);">Industry best practices and real-world scenarios</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 flex-shrink-0 mt-0.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <p style="color: var(--text-primary);">Advanced techniques and optimization strategies</p>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Course Outline -->
-  <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6 mb-6">
-    <h3 style="color: var(--text-primary);" class="font-semibold mb-4">What You'll Learn</h3>
-    <div class="space-y-3">
-      <div class="flex items-start gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 flex-shrink-0 mt-0.5">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        <p style="color: var(--text-primary);">Core concepts and fundamentals</p>
-      </div>
-      <div class="flex items-start gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 flex-shrink-0 mt-0.5">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        <p style="color: var(--text-primary);">Hands-on projects and practical applications</p>
-      </div>
-      <div class="flex items-start gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 flex-shrink-0 mt-0.5">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        <p style="color: var(--text-primary);">Industry best practices and real-world scenarios</p>
-      </div>
-      <div class="flex items-start gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 flex-shrink-0 mt-0.5">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        <p style="color: var(--text-primary);">Advanced techniques and optimization strategies</p>
+    <!-- Actions -->
+    <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6">
+      <div class="flex flex-col sm:flex-row gap-4">
+        @if (recommendation.link) {
+          <a
+            [href]="recommendation.link"
+            target="_blank"
+            style="background-color: var(--primary-color); color: white;"
+            class="flex-1 px-6 py-3 rounded-lg hover:opacity-90 transition-opacity text-center font-medium">
+            Enroll Now
+          </a>
+        }
+        <button style="background-color: var(--hover-bg); color: var(--text-primary); border: 1px solid var(--border-color);" class="flex-1 px-6 py-3 rounded-lg transition font-medium">
+          Save for Later
+        </button>
+        <button style="border: 1px solid var(--border-color); color: var(--text-primary);" class="px-6 py-3 rounded-lg hover:bg-opacity-50 transition font-medium">
+          Share
+        </button>
       </div>
     </div>
   </div>
-
-  <!-- Actions -->
-  <div style="background-color: var(--card-background); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);" class="rounded-lg p-6">
-    <div class="flex flex-col sm:flex-row gap-4">
-      <a *ngIf="recommendation.link"
-         [href]="recommendation.link"
-         target="_blank"
-         style="background-color: var(--primary-color); color: white;"
-         class="flex-1 px-6 py-3 rounded-lg hover:opacity-90 transition-opacity text-center font-medium">
-        Enroll Now
-      </a>
-      <button style="background-color: var(--hover-bg); color: var(--text-primary); border: 1px solid var(--border-color);" class="flex-1 px-6 py-3 rounded-lg transition font-medium">
-        Save for Later
-      </button>
-      <button style="border: 1px solid var(--border-color); color: var(--text-primary);" class="px-6 py-3 rounded-lg hover:bg-opacity-50 transition font-medium">
-        Share
-      </button>
-    </div>
-  </div>
-</div>
-
-<ng-template #notFound>
+} @else {
   <div class="max-w-4xl mx-auto p-6 text-center">
     <h2 style="color: var(--text-primary);" class="text-2xl font-bold mb-4">Recommendation Not Found</h2>
     <button (click)="goBack()" style="color: var(--primary-color);" class="hover:opacity-80">
       Return to Trends
     </button>
   </div>
-</ng-template>
+}
+

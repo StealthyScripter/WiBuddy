@@ -4,12 +4,13 @@
   </header>
 
   <nav class="tabs">
-    <button
-      *ngFor="let tab of tabs"
-      [class.active]="activeTab === tab.completionStatus"
-      (click)="setActiveTab(tab.completionStatus)">
-      {{tab.label}}
-    </button>
+    @for (tab of tabs; track tab) {
+      <button
+        [class.active]="activeTab === tab.completionStatus"
+        (click)="setActiveTab(tab.completionStatus)">
+        {{tab.label}}
+      </button>
+    }
 
     <div class="search-container">
       <input
@@ -17,45 +18,43 @@
         placeholder="Search projects..."
         [(ngModel)]="filterOptions.searchQuery"
         (input)="filterProjects()">
-        <button id="add-project-btn" (click)="addProject()">
-          New Project
-        </button>
+      <button id="add-project-btn" (click)="addProject()">
+        New Project
+      </button>
     </div>
   </nav>
 
   <div class="projects-grid">
-    <div
-      *ngFor="let project of filteredProjects"
-      class="project-card clickable-field"
-      (click)="navigateToProject(project.id)">
-      <div class="project-header">
-        <h2>{{project.name}}</h2>
-        <span class="completionStatus-badge" [class]="project.completionStatus">
-          {{project.completionStatus}}
-        </span>
-      </div>
-
-      <div class="department">{{project.department}}</div>
-      <p class="description">{{project.description}}</p>
-
-      <div class="progress-section">
-        <div class="progress-label">
-          <span>Progress</span>
-          <span>{{project.progress}}%</span>
+    @for (project of filteredProjects; track project) {
+      <div
+        class="project-card clickable-field"
+        (click)="navigateToProject(project.id)">
+        <div class="project-header">
+          <h2>{{project.name}}</h2>
+          <span class="completionStatus-badge" [class]="project.completionStatus">
+            {{project.completionStatus}}
+          </span>
         </div>
-        <div class="progress-bar">
-          <div
-            class="progress-fill"
-            [style.width.%]="project.progress">
+        <div class="department">{{project.department}}</div>
+        <p class="description">{{project.description}}</p>
+        <div class="progress-section">
+          <div class="progress-label">
+            <span>Progress</span>
+            <span>{{project.progress}}%</span>
+          </div>
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="project.progress">
+            </div>
+          </div>
+        </div>
+        <div class="project-footer">
+          <div class="milestones">
+            {{getMilestoneCount(project)}} milestones
           </div>
         </div>
       </div>
-
-      <div class="project-footer">
-        <div class="milestones">
-          {{getMilestoneCount(project)}} milestones
-        </div>
-      </div>
-    </div>
+    }
   </div>
 </div>

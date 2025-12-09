@@ -211,12 +211,6 @@
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Library Section */
 .library-buttons {
   display: flex;
@@ -576,3 +570,4 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
+

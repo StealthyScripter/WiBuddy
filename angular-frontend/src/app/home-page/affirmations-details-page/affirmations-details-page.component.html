@@ -1,178 +1,168 @@
-<div class="affirmations-container" *ngIf="!loading; else loadingState">
-  <!-- Decorative Background -->
-  <div class="decorative-bg decorative-bg-top"></div>
-  <div class="decorative-bg decorative-bg-bottom"></div>
-
-  <div class="content-wrapper">
-    <!-- Header -->
-    <div class="header-section">
-      <div class="header-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-      </div>
-      <h1 class="header-title">Daily Affirmations</h1>
-      <p class="header-subtitle">Empower yourself with daily inspiration</p>
-      <p class="header-description">Browse, share, and set reminders for affirmations that resonate with you</p>
-    </div>
-
-    <!-- Search and Filters Section -->
-    <div class="search-filters-container">
-      <!-- Search Bar -->
-      <div class="search-bar-wrapper">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.35-4.35"></path>
-        </svg>
-        <input
-          [(ngModel)]="searchQuery"
-          (ngModelChange)="onSearchChange()"
-          type="text"
-          placeholder="Search affirmations or authors..."
-          class="search-input">
-      </div>
-
-      <!-- Clear Filters -->
-      <div class="clear-filters-wrapper" *ngIf="selectedTag || searchQuery">
-        <button (click)="clearFilters()" class="clear-filters-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+@if (!loading) {
+  <div class="affirmations-container">
+    <!-- Decorative Background -->
+    <div class="decorative-bg decorative-bg-top"></div>
+    <div class="decorative-bg decorative-bg-bottom"></div>
+    <div class="content-wrapper">
+      <!-- Header -->
+      <div class="header-section">
+        <div class="header-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
           </svg>
-          Clear Filters
-        </button>
-      </div>
-    </div>
-
-    <!-- Results Info -->
-    <div class="results-info">
-      Showing {{ filteredAffirmations.length }} of {{ affirmations.length }} affirmations
-    </div>
-
-    <!-- Affirmations Grid -->
-    <div class="affirmations-grid" *ngIf="filteredAffirmations.length > 0; else emptyState">
-      <div
-        *ngFor="let affirmation of filteredAffirmations"
-        (click)="navigateToAffirmation(affirmation.id)"
-        class="affirmation-card"
-        [ngClass]="'gradient-' + getGradientClass(affirmation.tags)">
-
-        <!-- Card Background Pattern -->
-        <div class="affirmation-card-pattern">
-          <div class="affirmation-card-pattern-top"></div>
-          <div class="affirmation-card-pattern-bottom"></div>
         </div>
-
-        <!-- Card Content -->
-        <div class="affirmation-card-content">
-          <!-- Top Actions -->
-          <div class="card-top-actions">
-            <span class="card-tag">
-              {{ affirmation.tags?.[0] | titlecase }}
-            </span>
-            <button
-              (click)="toggleFavorite(affirmation, $event)"
-              class="favorite-btn"
-              [class.favorited]="affirmation.isFavorited">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" [attr.fill]="affirmation.isFavorited ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-              </svg>
-            </button>
-          </div>
-
-          <!-- Quote -->
-          <div class="card-quote">
-            <p class="card-quote-text">{{ affirmation.quote }}</p>
-          </div>
-
-          <!-- Author -->
-          <p class="card-author">— {{ affirmation.author }}</p>
-
-          <!-- Tags -->
-          <div class="card-tags">
-            <span
-              *ngFor="let tag of affirmation.tags"
-              class="tag-item">
-              #{{ tag }}
-            </span>
-          </div>
-
-          <!-- Divider -->
-          <div class="card-divider"></div>
-
-          <!-- Stats and Actions -->
-          <div class="card-stats">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-            {{ affirmation.viewCount | number }} views
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="card-actions">
-            <button
-              (click)="shareAffirmation(affirmation, $event)"
-              class="action-btn">
+        <h1 class="header-title">Daily Affirmations</h1>
+        <p class="header-subtitle">Empower yourself with daily inspiration</p>
+        <p class="header-description">Browse, share, and set reminders for affirmations that resonate with you</p>
+      </div>
+      <!-- Search and Filters Section -->
+      <div class="search-filters-container">
+        <!-- Search Bar -->
+        <div class="search-bar-wrapper">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="onSearchChange()"
+            type="text"
+            placeholder="Search affirmations or authors..."
+            class="search-input">
+        </div>
+        <!-- Clear Filters -->
+        @if (selectedTag || searchQuery) {
+          <div class="clear-filters-wrapper">
+            <button (click)="clearFilters()" class="clear-filters-btn">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
               </svg>
-              Share
-            </button>
-            <button
-              (click)="setReminder(affirmation, $event)"
-              class="action-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              {{ affirmation.reminderTime?.substring(0, 5) }}
+              Clear Filters
             </button>
           </div>
-
-          <!-- View Details Button -->
-          <button
-            (click)="navigateToAffirmation(affirmation.id)"
-            class="read-more-btn">
-            Read More →
+        }
+      </div>
+      <!-- Results Info -->
+      <div class="results-info">
+        Showing {{ filteredAffirmations.length }} of {{ affirmations.length }} affirmations
+      </div>
+      <!-- Affirmations Grid -->
+      @if (filteredAffirmations.length > 0) {
+        <div class="affirmations-grid">
+          @for (affirmation of filteredAffirmations; track affirmation) {
+            <div
+              (click)="navigateToAffirmation(affirmation.id)"
+              class="affirmation-card"
+              [ngClass]="'gradient-' + getGradientClass(affirmation.tags)">
+              <!-- Card Background Pattern -->
+              <div class="affirmation-card-pattern">
+                <div class="affirmation-card-pattern-top"></div>
+                <div class="affirmation-card-pattern-bottom"></div>
+              </div>
+              <!-- Card Content -->
+              <div class="affirmation-card-content">
+                <!-- Top Actions -->
+                <div class="card-top-actions">
+                  <span class="card-tag">
+                    {{ affirmation.tags?.[0] | titlecase }}
+                  </span>
+                  <button
+                    (click)="toggleFavorite(affirmation, $event)"
+                    class="favorite-btn"
+                    [class.favorited]="affirmation.isFavorited">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" [attr.fill]="affirmation.isFavorited ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                  </button>
+                </div>
+                <!-- Quote -->
+                <div class="card-quote">
+                  <p class="card-quote-text">{{ affirmation.quote }}</p>
+                </div>
+                <!-- Author -->
+                <p class="card-author">— {{ affirmation.author }}</p>
+                <!-- Tags -->
+                <div class="card-tags">
+                  @for (tag of affirmation.tags; track tag) {
+                    <span
+                      class="tag-item">
+                      #{{ tag }}
+                    </span>
+                  }
+                </div>
+                <!-- Divider -->
+                <div class="card-divider"></div>
+                <!-- Stats and Actions -->
+                <div class="card-stats">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  {{ affirmation.viewCount | number }} views
+                </div>
+                <!-- Action Buttons -->
+                <div class="card-actions">
+                  <button
+                    (click)="shareAffirmation(affirmation, $event)"
+                    class="action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="18" cy="5" r="3"></circle>
+                      <circle cx="6" cy="12" r="3"></circle>
+                      <circle cx="18" cy="19" r="3"></circle>
+                      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    Share
+                  </button>
+                  <button
+                    (click)="setReminder(affirmation, $event)"
+                    class="action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    {{ affirmation.reminderTime?.substring(0, 5) }}
+                  </button>
+                </div>
+                <!-- View Details Button -->
+                <button
+                  (click)="navigateToAffirmation(affirmation.id)"
+                  class="read-more-btn">
+                  Read More →
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-state-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="empty-state-icon">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <h3 class="empty-state-title">No Affirmations Found</h3>
+          <p class="empty-state-description">Try adjusting your search or filters to find what you're looking for.</p>
+          <button (click)="clearFilters()" class="empty-state-btn">
+            Clear Filters
           </button>
         </div>
+      }
+      <!-- Empty State -->
+      <!-- Footer Info -->
+      <div class="footer-info">
+        <p class="footer-text">
+          Refresh your mind daily. Choose an affirmation that resonates with you and make it your mantra.
+        </p>
       </div>
-    </div>
-
-    <!-- Empty State -->
-    <ng-template #emptyState>
-      <div class="empty-state-wrapper">
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="empty-state-icon">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-        <h3 class="empty-state-title">No Affirmations Found</h3>
-        <p class="empty-state-description">Try adjusting your search or filters to find what you're looking for.</p>
-        <button (click)="clearFilters()" class="empty-state-btn">
-          Clear Filters
-        </button>
-      </div>
-    </ng-template>
-
-    <!-- Footer Info -->
-    <div class="footer-info">
-      <p class="footer-text">
-        Refresh your mind daily. Choose an affirmation that resonates with you and make it your mantra.
-      </p>
     </div>
   </div>
-</div>
-
-<!-- Loading State -->
-<ng-template #loadingState>
+} @else {
   <div class="loading-container">
     <div class="text-center">
       <div class="loading-spinner"></div>
       <p class="loading-text">Loading affirmations...</p>
     </div>
   </div>
-</ng-template>
+}
+
+<!-- Loading State -->

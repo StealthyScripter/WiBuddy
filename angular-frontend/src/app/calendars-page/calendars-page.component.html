@@ -15,13 +15,14 @@
     </div>
 
     <div class="view-selector">
-      <button
-        *ngFor="let view of viewOptions"
-        [class.active]="currentView === view"
-        (click)="changeView(view)"
-        class="view-btn">
-        {{view}}
-      </button>
+      @for (view of viewOptions; track view) {
+        <button
+          [class.active]="currentView === view"
+          (click)="changeView(view)"
+          class="view-btn">
+          {{view}}
+        </button>
+      }
     </div>
   </header>
 
@@ -29,91 +30,117 @@
     <!-- Main Calendar Section -->
     <section class="calendar-container">
       <!-- Year View -->
-      <div class="year-view" *ngIf="currentView === 'Year'">
-        <div class="month-grid">
-          <div class="month-card" *ngFor="let month of yearDates; let i = index">
-            <h3 class="month-title">{{month[14] | date:'MMMM'}}</h3>
-            <div class="mini-month-grid">
-              <div class="mini-weekday" *ngFor="let day of weekDays">{{day.charAt(0)}}</div>
-              <div
-                *ngFor="let date of month"
-                [class.different-month]="!isSameMonth(date, month[14])"
-                [class.has-event]="hasEvents(date)"
-                [class.today]="isSameDay(date, currentDate)"
-                class="mini-date"
-                (click)="navigateToDay(date)">
-                {{date | date:'d'}}
+      @if (currentView === 'Year') {
+        <div class="year-view">
+          <div class="month-grid">
+            @for (month of yearDates; track month; let i = $index) {
+              <div class="month-card">
+                <h3 class="month-title">{{month[14] | date:'MMMM'}}</h3>
+                <div class="mini-month-grid">
+                  @for (day of weekDays; track day) {
+                    <div class="mini-weekday">{{day.charAt(0)}}</div>
+                  }
+                  @for (date of month; track date) {
+                    <div
+                      [class.different-month]="!isSameMonth(date, month[14])"
+                      [class.has-event]="hasEvents(date)"
+                      [class.today]="isSameDay(date, currentDate)"
+                      class="mini-date"
+                      (click)="navigateToDay(date)">
+                      {{date | date:'d'}}
+                    </div>
+                  }
+                </div>
               </div>
-            </div>
+            }
           </div>
         </div>
-      </div>
+      }
 
       <!-- Month View -->
-      <div class="month-view" *ngIf="currentView === 'Month'">
-        <div class="month-grid-header">
-          <div class="weekday" *ngFor="let day of weekDays">{{day}}</div>
-        </div>
-        <div class="month-grid-body">
-          <div
-            *ngFor="let date of monthDates"
-            [class.different-month]="!isSameMonth(date, currentViewDate)"
-            [class.today]="isSameDay(date, currentDate)"
-            class="date-cell"
-            (click)="navigateToDay(date)">
-            <div class="date-number">{{date | date:'d'}}</div>
-            <div class="event-list">
+      @if (currentView === 'Month') {
+        <div class="month-view">
+          <div class="month-grid-header">
+            @for (day of weekDays; track day) {
+              <div class="weekday">{{day}}</div>
+            }
+          </div>
+          <div class="month-grid-body">
+            @for (date of monthDates; track date) {
               <div
-                *ngFor="let event of getEventsForDate(date).slice(0, 3)"
-                class="event-item"
-                [style.background-color]="event.color + '22'"
-                [style.border-left-color]="event.color">
-                {{event.name}}
+                [class.different-month]="!isSameMonth(date, currentViewDate)"
+                [class.today]="isSameDay(date, currentDate)"
+                class="date-cell"
+                (click)="navigateToDay(date)">
+                <div class="date-number">{{date | date:'d'}}</div>
+                <div class="event-list">
+                  @for (event of getEventsForDate(date).slice(0, 3); track event) {
+                    <div
+                      class="event-item"
+                      [style.background-color]="event.color + '22'"
+                      [style.border-left-color]="event.color">
+                      {{event.name}}
+                    </div>
+                  }
+                  @if (getEventsForDate(date).length > 3) {
+                    <div class="more-events">
+                      +{{getEventsForDate(date).length - 3}} more
+                    </div>
+                  }
+                </div>
               </div>
-              <div class="more-events" *ngIf="getEventsForDate(date).length > 3">
-                +{{getEventsForDate(date).length - 3}} more
-              </div>
-            </div>
+            }
           </div>
         </div>
-      </div>
+      }
 
       <!-- Week View -->
-      <div class="week-view" *ngIf="currentView === 'Week'">
-        <div class="week-header">
-          <div class="time-column"></div>
-          <div class="day-column" *ngFor="let date of weekDates">
-            <div class="day-label" [class.today]="isSameDay(date, currentDate)" (click)="navigateToDay(date)">
-              <span class="weekday">{{date | date:'EEE'}}</span>
-              <span class="date-number">{{date | date:'d'}}</span>
+      @if (currentView === 'Week') {
+        <div class="week-view">
+          <div class="week-header">
+            <div class="time-column"></div>
+            @for (date of weekDates; track date) {
+              <div class="day-column">
+                <div class="day-label" [class.today]="isSameDay(date, currentDate)" (click)="navigateToDay(date)">
+                  <span class="weekday">{{date | date:'EEE'}}</span>
+                  <span class="date-number">{{date | date:'d'}}</span>
+                </div>
+              </div>
+            }
+          </div>
+          <div class="week-body">
+            <div class="time-slots">
+              <div class="time-column">
+                @for (hour of hours; track hour) {
+                  <div class="hour-slot">
+                    {{hour}}:00
+                  </div>
+                }
+              </div>
+              @for (date of weekDates; track date) {
+                <div class="day-column">
+                  @for (hour of hours; track hour) {
+                    <div class="hour-slot" (click)="navigateToDay(date)">
+                      <!-- Events would be positioned absolutely here -->
+                    </div>
+                  }
+                  @for (event of getEventsForDate(date); track event) {
+                    <div
+                      class="week-event-item"
+                      [style.top.px]="calculateEventTop(event)"
+                      [style.height.px]="calculateEventHeight(event)"
+                      [style.background-color]="event.color + '22'"
+                      [style.border-left-color]="event.color">
+                      <div class="event-time">{{event.date | date:'h:mm a'}}</div>
+                      <div class="event-title">{{event.name}}</div>
+                    </div>
+                  }
+                </div>
+              }
             </div>
           </div>
         </div>
-        <div class="week-body">
-          <div class="time-slots">
-            <div class="time-column">
-              <div class="hour-slot" *ngFor="let hour of hours">
-                {{hour}}:00
-              </div>
-            </div>
-            <div class="day-column" *ngFor="let date of weekDates">
-              <div class="hour-slot" (click)="navigateToDay(date)" *ngFor="let hour of hours">
-                <!-- Events would be positioned absolutely here -->
-              </div>
-              <div
-                *ngFor="let event of getEventsForDate(date)"
-                class="week-event-item"
-                [style.top.px]="calculateEventTop(event)"
-                [style.height.px]="calculateEventHeight(event)"
-                [style.background-color]="event.color + '22'"
-                [style.border-left-color]="event.color">
-                <div class="event-time">{{event.date | date:'h:mm a'}}</div>
-                <div class="event-title">{{event.name}}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      }
     </section>
 
     <!-- Sidebar -->
@@ -122,49 +149,55 @@
         <h3 class="sidebar-title">Upcoming Tasks</h3>
         <ul class="task-list">
           <!-- --primary-dark: ; -->
-          <li
-            *ngFor="let task of upcomingTasks"
-            class="task-item" (click)="navigateToTask(task.id)">
-            <div class="task-indicator" style="background-color:#4338ca ;"></div>
-            <div class="task-content">
-              <div class="task-date">{{task.dueDate | date:'EEE, MMM d'}}</div>
-              <div class="task-title">{{task.name}}</div>
-            </div>
-          </li>
-          <li class="empty-state" *ngIf="upcomingTasks.length === 0">
-            No upcoming tasks
-          </li>
+          @for (task of upcomingTasks; track task) {
+            <li
+              class="task-item" (click)="navigateToTask(task.id)">
+              <div class="task-indicator" style="background-color:#4338ca ;"></div>
+              <div class="task-content">
+                <div class="task-date">{{task.dueDate | date:'EEE, MMM d'}}</div>
+                <div class="task-title">{{task.name}}</div>
+              </div>
+            </li>
+          }
+          @if (upcomingTasks.length === 0) {
+            <li class="empty-state">
+              No upcoming tasks
+            </li>
+          }
         </ul>
       </div>
 
       <div class="sidebar-section project-deadlines">
         <h3 class="sidebar-title">Project Deadlines</h3>
         <ul class="project-list">
-          <li
-            *ngFor="let project of sortedProjects"
-            class="project-item" (click)="navigateToProject(project.id)">
-            <div class="project-info">
-              <h4 class="project-name">{{project.name}}</h4>
-              <div class="project-deadline">Due: {{project.dueDate}}</div>
-            </div>
-            <div class="progress-container">
-              <div class="progress-bar">
-                <div
-                  class="progress-fill"
-                  [style.width.%]="project.progress"
+          @for (project of sortedProjects; track project) {
+            <li
+              class="project-item" (click)="navigateToProject(project.id)">
+              <div class="project-info">
+                <h4 class="project-name">{{project.name}}</h4>
+                <div class="project-deadline">Due: {{project.dueDate}}</div>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill"
+                    [style.width.%]="project.progress"
                   [ngClass]="{
                     'low': project.progress < 30,
                     'medium': project.progress >= 30 && project.progress < 70,
                     'high': project.progress >= 70
                   }">
+                  </div>
                 </div>
+                <div class="progress-label">{{project.progress}}%</div>
               </div>
-              <div class="progress-label">{{project.progress}}%</div>
-            </div>
-          </li>
-          <li class="empty-state" *ngIf="sortedProjects.length === 0">
-            No active projects
-          </li>
+            </li>
+          }
+          @if (sortedProjects.length === 0) {
+            <li class="empty-state">
+              No active projects
+            </li>
+          }
         </ul>
       </div>
 

@@ -24,28 +24,32 @@
               </svg>
               AI Study Assistant
             </h2>
-            <button
-              *ngIf="aiConversation.length > 0"
-              (click)="clearAIConversation()"
-              class="btn-clear">
-              Clear
-            </button>
+            @if (aiConversation.length > 0) {
+              <button
+                (click)="clearAIConversation()"
+                class="btn-clear">
+                Clear
+              </button>
+            }
           </div>
 
           <!-- Conversation History -->
-          <div *ngIf="aiConversation.length > 0" class="chat-history">
-            <div
-              *ngFor="let message of aiConversation"
-              [class.user-message]="message.role === 'user'"
-              class="chat-message">
-              <div
-                [class.user-bubble]="message.role === 'user'"
-                [class.assistant-bubble]="message.role === 'assistant'"
-                class="chat-bubble">
-                {{ message.content }}
-              </div>
+          @if (aiConversation.length > 0) {
+            <div class="chat-history">
+              @for (message of aiConversation; track message) {
+                <div
+                  [class.user-message]="message.role === 'user'"
+                  class="chat-message">
+                  <div
+                    [class.user-bubble]="message.role === 'user'"
+                    [class.assistant-bubble]="message.role === 'assistant'"
+                    class="chat-bubble">
+                    {{ message.content }}
+                  </div>
+                </div>
+              }
             </div>
-          </div>
+          }
 
           <!-- AI Input -->
           <div class="chat-input-wrapper">
@@ -60,12 +64,18 @@
               (click)="sendAIMessage()"
               [disabled]="!aiPrompt.trim() || isAiLoading"
               class="btn btn-primary chat-submit-btn">
-              <svg *ngIf="isAiLoading" class="spin-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              <span *ngIf="!isAiLoading">Send</span>
-              <span *ngIf="isAiLoading">...</span>
+              @if (isAiLoading) {
+                <svg class="spin-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              }
+              @if (!isAiLoading) {
+                <span>Send</span>
+              }
+              @if (isAiLoading) {
+                <span>...</span>
+              }
             </button>
           </div>
         </div>
@@ -98,14 +108,16 @@
                 </button>
 
                 <!-- Dropdown Menu -->
-                <div *ngIf="showCreateMenu" class="dropdown-menu">
-                  <button class="dropdown-item" (click)="selectCreateOption('note')">
-                    📝 Create Note
-                  </button>
-                  <button class="dropdown-item" (click)="selectCreateOption('resource')">
-                    📄 Add Resource
-                  </button>
-                </div>
+                @if (showCreateMenu) {
+                  <div class="dropdown-menu">
+                    <button class="dropdown-item" (click)="selectCreateOption('note')">
+                      📝 Create Note
+                    </button>
+                    <button class="dropdown-item" (click)="selectCreateOption('resource')">
+                      📄 Add Resource
+                    </button>
+                  </div>
+                }
               </div>
             </div>
           </div>
@@ -118,35 +130,36 @@
 
         <!-- Tree Template -->
         <ng-template #treeTemplate let-items="items" let-level="level">
-          <div *ngFor="let item of items">
-            <div
-              class="tree-item"
-              [style.paddingLeft.px]="level * 24 + 12"
-              (click)="handleItemClick(item)">
-              <div class="tree-item-content">
-                <!-- Folder expand/collapse icon -->
-                <svg *ngIf="item.type === 'folder'"
-                    [class.expanded]="isExpanded(item.id)"
-                    class="tree-expand-icon"
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-
-                <!-- Item icon -->
-                <span class="tree-icon">
-                  {{ item.type === 'folder' ? '📁' : item.type === 'resource' ? '📘' : '📝' }}
-                </span>
-
-                <!-- Item name -->
-                <span class="tree-name">{{ item.name }}</span>
+          @for (item of items; track item) {
+            <div>
+              <div
+                class="tree-item"
+                [style.paddingLeft.px]="level * 24 + 12"
+                (click)="handleItemClick(item)">
+                <div class="tree-item-content">
+                  <!-- Folder expand/collapse icon -->
+                  @if (item.type === 'folder') {
+                    <svg
+                      [class.expanded]="isExpanded(item.id)"
+                      class="tree-expand-icon"
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  }
+                  <!-- Item icon -->
+                  <span class="tree-icon">
+                    {{ item.type === 'folder' ? '📁' : item.type === 'resource' ? '📘' : '📝' }}
+                  </span>
+                  <!-- Item name -->
+                  <span class="tree-name">{{ item.name }}</span>
+                </div>
               </div>
+              <!-- Children (expand/collapse) -->
+              @if (item.type === 'folder' && isExpanded(item.id)) {
+                <ng-container *ngTemplateOutlet="treeTemplate; context: {items: item.children, level: level + 1}"></ng-container>
+              }
             </div>
-
-            <!-- Children (expand/collapse) -->
-            <ng-container *ngIf="item.type === 'folder' && isExpanded(item.id)">
-              <ng-container *ngTemplateOutlet="treeTemplate; context: {items: item.children, level: level + 1}"></ng-container>
-            </ng-container>
-          </div>
+          }
         </ng-template>
       </div>
 
@@ -157,62 +170,65 @@
         <div class="lms-card">
           <h2 class="card-title">Recent Activity</h2>
           <div class="activity-list">
-            <div
-              *ngFor="let activity of recentActivities.slice(0, 5)"
-              class="activity-item"
-              (click)="openActivity(activity)">
-
-              <!-- Status Icon -->
-              <svg
-                *ngIf="activity.isCompleted"
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="activity-icon completed">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-              </svg>
-              <svg
-                *ngIf="!activity.isCompleted"
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="activity-icon pending">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polygon points="10 8 16 12 10 16 10 8"></polygon>
-              </svg>
-
-              <!-- Activity Content -->
-              <div class="activity-content">
-                <p class="activity-name">{{ activity.name }}</p>
-                <p class="activity-date">Due: {{ activity.dueDate }}</p>
+            @for (activity of recentActivities.slice(0, 5); track activity) {
+              <div
+                class="activity-item"
+                (click)="openActivity(activity)">
+                <!-- Status Icon -->
+                @if (activity.isCompleted) {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="activity-icon completed">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                }
+                @if (!activity.isCompleted) {
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="activity-icon pending">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                  </svg>
+                }
+                <!-- Activity Content -->
+                <div class="activity-content">
+                  <p class="activity-name">{{ activity.name }}</p>
+                  <p class="activity-date">Due: {{ activity.dueDate }}</p>
+                </div>
+                <!-- Priority Badge -->
+                @if (activity.priority) {
+                  <span
+                    class="priority-badge"
+                    [ngClass]="'priority-' + activity.priority.toLowerCase()">
+                    {{ activity.priority }}
+                  </span>
+                }
               </div>
-
-              <!-- Priority Badge -->
-              <span
-                *ngIf="activity.priority"
-                class="priority-badge"
-                [ngClass]="'priority-' + activity.priority.toLowerCase()">
-                {{ activity.priority }}
-              </span>
-            </div>
+            }
 
             <!-- Empty State -->
-            <div *ngIf="recentActivities.length === 0" class="empty-state">
-              <p>No recent activities yet</p>
-            </div>
+            @if (recentActivities.length === 0) {
+              <div class="empty-state">
+                <p>No recent activities yet</p>
+              </div>
+            }
           </div>
         </div>
 
@@ -226,24 +242,26 @@
             Skill Progress
           </h2>
           <div class="skill-list">
-            <div *ngFor="let skill of skills.slice(0, 5)"
-            (click)="navigateToSkillProgress(skill.id)"
-            class="skill-item">
-              <div class="skill-header">
-                <span class="skill-name">{{ skill.name }}</span>
-                <span class="skill-level">{{ skill.level }}% → {{ skill.targetLevel }}%</span>
-              </div>
-              <div class="skill-progress-bar">
-                <div
-                  class="skill-progress-fill"
-                  [style.width.%]="getProgressBarWidth(skill)">
+            @for (skill of skills.slice(0, 5); track skill) {
+              <div
+                (click)="navigateToSkillProgress(skill.id)"
+                class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">{{ skill.name }}</span>
+                  <span class="skill-level">{{ skill.level }}% → {{ skill.targetLevel }}%</span>
                 </div>
-                <div
-                  class="target-marker"
-                  [style.left.%]="getTargetPosition(skill)">
+                <div class="skill-progress-bar">
+                  <div
+                    class="skill-progress-fill"
+                    [style.width.%]="getProgressBarWidth(skill)">
+                  </div>
+                  <div
+                    class="target-marker"
+                    [style.left.%]="getTargetPosition(skill)">
+                  </div>
                 </div>
               </div>
-            </div>
+            }
           </div>
         </div>
 
@@ -299,8 +317,9 @@
 </div>
 
 <!-- Click outside to close context menu -->
-<div
-  *ngIf="showContextMenu"
-  class="modal-overlay"
-  (click)="hideContextMenu()">
-</div>
+@if (showContextMenu) {
+  <div
+    class="modal-overlay"
+    (click)="hideContextMenu()">
+  </div>
+}

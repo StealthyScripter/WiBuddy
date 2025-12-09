@@ -18,8 +18,10 @@
         type="text"
         formControlName="fullName"
         class="form-input">
-      <small *ngIf="profileForm.get('fullName')?.touched && profileForm.get('fullName')?.invalid"
-             class="form-error">Full name is required</small>
+      @if (profileForm.get('fullName')?.touched && profileForm.get('fullName')?.invalid) {
+        <small
+        class="form-error">Full name is required</small>
+      }
     </div>
 
     <!-- Email -->
@@ -30,8 +32,10 @@
         type="email"
         formControlName="email"
         class="form-input">
-      <small *ngIf="profileForm.get('email')?.touched && profileForm.get('email')?.invalid"
-             class="form-error">Valid email is required</small>
+      @if (profileForm.get('email')?.touched && profileForm.get('email')?.invalid) {
+        <small
+        class="form-error">Valid email is required</small>
+      }
     </div>
 
     <!-- Role -->
@@ -51,7 +55,7 @@
         id="bio"
         formControlName="bio"
         rows="3"
-        class="form-textarea"></textarea>
+      class="form-textarea"></textarea>
     </div>
 
     <!-- Location -->

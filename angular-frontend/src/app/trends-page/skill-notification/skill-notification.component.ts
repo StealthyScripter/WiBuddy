@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { Skill } from '../../../models.interface';
 import { mockStandoutSkills, mockSkillsLMS } from '../../../services/test.data';
@@ -7,7 +7,7 @@ import { mockStandoutSkills, mockSkillsLMS } from '../../../services/test.data';
 @Component({
   selector: 'app-skill-notification',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './skill-notification.component.html',
   styleUrls: ['./skill-notification.component.css']
 })

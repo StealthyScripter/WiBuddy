@@ -40,7 +40,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth transitions for theme switching */
 * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
@@ -186,6 +185,47 @@ label {
   color: var(--text-primary);
 }
 
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background-color: var(--card-background);
+  color: var(--text-primary);
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.form-error {
+  color: var(--danger);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
 /* ============================================================
    BUTTONS - UNIVERSAL
    ============================================================ */
@@ -214,7 +254,6 @@ button:disabled,
   pointer-events: none;
 }
 
-/* Primary Button */
 .btn-primary,
 button.btn-primary {
   background-color: var(--primary-color);
@@ -235,7 +274,6 @@ button.btn-primary:active:not(:disabled) {
   transform: translateY(0);
 }
 
-/* Secondary Button */
 .btn-secondary,
 button.btn-secondary {
   background-color: var(--gray-100);
@@ -249,7 +287,6 @@ button.btn-secondary:hover:not(:disabled) {
   border-color: var(--text-secondary);
 }
 
-/* Danger Button */
 .btn-danger,
 button.btn-danger {
   background-color: var(--danger);
@@ -263,7 +300,6 @@ button.btn-danger:hover:not(:disabled) {
   border-color: #dc2626;
 }
 
-/* Ghost Button */
 .btn-ghost,
 button.btn-ghost {
   background-color: transparent;
@@ -277,7 +313,6 @@ button.btn-ghost:hover:not(:disabled) {
   border-color: var(--text-secondary);
 }
 
-/* Icon Button */
 .btn-icon,
 button.btn-icon {
   padding: 0.5rem;
@@ -299,21 +334,18 @@ button.btn-icon svg {
   height: 20px;
 }
 
-/* Small Button */
 .btn-sm,
 button.btn-sm {
   padding: 0.375rem 0.75rem;
   font-size: 0.875rem;
 }
 
-/* Large Button */
 .btn-lg,
 button.btn-lg {
   padding: 0.875rem 1.75rem;
   font-size: 1.125rem;
 }
 
-/* Full Width Button */
 .btn-block {
   width: 100%;
   display: flex;
@@ -353,6 +385,44 @@ button.btn-lg {
    STATUS BADGES & TAGS
    ============================================================ */
 
+.status-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.status-completed {
+  background-color: var(--status-completed-bg);
+  color: var(--status-completed-text);
+}
+
+.status-in-progress {
+  background-color: var(--status-inprogress-bg);
+  color: var(--status-inprogress-text);
+}
+
+.status-pending {
+  background-color: var(--status-inprogress-bg);
+  color: var(--status-inprogress-text);
+}
+
+.status-not-started {
+  background-color: var(--status-notstarted-bg);
+  color: var(--status-notstarted-text);
+}
+
+.status-overdue {
+  background-color: var(--status-overdue-bg);
+  color: var(--status-overdue-text);
+}
+
+.status-blocked {
+  background-color: var(--status-blocked-bg);
+  color: var(--status-blocked-text);
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -363,7 +433,6 @@ button.btn-lg {
   white-space: nowrap;
 }
 
-/* Status Badges */
 .badge-primary {
   background-color: var(--primary-light);
   color: var(--primary-color);
@@ -394,7 +463,6 @@ button.btn-lg {
   color: var(--gray-700);
 }
 
-/* Status-specific badges */
 .badge-in-progress {
   background-color: var(--status-inprogress-bg);
   color: var(--status-inprogress-text);
@@ -420,7 +488,6 @@ button.btn-lg {
   color: var(--status-blocked-text);
 }
 
-/* Tags */
 .tag {
   display: inline-block;
   padding: 0.25rem 0.75rem;
@@ -467,6 +534,29 @@ button.btn-lg {
 
 .progress-fill.danger {
   background-color: var(--danger);
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: var(--border-color);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+  border-radius: var(--radius);
+  transition: width 0.3s ease;
+}
+
+.progress-bar-compact {
+  height: 6px;
+}
+
+.progress-bar-sm {
+  height: 4px;
 }
 
 /* ============================================================
@@ -735,6 +825,196 @@ button.btn-lg {
 }
 
 /* ============================================================
+   EMPTY STATES
+   ============================================================ */
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: var(--card-background);
+  border-radius: var(--radius);
+  border: 1px dashed var(--border-color);
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.empty-state-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--border-color);
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.empty-state-text {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================================
+   INTERACTIVE ELEMENTS
+   ============================================================ */
+
+.clickable {
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.clickable:hover {
+  background-color: var(--hover-bg);
+}
+
+.clickable:active {
+  transform: scale(0.98);
+}
+
+.interactive {
+  cursor: pointer;
+  user-select: none;
+}
+
+.interactive-item {
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.interactive-item:hover {
+  background-color: var(--hover-bg);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   DIVIDERS & SEPARATORS
+   ============================================================ */
+
+.divider {
+  border-top: 1px solid var(--border-color);
+  margin: 1.5rem 0;
+}
+
+.divider-vertical {
+  border-left: 1px solid var(--border-color);
+  margin: 0 1.5rem;
+}
+
+/* ============================================================
+   SHADOWS & EFFECTS
+   ============================================================ */
+
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow {
+  box-shadow: var(--shadow);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-none {
+  box-shadow: none;
+}
+
+.border {
+  border: 1px solid var(--border-color);
+}
+
+.border-top {
+  border-top: 1px solid var(--border-color);
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.border-left {
+  border-left: 1px solid var(--border-color);
+}
+
+.border-right {
+  border-right: 1px solid var(--border-color);
+}
+
+/* ============================================================
+   LOADING STATES
+   ============================================================ */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+  background-color: var(--background-color);
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* ============================================================
+   PAGE HEADERS
+   ============================================================ */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--section-spacing);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+}
+
+/* ============================================================
    SCROLLBAR STYLING
    ============================================================ */
 
@@ -808,86 +1088,6 @@ button.btn-lg {
 }
 
 /* ============================================================
-   INTERACTIVE ELEMENTS
-   ============================================================ */
-
-.clickable {
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.clickable:hover {
-  background-color: var(--hover-bg);
-}
-
-.clickable:active {
-  transform: scale(0.98);
-}
-
-.interactive {
-  cursor: pointer;
-  user-select: none;
-}
-
-/* ============================================================
-   DIVIDERS & SEPARATORS
-   ============================================================ */
-
-.divider {
-  border-top: 1px solid var(--border-color);
-  margin: 1.5rem 0;
-}
-
-.divider-vertical {
-  border-left: 1px solid var(--border-color);
-  margin: 0 1.5rem;
-}
-
-/* ============================================================
-   SHADOWS & EFFECTS
-   ============================================================ */
-
-.shadow-sm {
-  box-shadow: var(--shadow-sm);
-}
-
-.shadow {
-  box-shadow: var(--shadow);
-}
-
-.shadow-md {
-  box-shadow: var(--shadow-md);
-}
-
-.shadow-lg {
-  box-shadow: var(--shadow-lg);
-}
-
-.shadow-none {
-  box-shadow: none;
-}
-
-.border {
-  border: 1px solid var(--border-color);
-}
-
-.border-top {
-  border-top: 1px solid var(--border-color);
-}
-
-.border-bottom {
-  border-bottom: 1px solid var(--border-color);
-}
-
-.border-left {
-  border-left: 1px solid var(--border-color);
-}
-
-.border-right {
-  border-right: 1px solid var(--border-color);
-}
-
-/* ============================================================
    RESPONSIVE UTILITIES
    ============================================================ */
 
@@ -898,10 +1098,6 @@ button.btn-lg {
 }
 
 @media (max-width: 768px) {
-  .hide-md {
-    display: none;
-  }
-
   .hide-md {
     display: none;
   }
