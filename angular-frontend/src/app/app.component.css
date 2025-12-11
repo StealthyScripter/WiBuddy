@@ -1,143 +1,216 @@
-.main {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 20px;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  background-color: var(--background-color);
-  color: var(--text-primary);
+/* ============================================
+   App Container
+   ============================================ */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
 }
 
-.content-wrapper {
-  max-width: var(--max-width);
-  width: 100%;
-  margin: 0 auto;
-  padding: 1rem;
-  background-color: var(--background-color);
-}
+/* ============================================
+   Header / Navigation
+   ============================================ */
 
-/* Navigation bar */
-.main-menu {
-  background-color: var(--card-background);
-  box-shadow: var(--shadow);
-  height: var(--header-height);
+.app-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-primary);
   position: sticky;
   top: 0;
-  z-index: var(--z-dropdown);
-  border-bottom: 1px solid var(--border-color);
+  z-index: var(--z-sticky);
+  box-shadow: var(--shadow-sm);
 }
 
-.main-menu .main {
-  padding: 0 1rem;
+.header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
-  background-color: var(--card-background);
+  height: var(--header-height);
+  gap: var(--space-4);
 }
 
-/* Logo styling */
+/* Logo */
 .logo {
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
-  color: var(--primary-color);
-  text-decoration: none;
+  color: var(--color-primary-600);
+  transition: color var(--transition-fast);
 }
 
-/* Navigation menu styling */
-.main-menu .main ul {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 1.5rem;
+[data-theme="dark"] .logo-text,
+.dark .logo-text {
+  color: var(--color-primary-400);
 }
 
-.main-menu .main ul li {
-  margin: 0;
-  padding: 0;
+.logo:hover .logo-text {
+  color: var(--color-primary-700);
 }
 
-.main-menu .main ul li a {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text-secondary);
-  text-decoration: none;
-  padding: 0.5rem;
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
+[data-theme="dark"] .logo:hover .logo-text,
+.dark .logo:hover .logo-text {
+  color: var(--color-primary-300);
 }
 
-/* Highlight active link */
-.main-menu .main ul li a.active {
-  color: var(--primary-color);
-  background-color: var(--primary-light);
-}
-
-/* Hover effect */
-.main-menu .main ul li a:hover {
-  color: var(--primary-color);
-  background-color: var(--hover-bg);
-}
-
-/* Profile section */
-.profile {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: var(--text-primary);
-}
-
-.profile img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* Mobile menu toggle button */
+/* Mobile Menu Toggle */
 .mobile-menu-toggle {
   display: none;
   background: none;
   border: none;
   color: var(--text-secondary);
-  font-size: 1.25rem;
   cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
 }
 
-/* Responsive navigation adjustments */
+.mobile-menu-toggle:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Navigation Menu */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.nav-item {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nav-link.active {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-700);
+}
+
+[data-theme="dark"] .nav-link.active,
+.dark .nav-link.active {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: var(--color-primary-300);
+}
+
+.nav-link svg {
+  flex-shrink: 0;
+}
+
+/* Profile Link */
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.profile-link:hover {
+  background-color: var(--bg-hover);
+}
+
+.profile-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ============================================
+   Main Content Area
+   ============================================ */
+
+.app-content {
+  flex: 1;
+  width: 100%;
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
 @media (max-width: 768px) {
+  /* Show mobile toggle */
   .mobile-menu-toggle {
     display: block;
   }
 
-  .main-menu .main ul {
+  /* Mobile menu styling */
+  .nav-menu {
     position: fixed;
     top: var(--header-height);
     left: 0;
     right: 0;
-    background-color: var(--card-background);
     flex-direction: column;
-    padding: 1rem;
-    box-shadow: var(--shadow);
+    align-items: stretch;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-4);
+    gap: var(--space-2);
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
-    transition: var(--transition);
+    transition: all var(--transition-base);
     z-index: var(--z-dropdown);
-    border-bottom: 1px solid var(--border-color);
   }
 
-  .main-menu .main ul.mobile-open {
+  .nav-menu.mobile-open {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
   }
 
-  .main-menu .main ul li a {
-    padding: 0.75rem 0.5rem;
+  .nav-link {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  /* Hide profile name on small screens */
+  .profile-name {
+    display: none;
   }
 }
 
+@media (max-width: 640px) {
+  .logo-text {
+    font-size: var(--font-size-lg);
+  }
+
+  .header-content {
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+  }
+}

@@ -1,106 +1,150 @@
-<section class="home-container">
+<div class="container">
+  <div class="home-grid">
 
-  <!-- Greeting + Affirmation -->
-  <section class="welcome-card">
-    <h2>Hello Brian 👋</h2>
-    <p class="subtext">Hope you're ready to make today meaningful.</p>
+    <!-- Greeting + Affirmation -->
+    <section class="welcome-card">
+      <h2 class="welcome-title">Hello Brian 👋</h2>
+      <p class="welcome-subtitle">Hope you're ready to make today meaningful.</p>
 
-    <div class="affirmation-box" (click)="navigateToAffirmations(Affirmation.id)">
-      “{{ Affirmation.quote }}”
-      <div class="author">— {{ Affirmation.author }}</div>
-    </div>
-
-    <form class="prompt">
-      <input type="text" placeholder="What's on your mind?" />
-      <button disabled>Send</button>
-    </form>
-  </section>
-
-
-  <!-- Today's Tasks -->
-  <section class="section-card">
-    <div class="section-header">
-      <h3>Today's Tasks</h3>
-      <button (click)="navigateToTasks()">
-        {{ tasksInProgress().length }} Active
-      </button>
-    </div>
-
-    @if (tasksInProgress().length === 0) {
-      <div class="empty-state">
-        No tasks for today 🎉
+      <div class="affirmation-box" (click)="navigateToAffirmations(Affirmation.id)">
+        <div class="affirmation-quote">"{{ Affirmation.quote }}"</div>
+        <div class="affirmation-author">— {{ Affirmation.author }}</div>
       </div>
-    }
 
-    @for (task of tasksInProgress().slice(0, 3); track task) {
-      <div class="task-item"
-        (click)="navigateToTask(task.id)">
-        <input type="checkbox" (click)="$event.stopPropagation()">
-        <span>{{ task.name }}</span>
-        <app-due-date [dueDate]="task.dueDate"></app-due-date>
+      <form class="prompt-form">
+        <input
+          type="text"
+          class="prompt-input"
+          placeholder="What's on your mind?"
+          aria-label="Quick thought input"
+        />
+        <button type="button" class="btn btn-secondary" disabled>Send</button>
+      </form>
+    </section>
+
+
+    <!-- Today's Tasks -->
+    <section class="card">
+      <div class="card-header">
+        <h3 class="card-title">Today's Tasks</h3>
+        <button
+          class="btn btn-sm badge badge-primary"
+          (click)="navigateToTasks()"
+          aria-label="View all active tasks">
+          {{ tasksInProgress().length }} Active
+        </button>
       </div>
-    }
 
-    <button class="see-all" (click)="navigateToTasks()">See all tasks</button>
-  </section>
+      @if (tasksInProgress().length === 0) {
+        <div class="empty-state">
+          <div class="empty-state-icon">🎉</div>
+          <div class="empty-state-title">No tasks for today</div>
+          <p class="empty-state-description">Take a moment to relax or plan ahead!</p>
+        </div>
+      }
 
-
-  <!-- Ongoing Projects -->
-  <section class="section-card">
-    <div class="section-header">
-      <h3>Ongoing Projects</h3>
-      <button (click)="navigateToProjects()">
-        {{ getOngoingProjects().length }} Active
-      </button>
-    </div>
-
-    @if (ongoingProjects.length === 0) {
-      <div class="empty-state">
-        No ongoing projects yet.
-      </div>
-    }
-
-    @for (p of ongoingProjects.slice(0, 2); track p) {
-      <div class="project-item"
-        (click)="navigateToProject(p.id)">
-        <div>
-          <div class="project-name">{{ p.name }}</div>
-          <div class="progress-bar">
-            <div class="progress-fill" [style.width]="p.progress + '%'"></div>
+      <div class="task-list">
+        @for (task of tasksInProgress().slice(0, 3); track task) {
+          <div class="task-item" (click)="navigateToTask(task.id)">
+            <input
+              type="checkbox"
+              class="form-checkbox"
+              (click)="$event.stopPropagation()"
+              aria-label="Mark task as complete"
+            />
+            <span class="task-name">{{ task.name }}</span>
+            <app-due-date [dueDate]="task.dueDate"></app-due-date>
           </div>
+        }
+      </div>
+
+      @if (tasksInProgress().length > 0) {
+        <button class="btn btn-ghost w-full mt-4" (click)="navigateToTasks()">
+          See all tasks
+        </button>
+      }
+    </section>
+
+
+    <!-- Ongoing Projects -->
+    <section class="card">
+      <div class="card-header">
+        <h3 class="card-title">Ongoing Projects</h3>
+        <button
+          class="btn btn-sm badge badge-primary"
+          (click)="navigateToProjects()"
+          aria-label="View all active projects">
+          {{ getOngoingProjects().length }} Active
+        </button>
+      </div>
+
+      @if (ongoingProjects.length === 0) {
+        <div class="empty-state">
+          <div class="empty-state-icon">📁</div>
+          <div class="empty-state-title">No ongoing projects yet</div>
+          <p class="empty-state-description">Create your first project to get started!</p>
         </div>
-        <span class="progress-percent">{{ p.progress }}%</span>
+      }
+
+      <div class="project-list">
+        @for (p of ongoingProjects.slice(0, 2); track p) {
+          <div class="project-item" (click)="navigateToProject(p.id)">
+            <div class="project-info">
+              <div class="project-name">{{ p.name }}</div>
+              <div class="progress">
+                <div class="progress-bar" [style.width]="p.progress + '%'"></div>
+              </div>
+            </div>
+            <span class="badge badge-neutral">{{ p.progress }}%</span>
+          </div>
+        }
       </div>
-    }
 
-    <button class="see-all" (click)="navigateToProjects()">See all projects</button>
-  </section>
+      @if (ongoingProjects.length > 0) {
+        <button class="btn btn-ghost w-full mt-4" (click)="navigateToProjects()">
+          See all projects
+        </button>
+      }
+    </section>
 
 
-  <!-- Notes preview -->
-  <section class="section-card">
-    <div class="section-header">
-      <h3>Your Notes</h3>
-      <img src="icons8-plus%20sign.png" (click)="navigateToNewNote()"/>
-    </div>
-
-    @if (notes.length === 0) {
-      <div class="empty-state">
-        No notes yet.
+    <!-- Notes preview -->
+    <section class="card">
+      <div class="card-header">
+        <h3 class="card-title">Your Notes</h3>
+        <button
+          class="btn btn-icon btn-sm btn-ghost"
+          (click)="navigateToNewNote()"
+          aria-label="Create new note">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
       </div>
-    }
 
-    @for (note of notes.slice(0, 3); track note) {
-      <div class="note-item"
-        (click)="navigateToNote(note.id)">
-        <div class="note-title">{{ note.name }}</div>
-        <div class="note-preview">
-          {{ getNotesPreview(note.content) }}
+      @if (notes.length === 0) {
+        <div class="empty-state">
+          <div class="empty-state-icon">📝</div>
+          <div class="empty-state-title">No notes yet</div>
+          <p class="empty-state-description">Start capturing your thoughts and ideas!</p>
         </div>
+      }
+
+      <div class="note-list">
+        @for (note of notes.slice(0, 3); track note) {
+          <div class="note-item" (click)="navigateToNote(note.id)">
+            <div class="note-title">{{ note.name }}</div>
+            <div class="note-preview">{{ getNotesPreview(note.content) }}</div>
+          </div>
+        }
       </div>
-    }
 
-    <button class="see-all" (click)="navigateToProjects()">See all notes</button>
-  </section>
+      @if (notes.length > 0) {
+        <button class="btn btn-ghost w-full mt-4" (click)="navigateToProjects()">
+          See all notes
+        </button>
+      }
+    </section>
 
-</section>
+  </div>
+</div>
