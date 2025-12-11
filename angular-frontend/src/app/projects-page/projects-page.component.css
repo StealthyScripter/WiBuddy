@@ -1,217 +1,333 @@
-.dashboard {
-  background: var(--background-color);
-}
+/* ============================================
+   Page Header
+   ============================================ */
 
 .page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--section-spacing);
+  margin-bottom: var(--space-6);
 }
 
 .page-title {
-  font-size: 1.75rem;
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   margin: 0;
+}
+
+/* ============================================
+   Filter Section
+   ============================================ */
+
+.filter-section {
+  margin-bottom: var(--space-8);
 }
 
 /* Tabs Navigation */
 .tabs {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
   flex-wrap: wrap;
+  border-bottom: 2px solid var(--border-primary);
+  padding-bottom: var(--space-1);
 }
 
-.tabs button {
-  padding: 0.5rem 1rem;
+.tab-button {
+  padding: var(--space-2) var(--space-4);
   border: none;
-  border-radius: var(--radius);
-  background: var(--card-background);
-  color: var(--text-primary);
+  background: transparent;
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: var(--transition);
-  border: 1px solid var(--border-color);
-}
-
-.tabs button.active {
-  background: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-}
-
-/* Search Container */
-.search-container {
-  margin-left: auto;
-}
-
-.search-container input {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  width: 200px;
-  background-color: var(--card-background);
-  color: var(--text-primary);
-}
-
-#add-project-btn {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.625rem 1.25rem;
-  margin: 0px 10px;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: var(--transition);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  transition: all var(--transition-fast);
+  position: relative;
 }
 
-#add-project-btn:hover {
-  background-color: var(--primary-hover);
-  box-shadow: var(--shadow-md);
+.tab-button:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
-/* Projects Grid */
+.tab-button.active {
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-primary-600);
+}
+
+[data-theme="dark"] .tab-button.active {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--color-primary-300);
+}
+
+/* Search and Actions */
+.search-actions {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.search-container {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-container .form-input {
+  padding-right: 3rem;
+  width: 100%;
+}
+
+.search-icon {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  background: none;
+  border: none;
+  padding: var(--space-2);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.search-icon:hover {
+  color: var(--text-secondary);
+  background: var(--bg-hover);
+}
+
+/* ============================================
+   Projects Grid
+   ============================================ */
+
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--section-spacing);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-6);
 }
 
-/* Project Card */
+/* ============================================
+   Project Card
+   ============================================ */
+
 .project-card {
-  background: var(--card-background);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
 }
 
 .project-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--primary-color);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary-300);
 }
 
-/* Project Header */
+/* ============================================
+   Project Header
+   ============================================ */
+
 .project-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 10px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
-.project-header h2 {
-  font-size: 1.125rem;
-  margin: 0;
+.project-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
+  margin: 0;
+  line-height: 1.4;
+  flex: 1;
 }
 
-.completionStatus-badge {
-  padding: var(--badge-padding);
-  border-radius: var(--radius-sm);
-  font-size: var(--badge-font-size);
-  font-weight: var(--font-weight-medium);
+/* Status badges */
+.badge-in-progress {
+  background: var(--status-in-progress-bg);
+  color: var(--status-in-progress-text);
+  border: 1px solid var(--status-in-progress-border);
 }
 
-.completionStatus-badge.in_progress {
-  background-color: var(--status-inprogress-bg);
-  color: var(--status-inprogress-text);
-}
-
-.completionStatus-badge.completed {
-  background-color: var(--status-completed-bg);
+.badge-completed {
+  background: var(--status-completed-bg);
   color: var(--status-completed-text);
+  border: 1px solid var(--status-completed-border);
 }
 
-.completionStatus-badge.not_started {
-  background-color: var(--status-notstarted-bg);
-  color: var(--status-notstarted-text);
+.badge-not-started {
+  background: var(--status-not-started-bg);
+  color: var(--status-not-started-text);
+  border: 1px solid var(--status-not-started-border);
 }
 
-/* Department */
-.department {
+/* ============================================
+   Project Content
+   ============================================ */
+
+.project-department {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
   color: var(--text-secondary);
-  font-size: 0.875rem;
-  margin-bottom: 10px;
+  margin-bottom: var(--space-3);
 }
 
-/* Description */
-.description {
-  margin-bottom: 15px;
-  font-size: 0.875rem;
-  line-height: var(--line-height-normal);
+.project-department svg {
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+}
+
+.project-description {
+  font-size: var(--font-size-sm);
   color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
-/* Progress Section */
+/* ============================================
+   Progress Section
+   ============================================ */
+
 .progress-section {
-  margin-bottom: 15px;
+  margin-bottom: var(--space-4);
 }
 
 .progress-label {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5px;
-  font-size: 0.875rem;
-  color: var(--text-secondary);
+  align-items: center;
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-sm);
 }
 
-.progress-bar {
-  height: 8px;
-  background: var(--hover-bg);
-  border-radius: var(--radius);
-  overflow: hidden;
+.progress-percent {
+  color: var(--text-primary);
 }
 
-.progress-fill {
-  height: 100%;
-  background: var(--primary-color);
-  transition: width 0.3s ease;
-  border-radius: var(--radius);
-}
+/* ============================================
+   Project Footer
+   ============================================ */
 
-/* Project Footer */
 .project-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-primary);
 }
 
 .milestones {
-  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
   color: var(--text-secondary);
 }
 
-/* Responsive */
+.milestones svg {
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+}
+
+/* ============================================
+   Empty State
+   ============================================ */
+
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.empty-state-icon {
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-4);
+}
+
+.empty-state-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state-description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  max-width: 400px;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
 @media (max-width: 768px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
+  .filter-section {
+    margin-bottom: var(--space-6);
+  }
+
+  .search-actions {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .search-container {
-    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .btn {
     width: 100%;
   }
 
-  .search-container input {
-    width: 100%;
-  }
-
-  .tabs {
-    width: 100%;
+  .projects-grid {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 480px) {
-  #add-project-btn {
-    width: 100%;
-    margin: 10px 0;
+@media (max-width: 640px) {
+  .tabs {
+    gap: var(--space-1);
+  }
+
+  .tab-button {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-xs);
+  }
+
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
