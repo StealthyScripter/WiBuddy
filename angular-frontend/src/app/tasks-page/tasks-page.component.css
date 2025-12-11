@@ -1,28 +1,27 @@
-.page-container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
+/* ============================================
+   Page Header
+   ============================================ */
 
 .page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--section-spacing);
+  margin-bottom: var(--space-8);
 }
 
 .page-title {
-  font-size: 1.75rem;
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   margin: 0;
 }
 
-/* Search and Actions Bar */
+/* ============================================
+   Search and Actions Bar
+   ============================================ */
+
 .search-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
   justify-content: space-between;
   align-items: center;
 }
@@ -30,161 +29,158 @@
 .search-container {
   position: relative;
   flex: 1;
-  min-width: 200px;
+  min-width: 250px;
+  max-width: 500px;
 }
 
-.search-container input {
-  padding-right: 2.5rem;
+.search-container .form-input {
+  padding-right: 3rem;
   width: 100%;
-  background-color: var(--card-background);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  padding: 0.75rem 1rem;
-  transition: var(--transition);
-}
-
-.search-container input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 var(--input-focus-ring) var(--input-focus-ring-color);
 }
 
 .search-icon {
   position: absolute;
-  right: 0.5rem;
+  right: var(--space-3);
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-muted);
+  color: var(--text-tertiary);
   background: none;
   border: none;
-  padding: 0.5rem;
+  padding: var(--space-2);
   cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.search-icon:hover {
+  color: var(--text-secondary);
+  background: var(--bg-hover);
 }
 
 .actions {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-3);
   align-items: center;
 }
 
-.sort-select {
-  min-width: 150px;
-  background-color: var(--card-background);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  padding: 0.75rem 1rem;
-  transition: var(--transition);
-  cursor: pointer;
+.form-select {
+  min-width: 180px;
 }
 
-.sort-select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
+/* ============================================
+   Tasks Grid
+   ============================================ */
 
-/* Task Grid */
 .tasks-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--section-spacing);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-6);
 }
 
-/* Task Card */
+/* ============================================
+   Task Card
+   ============================================ */
+
 .task-card {
-  background-color: var(--card-background);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  transition: var(--transition);
-  border-top: 4px solid var(--gray-300);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border-top: 3px solid var(--border-primary);
 }
 
 .task-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-secondary);
 }
 
+/* Status-based border colors */
 .task-card.in-progress {
-  border-top-color: var(--primary-color);
+  border-top-color: var(--color-primary-600);
 }
 
 .task-card.completed {
-  border-top-color: var(--success);
+  border-top-color: var(--color-success-600);
 }
 
 .task-card.not-started {
-  border-top-color: var(--gray-400);
+  border-top-color: var(--color-neutral-400);
 }
 
 .task-card.overdue {
-  border-top-color: var(--danger);
+  border-top-color: var(--color-danger-600);
 }
 
 .task-card.blocked {
-  border-top-color: var(--secondary-color);
+  border-top-color: var(--color-warning-600);
 }
 
-/* Task Header */
+/* ============================================
+   Task Header
+   ============================================ */
+
 .task-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
 }
 
 .task-title {
-  font-size: 1.125rem;
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  margin: 0;
   color: var(--text-primary);
+  margin: 0;
+  line-height: 1.4;
+  flex: 1;
 }
 
-/* Status Badge */
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--badge-padding);
-  border-radius: 9999px;
-  font-size: var(--badge-font-size);
-  font-weight: var(--font-weight-medium);
-  white-space: nowrap;
+/* Status badges mapped to design system */
+.badge-in-progress {
+  background: var(--status-in-progress-bg);
+  color: var(--status-in-progress-text);
+  border: 1px solid var(--status-in-progress-border);
 }
 
-.status-in-progress {
-  background-color: var(--status-inprogress-bg);
-  color: var(--status-inprogress-text);
-}
-
-.status-completed {
-  background-color: var(--status-completed-bg);
+.badge-completed {
+  background: var(--status-completed-bg);
   color: var(--status-completed-text);
+  border: 1px solid var(--status-completed-border);
 }
 
-.status-not-started {
-  background-color: var(--status-notstarted-bg);
-  color: var(--status-notstarted-text);
+.badge-not-started {
+  background: var(--status-not-started-bg);
+  color: var(--status-not-started-text);
+  border: 1px solid var(--status-not-started-border);
 }
 
-.status-overdue {
-  background-color: var(--status-overdue-bg);
+.badge-overdue {
+  background: var(--status-overdue-bg);
   color: var(--status-overdue-text);
+  border: 1px solid var(--status-overdue-border);
 }
 
-.status-blocked {
-  background-color: var(--status-blocked-bg);
-  color: var(--status-blocked-text);
+.badge-blocked {
+  background: var(--status-cancelled-bg);
+  color: var(--status-cancelled-text);
+  border: 1px solid var(--status-cancelled-border);
 }
 
-/* Task Description */
+/* ============================================
+   Task Content
+   ============================================ */
+
 .task-description {
   color: var(--text-secondary);
-  font-size: 0.875rem;
-  line-height: var(--line-height-normal);
-  margin-bottom: 1rem;
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
   flex: 1;
   overflow: hidden;
   display: -webkit-box;
@@ -192,64 +188,107 @@
   -webkit-box-orient: vertical;
 }
 
-/* Task Footer */
+/* ============================================
+   Task Footer
+   ============================================ */
+
 .task-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--space-3);
   margin-top: auto;
-  font-size: 0.75rem;
-  color: var(--text-muted);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-primary);
 }
 
 .task-due-date,
 .task-category {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.task-due-date svg,
+.task-category svg {
+  flex-shrink: 0;
+  color: var(--text-tertiary);
 }
 
 .task-category {
-  background-color: var(--hover-bg);
-  padding: 0.25rem 0.5rem;
+  background: var(--bg-tertiary);
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-medium);
 }
 
 .task-due-date.overdue {
-  color: var(--danger);
+  color: var(--color-danger-600);
   font-weight: var(--font-weight-semibold);
 }
 
-/* Empty State */
+.task-due-date.overdue svg {
+  color: var(--color-danger-600);
+}
+
+[data-theme="dark"] .task-due-date.overdue {
+  color: var(--color-danger-400);
+}
+
+[data-theme="dark"] .task-due-date.overdue svg {
+  color: var(--color-danger-400);
+}
+
+/* ============================================
+   Empty State
+   ============================================ */
+
 .empty-state {
   grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
-  background-color: var(--card-background);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  padding: var(--space-12);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
   text-align: center;
-  color: var(--text-muted);
 }
 
-.empty-state svg {
-  color: var(--gray-300);
-  margin-bottom: 1rem;
+.empty-state-icon {
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-4);
 }
 
-.empty-state p {
-  margin-bottom: 1.5rem;
-  font-size: 1.125rem;
+.empty-state-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
 }
 
-/* Responsive */
+.empty-state-description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  max-width: 400px;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
 @media (max-width: 768px) {
   .search-actions {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .search-container {
+    max-width: 100%;
   }
 
   .actions {
@@ -262,18 +301,25 @@
   }
 }
 
-@media (max-width: 480px) {
-  .page-container {
-    padding: 1rem;
-  }
-
+@media (max-width: 640px) {
   .actions {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .sort-select,
+  .form-select,
   .btn {
     width: 100%;
+  }
+
+  .task-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
   }
 }

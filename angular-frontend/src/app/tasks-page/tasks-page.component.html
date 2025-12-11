@@ -1,8 +1,10 @@
-<div class="page-container">
+<div class="container py-6">
+  <!-- Page Header -->
   <header class="page-header">
     <h1 class="page-title">Tasks</h1>
   </header>
 
+  <!-- Search and Actions Bar -->
   <div class="search-actions">
     <div class="search-container">
       <input
@@ -10,10 +12,14 @@
         [(ngModel)]="searchQuery"
         placeholder="Search tasks..."
         (input)="filterTasks()"
-        class="form-control"
-        >
-      <button class="search-icon btn btn-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        class="form-input"
+        aria-label="Search tasks"
+      />
+      <button class="search-icon" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
       </button>
     </div>
 
@@ -21,61 +27,89 @@
       <select
         [(ngModel)]="sortCriteria"
         (change)="sortTasks()"
-        class="form-control sort-select"
-        >
+        class="form-select"
+        aria-label="Sort tasks"
+      >
         <option value="priority">Sort by Priority</option>
         <option value="date">Sort by Date</option>
         <option value="status">Sort by Status</option>
       </select>
 
       <button class="btn btn-primary" (click)="addTask()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
         New Task
       </button>
     </div>
   </div>
 
+  <!-- Tasks Grid -->
   <div class="tasks-grid">
     @for (task of filteredTasks; track task) {
       <div
-        class="task-card clickable-field"
+        class="task-card"
         [ngClass]="getStatusClass(task.completionStatus)"
         (click)="navigateToTask(task.id)"
-        >
+      >
         <div class="task-header">
           <h3 class="task-title">{{ task.name }}</h3>
-          <span class="status-badge" [ngClass]="'status-' + getStatusClass(task.completionStatus)">
+          <span class="badge" [ngClass]="'badge-' + getStatusClass(task.completionStatus)">
             {{ getStatusDisplay(task.completionStatus) }}
           </span>
         </div>
-        <p class="task-description">{{ task.description || 'No description provided' }}</p>
+
+        <p class="task-description">
+          {{ task.description || 'No description provided' }}
+        </p>
+
         <div class="task-footer">
-          <div class="task-due-date">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-            <span class="due-date"
-              [ngClass]="{'overdue': isOverdue(task)}">
-              Due: {{ task.dueDate | date:'MMM dd' }}
-            </span>
+          <div class="task-due-date" [ngClass]="{'overdue': isOverdue(task)}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+            <span>Due: {{ task.dueDate | date:'MMM dd' }}</span>
           </div>
+
           <div class="task-category">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-            {{ task.category }}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+              <circle cx="7" cy="7" r="1"/>
+            </svg>
+            <span>{{ task.category }}</span>
           </div>
         </div>
-        @if (filteredTasks.length === 0) {
-          <div class="empty-state">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            <button (click)="toggleTaskComplete(task)"
-              class="btn btn-sm">
-              {{ task.isCompleted ? 'Undo' : 'Complete' }}
-            </button>
-          </div>
-        }
+
+        <button
+          (click)="toggleTaskComplete(task); $event.stopPropagation()"
+          class="btn btn-sm mt-3"
+          [ngClass]="task.isCompleted ? 'btn-secondary' : 'btn-success'"
+        >
+          {{ task.isCompleted ? 'Undo' : 'Complete' }}
+        </button>
       </div>
     }
+
+    <!-- Empty State -->
     @if (filteredTasks.length === 0) {
       <div class="empty-state">
-        <p>No tasks found matching your criteria</p>
-        <button class="btn btn-primary" (click)="addTask()">Create a new task</button>
+        <div class="empty-state-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+          </svg>
+        </div>
+        <div class="empty-state-title">No tasks found</div>
+        <p class="empty-state-description">
+          No tasks match your search criteria. Try adjusting your filters or create a new task.
+        </p>
+        <button class="btn btn-primary" (click)="addTask()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Create New Task
+        </button>
       </div>
     }
   </div>
