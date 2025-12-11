@@ -52,8 +52,8 @@
       <div class="project-card" (click)="navigateToProject(project.id)">
         <div class="project-header">
           <h2 class="project-title">{{ project.name }}</h2>
-          <span class="badge" [ngClass]="'badge-' + project.completionStatus.replace('_', '-')">
-            {{ project.completionStatus.replace('_', ' ') }}
+          <span class="badge" [ngClass]="'badge-' + (project?.completionStatus?.replace('_', '-') ?? 'not-started')">
+            {{ project?.completionStatus?.replace('_', ' ') ?? '' }}
           </span>
         </div>
 

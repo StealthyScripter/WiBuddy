@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Project, TaskStatus, Priority, Task } from '../../models.interface';
-
+import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { FilterOptions } from '../../models.interface';
@@ -10,7 +10,7 @@ import { mockProjects, mockTasks } from '../../services/test.data';
 @Component({
   selector: 'app-projects-page',
   standalone: true,
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule, NgClass],
   templateUrl: 'projects-page.component.html',
   styleUrl:'projects-page.component.css'
 })
