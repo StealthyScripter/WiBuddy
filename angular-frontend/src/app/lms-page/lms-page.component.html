@@ -96,9 +96,9 @@
                 </svg>
                 New Folder
               </button>
-              <div class="create-dropdown" (clickOutside)="showCreateMenu = false">
+              <div class="create-dropdown">
                 <button
-                  (click)="toggleCreateMenu()"
+                  (click)="toggleCreateMenu(); $event.stopPropagation()"
                   class="library-btn btn-primary">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -109,7 +109,7 @@
 
                 <!-- Dropdown Menu -->
                 @if (showCreateMenu) {
-                  <div class="dropdown-menu">
+                  <div class="dropdown-menu" (click)="$event.stopPropagation()">
                     <button class="dropdown-item" (click)="selectCreateOption('note')">
                       📝 Create Note
                     </button>
@@ -321,5 +321,55 @@
   <div
     class="modal-overlay"
     (click)="hideContextMenu()">
+  </div>
+}
+
+<!-- Create/Edit Modal -->
+@if (showCreateModal) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          @if (editingItem) {
+            <span>Edit {{ createModalType | titlecase }}</span>
+          } @else {
+            <span>Create New {{ createModalType | titlecase }}</span>
+          }
+        </h3>
+        <button (click)="closeModal()" class="modal-close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label class="modal-label">
+          {{ createModalType | titlecase }} Name
+        </label>
+        <input
+          [(ngModel)]="modalItemName"
+          type="text"
+          class="modal-input"
+          [placeholder]="'Enter ' + createModalType + ' name'"
+          (keyup.enter)="saveItem()"
+          autofocus>
+      </div>
+      <div class="modal-footer">
+        <button (click)="closeModal()" class="btn btn-secondary">
+          Cancel
+        </button>
+        <button
+          (click)="saveItem()"
+          [disabled]="!modalItemName.trim()"
+          class="btn btn-primary">
+          @if (editingItem) {
+            <span>Save Changes</span>
+          } @else {
+            <span>Create</span>
+          }
+        </button>
+      </div>
+    </div>
   </div>
 }

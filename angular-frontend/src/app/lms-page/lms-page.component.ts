@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -85,6 +85,11 @@ export class LmsPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    this.showCreateMenu = false;
   }
 
   loadLMSData() {
@@ -220,7 +225,11 @@ export class LmsPageComponent implements OnInit, OnDestroy {
     return this.expandedFolders.has(id);
   }
 
-  selectItem(item: LibraryItem) {
+  selectItem(item: LibraryItem, event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+    }
+
     this.selectedLibraryItem = item;
 
     if (item.type === 'folder') {
@@ -445,9 +454,16 @@ export class LmsPageComponent implements OnInit, OnDestroy {
     return `${skill.targetLevel}%`;
   }
 
-  handleItemClick(item: any) {
+  handleItemClick(item: any, event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+    }
+
+    this.selectedLibraryItem = item;
+
     if (item.type === 'folder') {
       this.toggleFolder(item);
+      this.currentFolderId = item.id;
       return;
     }
 
