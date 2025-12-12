@@ -47,6 +47,32 @@ class ContentType(enum.Enum):
     VIDEO = "VIDEO"
     LINK = "LINK"
 
+class DocumentStatus(enum.Enum):
+    PENDING = "PENDING"
+    PROCESSING = "PROCESSING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+
+class QuestionType(enum.Enum):
+    MULTIPLE_CHOICE = "MULTIPLE_CHOICE"
+    TRUE_FALSE = "TRUE_FALSE"
+    SHORT_ANSWER = "SHORT_ANSWER"
+    ESSAY = "ESSAY"
+
+class AssessmentType(enum.Enum):
+    QUIZ = "QUIZ"
+    EXAM = "EXAM"
+    ASSIGNMENT = "ASSIGNMENT"
+    PROJECT = "PROJECT"
+    PRACTICE = "PRACTICE"
+
+class PerformanceLevel(enum.Enum):
+    EXCELLENT = "EXCELLENT"
+    GOOD = "GOOD"
+    AVERAGE = "AVERAGE"
+    NEEDS_IMPROVEMENT = "NEEDS_IMPROVEMENT"
+    POOR = "POOR"
+
 
 # Many-to-Many table for task prerequisites
 task_prerequisites = db.Table('task_prerequisites',
@@ -410,3 +436,147 @@ class CalendarEvent(db.Model):
     db.Index('idx_calendar_task', 'task_id'),
     db.Index('idx_calendar_user', 'user_id'),
     )
+
+# Document Management Models
+class Document(db.Model):
+    __tablename__ = 'documents'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    original_name = db.Column(db.String(200))
+    type = db.Column(db.Enum(ContentType), nullable=False)
+    file_url = db.Column(db.String(500), nullable=False)
+    thumbnail_url = db.Column(db.String(500))
+    file_size = db.Column(db.Integer)  # in bytes
+    mime_type = db.Column(db.String(100))
+    page_count = db.Column(db.Integer)
+    status = db.Column(db.Enum(DocumentStatus), default=DocumentStatus.PENDING)
+    processed_pdf_url = db.Column(db.String(500))  # For converted PPT
+    extracted_text = db.Column(db.Text)
+    ocr_text = db.Column(db.Text)
+    tags = db.Column(db.JSON)
+    uploaded_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=True)
+    is_shared = db.Column(db.Boolean, default=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    last_modified = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+# AI Learning Materials
+class Flashcard(db.Model):
+    __tablename__ = 'flashcards'
+    id = db.Column(db.Integer, primary_key=True)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=True)
+    note_id = db.Column(db.Integer, db.ForeignKey('notes.id'), nullable=True)
+    front = db.Column(db.Text, nullable=False)
+    back = db.Column(db.Text, nullable=False)
+    difficulty = db.Column(db.Enum(Priority), default=Priority.MEDIUM)
+    tags = db.Column(db.JSON)
+    review_count = db.Column(db.Integer, default=0)
+    last_reviewed_date = db.Column(db.DateTime)
+    next_review_date = db.Column(db.DateTime)
+    confidence_level = db.Column(db.Float, default=0.0)  # 0-100
+    is_starred = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Question(db.Model):
+    __tablename__ = 'questions'
+    id = db.Column(db.Integer, primary_key=True)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=True)
+    note_id = db.Column(db.Integer, db.ForeignKey('notes.id'), nullable=True)
+    question = db.Column(db.Text, nullable=False)
+    type = db.Column(db.Enum(QuestionType), nullable=False)
+    options = db.Column(db.JSON)  # Array of options for multiple choice
+    correct_answer = db.Column(db.Text)
+    explanation = db.Column(db.Text)
+    difficulty = db.Column(db.Enum(Priority), default=Priority.MEDIUM)
+    tags = db.Column(db.JSON)
+    related_concepts = db.Column(db.JSON)
+    points = db.Column(db.Integer, default=1)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+class CheatSheet(db.Model):
+    __tablename__ = 'cheatsheets'
+    id = db.Column(db.Integer, primary_key=True)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=True)
+    title = db.Column(db.String(200), nullable=False)
+    content = db.Column(db.JSON)  # Structured content with sections
+    tags = db.Column(db.JSON)
+    is_starred = db.Column(db.Boolean, default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    last_modified = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+# Performance Tracking
+class StudySession(db.Model):
+    __tablename__ = 'study_sessions'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=True)
+    start_time = db.Column(db.DateTime, nullable=False)
+    end_time = db.Column(db.DateTime)
+    duration = db.Column(db.Integer)  # in minutes
+    activities_completed = db.Column(db.JSON)  # Array of activity descriptions
+    flashcards_reviewed = db.Column(db.Integer, default=0)
+    questions_answered = db.Column(db.Integer, default=0)
+    correct_answers = db.Column(db.Integer, default=0)
+    notes_taken = db.Column(db.Text)
+    focus_score = db.Column(db.Float)  # 0-100
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Assessment(db.Model):
+    __tablename__ = 'assessments'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    name = db.Column(db.String(200), nullable=False)
+    type = db.Column(db.Enum(AssessmentType), nullable=False)
+    total_points = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Float)  # Points earned
+    passing_score = db.Column(db.Float)
+    due_date = db.Column(db.DateTime)
+    submission_date = db.Column(db.DateTime)
+    feedback = db.Column(db.Text)
+    is_graded = db.Column(db.Boolean, default=False)
+    time_limit = db.Column(db.Integer)  # in minutes
+    questions_data = db.Column(db.JSON)  # Store question IDs and answers
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+class WeakPoint(db.Model):
+    __tablename__ = 'weak_points'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    concept = db.Column(db.String(200), nullable=False)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=True)
+    score = db.Column(db.Float, nullable=False)  # 0-100
+    occurrences = db.Column(db.Integer, default=1)
+    related_questions = db.Column(db.JSON)  # Array of question IDs
+    suggested_resources = db.Column(db.JSON)  # Array of resource recommendations
+    is_addressed = db.Column(db.Boolean, default=False)
+    last_identified = db.Column(db.DateTime, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Trends and Market Insights
+class FieldTrend(db.Model):
+    __tablename__ = 'field_trends'
+    id = db.Column(db.Integer, primary_key=True)
+    field = db.Column(db.Enum(StudyField), nullable=False)
+    trend_type = db.Column(db.String(50))  # HOT_SKILL, LATEST_RELEASE, RESEARCH, etc.
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    source = db.Column(db.String(100))
+    source_url = db.Column(db.String(500))
+    relevance_score = db.Column(db.Float, default=0.0)  # 0-100
+    published_date = db.Column(db.DateTime)
+    expiry_date = db.Column(db.DateTime)
+    tags = db.Column(db.JSON)
+    is_starred = db.Column(db.Boolean, default=False)
+    related_skills = db.Column(db.JSON)
+    difficulty = db.Column(db.Enum(Priority))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+

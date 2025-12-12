@@ -13,6 +13,8 @@ from .resources.note_resource import NoteListResource, NoteResource, NoteSearchR
 from .resources.folder_resource import FolderListResource, FolderResource
 from .resources.course_resource import CourseListResource, CourseResource, CourseProgressResource
 from .resources.module_resource import ModuleListResource, ModuleResource
+from .resources.ai_resource import AISummarizeResource, AIFlashcardsResource, AIQuestionsResource, AICheatSheetResource
+from .resources.document_resource import DocumentListResource, DocumentResource, DocumentProcessResource
 import calendar
 from sqlalchemy.orm import joinedload
 from datetime import datetime
@@ -52,6 +54,17 @@ api.add_resource(CourseProgressResource, '/api/courses/<int:course_id>/progress'
 
 api.add_resource(ModuleListResource, '/api/modules')
 api.add_resource(ModuleResource, '/api/modules/<int:module_id>')
+
+# Add AI endpoints
+api.add_resource(AISummarizeResource, '/api/ai/summarize')
+api.add_resource(AIFlashcardsResource, '/api/ai/flashcards')
+api.add_resource(AIQuestionsResource, '/api/ai/questions')
+api.add_resource(AICheatSheetResource, '/api/ai/cheatsheet')
+
+# Add document management endpoints
+api.add_resource(DocumentListResource, '/api/documents')
+api.add_resource(DocumentResource, '/api/documents/<int:document_id>')
+api.add_resource(DocumentProcessResource, '/api/documents/<int:document_id>/process')
 
 # original routes for backward compatibility
 @app.route('/', methods=['GET', 'POST'])
