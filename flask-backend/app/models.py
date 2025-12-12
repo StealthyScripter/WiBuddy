@@ -29,6 +29,24 @@ class EventType(enum.Enum):
     DEADLINE = "deadline"
     TASK = "task"
 
+class StudyField(enum.Enum):
+    TECHNOLOGY = "TECHNOLOGY"
+    NURSING = "NURSING"
+    BUSINESS = "BUSINESS"
+    ENGINEERING = "ENGINEERING"
+    SCIENCE = "SCIENCE"
+    ARTS = "ARTS"
+    OTHER = "OTHER"
+
+class ContentType(enum.Enum):
+    NOTE = "NOTE"
+    PDF = "PDF"
+    PPT = "PPT"
+    IMAGE = "IMAGE"
+    AUDIO = "AUDIO"
+    VIDEO = "VIDEO"
+    LINK = "LINK"
+
 
 # Many-to-Many table for task prerequisites
 task_prerequisites = db.Table('task_prerequisites',
@@ -254,6 +272,79 @@ class Attachment(db.Model):
     __table_args__ = (db.Index('idx_attachment_entity', 'entity_type', 'entity_id'),)
 
 
+class Folder(db.Model):
+    __tablename__ = 'folders'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    parent_id = db.Column(db.Integer, db.ForeignKey('folders.id'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    last_modified = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    color = db.Column(db.String(50))
+
+    # Self-referential relationship for nested folders
+    children = db.relationship('Folder', backref=db.backref('parent', remote_side=[id]), lazy='dynamic')
+
+    # Relationship to notes
+    notes = db.relationship('Note', backref='folder', lazy='dynamic')
+
+class Course(db.Model):
+    __tablename__ = 'courses'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    code = db.Column(db.String(50))
+    description = db.Column(db.Text)
+    field = db.Column(db.Enum(StudyField), default=StudyField.OTHER)
+    instructor = db.Column(db.String(100))
+    semester = db.Column(db.String(50))
+    credits = db.Column(db.Integer)
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
+    progress = db.Column(db.Float, default=0.0)  # 0-100
+    color = db.Column(db.String(50))
+    tags = db.Column(db.JSON)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    last_modified = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Relationships
+    modules = db.relationship('Module', backref='course', lazy='dynamic', cascade='all, delete-orphan')
+
+    def calculate_progress(self):
+        """Calculate course progress based on completed modules"""
+        total_modules = self.modules.count()
+        if total_modules == 0:
+            return 0.0
+        completed_modules = sum(1 for module in self.modules if module.progress >= 100)
+        return (completed_modules / total_modules) * 100
+
+class Module(db.Model):
+    __tablename__ = 'modules'
+    id = db.Column(db.Integer, primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id', ondelete='CASCADE'), nullable=False)
+    name = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    order = db.Column(db.Integer, default=0)
+    learning_objectives = db.Column(db.JSON)  # Array of strings
+    progress = db.Column(db.Float, default=0.0)  # 0-100
+    estimated_hours = db.Column(db.Integer)
+    completed_hours = db.Column(db.Integer, default=0)
+    due_date = db.Column(db.DateTime)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    last_modified = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Relationships
+    notes = db.relationship('Note', backref='module', lazy='dynamic')
+
+    def calculate_progress(self):
+        """Calculate module progress based on completed notes/content"""
+        total_notes = self.notes.count()
+        if total_notes == 0:
+            return 0.0
+        # Could implement more sophisticated logic here
+        return self.progress
+
 class Note(db.Model):
     __tablename__ = 'notes'
     id = db.Column(db.Integer, primary_key=True)
@@ -266,10 +357,12 @@ class Note(db.Model):
     images = db.Column(db.JSON)  # Store as JSON array of {url, alt} objects
     tags = db.Column(db.JSON)  # Store as JSON array of strings
     items = db.Column(db.JSON)  # For list-type notes, store as JSON array
-    ai_summary = db.Column(db.String)
+    ai_summary = db.Column(db.Text)
 
-    # User relationship (optional)
+    # Relationships
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    folder_id = db.Column(db.Integer, db.ForeignKey('folders.id'), nullable=True)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'), nullable=True)
 
     # Method to get attachments for this note
     def get_attachments(self):
